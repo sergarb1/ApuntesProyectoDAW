@@ -1,0 +1,16 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+---
+
+<footer class="sl-flex sl-items-center sl-justify-center sl-gap-4 sl-flex-wrap sl-pb-8 sl-pt-4 sl-text-sm sl-text-gray-500">
+  <span>© {new Date().getFullYear()} Guía Didáctica PI</span>
+  <span class="sl-hidden sm:sl-inline">·</span>
+  <a href="/ApuntesProyectoDAW/licencia" class="hover:sl-text-accent">CC BY-SA 4.0</a>
+  <span class="sl-hidden sm:sl-inline">·</span>
+  <span>
+    Hecho con
+    <a href="https://astro.build" target="_blank" rel="noopener" class="hover:sl-text-accent">Astro</a>
+    y
+    <a href="https://starlight.astro.build" target="_blank" rel="noopener" class="hover:sl-text-accent">Starlight</a>
+  </span>
+</footer>

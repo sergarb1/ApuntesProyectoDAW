@@ -1,0 +1,41 @@
+const steps = [
+  { label: 'Idea', icon: '💡' },
+  { label: 'Diseño', icon: '✏️' },
+  { label: 'MVP', icon: '⚙️' },
+  { label: 'Evolución', icon: '🚀' },
+  { label: 'Despliegue', icon: '🌐' },
+  { label: 'Defensa', icon: '🎯' },
+];
+
+const phases = [
+  { label: 'PI1 (1º DAW)', color: '#2563eb' },
+  { label: 'PI2 (2º DAW)', color: '#7c3aed' },
+];
+---
+
+<div class="diagram-flow">
+  {
+    steps.map((step, i) => (
+      <>
+        <div class="diagram-step" style="background: var(--sl-color-accent)">
+          <span style="font-size:1.5rem">{step.icon}</span>
+          <span>{step.label}</span>
+        </div>
+        {i < steps.length - 1 && (
+          <span class="diagram-arrow">→</span>
+        )}
+      </>
+    ))
+  }
+</div>
+
+<div style="display:flex; justify-content:center; gap:2rem; margin-top:1rem; font-size:0.875rem;">
+  <span style="display:flex; align-items:center; gap:0.5rem;">
+    <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:#2563eb;"></span>
+    PI1 (1º DAW)
+  </span>
+  <span style="display:flex; align-items:center; gap:0.5rem;">
+    <span style="display:inline-block; width:12px; height:12px; border-radius:50%; background:#7c3aed;"></span>
+    PI2 (2º DAW)
+  </span>
+</div>

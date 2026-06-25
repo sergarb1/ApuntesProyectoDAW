@@ -1,0 +1,70 @@
+---
+title: Guía Didáctica Proyecto Intermodular
+description: Portal de referencia para los módulos de Proyecto Intermodular I y II del ciclo DAW
+hero:
+  title: Guía Didáctica PI
+  tagline: Proyecto Intermodular I y II — Desarrollo de Aplicaciones Web (DAW)
+---
+
+import { CardGrid, Card } from '@astrojs/starlight/components';
+import DiagramFlow from '../../components/DiagramFlow.astro';
+
+## Presentación del Proyecto
+
+Esta guía didáctica sirve como espacio de coordinación para los módulos de **Proyecto Intermodular I** (1º DAW) y **Proyecto Intermodular II** (2º DAW). Ambos módulos forman parte de un único itinerario formativo basado en el desarrollo de producto software.
+
+El objetivo es que los estudiantes aprendan construyendo un producto real desde la idea inicial hasta su despliegue profesional, pasando por todas las fases del ciclo de vida del software.
+
+## Filosofía: Aprendizaje Basado en Proyectos (ABP)
+
+Este curso no sigue una estructura de asignaturas aisladas. Se organiza en torno a un **proyecto práctico** que integra los conocimientos de todos los módulos del ciclo. Trabajarás como en un entorno profesional real:
+
+- **Iterativo**: entregas frecuentes con feedback continuo
+- **Incremental**: cada fase añade valor sobre la anterior
+- **Colaborativo**: trabajo en equipo y revisión entre pares
+
+## Metodologías Ágiles
+
+Aplicamos **Scrum** y **Kanban** para la planificación y seguimiento del trabajo. Usamos **Git Flow** para la gestión de versiones y **tableros visuales** (Jira o Trello) para la organización de tareas.
+
+## Uso Responsable de la IA
+
+La inteligencia artificial es una herramienta de productividad, no un sustituto del aprendizaje. Se permite su uso como **copiloto** para:
+
+- Generar ideas y estructuras iniciales
+- Depurar código
+- Mejorar la documentación
+- Automatizar tareas repetitivas
+
+Queda prohibido el uso de IA para generar soluciones completas sin comprensión ni análisis crítico por parte del alumno.
+
+## Relación entre PI1 y PI2
+
+<div class="note">
+  **PI1 (1º DAW):** Transformas una idea en un **MVP funcional**.
+  <br/>
+  **PI2 (2º DAW):** Conviertes ese MVP en un **producto profesional**.
+</div>
+
+Los proyectos de 1º evolucionan y se convierten en los proyectos de 2º. El alumno parte del código y la documentación generada el curso anterior para aplicarle mejoras arquitectónicas, de calidad y de despliegue.
+
+## Diagrama del Ciclo de Vida
+
+<DiagramFlow />
+
+## Objetivos Generales
+
+<CardGrid>
+  <Card title="OG1: Planificar">
+    Planificar y gestionar un proyecto software aplicando metodologías ágiles, identificando necesidades del sector y definiendo el alcance del producto.
+  </Card>
+  <Card title="OG2: Desarrollar">
+    Diseñar e implementar una aplicación web completa integrando tecnologías de cliente, servidor, base de datos y despliegue.
+  </Card>
+  <Card title="OG3: Documentar">
+    Elaborar documentación técnica y de usuario siguiendo estándares profesionales, incluyendo manuales, diagramas y memorias del proyecto.
+  </Card>
+  <Card title="OG4: Defender">
+    Exponer y defender el proyecto ante un tribunal, demostrando capacidad de argumentación técnica y análisis crítico del trabajo propio y ajeno.
+  </Card>
+</CardGrid>
