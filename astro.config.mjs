@@ -7,7 +7,7 @@ export default defineConfig({
   base: '/ApuntesProyectoDAW',
   integrations: [
     starlight({
-      title: 'Guía Didáctica PI 26-27',
+      title: 'Apuntes Proyecto Intermodular DAW I y II',
       description: 'Guía Didáctica de Proyecto Intermodular I y II - Desarrollo de Aplicaciones Web (DAW) · Curso 2026-2027',
       logo: {
         src: './src/assets/logo.svg',
