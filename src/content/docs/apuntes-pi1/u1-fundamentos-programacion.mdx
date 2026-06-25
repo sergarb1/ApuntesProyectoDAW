@@ -1,0 +1,307 @@
+---
+title: U1 - Fundamentos de Programación
+description: Variables, tipos de datos, estructuras de control, funciones y arrays en Java y JavaScript
+---
+
+## Objetivos de la unidad
+
+- Comprender los conceptos básicos de la programación estructurada
+- Dominar variables, tipos de datos y operadores en Java y JavaScript
+- Utilizar estructuras de control selectivas e iterativas
+- Crear funciones reutilizables y arrays para almacenar datos
+
+## Introducción
+
+La programación es el proceso de diseñar, codificar y mantener programas informáticos. Los fundamentos son comunes a casi todos los lenguajes: trabajar con datos (variables), tomar decisiones (condicionales), repetir acciones (bucles) y organizar el código (funciones).
+
+## Variables y tipos de datos
+
+### Java (tipado estático)
+
+En Java, toda variable debe declararse con un tipo explícito:
+
+```java
+// Tipos primitivos
+int edad = 20;
+double precio = 29.99;
+char letra = 'A';
+boolean activo = true;
+
+// Tipo referencia (String)
+String nombre = "María";
+
+// Constante
+final double IVA = 0.21;
+```
+
+### JavaScript (tipado dinámico)
+
+En JavaScript, el tipo se infiere del valor asignado:
+
+```javascript
+let edad = 20;           // number
+let precio = 29.99;      // number
+let nombre = "María";    // string
+let activo = true;       // boolean
+let datos = null;        // null
+let sinDefinir;          // undefined
+
+const IVA = 0.21;        // constante (no el valor, la referencia)
+```
+
+### Operadores básicos
+
+| Operación | Java | JavaScript |
+|-----------|------|------------|
+| Suma | `+` | `+` |
+| Resta | `-` | `-` |
+| Multiplicación | `*` | `*` |
+| División | `/` | `/` |
+| Módulo | `%` | `%` |
+| Incremento | `++` | `++` |
+| Igualdad | `==` / `equals()` | `===` (estricta) |
+| AND lógico | `&&` | `&&` |
+| OR lógico | `\|\|` | `\|\|` |
+| Negación | `!` | `!` |
+
+## Estructuras de control selectivas
+
+### if-else
+
+```java
+// Java
+int nota = 7;
+if (nota >= 5) {
+    System.out.println("Aprobado");
+} else if (nota >= 3) {
+    System.out.println("Recuperación");
+} else {
+    System.out.println("Suspenso");
+}
+```
+
+```javascript
+// JavaScript
+const nota = 7;
+if (nota >= 5) {
+    console.log("Aprobado");
+} else if (nota >= 3) {
+    console.log("Recuperación");
+} else {
+    console.log("Suspenso");
+}
+```
+
+### switch
+
+```java
+// Java
+switch (dia) {
+    case 1: System.out.println("Lunes"); break;
+    case 2: System.out.println("Martes"); break;
+    default: System.out.println("Otro");
+}
+```
+
+```javascript
+// JavaScript
+switch (dia) {
+    case 1: console.log("Lunes"); break;
+    case 2: console.log("Martes"); break;
+    default: console.log("Otro");
+}
+```
+
+## Estructuras de control iterativas
+
+### Bucle for
+
+```java
+// Java
+for (int i = 0; i < 5; i++) {
+    System.out.println("Vuelta " + i);
+}
+```
+
+```javascript
+// JavaScript
+for (let i = 0; i < 5; i++) {
+    console.log("Vuelta " + i);
+}
+```
+
+### Bucle while
+
+```java
+// Java
+int i = 0;
+while (i < 5) {
+    System.out.println(i);
+    i++;
+}
+```
+
+```javascript
+// JavaScript
+let i = 0;
+while (i < 5) {
+    console.log(i);
+    i++;
+}
+```
+
+### Bucle for-each / for-of
+
+```java
+// Java (for-each)
+String[] nombres = {"Ana", "Luis", "Eva"};
+for (String nombre : nombres) {
+    System.out.println(nombre);
+}
+```
+
+```javascript
+// JavaScript (for-of)
+const nombres = ["Ana", "Luis", "Eva"];
+for (const nombre of nombres) {
+    console.log(nombre);
+}
+```
+
+## Funciones
+
+### Java
+
+```java
+// Método que suma dos números
+public static int sumar(int a, int b) {
+    return a + b;
+}
+
+// Llamada
+int resultado = sumar(5, 3);
+```
+
+### JavaScript
+
+```javascript
+// Función clásica
+function sumar(a, b) {
+    return a + b;
+}
+
+// Arrow function
+const sumar = (a, b) => a + b;
+
+// Llamada
+const resultado = sumar(5, 3);
+```
+
+## Arrays
+
+### Java
+
+```java
+// Declaración e inicialización
+int[] numeros = {10, 20, 30, 40, 50};
+System.out.println(numeros[0]);        // 10
+System.out.println(numeros.length);    // 5
+
+// Recorrer
+for (int i = 0; i < numeros.length; i++) {
+    System.out.println(numeros[i]);
+}
+```
+
+### JavaScript
+
+```javascript
+const numeros = [10, 20, 30, 40, 50];
+console.log(numeros[0]);         // 10
+console.log(numeros.length);     // 5
+
+// Métodos útiles
+numeros.push(60);                // añade al final
+numeros.pop();                   // elimina el último
+numeros.includes(20);            // true
+
+// Recorrer
+numeros.forEach(n => console.log(n));
+```
+
+## Buenas prácticas
+
+1. **Nombres descriptivos**: `edad` en vez de `e`, `precioTotal` en vez de `pt`
+2. **Constantes para valores fijos**: `final double IVA = 0.21;`
+3. **Un solo propósito por función**: que cada función haga una sola cosa
+4. **Indentación consistente**: mejora la legibilidad del código
+5. **Comentar el porqué, no el qué**: el código ya dice lo que hace
+
+## Ejercicio práctico
+
+Crea un programa que solicite 5 notas, calcule la media y muestre si el alumno está aprobado (media >= 5) o suspenso.
+
+<details>
+<summary>Solución Java</summary>
+
+```java
+import java.util.Scanner;
+
+public class CalculoNotas {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        double suma = 0;
+
+        for (int i = 1; i <= 5; i++) {
+            System.out.print("Nota " + i + ": ");
+            suma += sc.nextDouble();
+        }
+
+        double media = suma / 5;
+        System.out.println("Media: " + media);
+        System.out.println(media >= 5 ? "Aprobado" : "Suspenso");
+    }
+}
+```
+
+</details>
+
+<details>
+<summary>Solución JavaScript</summary>
+
+```javascript
+const readline = require('readline').createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+let suma = 0;
+let contador = 0;
+
+function pedirNota() {
+    readline.question('Nota ' + (contador + 1) + ': ', nota => {
+        suma += parseFloat(nota);
+        contador++;
+        if (contador < 5) {
+            pedirNota();
+        } else {
+            const media = suma / 5;
+            console.log('Media: ' + media);
+            console.log(media >= 5 ? 'Aprobado' : 'Suspenso');
+            readline.close();
+        }
+    });
+}
+
+pedirNota();
+```
+
+</details>
+
+## Resumen
+
+- Java usa tipado estático; JavaScript, dinámico
+- `if-else` y `switch` controlan la selección
+- `for`, `while`, `forEach` controlan la repetición
+- Las funciones encapsulan lógica reutilizable
+- Los arrays almacenan colecciones de datos

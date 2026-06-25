@@ -1,0 +1,267 @@
+---
+title: U8 - Metodologías y Herramientas
+description: Lean Canvas, historias de usuario, diagramas UML, planificación
+---
+
+## Objetivos de la unidad
+
+- Diseñar un modelo de negocio con Lean Canvas
+- Escribir historias de usuario con criterios de aceptación
+- Modelar sistemas con diagramas UML
+- Planificar y estimar tareas de un proyecto software
+
+## Introducción
+
+Antes de escribir código, es necesario planificar qué construir, para quién y cómo. Esta unidad cubre las metodologías y herramientas esenciales para las fases iniciales del proyecto.
+
+## Lean Canvas
+
+El Lean Canvas es una plantilla de una página que resume los aspectos clave de un proyecto o negocio.
+
+| Sección | Pregunta clave |
+|---------|---------------|
+| Problema | ¿Qué problema resuelves? |
+| Segmento de clientes | ¿Para quién es? |
+| Propuesta de valor única | ¿Qué te diferencia? |
+| Solución | ¿Cómo lo resuelves? |
+| Canales | ¿Cómo llegas a los usuarios? |
+| Fuentes de ingresos | ¿Cómo monetizas? |
+| Estructura de costes | ¿Cuáles son tus gastos? |
+| Métricas clave | ¿Cómo mides el éxito? |
+| Ventaja competitiva | ¿Qué te hace único? |
+
+### Ejemplo: App de gestión de tareas para estudiantes
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│ PROBLEMA                          │ SOLUCIÓN                        │
+│ - Olvidar entregas                │ - Calendario integrado          │
+│ - Mala organización del tiempo    │ - Recordatorios automáticos     │
+│ - Dificultad para priorizar       │ - Sistema de prioridades        │
+├───────────────────────────────────┼─────────────────────────────────┤
+│ PROPUESTA DE VALOR                │ VENTAJA COMPETITIVA             │
+│ "Organiza tus tareas              │ Integración con Google          │
+│  académicas en un solo lugar"     │ Classroom y Moodle              │
+├───────────────────────────────────┼─────────────────────────────────┤
+│ SEGMENTO DE CLIENTES              │ MÉTRICAS CLAVE                  │
+│ - Estudiantes universitarios      │ - Usuarios activos diarios      │
+│ - Estudiantes de FP               │ - Tareas completadas/semana     │
+│                                   │ - Tasa de retención             │
+├───────────────────────────────────┼─────────────────────────────────┤
+│ CANALES                           │ ESTRUCTURA DE COSTES            │
+│ - Web                             │ - Hosting                       │
+│ - App móvil                       │ - API Google/Moodle             │
+│ - Redes sociales                  │ - Dominio                       │
+├───────────────────────────────────┼─────────────────────────────────┤
+│ FUENTES DE INGRESOS               │                                 │
+│ - Freemium (básico gratis)        │                                 │
+│ - Premium (suscripción mensual)   │                                 │
+└───────────────────────────────────┴─────────────────────────────────┘
+```
+
+## Historias de Usuario
+
+Las historias de usuario describen funcionalidades desde la perspectiva del usuario final.
+
+### Formato estándar
+
+```
+**Como** [rol de usuario]
+**Quiero** [acción o funcionalidad]
+**Para** [beneficio o motivo]
+```
+
+### Criterios de aceptación
+
+Definen cuándo una historia está completa:
+
+```
+**Dado que** [contexto inicial]
+**Cuando** [acción que realiza el usuario]
+**Entonces** [resultado esperado]
+```
+
+### Ejemplo
+
+```gherkin
+HU-001: Registro de usuario
+Como usuario nuevo
+Quiero registrarme con mi email y contraseña
+Para poder acceder a la aplicación
+
+Criterios de aceptación:
+- Dado que soy un usuario nuevo
+  Cuando introduzco un email válido y una contraseña de al menos 8 caracteres
+  Entonces se crea mi cuenta y recibo un email de confirmación
+
+- Dado que introduzco un email ya registrado
+  Cuando envío el formulario de registro
+  Entonces veo un mensaje "El email ya está registrado"
+
+- Dado que introduzco una contraseña débil (< 8 caracteres)
+  Cuando envío el formulario
+  Entonces veo un mensaje "La contraseña debe tener al menos 8 caracteres"
+```
+
+### Priorización: MoSCoW
+
+| Prioridad | Significado | Ejemplo |
+|-----------|-------------|---------|
+| **M**ust have | Imprescindible | Login, registro, CRUD principal |
+| **S**hould have | Importante pero no crítico | Búsqueda avanzada |
+| **C**ould have | Deseable | Modo oscuro |
+| **W**on't have | No se hará ahora | Integración con redes sociales |
+
+## Diagramas UML
+
+UML (Unified Modeling Language) es un lenguaje de modelado visual para sistemas software.
+
+### Diagrama de Casos de Uso
+
+Muestra actores y funcionalidades del sistema:
+
+```
+┌──────────────────────────────────────────────────┐
+│                    Sistema                        │
+│                                                    │
+│  ┌──────────┐     ┌─────────────────────┐        │
+│  │ Usuario  │────>│ Registrarse         │        │
+│  └──────────┘     └─────────────────────┘        │
+│       │                                          │
+│       │     ┌─────────────────────┐              │
+│       ├────>│ Iniciar sesión      │              │
+│       │     └─────────────────────┘              │
+│       │                                          │
+│       │     ┌─────────────────────┐              │
+│       ├────>│ Crear tarea         │              │
+│       │     └─────────────────────┘              │
+│       │                                          │
+│  ┌──────────┐     ┌─────────────────────┐        │
+│  │ Admin    │────>│ Gestionar usuarios  │        │
+│  └──────────┘     └─────────────────────┘        │
+└──────────────────────────────────────────────────┘
+```
+
+### Diagrama de Clases
+
+Representa las entidades del sistema y sus relaciones:
+
+```
+┌─────────────────┐          ┌───────────────────┐
+│     Usuario     │          │      Tarea        │
+├─────────────────┤          ├───────────────────┤
+│ - id: int       │1        N│ - id: int         │
+│ - nombre: str   │──────────│ - titulo: str     │
+│ - email: str    │          │ - descripcion: str│
+│ - password: str │          │ - estado: enum    │
+├─────────────────┤          │ - fecha_limite: dt│
+│ + registrarse() │          │ - id_usuario: int │
+│ + login()       │          ├───────────────────┤
+│ + crearTarea()  │          │ + completar()     │
+│ + listarTareas()│          │ + actualizar()    │
+└─────────────────┘          │ + eliminar()      │
+                             └───────────────────┘
+```
+
+### Diagrama de Secuencia
+
+Muestra la interacción temporal entre componentes:
+
+```
+Usuario        Frontend        Backend        BD
+   │              │              │            │
+   │──Registro───>│              │            │
+   │              │──POST /api──>│            │
+   │              │              │──INSERT──>│
+   │              │              │<──OK──────│
+   │              │<──201 Creado│            │
+   │<──Bienvenida─│              │            │
+   │              │              │            │
+   │──Login──────>│              │            │
+   │              │──POST /auth─>│            │
+   │              │              │──SELECT──>│
+   │              │              │<──datos───│
+   │              │<──JWT token─│            │
+   │<──Token──────│              │            │
+```
+
+## Planificación y estimación
+
+### WBS (Work Breakdown Structure)
+
+Descomposición jerárquica del trabajo:
+
+```
+1.0 Gestor de Tareas
+├── 1.1 Frontend
+│   ├── 1.1.1 Pantalla de login
+│   ├── 1.1.2 Panel principal
+│   ├── 1.1.3 Formulario de tareas
+│   └── 1.1.4 Lista y filtros
+├── 1.2 Backend
+│   ├── 1.2.1 API de autenticación
+│   ├── 1.2.2 API de tareas (CRUD)
+│   └── 1.2.3 Middleware de seguridad
+├── 1.3 Base de datos
+│   ├── 1.3.1 Diseño del esquema
+│   └── 1.3.2 Migraciones
+└── 1.4 Despliegue
+    ├── 1.4.1 Configuración servidor
+    └── 1.4.2 CI/CD
+```
+
+### Estimación con story points
+
+Usa la secuencia de Fibonacci (1, 2, 3, 5, 8, 13) para estimar el esfuerzo relativo:
+
+| Puntos | Significado | Ejemplo |
+|--------|-------------|---------|
+| 1 | Trivial | Cambiar color de un botón |
+| 2 | Sencillo | Añadir campo a un formulario |
+| 3 | Medio | Crear una nueva pantalla simple |
+| 5 | Complejo | Implementar sistema de búsqueda |
+| 8 | Muy complejo | Integración con API externa |
+| 13 | Demasiado grande | Dividir en historias más pequeñas |
+
+## Buenas prácticas
+
+1. **Lean Canvas vivo**: actualízalo a medida que el proyecto evoluciona
+2. **Historias INVERT**: Independientes, Negociables, Valiosas, Estimables, Pequeñas, Testeables
+3. **UML mínimo**: solo los diagramas que aporten claridad al equipo
+4. **Dividir lo grande**: si una historia es > 8 puntos, divídela en varias
+5. **Documentar decisiones**: mantén un registro de por qué se tomaron ciertas decisiones
+
+## Ejercicio práctico
+
+Para tu proyecto, completa:
+1. Un Lean Canvas para tu idea de proyecto
+2. 3 historias de usuario con criterios de aceptación (priorizadas con MoSCoW)
+3. Un diagrama de clases con 3 entidades principales
+
+<details>
+<summary>Ejemplo de entrega</summary>
+
+**Lean Canvas** (rellena las 9 secciones para tu idea)
+
+**HU-001: Autenticación**
+Como usuario quiero iniciar sesión con email y contraseña para acceder a mis datos.
+- Dado que tengo una cuenta, cuando introduzco credenciales correctas, accedo al sistema
+- Dado que introduzco credenciales incorrectas, veo un mensaje de error
+
+**HU-002: Gestión de contenido**
+Como usuario quiero crear y editar contenido para mantener actualizada mi información.
+
+**HU-003: Búsqueda**
+Como usuario quiero buscar contenido por palabras clave para encontrar rápidamente lo que necesito.
+
+**Diagrama de clases**:
+Usuario (1) ──── (N) Proyecto (1) ──── (N) Tarea
+
+</details>
+
+## Resumen
+
+- **Lean Canvas**: modelo de negocio en una página
+- **Historias de usuario**: descripción de funcionalidades desde la perspectiva del usuario
+- **UML**: modelado visual de casos de uso, clases y secuencias
+- **Planificación**: WBS para descomponer el trabajo, story points para estimar

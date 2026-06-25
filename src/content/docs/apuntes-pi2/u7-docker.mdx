@@ -1,0 +1,450 @@
+---
+title: U7 - Docker y Contenerización
+description: Dockerfile, docker-compose, volúmenes, redes, multi-stage builds
+---
+
+## Objetivos de la unidad
+
+- Comprender los conceptos de contenedores e imágenes Docker
+- Crear Dockerfiles para aplicaciones web
+- Orquestar múltiples servicios con docker-compose
+- Gestionar volúmenes, redes y variables de entorno
+- Optimizar imágenes con multi-stage builds
+
+## Introducción
+
+Docker permite empaquetar una aplicación y sus dependencias en un contenedor ligero y portable. Los contenedores se ejecutan de forma aislada y garantizan que la aplicación funcione igual en cualquier entorno.
+
+## Conceptos básicos
+
+```
+┌─────────────────────────────────────┐
+│              Docker                 │
+│  ┌──────────────────────────────┐   │
+│  │       Contenedor             │   │
+│  │  ┌──────┐ ┌──────┐          │   │
+│  │  │  App  │ │  App  │          │   │
+│  │  └──────┘ └──────┘          │   │
+│  │  ┌──────────────────────┐   │   │
+│  │  │   Image (capa RO)    │   │   │
+│  │  └──────────────────────┘   │   │
+│  └──────────────────────────────┘   │
+└─────────────────────────────────────┘
+```
+
+| Concepto | Descripción |
+|----------|-------------|
+| **Imagen** | Plantilla con el sistema de archivos y configuración |
+| **Contenedor** | Instancia ejecutable de una imagen |
+| **Dockerfile** | Receta para construir una imagen |
+| **Volumen** | Persistencia de datos fuera del contenedor |
+| **Red** | Comunicación entre contenedores |
+
+## Instalación
+
+```bash
+# Verificar instalación
+docker --version
+docker compose version
+
+# Comandos básicos
+docker pull node:22-alpine       # descargar imagen
+docker images                     # listar imágenes
+docker ps                         # contenedores activos
+docker ps -a                      # todos los contenedores
+docker system prune               # limpiar recursos no usados
+```
+
+## Dockerfile para Node.js
+
+```dockerfile
+# 1. Imagen base
+FROM node:22-alpine
+
+# 2. Directorio de trabajo
+WORKDIR /app
+
+# 3. Copiar package.json primero (aprovechar cache de capas)
+COPY package*.json ./
+
+# 4. Instalar dependencias
+RUN npm ci --only=production
+
+# 5. Copiar código fuente
+COPY . .
+
+# 6. Puerto que expone la app
+EXPOSE 3000
+
+# 7. Comando de inicio
+CMD ["node", "src/index.js"]
+```
+
+### Dockerfile para Node.js (desarrollo)
+
+```dockerfile
+FROM node:22-alpine
+
+WORKDIR /app
+
+# Copiar todo
+COPY . .
+
+# Instalar dependencias (incluyendo dev)
+RUN npm install
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]
+```
+
+### Dockerfile para React/Vite
+
+```dockerfile
+# Build stage
+FROM node:22-alpine AS build
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Production stage (nginx)
+FROM nginx:alpine AS production
+
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+### Multi-stage build para Java
+
+```dockerfile
+# Build stage
+FROM maven:3.9-eclipse-temurin-21 AS build
+
+WORKDIR /app
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+COPY src ./src
+RUN mvn package -DskipTests
+
+# Production stage
+FROM eclipse-temurin:21-jre-alpine
+
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+
+EXPOSE 8080
+
+CMD ["java", "-jar", "app.jar"]
+```
+
+## Construir y ejecutar
+
+```bash
+# Construir imagen
+docker build -t mi-app:latest .
+
+# Ejecutar contenedor
+docker run -d --name mi-app -p 3000:3000 mi-app:latest
+
+# Ver logs
+docker logs -f mi-app
+
+# Ejecutar comando dentro del contenedor
+docker exec -it mi-app sh
+
+# Detener y eliminar
+docker stop mi-app
+docker rm mi-app
+```
+
+## docker-compose.yml
+
+Docker Compose orquesta múltiples contenedores.
+
+```yaml
+version: '3.8'
+
+services:
+  # API Node.js
+  api:
+    build: .
+    container_name: mi-api
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=db
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - db
+    volumes:
+      - ./uploads:/app/uploads
+    restart: unless-stopped
+
+  # Frontend React/Vite
+  frontend:
+    build: ./frontend
+    container_name: mi-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  # Base de datos MySQL
+  db:
+    image: mysql:8.0
+    container_name: mi-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASS}
+      - MYSQL_DATABASE=mi_proyecto
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+```
+
+### Comandos de docker-compose
+
+```bash
+# Iniciar todos los servicios
+docker compose up -d
+
+# Ver logs de todos
+docker compose logs -f
+
+# Ver logs de un servicio específico
+docker compose logs -f api
+
+# Reconstruir y reiniciar un servicio
+docker compose up -d --build api
+
+# Detener servicios
+docker compose down
+
+# Detener y eliminar volúmenes
+docker compose down -v
+
+# Ejecutar comando en un servicio
+docker compose exec api sh
+```
+
+## Volúmenes y persistencia
+
+Los volúmenes mantienen datos cuando el contenedor se reinicia.
+
+```yaml
+# Tipos de volúmenes
+services:
+  app:
+    volumes:
+      - named_volume:/data          # volumen gestionado por Docker
+      - ./local/path:/app/data      # bind mount (directorio local)
+      - /absolute/path:/app/config  # bind mount (ruta absoluta)
+
+volumes:
+  named_volume:
+```
+
+```bash
+# Gestionar volúmenes
+docker volume ls
+docker volume create mi-volumen
+docker volume inspect mi-volumen
+docker volume rm mi-volumen
+```
+
+## Redes en Docker
+
+```yaml
+services:
+  api:
+    networks:
+      - backend
+      - frontend
+
+  frontend:
+    networks:
+      - frontend
+
+  db:
+    networks:
+      - backend
+
+networks:
+  frontend:
+  backend:
+    internal: true  # sin acceso externo
+```
+
+```bash
+# Gestionar redes
+docker network ls
+docker network inspect mi-red
+```
+
+## Variables de entorno
+
+```bash
+# .env (mismo directorio que docker-compose.yml)
+DB_USER=app_user
+DB_PASS=SeCureP@ss123
+DB_ROOT_PASS=R00tP@ss
+JWT_SECRET=mi-clave-secreta-jwt
+```
+
+```yaml
+# docker-compose.yml
+services:
+  api:
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+```
+
+## Buenas prácticas Docker
+
+1. **Imágenes pequeñas**: usa `alpine` o `slim`, multi-stage builds
+2. **Una responsabilidad por contenedor**: no pongas app + BD en el mismo contenedor
+3. **No ejecutar como root**: usa `USER node` en Dockerfile
+4. **.dockerignore**: excluye `node_modules`, `.git`, `dist/`
+5. **Capas en orden de frecuencia de cambio**: package.json antes que código
+6. **Etiquetar imágenes**: `mi-app:1.0.0`, no solo `latest`
+
+### .dockerignore
+
+```txt
+node_modules/
+.git/
+.env
+dist/
+*.md
+.gitignore
+```
+
+## Ejercicio práctico
+
+Crea un Dockerfile y docker-compose.yml para una app web con:
+- Backend Node.js/Express
+- Frontend React/Vite
+- Base de datos PostgreSQL
+- Volumen persistente para BD
+- Red interna para backend + BD
+
+<details>
+<summary>Solución</summary>
+
+```dockerfile
+# Dockerfile.backend
+FROM node:22-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+EXPOSE 3000
+USER node
+CMD ["node", "index.js"]
+```
+
+```dockerfile
+# Dockerfile.frontend
+FROM node:22-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+```
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: app-db
+    environment:
+      - POSTGRES_DB=miapp
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    container_name: app-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=miapp
+    depends_on:
+      - db
+    networks:
+      - backend
+      - public
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    container_name: app-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - public
+    restart: unless-stopped
+
+volumes:
+  pg_data:
+
+networks:
+  backend:
+    internal: true
+  public:
+```
+
+</details>
+
+## Resumen
+
+- **Imagen**: plantilla; **Contenedor**: instancia ejecutable
+- **Dockerfile**: receta para construir la imagen (FROM, WORKDIR, COPY, RUN, CMD)
+- **Multi-stage**: separa build y producción para imágenes más pequeñas
+- **docker-compose**: define y ejecuta múltiples contenedores (api, frontend, db)
+- **Volúmenes**: persistencia de datos (named, bind mount)
+- **Redes**: comunicación entre contenedores, `internal: true` para aislar

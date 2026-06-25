@@ -1,0 +1,365 @@
+---
+title: U4 - Diseño de Interfaces UI/UX
+description: Figma, diseño responsive, Tailwind, accesibilidad WCAG
+---
+
+## Objetivos de la unidad
+
+- Aplicar principios de diseño UI/UX en proyectos web
+- Crear prototipos y mockups con Figma
+- Implementar diseños responsive y accesibles
+- Utilizar Tailwind CSS para estilado rápido y consistente
+
+## Introducción
+
+El diseño de interfaces (UI) y la experiencia de usuario (UX) determinan cómo los usuarios interactúan con tu aplicación. Un buen diseño mejora la usabilidad, la accesibilidad y la satisfacción del usuario.
+
+## Principios de diseño UX
+
+### 1. Usabilidad
+- **Consistencia**: mismos patrones en toda la interfaz
+- **Simplicidad**: menos es más; elimina elementos innecesarios
+- **Retroalimentación**: el usuario siempre sabe qué está pasando
+- **Prevención de errores**: mejor prevenir que corregir
+
+### 2. Jerarquía visual
+Organiza los elementos por importancia usando:
+- **Tamaño**: más grande = más importante
+- **Color**: colores llamativos para acciones principales
+- **Espaciado**: más espacio = mayor relevancia
+- **Tipografía**: negritas para títulos, normal para cuerpo
+
+### 3. Ley de Fitts
+El tiempo para alcanzar un objetivo depende de su tamaño y distancia. Los botones principales deben ser grandes y estar cerca.
+
+## Prototipado con Figma
+
+Figma es una herramienta colaborativa de diseño de interfaces.
+
+### Flujo de trabajo
+
+1. **Wireframes**: estructura básica sin estilo (bocetos en gris)
+2. **Mockups**: diseño visual completo con colores, tipografía, imágenes
+3. **Prototipos**: mockups interactivos con enlaces entre pantallas
+
+### Prácticas recomendadas en Figma
+
+- Usa **auto layout** para diseños responsive
+- Define **componentes reutilizables** (botones, inputs, cards)
+- Crea **variantes** para estados (hover, active, disabled)
+- Utiliza **estilos compartidos** (colores, tipografía, sombras)
+
+### Ejemplo de diseño de componente
+
+```
+Botón primario
+┌──────────────────┐
+│  Estado normal   │  Color: #2563EB, Texto: blanco
+│  [Crear cuenta]  │  Border radius: 8px
+└──────────────────┘
+
+┌──────────────────┐
+│  Estado hover    │  Color: #1D4ED8 (más oscuro)
+│  [Crear cuenta]  │  Sombra sutil
+└──────────────────┘
+
+┌──────────────────┐
+│  Estado disabled │  Opacidad: 50%
+│  [Crear cuenta]  │  Cursor: not-allowed
+└──────────────────┘
+```
+
+## Tailwind CSS
+
+Tailwind es un framework CSS utility-first que acelera el desarrollo.
+
+```html
+<!-- Sin Tailwind -->
+<div style="background: white; border-radius: 8px; padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    <h2 style="font-size: 1.25rem; font-weight: 600;">Título</h2>
+    <p style="color: #666;">Descripción</p>
+</div>
+
+<!-- Con Tailwind -->
+<div class="bg-white rounded-lg p-4 shadow-md">
+    <h2 class="text-xl font-semibold">Título</h2>
+    <p class="text-gray-500">Descripción</p>
+</div>
+```
+
+### Instalación
+
+```bash
+npm install -D tailwindcss @tailwindcss/vite
+```
+
+```javascript
+// vite.config.js
+import { defineConfig } from 'vite';
+import tailwindcss from '@tailwindcss/vite';
+
+export default defineConfig({
+    plugins: [tailwindcss()]
+});
+```
+
+```css
+/* src/index.css */
+@import "tailwindcss";
+```
+
+### Clases principales
+
+```html
+<!-- Layout -->
+<div class="flex items-center justify-between">
+<div class="grid grid-cols-3 gap-4">
+
+<!-- Espaciado -->
+<div class="p-4 m-2 gap-6 space-y-4">
+
+<!-- Tipografía -->
+<h1 class="text-3xl font-bold tracking-tight">
+<p class="text-sm text-gray-600 leading-relaxed">
+
+<!-- Colores -->
+<button class="bg-blue-600 text-white hover:bg-blue-700">
+<span class="text-red-500 bg-red-100 px-2 py-1 rounded">
+
+<!-- Responsive -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+<div class="text-base lg:text-lg">
+
+<!-- Estados -->
+<button class="disabled:opacity-50 focus:ring-2">
+<input class="focus:border-blue-500 invalid:border-red-500">
+```
+
+### Componentes con Tailwind
+
+```html
+<!-- Card -->
+<article class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-6">
+    <img src="producto.jpg" alt="Producto" class="w-full h-48 object-cover rounded-lg mb-4">
+    <h3 class="text-lg font-semibold mb-2">Nombre del producto</h3>
+    <p class="text-gray-600 mb-4">Descripción breve</p>
+    <div class="flex items-center justify-between">
+        <span class="text-2xl font-bold text-blue-600">29.99 €</span>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+            Añadir
+        </button>
+    </div>
+</article>
+
+<!-- Formulario -->
+<form class="max-w-md mx-auto space-y-4">
+    <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+        <input type="email"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg
+                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                   placeholder:text-gray-400">
+    </div>
+    <button type="submit"
+        class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium
+               hover:bg-blue-700 active:bg-blue-800 transition-colors">
+        Enviar
+    </button>
+</form>
+```
+
+## Accesibilidad (WCAG)
+
+Las Pautas de Accesibilidad al Contenido Web (WCAG) garantizan que tu web sea usable por todas las personas.
+
+### Principios WCAG
+
+| Principio | Significado |
+|-----------|-------------|
+| Perceptible | La información debe presentarse de forma que todos puedan percibirla |
+| Operable | Todos los componentes de la interfaz deben ser operables |
+| Comprensible | La información y la interfaz deben ser comprensibles |
+| Robusto | El contenido debe ser interpretado por diferentes agentes de usuario |
+
+### Buenas prácticas de accesibilidad
+
+```html
+<!-- 1. Contraste suficiente -->
+<!-- ❌ Incorrecto: contraste insuficiente -->
+<p style="color: #999;">Texto claro sobre fondo blanco</p>
+
+<!-- ✅ Correcto: ratio de contraste ≥ 4.5:1 -->
+<p class="text-gray-700">Texto legible</p>
+
+<!-- 2. Texto alternativo en imágenes -->
+<img src="grafico.jpg" alt="Evolución de ventas 2025-2026">
+
+<!-- 3. Etiquetas en formularios -->
+<label for="email">Email:</label>
+<input id="email" type="email" aria-describedby="email-help">
+<p id="email-help">Nunca compartiremos tu email</p>
+
+<!-- 4. Roles ARIA -->
+<nav aria-label="Navegación principal">
+<ul role="menubar">
+    <li role="menuitem"><a href="/">Inicio</a></li>
+</ul>
+</nav>
+
+<!-- 5. Skip to content (saltar navegación) -->
+<a href="#main-content" class="sr-only focus:not-sr-only">
+    Saltar al contenido principal
+</a>
+<main id="main-content">
+```
+
+### Atajos de teclado y foco visible
+
+```css
+/* Foco visible para navegación por teclado */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+}
+
+/* Ocultar visualmente pero mantener accesible */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+```
+
+## Sistema de diseño
+
+Un sistema de diseño unifica la apariencia de toda la aplicación.
+
+```css
+/* tokens.css */
+:root {
+    /* Colores */
+    --color-primary: #2563eb;
+    --color-primary-dark: #1d4ed8;
+    --color-secondary: #7c3aed;
+    --color-background: #ffffff;
+    --color-text: #1a1a2e;
+    --color-text-muted: #64748b;
+
+    /* Tipografía */
+    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+
+    /* Espaciado */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-4: 1rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+
+    /* Bordes */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+
+    /* Sombras */
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+}
+```
+
+## Buenas prácticas
+
+1. **Mobile first**: diseña para pantalla pequeña primero
+2. **Consistencia visual**: mismos colores, tipografía y espaciado en toda la app
+3. **Pruebas con usuarios reales**: observa cómo usan tu interfaz
+4. **Accesibilidad desde el inicio**: es más fácil que adaptar después
+5. **Iteración continua**: el diseño nunca está terminado; mejora basado en feedback
+
+## Ejercicio práctico
+
+Diseña e implementa un dashboard responsive con:
+- Sidebar de navegación
+- Cabecera con búsqueda y perfil
+- Grid de tarjetas con datos
+- Versión móvil (menú colapsable)
+- Accesibilidad básica
+
+<details>
+<summary>Solución con Tailwind</summary>
+
+```html
+<div class="min-h-screen bg-gray-50">
+    <!-- Sidebar (oculto en móvil) -->
+    <aside class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg
+                  hidden lg:block">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold text-blue-600">MiApp</h1>
+        </div>
+        <nav aria-label="Navegación principal">
+            <ul class="space-y-1 px-3">
+                <li>
+                    <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-lg bg-blue-50 text-blue-700 font-medium">
+                        <span>📊</span> Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-lg text-gray-600 hover:bg-gray-100">
+                        <span>👥</span> Usuarios
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="lg:ml-64 p-6" id="main-content">
+        <!-- Cabecera -->
+        <header class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl font-semibold">Dashboard</h2>
+            <div class="flex items-center gap-4">
+                <input type="search" placeholder="Buscar..."
+                       class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button class="w-10 h-10 bg-gray-200 rounded-full"
+                        aria-label="Perfil de usuario">👤</button>
+            </div>
+        </header>
+
+        <!-- Grid de tarjetas -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <article class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="text-sm font-medium text-gray-500">Usuarios activos</h3>
+                <p class="text-3xl font-bold mt-2">1,234</p>
+                <span class="text-sm text-green-600">+12% este mes</span>
+            </article>
+            <!-- Más tarjetas... -->
+        </div>
+    </main>
+</div>
+```
+
+</details>
+
+## Resumen
+
+- **UX**: principios de usabilidad, jerarquía visual, consistencia
+- **Figma**: prototipado colaborativo con componentes y auto layout
+- **Tailwind CSS**: utility-first para desarrollo rápido y consistente
+- **WCAG**: contraste, texto alternativo, roles ARIA, foco visible
+- **Sistema de diseño**: tokens compartidos para colores, tipografía, espaciado

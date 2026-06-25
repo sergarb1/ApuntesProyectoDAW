@@ -1,0 +1,357 @@
+---
+title: U2 - Programación Orientada a Objetos
+description: Clases, objetos, herencia, interfaces, polimorfismo y excepciones
+---
+
+## Objetivos de la unidad
+
+- Comprender los principios de la POO: encapsulación, herencia, polimorfismo
+- Definir clases y crear objetos en Java y JavaScript
+- Utilizar herencia e interfaces para diseñar jerarquías
+- Manejar excepciones correctamente
+
+## Introducción
+
+La Programación Orientada a Objetos (POO) es un paradigma que organiza el código en torno a **objetos** que contienen datos (atributos) y comportamientos (métodos). Los cuatro pilares son: encapsulación, abstracción, herencia y polimorfismo.
+
+## Clases y objetos
+
+### Java
+
+```java
+// Definición de clase
+public class Persona {
+    // Atributos (encapsulados)
+    private String nombre;
+    private int edad;
+
+    // Constructor
+    public Persona(String nombre, int edad) {
+        this.nombre = nombre;
+        this.edad = edad;
+    }
+
+    // Getters y setters
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public int getEdad() { return edad; }
+    public void setEdad(int edad) { this.edad = edad; }
+
+    // Método
+    public void saludar() {
+        System.out.println("Hola, soy " + nombre);
+    }
+}
+
+// Uso
+Persona p = new Persona("Ana", 22);
+p.saludar();
+p.setEdad(23);
+```
+
+### JavaScript (ES6+)
+
+```javascript
+class Persona {
+    constructor(nombre, edad) {
+        this._nombre = nombre;
+        this._edad = edad;
+    }
+
+    // Getters y setters
+    get nombre() { return this._nombre; }
+    set nombre(valor) { this._nombre = valor; }
+    get edad() { return this._edad; }
+    set edad(valor) { this._edad = valor; }
+
+    saludar() {
+        console.log(`Hola, soy ${this._nombre}`);
+    }
+}
+
+const p = new Persona("Ana", 22);
+p.saludar();
+p.edad = 23;
+```
+
+## Encapsulación
+
+La encapsulación protege los datos internos de un objeto, permitiendo el acceso solo a través de métodos controlados.
+
+| Nivel de acceso | Java | JavaScript |
+|----------------|------|------------|
+| Privado | `private` | `#` (privado real) |
+| Público | `public` | sin prefijo |
+| Protegido | `protected` | `_` (convención) |
+
+```javascript
+// JavaScript con campos privados
+class CuentaBancaria {
+    #saldo = 0;  // privado real
+
+    constructor(titular) {
+        this.titular = titular;
+    }
+
+    ingresar(cantidad) {
+        if (cantidad > 0) this.#saldo += cantidad;
+    }
+
+    obtenerSaldo() { return this.#saldo; }
+}
+```
+
+## Herencia
+
+### Java
+
+```java
+public class Estudiante extends Persona {
+    private String curso;
+
+    public Estudiante(String nombre, int edad, String curso) {
+        super(nombre, edad);
+        this.curso = curso;
+    }
+
+    @Override
+    public void saludar() {
+        System.out.println("Hola, soy " + getNombre() + " del curso " + curso);
+    }
+}
+```
+
+### JavaScript
+
+```javascript
+class Estudiante extends Persona {
+    constructor(nombre, edad, curso) {
+        super(nombre, edad);
+        this.curso = curso;
+    }
+
+    saludar() {
+        console.log(`Hola, soy ${this.nombre} del curso ${this.curso}`);
+    }
+}
+```
+
+## Interfaces (Java) / Duck Typing (JS)
+
+### Java: interfaz explícita
+
+```java
+public interface Imprimible {
+    void imprimir();  // método abstracto
+}
+
+public class Factura implements Imprimible {
+    @Override
+    public void imprimir() {
+        System.out.println("Imprimiendo factura...");
+    }
+}
+```
+
+### JavaScript: sin interfaz explícita
+
+JavaScript no tiene interfaces nativas, pero se usa "duck typing":
+
+```javascript
+class Factura {
+    imprimir() {
+        console.log("Imprimiendo factura...");
+    }
+}
+
+function procesarImpresion(objeto) {
+    if (typeof objeto.imprimir === 'function') {
+        objeto.imprimir();
+    }
+}
+```
+
+## Polimorfismo
+
+```java
+// Java
+Persona[] personas = {
+    new Persona("Ana", 22),
+    new Estudiante("Luis", 20, "DAW")
+};
+
+for (Persona p : personas) {
+    p.saludar();  // cada uno ejecuta su versión
+}
+```
+
+```javascript
+// JavaScript
+const personas = [
+    new Persona("Ana", 22),
+    new Estudiante("Luis", 20, "DAW")
+];
+
+personas.forEach(p => p.saludar());
+```
+
+## Manejo de excepciones
+
+### Java (checked y unchecked)
+
+```java
+try {
+    int resultado = 10 / 0;  // ArithmeticException
+} catch (ArithmeticException e) {
+    System.out.println("Error: " + e.getMessage());
+} finally {
+    System.out.println("Siempre se ejecuta");
+}
+
+// throws: declarar excepción verificada
+public void leerArchivo() throws IOException {
+    FileReader fr = new FileReader("datos.txt");
+}
+```
+
+### JavaScript (try-catch-finally)
+
+```javascript
+try {
+    const resultado = 10 / 0;
+    if (!isFinite(resultado)) {
+        throw new Error("División por cero");
+    }
+} catch (error) {
+    console.error("Error:", error.message);
+} finally {
+    console.log("Siempre se ejecuta");
+}
+```
+
+## Clases abstractas (Java)
+
+```java
+public abstract class Figura {
+    protected String color;
+
+    public Figura(String color) {
+        this.color = color;
+    }
+
+    public abstract double calcularArea();  // obligatorio implementar
+}
+
+public class Circulo extends Figura {
+    private double radio;
+
+    public Circulo(String color, double radio) {
+        super(color);
+        this.radio = radio;
+    }
+
+    @Override
+    public double calcularArea() {
+        return Math.PI * radio * radio;
+    }
+}
+```
+
+## Buenas prácticas
+
+1. **Encapsular siempre**: atributos privados, getters/setters públicos
+2. **Composición sobre herencia**: prefiere tener objetos dentro de otros antes que heredar
+3. **Principio de responsabilidad única**: cada clase debe tener una sola razón para cambiar
+4. **DRY (Don't Repeat Yourself)**: no dupliques código, extrae a métodos o clases
+
+## Ejercicio práctico
+
+Crea un sistema para gestionar vehículos:
+- Clase base `Vehiculo` con atributos: marca, modelo, velocidadMaxima
+- Método `acelerar()` que aumente la velocidad
+- Clase `Coche` que hereda de `Vehiculo` y añade numPuertas
+- Clase `Moto` que hereda de `Vehiculo` y añade tieneSidecar
+- Sobrescribe `acelerar()` en cada subclase con mensajes distintos
+
+<details>
+<summary>Solución Java</summary>
+
+```java
+public abstract class Vehiculo {
+    protected String marca;
+    protected String modelo;
+    protected int velocidadMaxima;
+    protected int velocidadActual = 0;
+
+    public Vehiculo(String marca, String modelo, int velocidadMaxima) {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.velocidadMaxima = velocidadMaxima;
+    }
+
+    public void acelerar(int incremento) {
+        velocidadActual = Math.min(velocidadActual + incremento, velocidadMaxima);
+    }
+}
+
+public class Coche extends Vehiculo {
+    private int numPuertas;
+
+    public Coche(String marca, String modelo, int velocidadMaxima, int numPuertas) {
+        super(marca, modelo, velocidadMaxima);
+        this.numPuertas = numPuertas;
+    }
+
+    @Override
+    public void acelerar(int incremento) {
+        super.acelerar(incremento);
+        System.out.println("Coche acelerando. Velocidad: " + velocidadActual + " km/h");
+    }
+}
+```
+
+</details>
+
+<details>
+<summary>Solución JavaScript</summary>
+
+```javascript
+class Vehiculo {
+    constructor(marca, modelo, velocidadMaxima) {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.velocidadMaxima = velocidadMaxima;
+        this.velocidadActual = 0;
+    }
+
+    acelerar(incremento) {
+        this.velocidadActual = Math.min(
+            this.velocidadActual + incremento,
+            this.velocidadMaxima
+        );
+    }
+}
+
+class Coche extends Vehiculo {
+    constructor(marca, modelo, velocidadMaxima, numPuertas) {
+        super(marca, modelo, velocidadMaxima);
+        this.numPuertas = numPuertas;
+    }
+
+    acelerar(incremento) {
+        super.acelerar(incremento);
+        console.log(`Coche acelerando. Velocidad: ${this.velocidadActual} km/h`);
+    }
+}
+```
+
+</details>
+
+## Resumen
+
+- **Clase**: Plantilla para crear objetos
+- **Objeto**: Instancia de una clase con estado y comportamiento
+- **Encapsulación**: Ocultar datos internos, exponer solo lo necesario
+- **Herencia**: Una clase hereda atributos y métodos de otra
+- **Polimorfismo**: Misma interfaz, diferentes comportamientos
+- **Excepciones**: Mecanismo para manejar errores de forma controlada

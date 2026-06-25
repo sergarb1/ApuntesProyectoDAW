@@ -1,0 +1,442 @@
+---
+title: U5 - Testing Automatizado
+description: Tests unitarios, integración, E2E con Playwright, TDD
+---
+
+## Objetivos de la unidad
+
+- Escribir tests unitarios con Vitest
+- Implementar tests de integración para APIs
+- Automatizar tests E2E con Playwright
+- Aplicar TDD (Test-Driven Development)
+
+## Introducción
+
+El testing automatizado garantiza que el código funciona correctamente, previene regresiones y facilita la refactorización. Se organiza en una pirámide: muchos tests unitarios, menos de integración, pocos E2E.
+
+## Pirámide de testing
+
+```
+        ╱╲
+       ╱E2E╲           ← Lentos, caros, pocos
+      ╱─────╲
+     ╱Integ.╲          ← Medios
+    ╱─────────╲
+   ╱ Unitarios ╲       ← Rápidos, baratos, muchos
+  ╱──────────────╲
+```
+
+## Tests unitarios con Vitest
+
+Vitest es un framework de testing ultrarrápido compatible con Vite.
+
+```bash
+npm install -D vitest
+```
+
+```javascript
+// package.json
+{
+    "scripts": {
+        "test": "vitest",
+        "test:run": "vitest run"
+    }
+}
+```
+
+### Ejemplo básico
+
+```javascript
+// utils/matematicas.js
+export function sumar(a, b) {
+    return a + b;
+}
+
+export function esPar(numero) {
+    return numero % 2 === 0;
+}
+
+export function factorial(n) {
+    if (n < 0) throw new Error('Número negativo');
+    if (n === 0) return 1;
+    return n * factorial(n - 1);
+}
+```
+
+```javascript
+// utils/__tests__/matematicas.test.js
+import { describe, it, expect } from 'vitest';
+import { sumar, esPar, factorial } from '../matematicas';
+
+describe('sumar', () => {
+    it('suma dos números positivos', () => {
+        expect(sumar(2, 3)).toBe(5);
+    });
+
+    it('suma números negativos', () => {
+        expect(sumar(-1, -2)).toBe(-3);
+    });
+
+    it('suma con cero', () => {
+        expect(sumar(5, 0)).toBe(5);
+    });
+});
+
+describe('esPar', () => {
+    it('devuelve true para números pares', () => {
+        expect(esPar(2)).toBe(true);
+        expect(esPar(0)).toBe(true);
+        expect(esPar(-4)).toBe(true);
+    });
+
+    it('devuelve false para números impares', () => {
+        expect(esPar(3)).toBe(false);
+        expect(esPar(1)).toBe(false);
+    });
+});
+
+describe('factorial', () => {
+    it('calcula factorial de 5', () => {
+        expect(factorial(5)).toBe(120);
+    });
+
+    it('factorial de 0 es 1', () => {
+        expect(factorial(0)).toBe(1);
+    });
+
+    it('lanza error para números negativos', () => {
+        expect(() => factorial(-1)).toThrow('Número negativo');
+    });
+});
+```
+
+### Testing de componentes con Testing Library
+
+```bash
+npm install -D @testing-library/react @testing-library/jest-dom jsdom
+```
+
+```javascript
+// vite.config.js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+    plugins: [react()],
+    test: {
+        environment: 'jsdom',
+        globals: true,
+        setupFiles: './src/test/setup.js',
+    },
+});
+```
+
+```javascript
+// components/Tarjeta.jsx
+export function Tarjeta({ titulo, descripcion, precio, onClick }) {
+    return (
+        <div className="tarjeta" onClick={onClick}>
+            <h3>{titulo}</h3>
+            <p>{descripcion}</p>
+            <span data-testid="precio">{precio} €</span>
+            <button aria-label="Añadir al carrito">Añadir</button>
+        </div>
+    );
+}
+```
+
+```javascript
+// components/__tests__/Tarjeta.test.jsx
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { Tarjeta } from '../Tarjeta';
+
+describe('Tarjeta', () => {
+    const props = {
+        titulo: 'Portátil Pro',
+        descripcion: '16GB RAM, 512GB SSD',
+        precio: 899
+    };
+
+    it('renderiza el título y descripción', () => {
+        render(<Tarjeta {...props} />);
+        expect(screen.getByText('Portátil Pro')).toBeDefined();
+        expect(screen.getByText('16GB RAM, 512GB SSD')).toBeDefined();
+    });
+
+    it('muestra el precio correctamente', () => {
+        render(<Tarjeta {...props} />);
+        expect(screen.getByTestId('precio').textContent).toBe('899 €');
+    });
+
+    it('llama onClick al hacer clic', async () => {
+        const onClick = vi.fn();
+        render(<Tarjeta {...props} onClick={onClick} />);
+        await userEvent.click(screen.getByRole('button'));
+        expect(onClick).toHaveBeenCalledOnce();
+    });
+});
+```
+
+## Tests de integración para APIs
+
+```javascript
+// npm install -D supertest
+const request = require('supertest');
+const app = require('../app');
+
+describe('API de usuarios', () => {
+    describe('POST /api/usuarios', () => {
+        it('crea un usuario con datos válidos', async () => {
+            const res = await request(app)
+                .post('/api/usuarios')
+                .send({ nombre: 'Ana', email: 'ana@test.com' });
+
+            expect(res.status).toBe(201);
+            expect(res.body).toHaveProperty('id');
+            expect(res.body.nombre).toBe('Ana');
+        });
+
+        it('devuelve 400 si falta el nombre', async () => {
+            const res = await request(app)
+                .post('/api/usuarios')
+                .send({ email: 'ana@test.com' });
+
+            expect(res.status).toBe(400);
+            expect(res.body).toHaveProperty('error');
+        });
+    });
+
+    describe('GET /api/usuarios', () => {
+        it('devuelve lista de usuarios', async () => {
+            const res = await request(app).get('/api/usuarios');
+            expect(res.status).toBe(200);
+            expect(Array.isArray(res.body)).toBe(true);
+        });
+    });
+});
+```
+
+## Tests E2E con Playwright
+
+Playwright automatiza navegadores reales (Chromium, Firefox, WebKit).
+
+```bash
+npm install -D @playwright/test
+npx playwright install
+```
+
+```javascript
+// playwright.config.js
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+    testDir: './e2e',
+    fullyParallel: true,
+    retries: 2,
+    use: {
+        baseURL: 'http://localhost:3000',
+        trace: 'on-first-retry',
+    },
+    webServer: {
+        command: 'npm run dev',
+        port: 3000,
+        reuseExistingServer: true,
+    },
+});
+```
+
+```javascript
+// e2e/login.spec.js
+import { test, expect } from '@playwright/test';
+
+test.describe('Flujo de login', () => {
+    test('usuario puede iniciar sesión con credenciales válidas', async ({ page }) => {
+        await page.goto('/login');
+
+        await page.fill('[name="email"]', 'usuario@test.com');
+        await page.fill('[name="password"]', 'password123');
+
+        await page.click('button[type="submit"]');
+
+        await expect(page).toHaveURL('/dashboard');
+        await expect(page.locator('.bienvenida')).toContainText('Bienvenido');
+    });
+
+    test('muestra error con credenciales inválidas', async ({ page }) => {
+        await page.goto('/login');
+
+        await page.fill('[name="email"]', 'mal@email.com');
+        await page.fill('[name="password"]', 'incorrecta');
+
+        await page.click('button[type="submit"]');
+
+        await expect(page.locator('.error')).toBeVisible();
+        await expect(page.locator('.error')).toContainText('Credenciales inválidas');
+    });
+});
+```
+
+```javascript
+// e2e/flujo-completo.spec.js
+test('flujo completo: registro, inicio sesión, crear tarea', async ({ page }) => {
+    // Registro
+    await page.goto('/registro');
+    await page.fill('[name="nombre"]', 'Test User');
+    await page.fill('[name="email"]', `test-${Date.now()}@test.com`);
+    await page.fill('[name="password"]', 'Test1234');
+    await page.click('button[type="submit"]');
+    await expect(page).toHaveURL('/login');
+
+    // Login
+    // ... continuar flujo
+
+    // Crear tarea
+    await page.goto('/tareas');
+    await page.click('text="Nueva tarea"');
+    await page.fill('[name="titulo"]', 'Mi primera tarea');
+    await page.click('button[type="submit"]');
+    await expect(page.locator('.tarea')).toContainText('Mi primera tarea');
+});
+```
+
+## TDD (Test-Driven Development)
+
+El ciclo TDD: **Red → Green → Refactor**
+
+### Ejemplo: función de validación de email
+
+```javascript
+// 1. RED: escribir test que falla
+import { describe, it, expect } from 'vitest';
+import { validarEmail } from '../validators';
+
+describe('validarEmail', () => {
+    it('acepta email válido', () => {
+        expect(validarEmail('user@example.com')).toBe(true);
+    });
+
+    it('rechaza email sin @', () => {
+        expect(validarEmail('usuarioexample.com')).toBe(false);
+    });
+
+    it('rechaza email sin dominio', () => {
+        expect(validarEmail('user@')).toBe(false);
+    });
+
+    it('rechaza string vacío', () => {
+        expect(validarEmail('')).toBe(false);
+    });
+});
+```
+
+```javascript
+// 2. GREEN: implementar lo mínimo para que pase
+export function validarEmail(email) {
+    if (!email) return false;
+    const partes = email.split('@');
+    if (partes.length !== 2) return false;
+    const [local, dominio] = partes;
+    return local.length > 0 && dominio.length > 0 && dominio.includes('.');
+}
+```
+
+```javascript
+// 3. REFACTOR: mejorar sin romper tests
+export function validarEmail(email) {
+    if (!email || typeof email !== 'string') return false;
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+```
+
+## Cobertura de código
+
+```bash
+npx vitest --coverage
+```
+
+```javascript
+// vitest.config.js
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+    test: {
+        coverage: {
+            provider: 'v8',
+            reporter: ['text', 'html', 'lcov'],
+            include: ['src/**/*.{js,jsx}'],
+            exclude: ['src/**/*.test.*', 'src/test/'],
+            thresholds: {
+                branches: 80,
+                functions: 80,
+                lines: 80,
+                statements: 80,
+            },
+        },
+    },
+});
+```
+
+## Buenas prácticas
+
+1. **Nombres descriptivos**: `"devuelve error 400 si el email no es válido"` no `"test1"`
+2. **Un assertion por test**: o agrupa aserciones relacionadas del mismo concepto
+3. **Tests independientes**: no dependas del orden de ejecución
+4. **Mocks para externos**: simula APIs, BD, servicios externos
+5. **Ejecuta tests en CI**: que fallen el build si los tests no pasan
+
+## Ejercicio práctico
+
+Aplica TDD para crear una función que calcule el precio con IVA:
+- `calcularPrecioConIVA(precio, porcentajeIVA)`
+- Debe validar que precio > 0
+- IVA entre 0 y 100
+- Redondear a 2 decimales
+
+<details>
+<summary>Solución TDD</summary>
+
+```javascript
+// 1. Tests
+describe('calcularPrecioConIVA', () => {
+    it('calcula precio con IVA estándar (21%)', () => {
+        expect(calcularPrecioConIVA(100, 21)).toBe(121);
+    });
+
+    it('calcula precio con IVA reducido (10%)', () => {
+        expect(calcularPrecioConIVA(50, 10)).toBe(55);
+    });
+
+    it('lanza error si precio es negativo', () => {
+        expect(() => calcularPrecioConIVA(-10, 21)).toThrow('Precio debe ser positivo');
+    });
+
+    it('lanza error si IVA está fuera de rango', () => {
+        expect(() => calcularPrecioConIVA(100, 101)).toThrow('IVA debe estar entre 0 y 100');
+    });
+
+    it('redondea a 2 decimales', () => {
+        expect(calcularPrecioConIVA(10.99, 21)).toBe(13.30);
+    });
+});
+
+// 2. Implementación
+export function calcularPrecioConIVA(precio, porcentajeIVA) {
+    if (precio <= 0) throw new Error('Precio debe ser positivo');
+    if (porcentajeIVA < 0 || porcentajeIVA > 100) {
+        throw new Error('IVA debe estar entre 0 y 100');
+    }
+    return Math.round(precio * (1 + porcentajeIVA / 100) * 100) / 100;
+}
+```
+
+</details>
+
+## Resumen
+
+- **Unitarios**: verifican funciones individuales (Vitest)
+- **Integración**: verifican interacción entre componentes (Supertest)
+- **E2E**: verifican flujos completos en el navegador (Playwright)
+- **TDD**: Red (test falla) → Green (implementación mínima) → Refactor (mejora)
+- **Cobertura**: métrica de qué porcentaje del código está testeado

@@ -1,0 +1,304 @@
+---
+title: U3 - Diseño de Bases de Datos
+description: Modelo E/R, normalización, SQL DDL y DML, integridad referencial
+---
+
+## Objetivos de la unidad
+
+- Diseñar modelos entidad-relación a partir de requisitos
+- Transformar un modelo E/R a esquema relacional
+- Aplicar normalización hasta 3FN
+- Escribir sentencias SQL DDL y DML
+- Comprender la integridad referencial y las claves
+
+## Introducción
+
+Una base de datos relacional organiza la información en tablas relacionadas entre sí mediante claves. El diseño adecuado es fundamental para garantizar la integridad, evitar redundancias y optimizar las consultas.
+
+## Modelo Entidad-Relación (E/R)
+
+### Entidades
+
+Una **entidad** es cualquier objeto o concepto del mundo real con existencia propia. Se representa con un rectángulo.
+
+```
+[CLIENTE]   [PRODUCTO]   [PEDIDO]
+```
+
+### Atributos
+
+Características de las entidades. Se representan con óvalos.
+
+- **Simples**: indivisibles (nombre, precio)
+- **Compuestos**: divisibles (dirección → calle, ciudad, CP)
+- **Clave primaria**: identifica unívocamente (subrayada)
+
+### Relaciones
+
+Conexiones entre entidades. Se representan con rombos.
+
+| Tipo | Notación | Ejemplo |
+|------|----------|---------|
+| 1:1 | Uno a uno | Persona ↔ DNI |
+| 1:N | Uno a muchos | Cliente → Pedidos |
+| M:N | Muchos a muchos | Producto ↔ Pedido |
+
+## Transformación E/R a Relacional
+
+### Reglas básicas
+
+1. Cada entidad → una tabla
+2. Cada atributo → una columna
+3. Clave primaria de la entidad → PK de la tabla
+4. Relación 1:N → añadir FK en la tabla del lado N
+5. Relación M:N → nueva tabla con las dos FK
+
+### Ejemplo
+
+Persona (1) → (N) Pedido → (N) ↔ (N) Producto
+
+```sql
+CREATE TABLE Persona (
+    id_persona INT PRIMARY KEY,
+    nombre VARCHAR(100),
+    email VARCHAR(100)
+);
+
+CREATE TABLE Pedido (
+    id_pedido INT PRIMARY KEY,
+    fecha DATE,
+    id_persona INT,
+    FOREIGN KEY (id_persona) REFERENCES Persona(id_persona)
+);
+
+CREATE TABLE Pedido_Producto (
+    id_pedido INT,
+    id_producto INT,
+    cantidad INT,
+    PRIMARY KEY (id_pedido, id_producto),
+    FOREIGN KEY (id_pedido) REFERENCES Pedido(id_pedido),
+    FOREIGN KEY (id_producto) REFERENCES Producto(id_producto)
+);
+```
+
+## Normalización
+
+La normalización elimina redundancias y anomalías en los datos.
+
+### 1ª Forma Normal (1FN)
+
+Cada celda contiene un único valor atómico. No hay grupos repetitivos.
+
+| ❌ Incorrecto | ✅ Correcto |
+|--------------|------------|
+| id: 1, telefonos: "123,456" | id: 1, telefono: 123 |
+| | id: 1, telefono: 456 |
+
+### 2ª Forma Normal (2FN)
+
+Estar en 1FN + todos los atributos no clave dependen de la clave completa.
+
+```sql
+-- ❌ Incorrecto: precio depende solo de id_producto, no de (id_pedido, id_producto)
+CREATE TABLE LineaPedido (
+    id_pedido INT,
+    id_producto INT,
+    cantidad INT,
+    precio DECIMAL(10,2),  -- depende solo de id_producto
+    PRIMARY KEY (id_pedido, id_producto)
+);
+
+-- ✅ Correcto: separar producto
+CREATE TABLE Producto (
+    id_producto INT PRIMARY KEY,
+    nombre VARCHAR(100),
+    precio DECIMAL(10,2)
+);
+CREATE TABLE LineaPedido (
+    id_pedido INT,
+    id_producto INT,
+    cantidad INT,
+    PRIMARY KEY (id_pedido, id_producto),
+    FOREIGN KEY (id_producto) REFERENCES Producto(id_producto)
+);
+```
+
+### 3ª Forma Normal (3FN)
+
+Estar en 2FN + ningún atributo no clave depende transitivamente de la clave.
+
+```sql
+-- ❌ Incorrecto: ciudad depende de codigo_postal, no directamente de id_cliente
+CREATE TABLE Cliente (
+    id_cliente INT PRIMARY KEY,
+    nombre VARCHAR(100),
+    codigo_postal VARCHAR(5),
+    ciudad VARCHAR(50)  -- depende de codigo_postal
+);
+
+-- ✅ Correcto: separar en dos tablas
+CREATE TABLE Cliente (
+    id_cliente INT PRIMARY KEY,
+    nombre VARCHAR(100),
+    codigo_postal VARCHAR(5),
+    FOREIGN KEY (codigo_postal) REFERENCES Ciudad(codigo_postal)
+);
+CREATE TABLE Ciudad (
+    codigo_postal VARCHAR(5) PRIMARY KEY,
+    ciudad VARCHAR(50),
+    provincia VARCHAR(50)
+);
+```
+
+## SQL DDL (Data Definition Language)
+
+```sql
+-- Crear tabla
+CREATE TABLE Usuario (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    fecha_registro DATE DEFAULT CURRENT_DATE
+);
+
+-- Modificar tabla
+ALTER TABLE Usuario ADD COLUMN telefono VARCHAR(15);
+ALTER TABLE Usuario DROP COLUMN telefono;
+ALTER TABLE Usuario MODIFY COLUMN nombre VARCHAR(150);
+
+-- Eliminar tabla
+DROP TABLE Usuario;
+DROP TABLE IF EXISTS Usuario;
+```
+
+## SQL DML (Data Manipulation Language)
+
+```sql
+-- INSERT
+INSERT INTO Usuario (nombre, email) VALUES ('Ana García', 'ana@email.com');
+
+-- SELECT
+SELECT * FROM Usuario;
+SELECT nombre, email FROM Usuario WHERE id = 1;
+
+-- UPDATE
+UPDATE Usuario SET nombre = 'Ana López' WHERE id = 1;
+
+-- DELETE
+DELETE FROM Usuario WHERE id = 1;
+```
+
+### Consultas con JOIN
+
+```sql
+-- INNER JOIN: registros que coinciden en ambas tablas
+SELECT p.id_pedido, p.fecha, u.nombre
+FROM Pedido p
+INNER JOIN Usuario u ON p.id_usuario = u.id;
+
+-- LEFT JOIN: todos los de la izquierda, aunque no coincidan
+SELECT u.nombre, p.id_pedido
+FROM Usuario u
+LEFT JOIN Pedido p ON u.id = p.id_usuario;
+
+-- COUNT, GROUP BY, HAVING
+SELECT u.nombre, COUNT(p.id_pedido) AS num_pedidos
+FROM Usuario u
+LEFT JOIN Pedido p ON u.id = p.id_usuario
+GROUP BY u.id, u.nombre
+HAVING COUNT(p.id_pedido) > 0;
+```
+
+## Integridad referencial
+
+Las **foreign keys** garantizan que no existan referencias huérfanas.
+
+```sql
+CREATE TABLE Pedido (
+    id_pedido INT PRIMARY KEY,
+    id_usuario INT,
+    FOREIGN KEY (id_usuario) REFERENCES Usuario(id)
+    ON DELETE CASCADE     -- borra pedidos si se borra el usuario
+    ON UPDATE CASCADE     -- actualiza si cambia el id del usuario
+);
+```
+
+Tipos de acciones referenciales:
+
+| Acción | Comportamiento |
+|--------|---------------|
+| `CASCADE` | Propaga el cambio/borrado |
+| `SET NULL` | Pone la FK a NULL |
+| `RESTRICT` | Impide el borrado si hay referencias |
+| `NO ACTION` | Similar a RESTRICT |
+
+## Buenas prácticas
+
+1. **Siempre definir PK**: toda tabla debe tener una clave primaria
+2. **Usar nombres descriptivos**: `fecha_creacion` en vez de `fch`
+3. **Elegir tipos adecuados**: `INT` para IDs, `VARCHAR` para textos cortos, `TEXT` para largos
+4. **Indexar FK**: mejora el rendimiento de los JOIN
+5. **Documentar el esquema**: mantén un diagrama E/R actualizado
+
+## Ejercicio práctico
+
+Diseña una base de datos para una biblioteca:
+- Libros (ISBN, título, año, editorial)
+- Autores (id, nombre, nacionalidad)
+- Socios (id, nombre, email, teléfono)
+- Préstamos (fecha_prestamo, fecha_devolucion, id_socio, ISBN)
+
+Un libro puede tener varios autores. Un socio puede tomar prestados varios libros.
+
+<details>
+<summary>Solución SQL</summary>
+
+```sql
+CREATE TABLE Autor (
+    id_autor INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(150) NOT NULL,
+    nacionalidad VARCHAR(50)
+);
+
+CREATE TABLE Libro (
+    isbn VARCHAR(13) PRIMARY KEY,
+    titulo VARCHAR(200) NOT NULL,
+    anio_publicacion INT,
+    editorial VARCHAR(100)
+);
+
+CREATE TABLE Libro_Autor (
+    isbn VARCHAR(13),
+    id_autor INT,
+    PRIMARY KEY (isbn, id_autor),
+    FOREIGN KEY (isbn) REFERENCES Libro(isbn) ON DELETE CASCADE,
+    FOREIGN KEY (id_autor) REFERENCES Autor(id_autor) ON DELETE CASCADE
+);
+
+CREATE TABLE Socio (
+    id_socio INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(150) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    telefono VARCHAR(15)
+);
+
+CREATE TABLE Prestamo (
+    id_prestamo INT AUTO_INCREMENT PRIMARY KEY,
+    fecha_prestamo DATE NOT NULL,
+    fecha_devolucion DATE,
+    id_socio INT NOT NULL,
+    isbn VARCHAR(13) NOT NULL,
+    FOREIGN KEY (id_socio) REFERENCES Socio(id_socio),
+    FOREIGN KEY (isbn) REFERENCES Libro(isbn)
+);
+```
+
+</details>
+
+## Resumen
+
+- E/R modela entidades, atributos y relaciones del mundo real
+- Las relaciones M:N requieren tablas intermedias
+- La normalización (1FN, 2FN, 3FN) elimina redundancias
+- DDL define la estructura; DML manipula los datos
+- Las FK garantizan la integridad referencial

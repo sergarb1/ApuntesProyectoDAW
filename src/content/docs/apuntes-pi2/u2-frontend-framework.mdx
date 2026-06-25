@@ -1,0 +1,412 @@
+---
+title: U2 - Frontend con Framework
+description: "React y Vue: componentes, estado, rutas, consumo de APIs"
+---
+
+## Objetivos de la unidad
+
+- Crear componentes reutilizables en React y Vue
+- Gestionar estado local y global
+- Implementar navegación con enrutador
+- Consumir APIs REST desde el frontend
+
+## Introducción
+
+Los frameworks frontend modernos (React, Vue, Angular) organizan la UI en componentes, gestionan el estado de forma predecible y facilitan el consumo de APIs. React es el más extendido; Vue destaca por su curva de aprendizaje suave.
+
+## Componentes
+
+### React (JSX)
+
+```jsx
+// Componente funcional con props
+function Tarjeta({ titulo, descripcion, precio }) {
+    return (
+        <div className="tarjeta">
+            <h3>{titulo}</h3>
+            <p>{descripcion}</p>
+            <span className="precio">{precio} €</span>
+        </div>
+    );
+}
+
+// Uso
+<Tarjeta titulo="Portátil" descripcion="16GB RAM" precio={899} />
+```
+
+### Vue (SFC - Single File Component)
+
+```vue
+<!-- Tarjeta.vue -->
+<template>
+    <div class="tarjeta">
+        <h3>{{ titulo }}</h3>
+        <p>{{ descripcion }}</p>
+        <span class="precio">{{ precio }} €</span>
+    </div>
+</template>
+
+<script setup>
+defineProps({
+    titulo: String,
+    descripcion: String,
+    precio: Number
+});
+</script>
+
+<style scoped>
+.tarjeta { border: 1px solid #ddd; padding: 1rem; border-radius: 8px; }
+.precio { color: #2563eb; font-weight: bold; }
+</style>
+```
+
+## Estado local
+
+### React: useState
+
+```jsx
+import { useState } from 'react';
+
+function Contador() {
+    const [cuenta, setCuenta] = useState(0);
+
+    return (
+        <div>
+            <p>Has hecho clic {cuenta} veces</p>
+            <button onClick={() => setCuenta(cuenta + 1)}>+1</button>
+            <button onClick={() => setCuenta(prev => prev - 1)}>-1</button>
+        </div>
+    );
+}
+```
+
+### Vue: ref
+
+```vue
+<script setup>
+import { ref } from 'vue';
+
+const cuenta = ref(0);
+</script>
+
+<template>
+    <div>
+        <p>Has hecho clic {{ cuenta }} veces</p>
+        <button @click="cuenta++">+1</button>
+        <button @click="cuenta--">-1</button>
+    </div>
+</template>
+```
+
+## Estado con efecto y llamadas API
+
+### React: useEffect + fetch
+
+```jsx
+import { useState, useEffect } from 'react';
+
+function ListaUsuarios() {
+    const [usuarios, setUsuarios] = useState([]);
+    const [cargando, setCargando] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        fetch('/api/usuarios')
+            .then(res => {
+                if (!res.ok) throw new Error('Error al cargar');
+                return res.json();
+            })
+            .then(data => {
+                setUsuarios(data);
+                setCargando(false);
+            })
+            .catch(err => {
+                setError(err.message);
+                setCargando(false);
+            });
+    }, []); // array vacío = solo al montar
+
+    if (cargando) return <p>Cargando...</p>;
+    if (error) return <p>Error: {error}</p>;
+
+    return (
+        <ul>
+            {usuarios.map(u => (
+                <li key={u.id}>{u.nombre} - {u.email}</li>
+            ))}
+        </ul>
+    );
+}
+```
+
+### React: useEffect con async/await
+
+```jsx
+useEffect(() => {
+    const cargarUsuarios = async () => {
+        try {
+            setCargando(true);
+            const res = await fetch('/api/usuarios');
+            if (!res.ok) throw new Error('Error');
+            const data = await res.json();
+            setUsuarios(data);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setCargando(false);
+        }
+    };
+    cargarUsuarios();
+}, []);
+```
+
+### Vue: watchEffect + onMounted
+
+```vue
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const usuarios = ref([]);
+const cargando = ref(true);
+const error = ref(null);
+
+onMounted(async () => {
+    try {
+        const res = await fetch('/api/usuarios');
+        if (!res.ok) throw new Error('Error al cargar');
+        usuarios.value = await res.json();
+    } catch (e) {
+        error.value = e.message;
+    } finally {
+        cargando.value = false;
+    }
+});
+</script>
+
+<template>
+    <p v-if="cargando">Cargando...</p>
+    <p v-if="error">Error: {{ error }}</p>
+    <ul v-else>
+        <li v-for="u in usuarios" :key="u.id">
+            {{ u.nombre }} - {{ u.email }}
+        </li>
+    </ul>
+</template>
+```
+
+## Estado global con Context (React)
+
+```jsx
+import { createContext, useContext, useState } from 'react';
+
+// Crear contexto
+const AuthContext = createContext(null);
+
+// Provider
+function AuthProvider({ children }) {
+    const [usuario, setUsuario] = useState(null);
+
+    const login = (user) => setUsuario(user);
+    const logout = () => setUsuario(null);
+
+    return (
+        <AuthContext.Provider value={{ usuario, login, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
+}
+
+// Hook personalizado
+function useAuth() {
+    const context = useContext(AuthContext);
+    if (!context) throw new Error('useAuth debe usarse dentro de AuthProvider');
+    return context;
+}
+
+// Uso en cualquier componente
+function Perfil() {
+    const { usuario, logout } = useAuth();
+    if (!usuario) return <p>No has iniciado sesión</p>;
+    return (
+        <div>
+            <p>Bienvenido, {usuario.nombre}</p>
+            <button onClick={logout}>Cerrar sesión</button>
+        </div>
+    );
+}
+```
+
+## Enrutamiento
+
+### React Router
+
+```bash
+npm install react-router-dom
+```
+
+```jsx
+// App.jsx
+import { BrowserRouter, Routes, Route, Link, NavLink } from 'react-router-dom';
+
+function App() {
+    return (
+        <BrowserRouter>
+            <nav>
+                <Link to="/">Inicio</Link>
+                <NavLink to="/productos" className={({isActive}) => isActive ? 'activo' : ''}>
+                    Productos
+                </NavLink>
+                <Link to="/contacto">Contacto</Link>
+            </nav>
+
+            <Routes>
+                <Route path="/" element={<Inicio />} />
+                <Route path="/productos" element={<Productos />} />
+                <Route path="/productos/:id" element={<DetalleProducto />} />
+                <Route path="/contacto" element={<Contacto />} />
+                <Route path="*" element={<NotFound />} />
+            </Routes>
+        </BrowserRouter>
+    );
+}
+```
+
+### Vue Router
+
+```bash
+npm install vue-router
+```
+
+```javascript
+// router/index.js
+import { createRouter, createWebHistory } from 'vue-router';
+import Inicio from '../views/Inicio.vue';
+import Productos from '../views/Productos.vue';
+
+const routes = [
+    { path: '/', name: 'inicio', component: Inicio },
+    { path: '/productos', name: 'productos', component: Productos },
+    { path: '/productos/:id', name: 'detalle', component: () => import('../views/DetalleProducto.vue') },
+    { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound }
+];
+
+const router = createRouter({
+    history: createWebHistory(),
+    routes
+});
+
+export default router;
+```
+
+```vue
+<!-- App.vue -->
+<template>
+    <nav>
+        <router-link to="/">Inicio</router-link>
+        <router-link to="/productos">Productos</router-link>
+        <router-link to="/contacto">Contacto</router-link>
+    </nav>
+    <router-view />
+</template>
+```
+
+## Buenas prácticas
+
+1. **Componentes pequeños**: cada componente hace una cosa y la hace bien
+2. **Props hacia abajo, eventos hacia arriba**: los datos fluyen en una dirección
+3. **Estado mínimo**: no dupliques estado; deriva lo que puedas calcular
+4. **Separación lógica/presentación**: componentes "contenedores" vs "presentacionales"
+5. **Custom hooks** (React) / **Composables** (Vue) para lógica reutilizable
+
+## Ejercicio práctico
+
+Crea una aplicación frontend que muestre una lista de productos obtenidos de una API, con:
+- Vista de lista (cards)
+- Vista de detalle al hacer clic
+- Barra de búsqueda que filtre
+- Estados de carga y error
+
+<details>
+<summary>Solución React</summary>
+
+```jsx
+import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useParams, Link } from 'react-router-dom';
+
+function ProductosLista() {
+    const [productos, setProductos] = useState([]);
+    const [busqueda, setBusqueda] = useState('');
+    const [cargando, setCargando] = useState(true);
+
+    useEffect(() => {
+        fetch('https://fakestoreapi.com/products')
+            .then(res => res.json())
+            .then(data => { setProductos(data); setCargando(false); });
+    }, []);
+
+    const filtrados = productos.filter(p =>
+        p.title.toLowerCase().includes(busqueda.toLowerCase())
+    );
+
+    if (cargando) return <p>Cargando productos...</p>;
+
+    return (
+        <div>
+            <input type="text" placeholder="Buscar..."
+                value={busqueda} onChange={e => setBusqueda(e.target.value)} />
+            <div className="grid">
+                {filtrados.map(p => (
+                    <Link key={p.id} to={`/productos/${p.id}`} className="card">
+                        <img src={p.image} alt={p.title} />
+                        <h3>{p.title}</h3>
+                        <p>{p.price} €</p>
+                    </Link>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+function DetalleProducto() {
+    const { id } = useParams();
+    const [producto, setProducto] = useState(null);
+
+    useEffect(() => {
+        fetch(`https://fakestoreapi.com/products/${id}`)
+            .then(res => res.json())
+            .then(setProducto);
+    }, [id]);
+
+    if (!producto) return <p>Cargando...</p>;
+    return (
+        <div>
+            <img src={producto.image} alt={producto.title} />
+            <h1>{producto.title}</h1>
+            <p>{producto.description}</p>
+            <strong>{producto.price} €</strong>
+            <Link to="/">Volver</Link>
+        </div>
+    );
+}
+
+function App() {
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<ProductosLista />} />
+                <Route path="/productos/:id" element={<DetalleProducto />} />
+            </Routes>
+        </BrowserRouter>
+    );
+}
+```
+
+</details>
+
+## Resumen
+
+- **Componentes**: piezas reutilizables con props de entrada y estado interno
+- **Estado local**: `useState` (React) o `ref` (Vue) para datos del componente
+- **Efectos**: `useEffect` (React) o `onMounted` (Vue) para llamadas API
+- **Enrutador**: navegación SPA con `react-router-dom` o `vue-router`
+- **Estado global**: Context (React) o Pinia (Vue) para datos compartidos

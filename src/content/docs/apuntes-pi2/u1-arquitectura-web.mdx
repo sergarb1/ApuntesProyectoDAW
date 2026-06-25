@@ -1,0 +1,358 @@
+---
+title: U1 - Arquitectura Web y Patrones
+description: MVC, capas, DTO/DAO, inyección de dependencias, buenas prácticas
+---
+
+## Objetivos de la unidad
+
+- Comprender la arquitectura en capas de una aplicación web
+- Implementar el patrón MVC en aplicaciones reales
+- Utilizar DTO y DAO para separar responsabilidades
+- Aplicar inyección de dependencias para código más testeable
+
+## Introducción
+
+La arquitectura web define cómo se organizan los componentes de una aplicación. Una buena arquitectura facilita el mantenimiento, la escalabilidad y el testing.
+
+## Arquitectura en capas
+
+```
+┌───────────────────────────────────────────────┐
+│              Capa de Presentación             │
+│         (Frontend: HTML, CSS, JS)             │
+├───────────────────────────────────────────────┤
+│              Capa de Aplicación               │
+│          (Controladores, Servicios)           │
+├───────────────────────────────────────────────┤
+│              Capa de Dominio                  │
+│         (Entidades, Lógica de negocio)        │
+├───────────────────────────────────────────────┤
+│              Capa de Datos                    │
+│           (Repositorios, DAO)                 │
+├───────────────────────────────────────────────┤
+│              Base de Datos                    │
+└───────────────────────────────────────────────┘
+```
+
+Cada capa solo se comunica con la capa inmediatamente inferior.
+
+## Patrón MVC (Modelo-Vista-Controlador)
+
+### Flujo MVC
+
+```
+1. El usuario interactúa con la Vista (frontend)
+2. La Vista envía la petición al Controlador
+3. El Controlador procesa la petición y actualiza el Modelo
+4. El Modelo notifica cambios a la Vista
+5. La Vista se renderiza con los nuevos datos
+```
+
+### Ejemplo con Express (Node.js)
+
+```javascript
+// Modelo (capa de datos)
+// models/Tarea.js
+class TareaModel {
+    constructor(db) {
+        this.db = db;
+    }
+
+    async findAll() {
+        const [rows] = await this.db.query('SELECT * FROM tareas');
+        return rows;
+    }
+
+    async create(titulo, descripcion) {
+        const [result] = await this.db.execute(
+            'INSERT INTO tareas (titulo, descripcion) VALUES (?, ?)',
+            [titulo, descripcion]
+        );
+        return result.insertId;
+    }
+}
+
+// Controlador
+// controllers/tareaController.js
+class TareaController {
+    constructor(tareaModel) {
+        this.tareaModel = tareaModel;
+    }
+
+    async listar(req, res) {
+        try {
+            const tareas = await this.tareaModel.findAll();
+            res.json(tareas);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async crear(req, res) {
+        try {
+            const { titulo, descripcion } = req.body;
+            const id = await this.tareaModel.create(titulo, descripcion);
+            res.status(201).json({ id });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+}
+
+// Vista (frontend - ejemplo con fetch)
+// public/index.html
+// fetch('/api/tareas').then(res => res.json()).then(tareas => { ... });
+
+// Enrutador
+// routes/tareaRoutes.js
+const express = require('express');
+const router = express.Router();
+
+function crearRutas(controller) {
+    router.get('/', (req, res) => controller.listar(req, res));
+    router.post('/', (req, res) => controller.crear(req, res));
+    return router;
+}
+```
+
+### Ejemplo con Spring Boot (Java)
+
+```java
+// Modelo
+// com.example.model.Tarea.java
+@Entity
+public class Tarea {
+    @Id @GeneratedValue
+    private Long id;
+    private String titulo;
+    private String descripcion;
+    private boolean completada;
+
+    // Getters y setters
+}
+
+// Repositorio
+// com.example.repository.TareaRepository.java
+@Repository
+public interface TareaRepository extends JpaRepository<Tarea, Long> {
+}
+
+// Controlador
+// com.example.controller.TareaController.java
+@RestController
+@RequestMapping("/api/tareas")
+public class TareaController {
+
+    @Autowired
+    private TareaRepository tareaRepository;
+
+    @GetMapping
+    public List<Tarea> listar() {
+        return tareaRepository.findAll();
+    }
+
+    @PostMapping
+    public Tarea crear(@RequestBody Tarea tarea) {
+        return tareaRepository.save(tarea);
+    }
+}
+```
+
+## DTO (Data Transfer Object)
+
+Los DTO transfieren datos entre capas sin exponer la estructura interna de las entidades.
+
+```javascript
+// DTO de entrada
+class CrearTareaDTO {
+    constructor({ titulo, descripcion, fechaLimite }) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.fechaLimite = fechaLimite;
+    }
+
+    validar() {
+        if (!this.titulo || this.titulo.length < 3) {
+            throw new Error('El título debe tener al menos 3 caracteres');
+        }
+    }
+}
+
+// DTO de salida
+class TareaResponseDTO {
+    constructor(tarea) {
+        this.id = tarea.id;
+        this.titulo = tarea.titulo;
+        this.estado = tarea.completada ? 'Completada' : 'Pendiente';
+        this.fechaLimite = tarea.fechaLimite;
+    }
+}
+
+// Controlador usando DTO
+class TareaController {
+    async crear(req, res) {
+        try {
+            const dto = new CrearTareaDTO(req.body);
+            dto.validar();
+            const tarea = await this.tareaService.crear(dto);
+            res.status(201).json(new TareaResponseDTO(tarea));
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+}
+```
+
+## DAO (Data Access Object)
+
+El DAO encapsula el acceso a datos, permitiendo cambiar la fuente de datos sin afectar al resto.
+
+```javascript
+// Interfaz abstracta
+class TareaDAO {
+    async findAll() { throw new Error('Not implemented'); }
+    async findById(id) { throw new Error('Not implemented'); }
+    async create(tarea) { throw new Error('Not implemented'); }
+    async update(id, tarea) { throw new Error('Not implemented'); }
+    async delete(id) { throw new Error('Not implemented'); }
+}
+
+// Implementación con MySQL
+class TareaMySQLDAO extends TareaDAO {
+    constructor(pool) {
+        super();
+        this.pool = pool;
+    }
+
+    async findAll() {
+        const [rows] = await this.pool.query('SELECT * FROM tareas');
+        return rows;
+    }
+
+    async create(tarea) {
+        const [result] = await this.pool.execute(
+            'INSERT INTO tareas (titulo, descripcion) VALUES (?, ?)',
+            [tarea.titulo, tarea.descripcion]
+        );
+        return { id: result.insertId, ...tarea };
+    }
+}
+
+// Implementación con MongoDB
+class TareaMongoDAO extends TareaDAO {
+    constructor(collection) {
+        super();
+        this.collection = collection;
+    }
+
+    async findAll() {
+        return await this.collection.find().toArray();
+    }
+
+    async create(tarea) {
+        const result = await this.collection.insertOne(tarea);
+        return { _id: result.insertedId, ...tarea };
+    }
+}
+```
+
+## Inyección de Dependencias (DI)
+
+La DI permite desacoplar componentes pasando las dependencias desde fuera.
+
+### Sin DI (acoplado)
+
+```javascript
+// ❌ Acoplado: crea su propia dependencia
+class TareaController {
+    constructor() {
+        this.dao = new TareaMySQLDAO(pool);  // acoplamiento fuerte
+    }
+}
+```
+
+### Con DI (desacoplado)
+
+```javascript
+// ✅ Desacoplado: recibe la dependencia
+class TareaController {
+    constructor(tareaDAO) {
+        this.tareaDAO = tareaDAO;  // cualquier implementación
+    }
+}
+
+// Uso
+const mysqlDAO = new TareaMySQLDAO(pool);
+const controller = new TareaController(mysqlDAO);
+
+// Para tests
+class TareaMockDAO extends TareaDAO {
+    async findAll() { return [{ id: 1, titulo: 'Test' }]; }
+}
+const mockDAO = new TareaMockDAO();
+const testController = new TareaController(mockDAO);
+```
+
+### En Spring Boot (DI automática)
+
+```java
+@Service
+public class TareaService {
+    private final TareaRepository repository;
+
+    // Spring inyecta automáticamente
+    public TareaService(TareaRepository repository) {
+        this.repository = repository;
+    }
+
+    public List<Tarea> listar() {
+        return repository.findAll();
+    }
+}
+```
+
+## Buenas prácticas
+
+1. **Separación de responsabilidades**: cada capa tiene un propósito claro
+2. **DTOs para la API**: no expongas entidades directamente al frontend
+3. **DAO desacoplado**: programa contra interfaces, no implementaciones
+4. **Inyección de dependencias**: facilita el testing y los cambios
+5. **Capa de servicio**: incluye lógica de negocio entre el controlador y el DAO
+
+## Ejercicio práctico
+
+Refactoriza un CRUD monolítico para que use MVC + DAO + DI.
+
+<details>
+<summary>Solución: estructura de carpetas</summary>
+
+```
+src/
+├── controllers/
+│   └── usuarioController.js
+├── services/
+│   └── usuarioService.js
+├── dao/
+│   ├── usuarioDAO.js       (interfaz)
+│   └── usuarioMySQLDAO.js  (implementación)
+├── dtos/
+│   ├── crearUsuarioDTO.js
+│   └── usuarioResponseDTO.js
+├── models/
+│   └── usuario.js
+├── routes/
+│   └── usuarioRoutes.js
+├── middleware/
+│   └── errorHandler.js
+└── app.js
+```
+
+</details>
+
+## Resumen
+
+- **Arquitectura en capas**: presentación → aplicación → dominio → datos
+- **MVC**: Modelo (datos), Vista (UI), Controlador (lógica de enrutamiento)
+- **DTO**: transfiere datos entre capas de forma controlada
+- **DAO**: abstrae el acceso a datos, permite cambiar BD fácilmente
+- **DI**: las dependencias se inyectan, no se crean internamente
