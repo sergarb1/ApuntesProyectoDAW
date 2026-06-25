@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import mdx from '@astrojs/mdx';
 
 export default defineConfig({
   site: 'https://sergarb1.github.io',
@@ -129,5 +130,6 @@ export default defineConfig({
         },
       ],
     }),
+    mdx(),
   ],
 });
