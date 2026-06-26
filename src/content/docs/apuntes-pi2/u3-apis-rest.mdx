@@ -1,416 +1,145 @@
 ---
-title: U3 - APIs REST
-description: "Express y Spring Boot: endpoints, JWT, middleware, validación"
+title: 🔗 U3. Integrar sistemas
+description: Cómo conectar tu frontend con tu backend y con servicios externos de forma ordenada
 ---
 
-## Objetivos de la unidad
+import StoryIntro from '../../../components/StoryIntro.astro';
+import Aclaracion from '../../../components/Aclaracion.astro';
+import CasoPractico from '../../../components/CasoPractico.astro';
 
-- Diseñar APIs RESTful con buenas prácticas
-- Implementar autenticación con JWT
-- Utilizar middleware para logging, validación y seguridad
-- Documentar APIs con Swagger/OpenAPI
+<StoryIntro icono="🎬" titulo="El día que el frontend y el backend no se hablaban">
+  "Es que el frontend espera un JSON con `nombre_usuario` y el backend
+  devuelve `userName`". "Pues cambia el backend". "Pero el backend ya
+  lo usa en 5 sitios".
 
-## Introducción
+  El equipo llevaba una semana intentando conectar las dos partes de
+  su aplicación. El frontend hablaba en español, el backend en inglés.
+  Uno esperaba arrays, el otro objetos. Los errores llegaban en formatos
+  distintos.
 
-Una API REST (Representational State Transfer) expone recursos del backend a través de endpoints HTTP. Es el estándar de comunicación entre frontend y backend en aplicaciones web modernas.
+  Les faltaba algo que parecía burocracia pero era esencial: **definir
+  cómo se comunican** antes de programar cada parte.
+</StoryIntro>
 
-## Principios REST
+## La comunicación entre partes
 
-| Principio | Descripción | Ejemplo |
-|-----------|-------------|---------|
-| Recursos | Cada entidad es un recurso | `/usuarios`, `/productos` |
-| Verbos HTTP | GET, POST, PUT, PATCH, DELETE | `GET /usuarios` |
-| Stateless | Cada petición es independiente | Token JWT en cada request |
-| URI única | Cada recurso tiene una URI | `/usuarios/42` |
-| Representaciones | JSON, XML, etc. | `Content-Type: application/json` |
+Tu proyecto tiene partes que necesitan comunicarse. Normalmente:
 
-## Diseño de endpoints
+- **Frontend ↔ Backend** (API REST o GraphQL)
+- **Backend ↔ Base de datos**
+- **Backend ↔ Servicios externos** (email, pagos, mapas)
 
-```bash
-# Convención de nombres (plural, sustantivos, kebab-case)
-GET    /api/usuarios              # Listar
-GET    /api/usuarios/:id          # Obtener uno
-POST   /api/usuarios              # Crear
-PUT    /api/usuarios/:id          # Actualizar completo
-PATCH  /api/usuarios/:id          # Actualizar parcial
-DELETE /api/usuarios/:id          # Eliminar
+Cada comunicación necesita un **contrato**: qué datos se envían, qué datos
+se reciben, en qué formato.
 
-# Anidados para relaciones
-GET    /api/usuarios/:id/pedidos  # Pedidos de un usuario
-POST   /api/usuarios/:id/pedidos  # Crear pedido para un usuario
+### Define el contrato antes de programar
+
+Antes de que cada miembro del equipo programe su parte, acordad:
+
+```
+GET /api/usuarios → 200 { id, nombre, email }
+POST /api/usuarios ← { nombre, email } → 201 { id, nombre, email }
+PUT /api/usuarios/:id ← { nombre } → 200 { id, nombre, email }
+DELETE /api/usuarios/:id → 204 (sin contenido)
 ```
 
-## API REST con Express
+Con esto, el frontend puede programar sabiendo qué va a recibir,
+y el backend sabiendo qué tiene que devolver. Sin sorpresas.
+
+### Herramientas para definir APIs
+
+- **Swagger/OpenAPI**: documentación interactiva de la API
+- **Postman**: para probar los endpoints
+- **Insomnia**: alternativa a Postman, más ligera
+
+<Aclaracion pregunta="¿API REST siempre o hay alternativas?">
+  REST es el estándar y suficiente para el 95% de los proyectos DAW.
+
+  Alternativas:
+  - **GraphQL**: más flexible, el frontend pide exactamente lo que necesita
+  - **WebSockets**: comunicación bidireccional en tiempo real (chat, notificaciones)
+  - **gRPC**: más rápido, pero más complejo
+
+  Si tu proyecto es estándar (CRUD + autenticación), quédate con REST.
+  Si necesitas tiempo real o mucha flexibilidad, explora las alternativas,
+  pero asume que aprenderás algo nuevo.
+</Aclaracion>
+
+## Manejo de errores en la comunicación
+
+Los errores van a ocurrir. Lo importante es que sean **predecibles**.
+
+### En el backend
 
 ```javascript
-const express = require('express');
-const app = express();
-app.use(express.json());
-
-// Middleware global: logging
-app.use((req, res, next) => {
-    console.log(`${new Date().toISOString()} ${req.method} ${req.url}`);
-    next();
-});
-
-// CRUD de usuarios
-const usuarios = [];  // en producción: base de datos
-
-// GET /api/usuarios
-app.get('/api/usuarios', (req, res) => {
-    res.json(usuarios);
-});
-
-// GET /api/usuarios/:id
-app.get('/api/usuarios/:id', (req, res) => {
-    const usuario = usuarios.find(u => u.id === parseInt(req.params.id));
-    if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
-    res.json(usuario);
-});
-
-// POST /api/usuarios
-app.post('/api/usuarios', (req, res) => {
-    const { nombre, email } = req.body;
-    if (!nombre || !email) {
-        return res.status(400).json({ error: 'Nombre y email son obligatorios' });
-    }
-    const nuevo = { id: usuarios.length + 1, nombre, email };
-    usuarios.push(nuevo);
-    res.status(201).json(nuevo);
-});
-
-// PUT /api/usuarios/:id
-app.put('/api/usuarios/:id', (req, res) => {
-    const idx = usuarios.findIndex(u => u.id === parseInt(req.params.id));
-    if (idx === -1) return res.status(404).json({ error: 'No encontrado' });
-    usuarios[idx] = { ...usuarios[idx], ...req.body };
-    res.json(usuarios[idx]);
-});
-
-// DELETE /api/usuarios/:id
-app.delete('/api/usuarios/:id', (req, res) => {
-    const idx = usuarios.findIndex(u => u.id === parseInt(req.params.id));
-    if (idx === -1) return res.status(404).json({ error: 'No encontrado' });
-    usuarios.splice(idx, 1);
-    res.status(204).send();
-});
-
-app.listen(3000);
-```
-
-## Autenticación con JWT
-
-JWT (JSON Web Token) es un token firmado que contiene información del usuario.
-
-```bash
-npm install jsonwebtoken bcrypt
-```
-
-```javascript
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-
-const SECRET = process.env.JWT_SECRET || 'clave-secreta-2026';
-
-// Registro
-app.post('/api/registro', async (req, res) => {
-    const { email, password } = req.body;
-
-    // Hash de contraseña
-    const hash = await bcrypt.hash(password, 10);
-
-    // Guardar en BD (simulado)
-    const usuario = { id: 1, email, password: hash };
-
-    res.status(201).json({ message: 'Usuario creado' });
-});
-
-// Login
-app.post('/api/login', async (req, res) => {
-    const { email, password } = req.body;
-
-    // Buscar usuario (simulado)
-    const usuario = { id: 1, email: 'user@test.com', password: '$2b$10$...' };
-
-    const valido = await bcrypt.compare(password, usuario.password);
-    if (!valido) {
-        return res.status(401).json({ error: 'Credenciales inválidas' });
-    }
-
-    // Generar token
-    const token = jwt.sign(
-        { id: usuario.id, email: usuario.email },
-        SECRET,
-        { expiresIn: '24h' }
-    );
-
-    res.json({ token, usuario: { id: usuario.id, email: usuario.email } });
-});
-```
-
-### Middleware de autenticación JWT
-
-```javascript
-function autenticar(req, res, next) {
-    const header = req.headers.authorization;
-
-    if (!header || !header.startsWith('Bearer ')) {
-        return res.status(401).json({ error: 'Token requerido' });
-    }
-
-    const token = header.split(' ')[1];
-
-    try {
-        const decoded = jwt.verify(token, SECRET);
-        req.usuario = decoded;  // disponible en las rutas
-        next();
-    } catch (error) {
-        return res.status(403).json({ error: 'Token inválido o expirado' });
-    }
-}
-
-// Rutas protegidas
-app.get('/api/perfil', autenticar, (req, res) => {
-    res.json({ usuario: req.usuario });
-});
-
-app.get('/api/usuarios', autenticar, (req, res) => {
-    // solo usuarios autenticados pueden ver la lista
-    res.json(usuarios);
-});
-```
-
-## Middleware de validación con express-validator
-
-```bash
-npm install express-validator
-```
-
-```javascript
-const { body, validationResult } = require('express-validator');
-
-// Validaciones en la ruta
-app.post('/api/usuarios',
-    body('nombre').trim().isLength({ min: 3 }).withMessage('Mínimo 3 caracteres'),
-    body('email').isEmail().withMessage('Email inválido'),
-    body('password').isLength({ min: 8 }).withMessage('Mínimo 8 caracteres'),
-    (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
-        // Si pasa validación, continuar
-        const { nombre, email } = req.body;
-        res.status(201).json({ nombre, email });
-    }
-);
-```
-
-## API REST con Spring Boot (Java)
-
-```java
-@RestController
-@RequestMapping("/api/usuarios")
-public class UsuarioController {
-
-    @Autowired
-    private UsuarioService service;
-
-    @GetMapping
-    public ResponseEntity<List<UsuarioResponseDTO>> listar() {
-        return ResponseEntity.ok(service.listar());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<UsuarioResponseDTO> obtener(@PathVariable Long id) {
-        return ResponseEntity.ok(service.obtener(id));
-    }
-
-    @PostMapping
-    public ResponseEntity<UsuarioResponseDTO> crear(
-            @Valid @RequestBody CrearUsuarioDTO dto) {
-        return ResponseEntity.status(201).body(service.crear(dto));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        service.eliminar(id);
-        return ResponseEntity.noContent().build();
-    }
+// Estructura de error uniforme
+{
+  "error": "usuario_no_encontrado",
+  "mensaje": "No existe un usuario con el ID 42",
+  "codigo": 404
 }
 ```
 
-## Documentación con Swagger/OpenAPI
+Siempre el mismo formato, siempre el código HTTP correcto.
 
-```bash
-npm install swagger-jsdoc swagger-ui-express
-```
+### En el frontend
 
 ```javascript
-const swaggerJsdoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
-
-const options = {
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'API de Usuarios',
-            version: '1.0.0',
-            description: 'API para gestión de usuarios del proyecto'
-        },
-        servers: [{ url: 'http://localhost:3000' }]
-    },
-    apis: ['./routes/*.js']
-};
-
-const swaggerSpec = swaggerJsdoc(options);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-```
-
-```javascript
-// routes/usuarios.js con comentarios Swagger
-/**
- * @openapi
- * /api/usuarios:
- *   get:
- *     summary: Lista todos los usuarios
- *     tags: [Usuarios]
- *     responses:
- *       200:
- *         description: Lista de usuarios
- *   post:
- *     summary: Crea un nuevo usuario
- *     tags: [Usuarios]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               nombre: { type: string }
- *               email: { type: string }
- *     responses:
- *       201:
- *         description: Usuario creado
- */
-```
-
-## Códigos de estado HTTP
-
-| Código | Significado | Uso |
-|--------|-------------|-----|
-| 200 OK | Éxito | GET, PUT, PATCH |
-| 201 Created | Recurso creado | POST |
-| 204 No Content | Éxito sin cuerpo | DELETE |
-| 400 Bad Request | Error del cliente | Validación fallida |
-| 401 Unauthorized | No autenticado | Token faltante |
-| 403 Forbidden | Sin permisos | Rol insuficiente |
-| 404 Not Found | No existe | ID inválido |
-| 500 Server Error | Error interno | Excepción no controlada |
-
-## Buenas prácticas
-
-1. **Versionar la API**: `/api/v1/usuarios` para permitir cambios sin romper clientes
-2. **Usar códigos HTTP correctos**: no devuelvas 200 para errores
-3. **Paginación**: `GET /api/usuarios?page=1&limit=20` con metadatos
-4. **Filtros y ordenación**: `?sort=-fecha&estado=activo`
-5. **Respuestas consistentes**: formato uniforme para éxito y error
-6. **Documentación**: Swagger/OpenAPI para que otros consuman tu API
-
-## Ejercicio práctico
-
-Crea una API REST completa para un gestor de tareas con:
-- CRUD de tareas (GET, POST, PUT, DELETE)
-- Autenticación JWT (login, registro)
-- Middleware de validación
-- Documentación Swagger
-
-<details>
-<summary>Solución Express completa</summary>
-
-```javascript
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const { body, validationResult } = require('express-validator');
-require('dotenv').config();
-
-const app = express();
-app.use(express.json());
-
-const SECRET = process.env.JWT_SECRET;
-let tareas = [];
-let usuarios = [];
-
-// Middleware JWT
-function auth(req, res, next) {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) return res.status(401).json({ error: 'Token requerido' });
-    try {
-        req.user = jwt.verify(token, SECRET);
-        next();
-    } catch {
-        res.status(403).json({ error: 'Token inválido' });
-    }
+// Manejo de errores genérico
+async function fetchAPI(url, options) {
+  const res = await fetch(url, options);
+  if (!res.ok) {
+    const error = await res.json();
+    mostrarError(error.mensaje);
+    return null;
+  }
+  return res.json();
 }
-
-// Auth routes
-app.post('/api/registro', (req, res) => {
-    const { email, password } = req.body;
-    usuarios.push({ id: usuarios.length + 1, email, password });
-    res.status(201).json({ message: 'Usuario creado' });
-});
-
-app.post('/api/login', (req, res) => {
-    const { email, password } = req.body;
-    const user = usuarios.find(u => u.email === email);
-    if (!user || user.password !== password) {
-        return res.status(401).json({ error: 'Credenciales inválidas' });
-    }
-    const token = jwt.sign({ id: user.id, email }, SECRET, { expiresIn: '24h' });
-    res.json({ token });
-});
-
-// CRUD tareas (protegido)
-app.get('/api/tareas', auth, (req, res) => {
-    const misTareas = tareas.filter(t => t.userId === req.user.id);
-    res.json(misTareas);
-});
-
-app.post('/api/tareas', auth,
-    body('titulo').trim().isLength({ min: 3 }),
-    (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
-        const tarea = { id: tareas.length + 1, userId: req.user.id, ...req.body, completada: false };
-        tareas.push(tarea);
-        res.status(201).json(tarea);
-    }
-);
-
-app.put('/api/tareas/:id', auth, (req, res) => {
-    const tarea = tareas.find(t => t.id === parseInt(req.params.id) && t.userId === req.user.id);
-    if (!tarea) return res.status(404).json({ error: 'No encontrada' });
-    Object.assign(tarea, req.body);
-    res.json(tarea);
-});
-
-app.delete('/api/tareas/:id', auth, (req, res) => {
-    const idx = tareas.findIndex(t => t.id === parseInt(req.params.id) && t.userId === req.user.id);
-    if (idx === -1) return res.status(404).json({ error: 'No encontrada' });
-    tareas.splice(idx, 1);
-    res.status(204).send();
-});
-
-app.listen(3000);
 ```
 
-</details>
+No manejes errores caso por caso. Crea un mecanismo genérico y reutilízalo.
 
-## Resumen
+## Integración con servicios externos
 
-- **REST**: recursos, verbos HTTP, stateless, URIs únicas
-- **JWT**: autenticación stateless con token firmado
-- **Middleware**: funciones intermedias (logging, auth, validación)
-- **Validación**: librerías como `express-validator` para datos de entrada
-- **Documentación**: Swagger/OpenAPI genera UI interactiva de la API
+Muchos proyectos DAW usan servicios de terceros:
+
+- **Email**: SendGrid, Mailtrap (para pruebas)
+- **Pagos**: Stripe (modo test, sin dinero real)
+- **Mapas**: Google Maps, Leaflet
+- **Autenticación**: Google Login, GitHub OAuth
+
+### Consejos para integrar servicios externos
+
+1. **Lee la documentación** antes de escribir código
+2. **Usa el modo test/sandbox** mientras desarrollas
+3. **Maneja los errores** del servicio externo (puede caerse)
+4. **No expongas claves API** en el frontend ni en el repositorio
+5. **Usa variables de entorno** para las configuraciones
+
+<CasoPractico titulo="La integración que salvó la presentación">
+
+  Un equipo había desarrollado una aplicación de reservas para restaurantes.
+  Una de las funcionalidades que más peso tenía era el envío de emails
+  de confirmación al hacer una reserva.
+
+  Durante el desarrollo, probaban con Mailtrap (que intercepta los emails
+  y no los envía de verdad). Todo funcionaba.
+
+  En la presentación, conectaron el servicio real de SendGrid. Y funcionó.
+  El tribunal recibió un email de confirmación en tiempo real. Ese detalle
+  marcó la diferencia: demostraba que la integración era real, no simulada.
+
+  **Lección**: integrar un servicio externo real (aunque sea en modo test)
+  aporta mucho valor a tu proyecto. Pero asegúrate de que funciona antes
+  del día de la defensa.
+</CasoPractico>
+
+## Checklist para tus integraciones
+
+- [ ] Frontend y backend hablan el mismo idioma (formato de datos)
+- [ ] Los errores tienen un formato coherente
+- [ ] La API está documentada (al menos los endpoints principales)
+- [ ] Las claves y configuraciones están en variables de entorno
+- [ ] Los servicios externos están en modo test/sandbox
+- [ ] He probado la comunicación entre partes con casos reales
+- [ ] Tengo un plan B si un servicio externo falla en la presentación

@@ -1,0 +1,24 @@
+---
+export interface Dialogo {
+  quien: string;
+  texto: string;
+}
+
+export interface Props {
+  dialogos: Dialogo[];
+  titulo?: string;
+}
+
+const { dialogos, titulo = "Análisis comparativo" } = Astro.props;
+---
+<div class="comp-dialogo">
+  <div class="comp-dialogo-header">⚖️ {titulo}</div>
+  <div class="comp-dialogo-body">
+    {dialogos.map((d, i) => (
+      <div class={`comp-dialogo-turno ${i % 2 === 0 ? 'opcion-a' : 'opcion-b'}`}>
+        <span class="comp-dialogo-quien">{d.quien}</span>
+        <p class="comp-dialogo-texto">{d.texto}</p>
+      </div>
+    ))}
+  </div>
+</div>

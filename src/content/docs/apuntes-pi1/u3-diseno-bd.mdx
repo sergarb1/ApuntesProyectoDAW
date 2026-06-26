@@ -1,304 +1,143 @@
 ---
-title: U3 - Diseño de Bases de Datos
-description: Modelo E/R, normalización, SQL DDL y DML, integridad referencial
+title: 🗄️ U3. Organizar los datos
+description: Cómo decidir qué información guardar, cómo estructurarla y qué herramientas usar
 ---
 
-## Objetivos de la unidad
+import StoryIntro from '../../../components/StoryIntro.astro';
+import Aclaracion from '../../../components/Aclaracion.astro';
+import Comparativa from '../../../components/Comparativa.astro';
+import CasoPractico from '../../../components/CasoPractico.astro';
 
-- Diseñar modelos entidad-relación a partir de requisitos
-- Transformar un modelo E/R a esquema relacional
-- Aplicar normalización hasta 3FN
-- Escribir sentencias SQL DDL y DML
-- Comprender la integridad referencial y las claves
+<StoryIntro icono="🎬" titulo="El día que los datos se descontrolaron">
+  Laura estaba orgullosa de su aplicación de recetas. Tenía registro,
+  búsqueda, valoraciones... pero algo fallaba. Cuando un usuario se
+  daba de baja, sus recetas favoritas desaparecían. Cuando dos usuarios
+  tenían el mismo nombre, se mezclaban sus datos.
 
-## Introducción
+  — "Es que no pensé bien cómo guardar la información", admitió.
 
-Una base de datos relacional organiza la información en tablas relacionadas entre sí mediante claves. El diseño adecuado es fundamental para garantizar la integridad, evitar redundancias y optimizar las consultas.
+  Laura había empezado creando una tabla "recetas" y, según necesitaba
+  más cosas, añadía columnas, tablas sueltas, y un par de archivos JSON
+  "temporales" que se volvieron permanentes.
 
-## Modelo Entidad-Relación (E/R)
+  El caos de datos es silencioso: no da error hasta que es demasiado tarde.
+</StoryIntro>
 
-### Entidades
+## Piensa en los datos antes de programar
 
-Una **entidad** es cualquier objeto o concepto del mundo real con existencia propia. Se representa con un rectángulo.
+Antes de escribir una sola función, pregúntate:
 
+- ¿Qué **entidades** existen en mi proyecto? (usuarios, productos, pedidos...)
+- ¿Qué **atributos** tiene cada una? (nombre, email, precio, fecha...)
+- ¿Cómo se **relacionan** entre sí? (un usuario tiene muchos pedidos)
+- ¿Qué **reglas** debo cumplir? (email único, precio positivo...)
+
+### De las ideas a las entidades
+
+Coge tu idea de proyecto y extrae los **sustantivos**. Esos son tus candidatos
+a entidades:
+
+> "Una aplicación donde **usuarios** pueden publicar **recetas**,
+> y otros **usuarios** pueden dejar **comentarios** y **valoraciones**"
+
+Entidades: `Usuario`, `Receta`, `Comentario`, `Valoracion`
+
+### Relaciones entre entidades
+
+Conéctalas. Pregunta: "¿cuántos?":
+
+- Un `Usuario` tiene muchas `Recetas` → 1 a N
+- Una `Receta` tiene muchos `Comentarios` → 1 a N
+- Un `Usuario` deja muchas `Valoraciones` → 1 a N
+- Una `Receta` tiene muchas `Valoraciones` → 1 a N
+
+<Aclaracion pregunta="¿Necesito siempre una base de datos relacional?">
+  No. Depende de lo que guardes:
+
+  - **Datos estructurados con relaciones** (usuarios ↔ pedidos) → SQL
+  - **Documentos flexibles** (catálogos, configuraciones) → NoSQL
+  - **Archivos** (imágenes, PDFs) → Sistema de archivos o cloud storage
+  - **Datos temporales** (sesiones, caché) → En memoria (Redis, etc.)
+
+  Para un proyecto DAW, lo normal es SQL (MySQL, PostgreSQL, SQLite).
+  Es lo que se enseña, lo más documentado, y suficiente para el 90% de los casos.
+</Aclaracion>
+
+## Del modelo conceptual al esquema
+
+No necesitas ser experto en bases de datos para hacer un buen diseño.
+Sigue estos pasos:
+
+### Paso 1: Dibuja las entidades y relaciones
+
+Con lápiz y papel o Draw.io:
 ```
-[CLIENTE]   [PRODUCTO]   [PEDIDO]
-```
-
-### Atributos
-
-Características de las entidades. Se representan con óvalos.
-
-- **Simples**: indivisibles (nombre, precio)
-- **Compuestos**: divisibles (dirección → calle, ciudad, CP)
-- **Clave primaria**: identifica unívocamente (subrayada)
-
-### Relaciones
-
-Conexiones entre entidades. Se representan con rombos.
-
-| Tipo | Notación | Ejemplo |
-|------|----------|---------|
-| 1:1 | Uno a uno | Persona ↔ DNI |
-| 1:N | Uno a muchos | Cliente → Pedidos |
-| M:N | Muchos a muchos | Producto ↔ Pedido |
-
-## Transformación E/R a Relacional
-
-### Reglas básicas
-
-1. Cada entidad → una tabla
-2. Cada atributo → una columna
-3. Clave primaria de la entidad → PK de la tabla
-4. Relación 1:N → añadir FK en la tabla del lado N
-5. Relación M:N → nueva tabla con las dos FK
-
-### Ejemplo
-
-Persona (1) → (N) Pedido → (N) ↔ (N) Producto
-
-```sql
-CREATE TABLE Persona (
-    id_persona INT PRIMARY KEY,
-    nombre VARCHAR(100),
-    email VARCHAR(100)
-);
-
-CREATE TABLE Pedido (
-    id_pedido INT PRIMARY KEY,
-    fecha DATE,
-    id_persona INT,
-    FOREIGN KEY (id_persona) REFERENCES Persona(id_persona)
-);
-
-CREATE TABLE Pedido_Producto (
-    id_pedido INT,
-    id_producto INT,
-    cantidad INT,
-    PRIMARY KEY (id_pedido, id_producto),
-    FOREIGN KEY (id_pedido) REFERENCES Pedido(id_pedido),
-    FOREIGN KEY (id_producto) REFERENCES Producto(id_producto)
-);
+[Usuario] ───< tiene >─── [Receta]
+   │                          │
+   └──< deja >── [Comentario] ┘
 ```
 
-## Normalización
+### Paso 2: Define los atributos clave
 
-La normalización elimina redundancias y anomalías en los datos.
+Para cada entidad, decide qué datos guardar. Empieza por los imprescindibles
+y añade solo lo que realmente necesitas:
 
-### 1ª Forma Normal (1FN)
+| Entidad | Atributos |
+|---------|-----------|
+| Usuario | id, nombre, email, password_hash, fecha_registro |
+| Receta | id, titulo, ingredientes, instrucciones, usuario_id, fecha |
+| Comentario | id, texto, usuario_id, receta_id, fecha |
 
-Cada celda contiene un único valor atómico. No hay grupos repetitivos.
+### Paso 3: Traduce a tablas
 
-| ❌ Incorrecto | ✅ Correcto |
-|--------------|------------|
-| id: 1, telefonos: "123,456" | id: 1, telefono: 123 |
-| | id: 1, telefono: 456 |
+Cada entidad → una tabla. Cada atributo → una columna.
+Las relaciones 1 a N → una clave foránea en la tabla "muchos".
 
-### 2ª Forma Normal (2FN)
+<Comparativa
+  dialogos={[
+    { quien: "Enfoque: diseñar primero", texto: "Dedico una tarde a dibujar el modelo de datos. Identifico entidades, relaciones y restricciones. Cuando programo, sé exactamente qué tablas crear." },
+    { quien: "Enfoque: crear sobre la marcha", texto: "Empiezo con una tabla y voy añadiendo columnas según las necesito. Si algo no encaja, creo otra tabla. Al final, el esquema es un laberinto." },
+  ]}
+  titulo="¿Modelar primero o sobre la marcha?"
+/>
 
-Estar en 1FN + todos los atributos no clave dependen de la clave completa.
+## Buenas prácticas para tus datos
 
-```sql
--- ❌ Incorrecto: precio depende solo de id_producto, no de (id_pedido, id_producto)
-CREATE TABLE LineaPedido (
-    id_pedido INT,
-    id_producto INT,
-    cantidad INT,
-    precio DECIMAL(10,2),  -- depende solo de id_producto
-    PRIMARY KEY (id_pedido, id_producto)
-);
+### Nombra bien las cosas
+- Tablas en plural y snake_case: `usuarios`, `recetas_favoritas`
+- Columnas descriptivas: `fecha_creacion`, `precio_unitario`
+- Clave primaria siempre `id`
 
--- ✅ Correcto: separar producto
-CREATE TABLE Producto (
-    id_producto INT PRIMARY KEY,
-    nombre VARCHAR(100),
-    precio DECIMAL(10,2)
-);
-CREATE TABLE LineaPedido (
-    id_pedido INT,
-    id_producto INT,
-    cantidad INT,
-    PRIMARY KEY (id_pedido, id_producto),
-    FOREIGN KEY (id_producto) REFERENCES Producto(id_producto)
-);
-```
+### No guardes lo que puedas calcular
+- Guarda `fecha_nacimiento`, no `edad` (la edad se calcula)
+- Guarda `precio_unitario` y `cantidad`, no `precio_total` (se calcula)
 
-### 3ª Forma Normal (3FN)
+### Protege los datos sensibles
+- Contraseñas → hash (bcrypt), nunca texto plano
+- Emails → pueden ser identificativos, trátalos con cuidado
+- Datos bancarios → no los guardes si no es estrictamente necesario
 
-Estar en 2FN + ningún atributo no clave depende transitivamente de la clave.
+<CasoPractico titulo="Una base de datos que creció sin control">
+  Un equipo hizo una aplicación para gestionar eventos. Empezaron con una
+  tabla `eventos` con columnas básicas. Según avanzaba el proyecto, fueron
+  añadiendo:
 
-```sql
--- ❌ Incorrecto: ciudad depende de codigo_postal, no directamente de id_cliente
-CREATE TABLE Cliente (
-    id_cliente INT PRIMARY KEY,
-    nombre VARCHAR(100),
-    codigo_postal VARCHAR(5),
-    ciudad VARCHAR(50)  -- depende de codigo_postal
-);
+  - `categoria` (texto libre → cada uno escribía "música", "Musica", "MUSICA")
+  - `organizador` (texto → a veces nombre, a veces email, a veces ID)
+  - `asistentes` (texto → lista separada por comas: "1,2,3,4")
+  - `imagenes` (otra tabla que no se llegó a conectar bien)
 
--- ✅ Correcto: separar en dos tablas
-CREATE TABLE Cliente (
-    id_cliente INT PRIMARY KEY,
-    nombre VARCHAR(100),
-    codigo_postal VARCHAR(5),
-    FOREIGN KEY (codigo_postal) REFERENCES Ciudad(codigo_postal)
-);
-CREATE TABLE Ciudad (
-    codigo_postal VARCHAR(5) PRIMARY KEY,
-    ciudad VARCHAR(50),
-    provincia VARCHAR(50)
-);
-```
+  El resultado: datos inconsistentes, consultas lentas, y bugs difíciles
+  de rastrear. Tuvieron que rehacer la base de datos a mitad de proyecto.
 
-## SQL DDL (Data Definition Language)
+  **Lección**: media hora diseñando el modelo de datos al principio habría
+  ahorrado semanas de trabajo. No hace falta ser experto, solo ordenado.
+</CasoPractico>
 
-```sql
--- Crear tabla
-CREATE TABLE Usuario (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    email VARCHAR(150) UNIQUE NOT NULL,
-    fecha_registro DATE DEFAULT CURRENT_DATE
-);
+## Preguntas clave para tu proyecto
 
--- Modificar tabla
-ALTER TABLE Usuario ADD COLUMN telefono VARCHAR(15);
-ALTER TABLE Usuario DROP COLUMN telefono;
-ALTER TABLE Usuario MODIFY COLUMN nombre VARCHAR(150);
-
--- Eliminar tabla
-DROP TABLE Usuario;
-DROP TABLE IF EXISTS Usuario;
-```
-
-## SQL DML (Data Manipulation Language)
-
-```sql
--- INSERT
-INSERT INTO Usuario (nombre, email) VALUES ('Ana García', 'ana@email.com');
-
--- SELECT
-SELECT * FROM Usuario;
-SELECT nombre, email FROM Usuario WHERE id = 1;
-
--- UPDATE
-UPDATE Usuario SET nombre = 'Ana López' WHERE id = 1;
-
--- DELETE
-DELETE FROM Usuario WHERE id = 1;
-```
-
-### Consultas con JOIN
-
-```sql
--- INNER JOIN: registros que coinciden en ambas tablas
-SELECT p.id_pedido, p.fecha, u.nombre
-FROM Pedido p
-INNER JOIN Usuario u ON p.id_usuario = u.id;
-
--- LEFT JOIN: todos los de la izquierda, aunque no coincidan
-SELECT u.nombre, p.id_pedido
-FROM Usuario u
-LEFT JOIN Pedido p ON u.id = p.id_usuario;
-
--- COUNT, GROUP BY, HAVING
-SELECT u.nombre, COUNT(p.id_pedido) AS num_pedidos
-FROM Usuario u
-LEFT JOIN Pedido p ON u.id = p.id_usuario
-GROUP BY u.id, u.nombre
-HAVING COUNT(p.id_pedido) > 0;
-```
-
-## Integridad referencial
-
-Las **foreign keys** garantizan que no existan referencias huérfanas.
-
-```sql
-CREATE TABLE Pedido (
-    id_pedido INT PRIMARY KEY,
-    id_usuario INT,
-    FOREIGN KEY (id_usuario) REFERENCES Usuario(id)
-    ON DELETE CASCADE     -- borra pedidos si se borra el usuario
-    ON UPDATE CASCADE     -- actualiza si cambia el id del usuario
-);
-```
-
-Tipos de acciones referenciales:
-
-| Acción | Comportamiento |
-|--------|---------------|
-| `CASCADE` | Propaga el cambio/borrado |
-| `SET NULL` | Pone la FK a NULL |
-| `RESTRICT` | Impide el borrado si hay referencias |
-| `NO ACTION` | Similar a RESTRICT |
-
-## Buenas prácticas
-
-1. **Siempre definir PK**: toda tabla debe tener una clave primaria
-2. **Usar nombres descriptivos**: `fecha_creacion` en vez de `fch`
-3. **Elegir tipos adecuados**: `INT` para IDs, `VARCHAR` para textos cortos, `TEXT` para largos
-4. **Indexar FK**: mejora el rendimiento de los JOIN
-5. **Documentar el esquema**: mantén un diagrama E/R actualizado
-
-## Ejercicio práctico
-
-Diseña una base de datos para una biblioteca:
-- Libros (ISBN, título, año, editorial)
-- Autores (id, nombre, nacionalidad)
-- Socios (id, nombre, email, teléfono)
-- Préstamos (fecha_prestamo, fecha_devolucion, id_socio, ISBN)
-
-Un libro puede tener varios autores. Un socio puede tomar prestados varios libros.
-
-<details>
-<summary>Solución SQL</summary>
-
-```sql
-CREATE TABLE Autor (
-    id_autor INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(150) NOT NULL,
-    nacionalidad VARCHAR(50)
-);
-
-CREATE TABLE Libro (
-    isbn VARCHAR(13) PRIMARY KEY,
-    titulo VARCHAR(200) NOT NULL,
-    anio_publicacion INT,
-    editorial VARCHAR(100)
-);
-
-CREATE TABLE Libro_Autor (
-    isbn VARCHAR(13),
-    id_autor INT,
-    PRIMARY KEY (isbn, id_autor),
-    FOREIGN KEY (isbn) REFERENCES Libro(isbn) ON DELETE CASCADE,
-    FOREIGN KEY (id_autor) REFERENCES Autor(id_autor) ON DELETE CASCADE
-);
-
-CREATE TABLE Socio (
-    id_socio INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(150) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    telefono VARCHAR(15)
-);
-
-CREATE TABLE Prestamo (
-    id_prestamo INT AUTO_INCREMENT PRIMARY KEY,
-    fecha_prestamo DATE NOT NULL,
-    fecha_devolucion DATE,
-    id_socio INT NOT NULL,
-    isbn VARCHAR(13) NOT NULL,
-    FOREIGN KEY (id_socio) REFERENCES Socio(id_socio),
-    FOREIGN KEY (isbn) REFERENCES Libro(isbn)
-);
-```
-
-</details>
-
-## Resumen
-
-- E/R modela entidades, atributos y relaciones del mundo real
-- Las relaciones M:N requieren tablas intermedias
-- La normalización (1FN, 2FN, 3FN) elimina redundancias
-- DDL define la estructura; DML manipula los datos
-- Las FK garantizan la integridad referencial
+- ¿Qué pasaría si esta tabla tuviera 10.000 filas?
+- ¿Un usuario puede tener 0 elementos de esta entidad?
+- ¿Qué reglas debo cumplir (email único, precio mínimo)?
+- ¿Qué pasa si elimino un usuario: cascada o solo ese registro?
+- ¿Necesito que algún campo sea único o combinación única?

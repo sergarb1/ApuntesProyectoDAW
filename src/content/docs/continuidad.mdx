@@ -1,62 +1,72 @@
 ---
-title: Continuidad PI1 → PI2
-description: Cómo los proyectos de 1º de DAW evolucionan hacia productos profesionales en 2º
+title: 🔄 Continuidad PI1 → PI2
+description: Cómo enlazar el trabajo de primer curso con el segundo
 ---
 
-import { CardGrid, Card } from '@astrojs/starlight/components';
+import StoryIntro from '../../components/StoryIntro.astro';
+import Aclaracion from '../../components/Aclaracion.astro';
 
-## De MVP a Producto Profesional
+<StoryIntro icono="🎬" titulo="El día que el proyecto volvió a empezar">
+  Septiembre. Segundo curso. El profesor dice: "El proyecto de PI1 era
+  la base. Ahora, en PI2, lo vais a convertir en algo serio".
 
-Una de las señas de identidad de este itinerario es que **los módulos no son independientes**. El proyecto que desarrollas en **Proyecto Intermodular I** (1º DAW) no se abandona al finalizar el curso: se convierte en la base del trabajo de **Proyecto Intermodular II** (2º DAW).
+  Abres el código que escribiste hace 3 meses y no entiendes nada.
+  Las variables se llaman `a`, `b`, `tmp`. Hay funciones de 300 líneas.
+  Y un comentario que pone "no tocar o explota".
 
-### ¿Qué significa esto en la práctica?
+  Bienvenido a PI2. El proyecto no empieza de cero, pero a veces
+  parece que sí.
+</StoryIntro>
 
-| PI1 (1º DAW) | PI2 (2º DAW) |
-|---|---|
-| Idea de negocio validada con Lean Canvas | Producto con modelo de negocio definido |
-| MVP funcional con funcionalidades básicas | Aplicación profesional con arquitectura sólida |
-| Base de datos simple | Base de datos optimizada y normalizada |
-| Interfaz básica (HTML/CSS/JS) | Frontend con framework moderno (React, Vue, Angular) |
-| Backend mínimo | API REST con autenticación y seguridad |
-| Sin tests | Tests unitarios, de integración y E2E |
-| Despliegue local o básico | Despliegue en cloud con Docker |
+## ¿Qué cambia de PI1 a PI2?
 
-### Flujo de Continuidad
+| Aspecto | PI1 | PI2 |
+|---------|-----|-----|
+| Enfoque | Construir un MVP | Evolucionar a producto completo |
+| Código base | Empezar de cero | Partir del código de PI1 |
+| Complejidad | Básico | Profesional |
+| Evaluación | Retos | Sprints |
+| Entregas | 5 retos | 7 sprints |
 
-<div class="note">
-  **1º DAW → Fin de curso → Evaluación PI1 → Verano → Inicio PI2 → Auditoría del MVP → Evolución → Producto final**
-</div>
+## Cómo preparar la transición
 
-### ¿Qué pasa si no cursé PI1 en este centro?
+### Durante los últimos meses de PI1
 
-Si llegas a PI2 sin haber cursado PI1 (por ejemplo, repitiendo curso o procedente de otro centro), el profesor te asignará un **proyecto base** sobre el que trabajar. También se contempla la posibilidad de partir de un proyecto de código abierto existente, previa aprobación del equipo docente.
+Grabáis el código de PI1 en un repositorio. Aseguraos de que el README
+explique cómo arrancar el proyecto y qué hace cada parte. No dejéis
+la documentación para el final.
 
-### ¿Qué se hereda de PI1?
+### Primeras semanas de PI2
 
-<CardGrid>
-  <Card title="Código fuente">
-    Todo el repositorio del proyecto PI1, incluyendo el historial Git completo
-  </Card>
-  <Card title="Documentación">
-    Memoria del proyecto, diagramas, manual de usuario y presentación
-  </Card>
-  <Card title="Base de datos">
-    Esquema, datos de prueba y scripts de inicialización
-  </Card>
-  <Card title="Feedback recibido">
-    Evaluaciones y sugerencias de mejora del tribunal de PI1
-  </Card>
-</CardGrid>
+No empecéis a codificar inmediatamente. Primero:
 
-### Criterios para la evolución
+1. **Revisad el código de PI1**: identificad qué salvar, qué rehacer, qué tirar
+2. **Haced inventario de deuda técnica**: funciones sin test, código duplicado...
+3. **Planificad la refactorización**: qué mejorar antes de añadir nada nuevo
+4. **Decidid qué conservar**: no todo el código de PI1 merece sobrevivir
 
-No se trata simplemente de "añadir más código". La evolución de PI1 a PI2 debe demostrar:
+### Qué conservar de PI1
 
-1. **Mejora arquitectónica**: refactorización, patrones de diseño, separación de capas
-2. **Profesionalización**: testing, CI/CD, documentación técnica, Docker
-3. **Ampliación funcional**: nuevas funcionalidades significativas
-4. **Calidad del despliegue**: entorno de producción real con dominio y HTTPS
+- La base de datos (si está bien diseñada)
+- La lógica de negocio que funcione
+- Las funcionalidades core (login, CRUD principal)
+- La documentación que ya tengáis
 
-<div class="warning">
-  No está permitido presentar en PI2 **exactamente el mismo proyecto** que en PI1 sin cambios sustanciales. El tribunal evaluará la evolución y mejora respecto a la versión anterior.
-</div>
+### Qué rehacer en PI2
+
+- La interfaz (si usabais HTML plano, ahora toca framework)
+- El código sin tests
+- Las partes que nunca llegaron a funcionar del todo
+- La arquitectura (si no estaba clara)
+
+<Aclaracion pregunta="¿Y si nuestro PI1 fue un desastre y apenas tenemos código aprovechable?">
+  No pasa nada. A veces es mejor **reconocerlo** y rehacer lo necesario
+  que intentar salvar código que lastrará todo PI2.
+
+  Hablad con el profesor. Explicadle la situación. Si el código de PI1
+  es insalvable, decidid juntos qué partes merece la pena conservar
+  (normalmente: la idea, el diseño, la base de datos) y cuáles rehacer.
+
+  Lo que no podéis hacer es fingir que el código de PI1 funciona cuando
+  sabéis que no. La sinceridad con el profesor es la mejor estrategia.
+</Aclaracion>

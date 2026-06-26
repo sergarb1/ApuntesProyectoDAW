@@ -1,349 +1,126 @@
 ---
-title: U9 - Metodologías Ágiles Avanzadas
-description: Scrum, planning poker, retrospectivas, gestión de producto
+title: 🔁 U9. Gestionar el proyecto
+description: "Cómo dirigir el proyecto hacia el éxito: retrospectivas, toma de decisiones y mejora continua"
 ---
 
-## Objetivos de la unidad
-
-- Comprender el framework Scrum en profundidad
-- Planificar y estimar sprints con técnicas ágiles
-- Realizar retrospectivas efectivas
-- Gestionar el backlog del producto
+import StoryIntro from '../../../components/StoryIntro.astro';
+import Aclaracion from '../../../components/Aclaracion.astro';
+import CasoPractico from '../../../components/CasoPractico.astro';
 
-## Introducción
+<StoryIntro icono="🎬" titulo="El día que miraron atrás y vieron todo lo aprendido">
+  Última semana de PI2. El equipo miraba el proyecto terminado.
+  Recordaban cómo empezaron: con una idea difusa, sin saber por dónde
+  tirar, con miedo a no llegar.
 
-Las metodologías ágiles avanzadas permiten a los equipos entregar software de calidad de forma iterativa e incremental. Scrum es el framework más adoptado, complementado con prácticas de XP y Kanban.
+  Ahora tenían una aplicación funcionando, desplegada, con tests,
+  documentada. No era perfecta, pero era suya. Y habían aprendido
+  más que en ninguna otra asignatura.
 
-## Scrum en profundidad
+  — "¿Qué haríais diferente si empezarais de nuevo?", preguntó el profesor.
 
-Scrum se basa en tres pilares: **transparencia**, **inspección** y **adaptación**.
+  Y ahí empezó la retrospectiva más importante del proyecto.
+</StoryIntro>
 
-### Roles
+## La retrospectiva: aprende de tu experiencia
 
-| Rol | Responsabilidad |
-|-----|-----------------|
-| **Product Owner** | Define el qué; gestiona el backlog, prioriza, representa al cliente |
-| **Scrum Master** | Facilita el proceso; elimina impedimentos, coach del equipo |
-| **Development Team** | Construye el incremento; auto-organizado, multifuncional (3-9 personas) |
+Una retrospectiva es una reunión donde el equipo reflexiona sobre
+lo que ha funcionado y lo que no. No es opcional: es cómo mejoras
+para la próxima vez.
 
-### Eventos
+### Cómo hacer una retrospectiva
 
-```
-Sprint (2-4 semanas)
-├── Sprint Planning (máx 8h para sprint de 4 semanas)
-│   ├── ¿Qué? (elegir items del backlog)
-│   └── ¿Cómo? (planificar la implementación)
-├── Daily Scrum (15 min, mismo lugar/hora)
-│   ├── ¿Qué hice ayer?
-│   ├── ¿Qué haré hoy?
-│   └── ¿Tengo impedimentos?
-├── Sprint Review (máx 4h)
-│   └── Demostrar el incremento, recibir feedback
-└── Sprint Retrospective (máx 3h)
-    └── ¿Qué mejorar? (Start, Stop, Continue)
-```
+Tres preguntas. Todos responden:
 
-### Artefactos
+1. **¿Qué salió bien?** (para repetirlo)
+2. **¿Qué salió mal?** (para evitarlo)
+3. **¿Qué haríamos diferente?** (para mejorar)
 
-| Artefacto | Descripción |
-|-----------|-------------|
-| **Product Backlog** | Lista priorizada de todo lo que necesita el producto |
-| **Sprint Backlog** | Items seleccionados para el sprint + plan de implementación |
-| **Increment** | Suma de todos los items completados en el sprint (potencialmente desplegable) |
-| **Definition of Done** | Criterios que debe cumplir un item para considerarse terminado |
+No vale "todo bien" ni "todo mal". Hay que ser específico.
 
-## Product Backlog
+| Qué salió bien | Qué salió mal | Qué haríamos diferente |
+|---------------|---------------|----------------------|
+| Nos coordinamos bien al principio | Dejamos la documentación para el final | Documentar desde el día 1 |
+| El diseño fue sólido | Subestimamos los tiempos | Multiplicar estimaciones por 2 |
+| La interfaz quedó profesional | No hicimos suficientes tests | Escribir tests antes del código |
 
-El backlog es una lista viva, priorizada por valor de negocio.
+### La retrospectiva no es un trámite
 
-```markdown
-## Product Backlog - Gestor de Tareas
+Si solo haces la retrospectiva porque el profesor la pide, pierdes
+su valor. La retrospectiva es para **ti**. Para que en tu próximo
+proyecto (trabajo de fin de ciclo, proyecto profesional) no cometas
+los mismos errores.
 
-### Prioridad Alta (MVP)
-| ID | Historia | Prioridad | Esfuerzo | Sprint |
-|----|----------|-----------|----------|--------|
-| P-01 | Como usuario quiero registrarme para acceder al sistema | Must | 5 | Sprint 1 |
-| P-02 | Como usuario quiero iniciar sesión para acceder a mis datos | Must | 3 | Sprint 1 |
-| P-03 | Como usuario quiero crear una tarea para organizar mi trabajo | Must | 3 | Sprint 2 |
-| P-04 | Como usuario quiero ver mi lista de tareas para gestionarlas | Must | 3 | Sprint 2 |
-| P-05 | Como usuario quiero marcar tareas como completadas | Must | 2 | Sprint 3 |
+<Aclaracion pregunta="¿Y si mi proyecto ha ido mal? ¿Merece la pena hacer retrospectiva?">
+  **Más** si ha ido mal. Es donde más se aprende.
 
-### Prioridad Media
-| P-06 | Como usuario quiero buscar tareas para encontrarlas rápido | Should | 5 | Sprint 3 |
-| P-07 | Como usuario quiero categorizar tareas por etiquetas | Should | 5 | Sprint 4 |
+  Un proyecto que ha ido mal pero del que sabes exactamente qué falló
+  y cómo evitarlo vale más que un proyecto perfecto del que no has
+  aprendido nada.
 
-### Prioridad Baja
-| P-08 | Como usuario quiero compartir tareas con otros usuarios | Could | 8 | - |
-| P-09 | Como usuario quiero recibir recordatorios por email | Could | 5 | - |
-```
+  Los errores no son fracasos. Son datos para la próxima vez.
+</Aclaracion>
 
-## Sprint Planning
+## Decisiones difíciles en la recta final
 
-### Definition of Done (DoD)
+En PI2 te enfrentarás a decisiones que en PI1 no surgieron:
 
-```markdown
-## Definition of Done - Proyecto DAW
+### "¿Recortamos funcionalidades o trabajamos fines de semana?"
+Siempre recorta funcionalidades. Tu salud y tu cordura valen más que
+un par de features extra. El tribunal prefiere un proyecto completo
+con menos funcionalidades que uno lleno de bugs.
 
-Para que una historia de usuario se considere **terminada**, debe cumplir:
-- [ ] Código implementado y subido a la rama main
-- [ ] Tests unitarios escritos y pasando (cobertura > 80%)
-- [ ] Code review aprobado por al menos un compañero
-- [ ] Documentación técnica actualizada (README, endpoints)
-- [ ] Pruebas manuales realizadas en entorno de desarrollo
-- [ ] Sin vulnerabilidades conocidas (npm audit)
-- [ ] Desplegado en entorno de staging y verificado
-```
+### "¿Refactorizamos o añadimos lo que falta?"
+Refactoriza solo si el código actual te impide avanzar. Si funciona
+y es mantenible, déjalo. Prioriza las funcionalidades que el tribunal
+va a evaluar.
 
-### Criterios de aceptación para un sprint
+### "¿Presentamos el proyecto aunque no esté perfecto?"
+Siempre. Un proyecto imperfecto pero presentado vale más que un proyecto
+perfecto pero no entregado. Y nunca sabes qué van a valorar del tribunal.
 
-```markdown
-## Sprint 1 - Autenticación
+## La gestión del equipo en PI2
 
-**Objetivo del sprint:** Permitir que los usuarios se registren e inicien sesión
+En PI2 el equipo ya se conoce. Ya sabe quién trabaja, quién no, quién
+se estresa, quién tira del carro. La clave ahora es **no perder
+la motivación**:
 
-**Historias:**
-1. P-01: Registro de usuario (5 puntos)
-2. P-02: Inicio de sesión (3 puntos)
-3. P-03: Cierre de sesión (1 punto)
+- Celebrad los hitos pequeños (primer test que pasa, primera pantalla)
+- Repartid el trabajo según las fortalezas de cada uno
+- Si alguien está sobrecargado, redistribuid
+- Si alguien no rinde, habladlo pronto y claro
 
-**Total puntos:** 9
+<CasoPractico titulo="La retrospectiva que cambió la forma de trabajar">
 
-**Riesgos:**
-- Integración con servicio de email para confirmación
-- Configuración de JWT por primera vez
+  Un equipo terminó PI1 con la sensación de que había ido regular.
+  No mal, pero tampoco bien. En la retrospectiva identificaron:
 
-**Capacidad del equipo:** 10 puntos/sprint (basado en velocidad histórica)
-```
+  **Qué falló**:
+  - No se reunían con regularidad
+  - Cada uno iba por libre
+  - Dejaron la documentación para el final
+  - Un miembro hizo mucho menos que los demás
 
-## Estimación con Planning Poker
-
-Planning Poker combina la sabiduría del grupo para estimar.
-
-### Secuencia de Fibonacci
-
-`1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ?`
-
-### Proceso
-
-1. El PO explica una historia
-2. El equipo discute y pregunta
-3. Cada miembro elige una carta en privado
-4. Se revelan las cartas simultáneamente
-5. Si hay diferencias grandes (ej: 3 vs 13), los extremos explican su razón
-6. Se repite hasta llegar a un consenso
-
-### Tabla de equivalencias (orientativa)
-
-| Puntos | Esfuerzo | Ejemplo |
-|--------|----------|---------|
-| 1 | Trivial | Cambiar color de un botón |
-| 2 | Sencillo | Añadir campo a un formulario |
-| 3 | Medio | Crear una pantalla simple |
-| 5 | Complejo | Implementar un CRUD completo |
-| 8 | Muy complejo | Integración con API externa |
-| 13 | Proyecto pequeño | Sistema de notificaciones completo |
-
-## Daily Scrum
-
-Reunión diaria de 15 minutos para sincronizar al equipo.
-
-```
-Ejemplo de Daily:
-
-Ana: "Ayer terminé el endpoint de registro con sus tests.
-      Hoy voy a empezar con el login.
-      No tengo impedimentos."
-
-Luis: "Ayer avancé el formulario de registro en el frontend.
-       Hoy voy a conectarlo con la API.
-       Necesito que alguien revise mi PR cuando pueda."
-
-Carlos: "Ayer estuve configurando JWT, lo tengo listo.
-        Hoy voy a ayudar a Luis con la conexión frontend-backend.
-        Mi impedimento es que no tengo acceso a la BD de staging."
-```
-
-## Sprint Review
-
-```markdown
-## Sprint Review - Sprint 1
-
-**Fecha:** 15/03/2026
-**Participantes:** PO, Scrum Master, Equipo, Stakeholders
-
-### Incremento completado
-- ✅ Registro de usuario con email y contraseña
-- ✅ Login con JWT
-- ✅ Cierre de sesión
-
-### Demo realizada
-1. Registrar nuevo usuario
-2. Iniciar sesión (verificar token)
-3. Cerrar sesión
-
-### Feedback recibido
-- PO: "¿Podríamos añadir login con Google en el futuro?"
-- Usuario prueba: "El formulario debería mostrar errores más claros"
-
-### Plan para próximo sprint
-- CRUD de tareas prioritario
-- Mejorar validación de formularios
-```
-
-## Sprint Retrospective
-
-```markdown
-## Sprint Retrospective - Sprint 1
-
-### Start (Empezar a hacer)
-- [ ] Pair programming en tareas complejas
-- [ ] Escribir tests antes del código (TDD)
-- [ ] Documentar decisiones técnicas
-
-### Stop (Dejar de hacer)
-- [x] Hacer commits gigantes de último momento
-- [x] Trabajar en rama main directamente
-
-### Continue (Seguir haciendo)
-- [x] Daily Scrum puntuales (15 min exactos)
-- [x] Code reviews rápidos (< 24h)
-- [x] Comunicación fluida en Discord
-
-### Action Items
-1. Ana y Luis harán pair programming en la integración frontend-backend
-2. Todo el equipo usará TDD para el Sprint 2
-3. Crear rama develop para integración continua
-
-**Voto de confianza:** 4.5/5
-```
-
-## Métricas ágiles
-
-### Velocidad (Velocity)
-
-Puntos completados por sprint. Útil para predecir capacidad futura.
-
-```
-Sprint 1: 9 puntos
-Sprint 2: 10 puntos
-Sprint 3: 11 puntos
-Sprint 4: 10 puntos
-Velocidad media: 10 puntos/sprint
-```
-
-### Burndown Chart
-
-```
-Puntos restantes
-   20 │ █
-   15 │ █ █
-   10 │ █ █ █
-    5 │ █ █ █ █
-    0 │ █ █ █ █ █
-      └─────────────────
-       1  2  3  4  5 (días del sprint)
-       ← línea ideal → ← línea real →
-```
-
-### Otros indicadores
-
-| Métrica | Qué mide |
-|---------|----------|
-| Velocidad | Puntos por sprint |
-| Lead Time | Tiempo desde que se pide hasta que se entrega |
-| Cycle Time | Tiempo desde que se empieza hasta que se entrega |
-| Throughput | Tareas completadas por unidad de tiempo |
-| Defect Rate | Bugs encontrados en producción / sprint |
-
-## Kanban complementario
-
-Para equipos que necesitan visualizar el flujo:
-
-```
-Backlog → To Do → In Progress → Review → Done
-   [P-01]   [P-04]   [P-02]      [P-03]   [P-05]
-   [P-06]   [P-07]
-              ↑
-           WIP limit: 2
-```
-
-### WIP Limits (Límites de trabajo en progreso)
-
-Evitan sobrecargar al equipo. Ejemplo para un equipo de 4:
-
-| Columna | Límite WIP |
-|---------|-----------|
-| To Do | - |
-| In Progress | 2 (por persona: 1 tarea activa + 1 bloqueada) |
-| Review | 2 (capacidad de code review) |
-| Done | - |
-
-## Herramientas ágiles
-
-| Herramienta | Uso |
-|-------------|-----|
-| **Jira** | Gestión de proyectos Scrum/Kanban |
-| **Trello** | Kanban simple para equipos pequeños |
-| **Notion** | Documentación + gestión de tareas |
-| **Linear** | Gestión ágil moderna, rápida |
-| **GitHub Projects** | Integrado con repositorios, automations |
-
-## Buenas prácticas
-
-1. **Sprints con fecha fija**: no extiendas el sprint; reduce el alcance
-2. **Definition of Done clara**: todos saben cuándo algo está terminado
-3. **Retrospectivas accionables**: cada retrospectiva debe generar al menos una mejora concreta
-4. **Velocidad sobre estimación**: usa datos históricos, no intuición
-5. **Equipo estable**: los cambios frecuentes de equipo reducen la velocidad
-
-## Ejercicio práctico
-
-Planifica un sprint de 2 semanas para tu proyecto:
-1. Selecciona 3-5 historias del backlog (prioriza Must)
-2. Estima con Planning Poker (usando Fibonacci)
-3. Define la Definition of Done
-4. Identifica riesgos potenciales
-5. Crea un burndown chart objetivo
-
-<details>
-<summary>Solución: Plantilla de Sprint</summary>
-
-```markdown
-# Sprint X - [Nombre del Sprint]
-
-**Duración:** 2 semanas (01/04 al 14/04)
-**Objetivo:** [Descripción clara del objetivo]
-
-## Historias seleccionadas
-| ID | Historia | Puntos |
-|----|----------|--------|
-| P-XX | Como [rol] quiero [acción] para [beneficio] | 5 |
-| P-YY | Como [rol] quiero [acción] para [beneficio] | 3 |
-| P-ZZ | Como [rol] quiero [acción] para [beneficio] | 3 |
-| **Total** | | **11** |
-
-## Definition of Done
-- [ ] Código en main con PR aprobado
-- [ ] Tests unitarios (cobertura > 80%)
-- [ ] Sin errores de lint
-- [ ] Documentado en README
-- [ ] Desplegado en staging
-
-## Riesgos
-- Dependencia externa (API de terceros)
-- Curva de aprendizaje (nueva librería)
-
-## Burndown Chart (objetivo)
-Día 1: 11 pts | Día 5: 6 pts | Día 10: 0 pts
-```
-
-</details>
-
-## Resumen
-
-- **Scrum**: roles (PO, SM, Dev Team), eventos (Planning, Daily, Review, Retro)
-- **Backlog**: lista priorizada de trabajo pendiente
-- **Planning Poker**: estimación colaborativa con Fibonacci
-- **DoD**: criterios claros para considerar una tarea terminada
-- **Métricas**: velocidad, burndown, lead time
-- **Retrospectiva**: mejora continua (Start, Stop, Continue)
+  **Qué harían diferente en PI2**:
+  - Reuniones cada 3 días, 15 minutos, sin falta
+  - Tablero Kanban compartido (GitHub Projects)
+  - Documentar a la vez que programaban
+  - Reparto explícito de tareas desde el principio
+
+  En PI2 aplicaron todo. No fue perfecto, pero fue mejor. Mucho mejor.
+  Terminaron con un proyecto más sólido y un equipo más unido.
+
+  **Lección**: un proyecto no es solo el código. Es el equipo, la
+  organización, la comunicación. Y eso se entrena. La retrospectiva
+  es la herramienta para entrenarlo.
+</CasoPractico>
+
+## Checklist para el final del proyecto
+
+- [ ] He hecho una retrospectiva con el equipo
+- [ ] Identifico lo que haría diferente la próxima vez
+- [ ] El proyecto está completo (no "casi" sino funcional)
+- [ ] He probado la aplicación de principio a fin
+- [ ] La memoria y la presentación están listas
+- [ ] He ensayado la presentación al menos una vez
+- [ ] Sé responder preguntas sobre decisiones técnicas
+- [ ] Estoy orgulloso del trabajo hecho (aunque no sea perfecto)

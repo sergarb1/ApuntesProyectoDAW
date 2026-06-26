@@ -1,358 +1,134 @@
 ---
-title: U1 - Arquitectura Web y Patrones
-description: MVC, capas, DTO/DAO, inyección de dependencias, buenas prácticas
+title: 🔧 U1. Evolucionar la arquitectura
+description: Cómo mejorar la estructura de tu proyecto sin romperlo, pagar deuda técnica y tomar decisiones de diseño
 ---
 
-## Objetivos de la unidad
+import StoryIntro from '../../../components/StoryIntro.astro';
+import Aclaracion from '../../../components/Aclaracion.astro';
+import CasoPractico from '../../../components/CasoPractico.astro';
 
-- Comprender la arquitectura en capas de una aplicación web
-- Implementar el patrón MVC en aplicaciones reales
-- Utilizar DTO y DAO para separar responsabilidades
-- Aplicar inyección de dependencias para código más testeable
+<StoryIntro icono="🎬" titulo="El día que miraron el código de PI1 y lloraron">
+  "¿Esto lo escribimos nosotros?".
 
-## Introducción
+  Al empezar PI2, el equipo abrió el proyecto de PI1. Lo que encontraron
+  era terrorífico: un archivo de 2000 líneas, funciones sin nombre,
+  comentarios como "no tocar esto o explota", y una mezcla de estilos
+  que Dolores Umbridge consideraría cruel e inusual.
 
-La arquitectura web define cómo se organizan los componentes de una aplicación. Una buena arquitectura facilita el mantenimiento, la escalabilidad y el testing.
+  Habían pasado 3 meses. La deuda técnica acumulada en PI1 les impedía
+  avanzar en PI2. Cada nueva funcionalidad requería descifrar código
+  que ni ellos mismos entendían.
+</StoryIntro>
 
-## Arquitectura en capas
+## La deuda técnica: qué es y por qué importa
 
-```
-┌───────────────────────────────────────────────┐
-│              Capa de Presentación             │
-│         (Frontend: HTML, CSS, JS)             │
-├───────────────────────────────────────────────┤
-│              Capa de Aplicación               │
-│          (Controladores, Servicios)           │
-├───────────────────────────────────────────────┤
-│              Capa de Dominio                  │
-│         (Entidades, Lógica de negocio)        │
-├───────────────────────────────────────────────┤
-│              Capa de Datos                    │
-│           (Repositorios, DAO)                 │
-├───────────────────────────────────────────────┤
-│              Base de Datos                    │
-└───────────────────────────────────────────────┘
-```
+La deuda técnica es como la deuda financiera: la contraes cuando tomas
+atajos para ir más rápido, pero **hay que pagarla con intereses**.
 
-Cada capa solo se comunica con la capa inmediatamente inferior.
+Ejemplos de deuda técnica:
+- Copiar y pegar código en vez de crear una función reutilizable
+- No escribir tests "porque no hay tiempo"
+- Usar nombres de variables como `a`, `tmp`, `cosa`
+- Dejar comentarios como "TODO: arreglar esto"
 
-## Patrón MVC (Modelo-Vista-Controlador)
+Al principio, la deuda no se nota. Pero cuando el proyecto crece,
+cada cambio cuesta más caro. Llega un punto en que es más rápido
+**rehacer** que **modificar**.
 
-### Flujo MVC
+### ¿Cuánta deuda tienes?
 
-```
-1. El usuario interactúa con la Vista (frontend)
-2. La Vista envía la petición al Controlador
-3. El Controlador procesa la petición y actualiza el Modelo
-4. El Modelo notifica cambios a la Vista
-5. La Vista se renderiza con los nuevos datos
-```
+| Señal | Gravedad |
+|-------|----------|
+| Archivos con más de 500 líneas | 🔴 Alta |
+| Funciones que hacen más de una cosa | 🟡 Media |
+| Sin tests | 🔴 Alta |
+| Variables mal nombradas | 🟢 Baja |
+| Código sin comentar (y no es obvio) | 🟡 Media |
+| Importaciones circulares | 🔴 Alta |
 
-### Ejemplo con Express (Node.js)
+## Cómo refactorizar sin romperlo todo
 
-```javascript
-// Modelo (capa de datos)
-// models/Tarea.js
-class TareaModel {
-    constructor(db) {
-        this.db = db;
-    }
+### Paso 1: Identifica qué mejorar
 
-    async findAll() {
-        const [rows] = await this.db.query('SELECT * FROM tareas');
-        return rows;
-    }
+No intentes arreglar todo a la vez. Prioriza:
 
-    async create(titulo, descripcion) {
-        const [result] = await this.db.execute(
-            'INSERT INTO tareas (titulo, descripcion) VALUES (?, ?)',
-            [titulo, descripcion]
-        );
-        return result.insertId;
-    }
-}
+1. Lo que más duele (cambiar una línea rompe todo)
+2. Lo que más usas (el código que tocas cada semana)
+3. Lo que más cuesta mantener (esa función que ya no sabes qué hace)
 
-// Controlador
-// controllers/tareaController.js
-class TareaController {
-    constructor(tareaModel) {
-        this.tareaModel = tareaModel;
-    }
+### Paso 2: Prepara el terreno
 
-    async listar(req, res) {
-        try {
-            const tareas = await this.tareaModel.findAll();
-            res.json(tareas);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    }
+Antes de cambiar nada, asegúrate de que puedes volver atrás:
+- Commit del estado actual
+- Crea una rama nueva para la refactorización
+- Si es posible, escribe tests que verifiquen el comportamiento actual
 
-    async crear(req, res) {
-        try {
-            const { titulo, descripcion } = req.body;
-            const id = await this.tareaModel.create(titulo, descripcion);
-            res.status(201).json({ id });
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    }
-}
+### Paso 3: Cambia poco y prueba
 
-// Vista (frontend - ejemplo con fetch)
-// public/index.html
-// fetch('/api/tareas').then(res => res.json()).then(tareas => { ... });
+Refactoriza en pequeñas iteraciones:
+1. Extrae una función → prueba
+2. Renombra una variable → prueba
+3. Divide un archivo → prueba
 
-// Enrutador
-// routes/tareaRoutes.js
-const express = require('express');
-const router = express.Router();
+No hagas todo a la vez o no sabrás qué rompió el cambio.
 
-function crearRutas(controller) {
-    router.get('/', (req, res) => controller.listar(req, res));
-    router.post('/', (req, res) => controller.crear(req, res));
-    return router;
-}
-```
+<Aclaracion pregunta="¿Merece la pena refactorizar o es mejor rehacer desde cero?">
+  Caso por caso:
 
-### Ejemplo con Spring Boot (Java)
+  - **Refactorizar**: cuando el código funciona, la estructura es decente
+    pero necesita mejoras. Es más seguro y rápido.
+  - **Rehacer**: cuando el código es tan malo que cuesta más entenderlo
+    que escribirlo de nuevo. Pero ojo, rehacer implica perder el tiempo
+    invertido. Solo hazlo si estás seguro de que no repites los mismos errores.
 
-```java
-// Modelo
-// com.example.model.Tarea.java
-@Entity
-public class Tarea {
-    @Id @GeneratedValue
-    private Long id;
-    private String titulo;
-    private String descripcion;
-    private boolean completada;
+  Para un proyecto DAW, refactorizar suele ser la opción correcta.
+</Aclaracion>
 
-    // Getters y setters
-}
+## Decisiones técnicas en PI2
 
-// Repositorio
-// com.example.repository.TareaRepository.java
-@Repository
-public interface TareaRepository extends JpaRepository<Tarea, Long> {
-}
+En PI2 tomarás decisiones que no te planteaste en PI1:
 
-// Controlador
-// com.example.controller.TareaController.java
-@RestController
-@RequestMapping("/api/tareas")
-public class TareaController {
+### ¿Framework frontend o HTML plano?
+Si tu interfaz es compleja, un framework (React, Vue, Svelte) te ayudará.
+Si son 3 pantallas, quizá no lo necesites.
 
-    @Autowired
-    private TareaRepository tareaRepository;
+### ¿API REST propia o usar un servicio externo?
+Una API propia te da control total. Un servicio externo (Firebase, Supabase)
+te ahorra trabajo pero te ata a ese proveedor.
 
-    @GetMapping
-    public List<Tarea> listar() {
-        return tareaRepository.findAll();
-    }
+### ¿Base de datos relacional o NoSQL?
+Si tus datos tienen relaciones claras, SQL. Si son documentos flexibles,
+NoSQL. Para un proyecto DAW, SQL suele ser suficiente.
 
-    @PostMapping
-    public Tarea crear(@RequestBody Tarea tarea) {
-        return tareaRepository.save(tarea);
-    }
-}
-```
+No hay respuestas universales. La respuesta correcta es **la que mejor
+se adapte a tu proyecto concreto**.
 
-## DTO (Data Transfer Object)
+<CasoPractico titulo="El proyecto que refactorizó a tiempo">
 
-Los DTO transfieren datos entre capas sin exponer la estructura interna de las entidades.
+  Un equipo llegó a PI2 con un proyecto funcional pero desordenado.
+  En lugar de añadir funcionalidades nuevas, dedicaron las dos primeras
+  semanas a refactorizar:
 
-```javascript
-// DTO de entrada
-class CrearTareaDTO {
-    constructor({ titulo, descripcion, fechaLimite }) {
-        this.titulo = titulo;
-        this.descripcion = descripcion;
-        this.fechaLimite = fechaLimite;
-    }
+  1. Dividieron el monolito en módulos (usuarios, productos, pedidos)
+  2. Extrajeron la lógica de negocio de los controladores a servicios
+  3. Renombraron variables y funciones para que fueran legibles
+  4. Añadieron tests a las partes más críticas
+  5. Documentaron la arquitectura
 
-    validar() {
-        if (!this.titulo || this.titulo.length < 3) {
-            throw new Error('El título debe tener al menos 3 caracteres');
-        }
-    }
-}
+  Perdieron dos semanas de "avance" en nuevas funcionalidades.
+  Pero a partir de entonces, cada nueva funcionalidad les llevaba
+  la mitad de tiempo que antes. Terminaron PI2 con un proyecto
+  sólido, bien estructurado y fácil de mantener.
 
-// DTO de salida
-class TareaResponseDTO {
-    constructor(tarea) {
-        this.id = tarea.id;
-        this.titulo = tarea.titulo;
-        this.estado = tarea.completada ? 'Completada' : 'Pendiente';
-        this.fechaLimite = tarea.fechaLimite;
-    }
-}
+  **Lección**: a veces la mejor manera de avanzar es parar, ordenar
+  la casa, y luego seguir. La deuda técnica no se paga sola.
+</CasoPractico>
 
-// Controlador usando DTO
-class TareaController {
-    async crear(req, res) {
-        try {
-            const dto = new CrearTareaDTO(req.body);
-            dto.validar();
-            const tarea = await this.tareaService.crear(dto);
-            res.status(201).json(new TareaResponseDTO(tarea));
-        } catch (error) {
-            res.status(400).json({ error: error.message });
-        }
-    }
-}
-```
+## Checklist para tu arquitectura
 
-## DAO (Data Access Object)
-
-El DAO encapsula el acceso a datos, permitiendo cambiar la fuente de datos sin afectar al resto.
-
-```javascript
-// Interfaz abstracta
-class TareaDAO {
-    async findAll() { throw new Error('Not implemented'); }
-    async findById(id) { throw new Error('Not implemented'); }
-    async create(tarea) { throw new Error('Not implemented'); }
-    async update(id, tarea) { throw new Error('Not implemented'); }
-    async delete(id) { throw new Error('Not implemented'); }
-}
-
-// Implementación con MySQL
-class TareaMySQLDAO extends TareaDAO {
-    constructor(pool) {
-        super();
-        this.pool = pool;
-    }
-
-    async findAll() {
-        const [rows] = await this.pool.query('SELECT * FROM tareas');
-        return rows;
-    }
-
-    async create(tarea) {
-        const [result] = await this.pool.execute(
-            'INSERT INTO tareas (titulo, descripcion) VALUES (?, ?)',
-            [tarea.titulo, tarea.descripcion]
-        );
-        return { id: result.insertId, ...tarea };
-    }
-}
-
-// Implementación con MongoDB
-class TareaMongoDAO extends TareaDAO {
-    constructor(collection) {
-        super();
-        this.collection = collection;
-    }
-
-    async findAll() {
-        return await this.collection.find().toArray();
-    }
-
-    async create(tarea) {
-        const result = await this.collection.insertOne(tarea);
-        return { _id: result.insertedId, ...tarea };
-    }
-}
-```
-
-## Inyección de Dependencias (DI)
-
-La DI permite desacoplar componentes pasando las dependencias desde fuera.
-
-### Sin DI (acoplado)
-
-```javascript
-// ❌ Acoplado: crea su propia dependencia
-class TareaController {
-    constructor() {
-        this.dao = new TareaMySQLDAO(pool);  // acoplamiento fuerte
-    }
-}
-```
-
-### Con DI (desacoplado)
-
-```javascript
-// ✅ Desacoplado: recibe la dependencia
-class TareaController {
-    constructor(tareaDAO) {
-        this.tareaDAO = tareaDAO;  // cualquier implementación
-    }
-}
-
-// Uso
-const mysqlDAO = new TareaMySQLDAO(pool);
-const controller = new TareaController(mysqlDAO);
-
-// Para tests
-class TareaMockDAO extends TareaDAO {
-    async findAll() { return [{ id: 1, titulo: 'Test' }]; }
-}
-const mockDAO = new TareaMockDAO();
-const testController = new TareaController(mockDAO);
-```
-
-### En Spring Boot (DI automática)
-
-```java
-@Service
-public class TareaService {
-    private final TareaRepository repository;
-
-    // Spring inyecta automáticamente
-    public TareaService(TareaRepository repository) {
-        this.repository = repository;
-    }
-
-    public List<Tarea> listar() {
-        return repository.findAll();
-    }
-}
-```
-
-## Buenas prácticas
-
-1. **Separación de responsabilidades**: cada capa tiene un propósito claro
-2. **DTOs para la API**: no expongas entidades directamente al frontend
-3. **DAO desacoplado**: programa contra interfaces, no implementaciones
-4. **Inyección de dependencias**: facilita el testing y los cambios
-5. **Capa de servicio**: incluye lógica de negocio entre el controlador y el DAO
-
-## Ejercicio práctico
-
-Refactoriza un CRUD monolítico para que use MVC + DAO + DI.
-
-<details>
-<summary>Solución: estructura de carpetas</summary>
-
-```
-src/
-├── controllers/
-│   └── usuarioController.js
-├── services/
-│   └── usuarioService.js
-├── dao/
-│   ├── usuarioDAO.js       (interfaz)
-│   └── usuarioMySQLDAO.js  (implementación)
-├── dtos/
-│   ├── crearUsuarioDTO.js
-│   └── usuarioResponseDTO.js
-├── models/
-│   └── usuario.js
-├── routes/
-│   └── usuarioRoutes.js
-├── middleware/
-│   └── errorHandler.js
-└── app.js
-```
-
-</details>
-
-## Resumen
-
-- **Arquitectura en capas**: presentación → aplicación → dominio → datos
-- **MVC**: Modelo (datos), Vista (UI), Controlador (lógica de enrutamiento)
-- **DTO**: transfiere datos entre capas de forma controlada
-- **DAO**: abstrae el acceso a datos, permite cambiar BD fácilmente
-- **DI**: las dependencias se inyectan, no se crean internamente
+- [ ] He identificado la deuda técnica que arrastro de PI1
+- [ ] Priorizo las refactorizaciones por impacto
+- [ ] Cada cambio va acompañado de tests
+- [ ] Tengo una estructura de carpetas coherente
+- [ ] Las decisiones técnicas están justificadas (no "porque sí")
+- [ ] El código es legible por alguien que no lo escribió

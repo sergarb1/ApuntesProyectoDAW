@@ -1,365 +1,134 @@
 ---
-title: U4 - Lenguajes de Marcas
-description: HTML5 semántico, XML, JSON, XSD, transformaciones
+title: 📄 U4. Documentar y comunicar
+description: "Cómo explicar tu proyecto de forma clara: memoria técnica, informes y presentación oral"
 ---
 
-## Objetivos de la unidad
+import StoryIntro from '../../../components/StoryIntro.astro';
+import Aclaracion from '../../../components/Aclaracion.astro';
+import CasoPractico from '../../../components/CasoPractico.astro';
 
-- Crear documentos HTML5 semánticos y accesibles
-- Comprender la estructura de XML y JSON
-- Definir esquemas XSD para validar XML
-- Transformar datos entre formatos
+<StoryIntro icono="🎬" titulo="El día que el tribunal no entendió nada">
+  Marcos había programado durante meses. Su aplicación funcionaba. Pero
+  cuando llegó a la defensa, el tribunal le preguntó:
 
-## Introducción
+  — "Explícanos la arquitectura de tu solución".
 
-Los lenguajes de marcas utilizan etiquetas para estructurar y describir la información. HTML presenta contenido web, XML transporta datos con estructura personalizada y JSON es el formato ligero más usado en APIs modernas.
+  Marcos sudaba. Había pasado tanto tiempo programando que no sabía
+  explicar lo que había hecho. Señalaba partes del código que ni él
+  recordaba bien. La memoria era un documento que había escrito la
+  noche anterior, con capturas de pantalla mal pegadas y frases copiadas
+  de internet.
 
-## HTML5 Semántico
+  Aprobó, pero raspado. Su proyecto era mejor que su presentación.
+  Y eso no debería pasar.
+</StoryIntro>
 
-HTML5 introduce etiquetas semánticas que describen el significado del contenido, mejorando la accesibilidad y el SEO.
+## Documentar no es opcional
 
-```html
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Proyecto</title>
-</head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/about">Sobre nosotros</a></li>
-            </ul>
-        </nav>
-    </header>
+La documentación no es un trámite aburrido que haces al final. Es la **carta
+de presentación** de tu proyecto. Una buena memoria puede salvar un proyecto
+regular. Una mala memoria puede hundir un proyecto excelente.
 
-    <main>
-        <article>
-            <header>
-                <h1>Título del artículo</h1>
-                <time datetime="2026-03-15">15 de marzo de 2026</time>
-            </header>
-            <p>Contenido del artículo...</p>
-        </article>
+### ¿Qué hay que documentar?
 
-        <aside>
-            <h2>Barra lateral</h2>
-            <p>Información relacionada</p>
-        </aside>
-    </main>
+En PI1 necesitas:
 
-    <footer>
-        <p>&copy; 2026 - Todos los derechos reservados</p>
-    </footer>
-</body>
-</html>
-```
+1. **Memoria del proyecto**: documento formal que explica todo tu trabajo
+2. **Presentación oral**: los minutos que tienes para defenderlo
+3. **Código comentado**: lo justo para que se entienda
 
-### Etiquetas semánticas principales
+## Cómo escribir una buena memoria
 
-| Etiqueta | Propósito |
-|----------|-----------|
-| `<header>` | Cabecera de página o sección |
-| `<nav>` | Navegación principal |
-| `<main>` | Contenido principal (único por página) |
-| `<article>` | Contenido independiente y reutilizable |
-| `<section>` | Agrupación temática de contenido |
-| `<aside>` | Contenido complementario |
-| `<footer>` | Pie de página o sección |
-| `<figure>` | Contenido ilustrado (imagen, diagrama) |
-| `<figcaption>` | Leyenda de figure |
+### Estructura recomendada
 
-### Formularios HTML5
+No inventes la rueda. Sigue esta estructura:
 
-```html
-<form action="/api/registro" method="POST">
-    <fieldset>
-        <legend>Datos personales</legend>
+| Sección | Qué poner | Extensión |
+|---------|-----------|-----------|
+| **Introducción** | Contexto, problema que resuelve, objetivo | 1-2 páginas |
+| **Análisis** | Requisitos, usuarios, estudio de alternativas | 2-3 páginas |
+| **Diseño** | Arquitectura, diagramas, decisiones técnicas | 3-4 páginas |
+| **Implementación** | Tecnologías, funcionalidades, capturas | 3-4 páginas |
+| **Pruebas** | Qué has probado y cómo | 1-2 páginas |
+| **Conclusiones** | Qué has aprendido, dificultades, trabajo futuro | 1 página |
 
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required minlength="2">
+### Reglas de oro
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+1. **Capturas de pantalla**: cada funcionalidad importante debe tener una
+2. **Diagramas**: un diagrama vale más que mil palabras
+3. **Código solo el relevante**: no copies el proyecto entero, solo fragmentos clave
+4. **Lenguaje formal pero claro**: ni "luego hice no sé qué" ni "en virtud de lo dispuesto"
+5. **Sin faltas de ortografía**: usa correctores. Las faltas restan seriedad
 
-        <label for="edad">Edad:</label>
-        <input type="number" id="edad" name="edad" min="16" max="99">
+<Aclaracion pregunta="¿Cuánto tiene que ocupar la memoria?">
+  No se mide en páginas, se mide en **contenido útil**. Una memoria de 20
+  páginas bien escritas, con diagramas y capturas, vale más que 80 páginas
+  de relleno.
 
-        <label for="pais">País:</label>
-        <select id="pais" name="pais">
-            <option value="">Selecciona...</option>
-            <option value="ES">España</option>
-            <option value="MX">México</option>
-        </select>
+  Como referencia: entre 30 y 60 páginas para PI1. Pero pregúntale a tu
+  profesor, que cada uno tiene su criterio.
+</Aclaracion>
 
-        <button type="submit">Enviar</button>
-    </fieldset>
-</form>
-```
+## Cómo hacer una presentación que no aburra
 
-## XML (eXtensible Markup Language)
+### La regla del minuto inicial
 
-XML es un lenguaje de marcas que define reglas para codificar documentos de forma legible por humanos y máquinas.
+En el primer minuto de tu presentación, el tribunal decide si le interesa
+tu proyecto. No empieces con:
+- "Bueno, nosotros hemos hecho una aplicación sobre..."
+- "Nuestro proyecto trata de..."
 
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<proyecto>
-    <titulo>Gestor de Tareas</titulo>
-    <version>1.0</version>
-    <equipo>
-        <miembro rol="desarrollador">
-            <nombre>Ana García</nombre>
-            <email>ana@example.com</email>
-        </miembro>
-        <miembro rol="tester">
-            <nombre>Luis Pérez</nombre>
-            <email>luis@example.com</email>
-        </miembro>
-    </equipo>
-    <tareas>
-        <tarea estado="completada">
-            <id>1</id>
-            <descripcion>Diseñar base de datos</descripcion>
-            <prioridad>alta</prioridad>
-        </tarea>
-        <tarea estado="en_progreso">
-            <id>2</id>
-            <descripcion>Implementar API REST</descripcion>
-            <prioridad>alta</prioridad>
-        </tarea>
-    </tareas>
-</proyecto>
-```
+Empieza con:
+- **El problema**: "Cada año, los estudiantes de DAW pierden apuntes..."
+- **La solución**: "Por eso hemos creado una plataforma donde..."
+- **Una demo rápida**: "Enseñémoslo ya"
 
-### Reglas XML
+### Estructura de una presentación de 10 minutos
 
-1. **Un único elemento raíz**: todo el contenido dentro de una etiqueta principal
-2. **Cierre obligatorio**: `<tarea></tarea>` o `<tarea />` (vacío)
-3. **Diferenciación mayúsculas/minúsculas**: `<Tarea>` ≠ `<tarea>`
-4. **Anidamiento correcto**: no mezclar aperturas/cierres
-5. **Atributos entre comillas**: `estado="completada"`
+| Minuto | Qué hacer |
+|--------|-----------|
+| 0-1 | Enganchar: problema + solución |
+| 1-3 | Demo rápida (lo más impactante primero) |
+| 3-5 | Explicar la arquitectura (sin tecnicismos) |
+| 5-7 | Decisiones técnicas importantes |
+| 7-8 | Dificultades y cómo las superaste |
+| 8-10 | Conclusiones y preguntas |
 
-## XSD (XML Schema Definition)
+### Lo que NO hacer
 
-XSD define la estructura, tipos y restricciones de un documento XML.
+- Leer diapositivas (el tribunal sabe leer)
+- Poner 20 líneas de código en una diapositiva
+- Usar letra tamaño 10 porque no cabe todo
+- Decir "esto se ve mal porque el proyector no funciona"
+- Hablar de espaldas al público mirando la pantalla
 
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:element name="proyecto">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="titulo" type="xs:string"/>
-                <xs:element name="version" type="xs:string"/>
-                <xs:element name="equipo" type="EquipoType"/>
-                <xs:element name="tareas" type="TareasType"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+<CasoPractico titulo="El proyecto bien hecho que casi suspende por la presentación">
 
-    <xs:complexType name="EquipoType">
-        <xs:sequence maxOccurs="unbounded">
-            <xs:element name="miembro" type="MiembroType"/>
-        </xs:sequence>
-    </xs:complexType>
+  Un equipo desarrolló un sistema de gestión para una pequeña biblioteca.
+  El código era limpio, la base de datos estaba bien normalizada, y el
+  testing cubría el 80% del código. Pero:
 
-    <xs:complexType name="MiembroType">
-        <xs:sequence>
-            <xs:element name="nombre" type="xs:string"/>
-            <xs:element name="email" type="xs:string"/>
-        </xs:sequence>
-        <xs:attribute name="rol" type="xs:string" use="required"/>
-    </xs:complexType>
+  - La memoria la entregaron con títulos mal formateados y sin índice
+  - Las capturas eran pequeñas y borrosas
+  - En la presentación, el portátil no se conectó al proyector y perdieron
+    5 minutos
+  - Leían las diapositivas sin mirar al tribunal
+  - Cuando les preguntaron por una decisión técnica, no supieron explicarla
 
-    <xs:complexType name="TareasType">
-        <xs:sequence maxOccurs="unbounded">
-            <xs:element name="tarea">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="id" type="xs:int"/>
-                        <xs:element name="descripcion" type="xs:string"/>
-                        <xs:element name="prioridad" type="PrioridadType"/>
-                    </xs:sequence>
-                    <xs:attribute name="estado" type="EstadoType" use="required"/>
-                </xs:complexType>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
+  **Resultado**: un 5 raspado. El profesor les dijo: "el proyecto merecía
+  más, pero no supisteis vendérmelo".
 
-    <xs:simpleType name="PrioridadType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="alta"/>
-            <xs:enumeration value="media"/>
-            <xs:enumeration value="baja"/>
-        </xs:restriction>
-    </xs:simpleType>
+  **Qué harían hoy**: ensayar la presentación 3 veces antes, tener un plan
+  B para el proyector, preparar respuestas a preguntas típicas, y dedicar
+  más tiempo a la memoria que al último detalle del código.
+</CasoPractico>
 
-    <xs:simpleType name="EstadoType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="completada"/>
-            <xs:enumeration value="en_progreso"/>
-            <xs:enumeration value="pendiente"/>
-        </xs:restriction>
-    </xs:simpleType>
-</xs:schema>
-```
+## Checklist para tu defensa
 
-## JSON (JavaScript Object Notation)
-
-JSON es un formato ligero de intercambio de datos, derivado de JavaScript.
-
-```json
-{
-    "proyecto": {
-        "titulo": "Gestor de Tareas",
-        "version": "1.0",
-        "equipo": [
-            {
-                "nombre": "Ana García",
-                "email": "ana@example.com",
-                "rol": "desarrollador"
-            },
-            {
-                "nombre": "Luis Pérez",
-                "email": "luis@example.com",
-                "rol": "tester"
-            }
-        ],
-        "tareas": [
-            {
-                "id": 1,
-                "descripcion": "Diseñar base de datos",
-                "prioridad": "alta",
-                "estado": "completada"
-            },
-            {
-                "id": 2,
-                "descripcion": "Implementar API REST",
-                "prioridad": "alta",
-                "estado": "en_progreso"
-            }
-        ]
-    }
-}
-```
-
-### Tipos de datos JSON
-
-| Tipo | Ejemplo |
-|------|---------|
-| String | `"Hola mundo"` |
-| Number | `42`, `3.14` |
-| Boolean | `true`, `false` |
-| Null | `null` |
-| Array | `[1, 2, 3]` |
-| Object | `{"clave": "valor"}` |
-
-### JSON vs XML
-
-| Característica | JSON | XML |
-|---------------|------|-----|
-| Legibilidad | Más compacto | Más verboso |
-| Tipos de datos | Nativos (string, number...) | Solo texto |
-| Metadatos | No tiene | Atributos, namespaces |
-| Validación | JSON Schema | XSD, DTD |
-| Uso típico | APIs REST, config | Documentos, SOAP |
-
-## Transformaciones entre formatos
-
-### JavaScript: XML ↔ JSON
-
-```javascript
-// Objeto a JSON
-const proyecto = { titulo: "Mi App", version: "1.0" };
-const json = JSON.stringify(proyecto, null, 2);
-
-// JSON a objeto
-const datos = JSON.parse(json);
-console.log(datos.titulo);
-```
-
-### Java: XML ↔ JSON con Jackson
-
-```java
-// JSON a objeto
-ObjectMapper mapper = new ObjectMapper();
-Proyecto p = mapper.readValue(jsonString, Proyecto.class);
-
-// Objeto a JSON
-String json = mapper.writerWithDefaultPrettyPrinter()
-    .writeValueAsString(proyecto);
-```
-
-## Buenas prácticas
-
-1. **HTML semántico**: usa etiquetas con significado, no `<div>` para todo
-2. **Accesibilidad**: añade `alt` en imágenes, `label` en formularios, `aria-*` donde necesario
-3. **JSON para APIs**: es más ligero y rápido de parsear que XML
-4. **Validar siempre**: usa XSD para XML y JSON Schema para JSON en producción
-5. **Indentación consistente**: mejora la legibilidad de cualquier formato
-
-## Ejercicio práctico
-
-Crea un documento XML que represente un catálogo de productos y su correspondiente XSD. Después, convierte esos datos a JSON.
-
-<details>
-<summary>Solución XML</summary>
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<catalogo>
-    <producto categoria="electronica">
-        <id>P001</id>
-        <nombre>Portátil ProBook</nombre>
-        <precio moneda="EUR">899.99</precio>
-        <stock>15</stock>
-    </producto>
-    <producto categoria="oficina">
-        <id>P002</id>
-        <nombre>Mesa escritorio</nombre>
-        <precio moneda="EUR">249.50</precio>
-        <stock>8</stock>
-    </producto>
-</catalogo>
-```
-
-</details>
-
-<details>
-<summary>Solución JSON equivalente</summary>
-
-```json
-{
-    "catalogo": [
-        {
-            "id": "P001",
-            "nombre": "Portátil ProBook",
-            "precio": 899.99,
-            "moneda": "EUR",
-            "categoria": "electronica",
-            "stock": 15
-        },
-        {
-            "id": "P002",
-            "nombre": "Mesa escritorio",
-            "precio": 249.50,
-            "moneda": "EUR",
-            "categoria": "oficina",
-            "stock": 8
-        }
-    ]
-}
-```
-
-</details>
-
-## Resumen
-
-- **HTML5**: estructura semántica para la web (header, main, article, footer)
-- **XML**: formato extensible y validable mediante XSD
-- **JSON**: formato ligero ideal para APIs y configuraciones
-- La validación (XSD/JSON Schema) garantiza la integridad de los datos
-- Elegir el formato adecuado depende del caso de uso
+- [ ] La memoria está completa, maquetada y sin faltas
+- [ ] He ensayado la presentación al menos 2 veces
+- [ ] Tengo plan B si falla el proyector o el portátil
+- [ ] Sé responder por qué elegí cada tecnología
+- [ ] Puedo explicar la arquitectura sin mirar apuntes
+- [ ] He preparado respuestas a posibles preguntas
+- [ ] La demo funciona sin conexión a internet (por si acaso)

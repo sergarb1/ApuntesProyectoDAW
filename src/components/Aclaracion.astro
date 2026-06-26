@@ -1,0 +1,17 @@
+---
+export interface Props {
+  pregunta: string;
+}
+
+const { pregunta } = Astro.props;
+---
+<details class="aclaracion">
+  <summary class="aclaracion-summary">
+    <span class="aclaracion-icon">❓</span>
+    <span class="aclaracion-pregunta">{pregunta}</span>
+    <span class="aclaracion-toggle">+</span>
+  </summary>
+  <div class="aclaracion-body">
+    <slot />
+  </div>
+</details>

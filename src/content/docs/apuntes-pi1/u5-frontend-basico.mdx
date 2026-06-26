@@ -1,399 +1,119 @@
 ---
-title: U5 - Desarrollo Frontend Básico
-description: CSS moderno, maquetación responsive, formularios, validación con JavaScript
+title: 🎨 U5. Construir la interfaz
+description: Cómo diseñar y construir la parte visual de tu proyecto pensando en quien la va a usar
 ---
 
-## Objetivos de la unidad
-
-- Maquetar páginas web con HTML y CSS moderno (Flexbox y Grid)
-- Diseñar interfaces responsive adaptadas a distintos dispositivos
-- Crear formularios funcionales con validación del lado del cliente
-- Utilizar JavaScript para interactividad básica
-
-## Introducción
-
-El frontend es la parte visible de una aplicación web. Combina HTML (estructura), CSS (estilo) y JavaScript (interactividad). Un frontend bien construido es responsive, accesible y ofrece buena experiencia de usuario.
-
-## CSS: del diseño básico a Flexbox y Grid
-
-### Selectores CSS
-
-```css
-/* Selector de elemento */
-p { color: gray; }
-
-/* Selector de clase */
-.destacado { background: yellow; }
-
-/* Selector de ID */
-#logo { width: 100px; }
-
-/* Selector anidado */
-nav ul li { display: inline; }
-
-/* Pseudo-clases */
-a:hover { color: blue; }
-input:focus { border-color: green; }
-```
-
-### Modelo de caja (Box Model)
-
-```css
-.elemento {
-    width: 300px;
-    padding: 20px;       /* espacio interno */
-    border: 2px solid black;
-    margin: 10px;        /* espacio externo */
-    box-sizing: border-box; /* incluye padding y border en width */
-}
-```
-
-### Flexbox
-
-Flexbox distribuye elementos en una dimensión (fila o columna).
-
-```css
-.contenedor-flex {
-    display: flex;
-    justify-content: center;     /* eje principal: center, space-between, flex-start */
-    align-items: center;         /* eje secundario */
-    flex-wrap: wrap;             /* permite saltar a siguiente línea */
-    gap: 16px;                   /* espacio entre items */
-}
-
-.item-flex {
-    flex: 1;                     /* crece para ocupar espacio disponible */
-    min-width: 200px;
-}
-```
-
-### Grid
-
-Grid distribuye elementos en dos dimensiones (filas y columnas).
-
-```css
-.contenedor-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
-    grid-template-rows: auto;
-    gap: 20px;
-    padding: 20px;
-}
-
-.card {
-    background: white;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-/* Ocupar varias columnas */
-.card-destacada {
-    grid-column: span 2;
-}
-```
-
-## Diseño responsive
-
-El diseño responsive adapta la interfaz al tamaño de la pantalla usando media queries.
-
-```css
-/* Móvil primero (base) */
-body { font-size: 16px; }
-.contenedor { padding: 10px; }
-
-/* Tablet (≥768px) */
-@media (min-width: 768px) {
-    .contenedor { padding: 20px; }
-    .grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-/* Escritorio (≥1024px) */
-@media (min-width: 1024px) {
-    .grid { grid-template-columns: repeat(3, 1fr); }
-    body { font-size: 18px; }
-}
-```
-
-### Unidades responsive
-
-| Unidad | Relativa a |
-|--------|-----------|
-| `%` | Elemento padre |
-| `em` | Tamaño fuente del padre |
-| `rem` | Tamaño fuente raíz (16px por defecto) |
-| `vw` | 1% del ancho del viewport |
-| `vh` | 1% del alto del viewport |
-| `clamp(min, preferido, max)` | Valor fluido entre mínimo y máximo |
-
-```css
-/* Tamaño fluido */
-h1 { font-size: clamp(1.5rem, 4vw, 3rem); }
-```
-
-## Formularios HTML5 y validación
-
-### Estructura de formulario
-
-```html
-<form id="registro" novalidate>
-    <div class="campo">
-        <label for="nombre">Nombre completo:</label>
-        <input type="text" id="nombre" name="nombre"
-               required minlength="3" maxlength="100"
-               placeholder="Ej: Ana García">
-        <span class="error" id="error-nombre"></span>
-    </div>
-
-    <div class="campo">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <span class="error" id="error-email"></span>
-    </div>
-
-    <div class="campo">
-        <label for="password">Contraseña:</label>
-        <input type="password" id="password" name="password"
-               required minlength="8"
-               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
-        <span class="error" id="error-password"></span>
-    </div>
-
-    <button type="submit">Registrarse</button>
-</form>
-```
-
-### CSS del formulario
-
-```css
-.campo {
-    margin-bottom: 1rem;
-}
-
-label {
-    display: block;
-    margin-bottom: 0.25rem;
-    font-weight: 600;
-}
-
-input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-input:focus {
-    outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
-}
-
-input.error {
-    border-color: #dc2626;
-}
-
-.error {
-    color: #dc2626;
-    font-size: 0.875rem;
-    display: none;
-}
-
-.error.visible {
-    display: block;
-}
-```
-
-### Validación con JavaScript
-
-```javascript
-const form = document.getElementById('registro');
-
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    let valido = true;
-
-    // Limpiar errores
-    document.querySelectorAll('.error').forEach(el => {
-        el.textContent = '';
-        el.classList.remove('visible');
-    });
-    document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
-
-    // Validar nombre
-    const nombre = document.getElementById('nombre');
-    if (nombre.value.trim().length < 3) {
-        mostrarError('error-nombre', 'El nombre debe tener al menos 3 caracteres');
-        nombre.classList.add('error');
-        valido = false;
-    }
-
-    // Validar email
-    const email = document.getElementById('email');
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email.value)) {
-        mostrarError('error-email', 'Introduce un email válido');
-        email.classList.add('error');
-        valido = false;
-    }
-
-    // Validar contraseña
-    const password = document.getElementById('password');
-    const passRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
-    if (!passRegex.test(password.value)) {
-        mostrarError('error-password',
-            'Mínimo 8 caracteres, una mayúscula, una minúscula y un número');
-        password.classList.add('error');
-        valido = false;
-    }
-
-    if (valido) {
-        alert('Formulario enviado correctamente');
-        form.submit();
-    }
-});
-
-function mostrarError(id, mensaje) {
-    const span = document.getElementById(id);
-    span.textContent = mensaje;
-    span.classList.add('visible');
-}
-```
-
-## Interactividad con JavaScript DOM
-
-```javascript
-// Seleccionar elementos
-const titulo = document.querySelector('h1');
-const items = document.querySelectorAll('.item');
-const contenedor = document.getElementById('app');
-
-// Modificar contenido
-titulo.textContent = 'Nuevo título';
-titulo.innerHTML = 'Texto con <strong>formato</strong>';
-
-// Modificar estilos
-titulo.style.color = '#2563eb';
-titulo.classList.add('destacado');
-titulo.classList.toggle('activo');
-titulo.classList.remove('inactivo');
-
-// Eventos
-const boton = document.querySelector('button');
-boton.addEventListener('click', () => {
-    alert('¡Has hecho clic!');
-});
-
-// Crear y añadir elementos
-const nuevoItem = document.createElement('li');
-nuevoItem.textContent = 'Elemento nuevo';
-nuevoItem.classList.add('item');
-document.querySelector('ul').appendChild(nuevoItem);
-
-// Fetch API (consumir datos)
-async function cargarUsuarios() {
-    try {
-        const respuesta = await fetch('/api/usuarios');
-        const usuarios = await respuesta.json();
-        usuarios.forEach(u => {
-            console.log(u.nombre);
-        });
-    } catch (error) {
-        console.error('Error al cargar:', error);
-    }
-}
-```
-
-## Buenas prácticas
-
-1. **Mobile first**: diseña primero para móvil, luego añade media queries para pantallas grandes
-2. **CSS modular**: usa clases específicas, evita estilos inline
-3. **Validación en cliente y servidor**: la del cliente mejora UX, la del servidor es obligatoria por seguridad
-4. **Separación de responsabilidades**: HTML estructura, CSS presenta, JS comporta
-5. **Accesibilidad**: contraste suficiente, etiquetas en formularios, navegación por teclado
-
-## Ejercicio práctico
-
-Crea una página web responsive que muestre un catálogo de productos (nombre, precio, imagen). Incluye un formulario de búsqueda que filtre los productos en tiempo real según lo que escribe el usuario.
-
-<details>
-<summary>Solución HTML + CSS + JS</summary>
-
-```html
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: system-ui, sans-serif; background: #f5f5f5; padding: 2rem; }
-        h1 { margin-bottom: 1rem; }
-        #busqueda {
-            width: 100%; padding: 0.75rem;
-            border: 2px solid #ddd; border-radius: 8px;
-            font-size: 1rem; margin-bottom: 2rem;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-        .producto {
-            background: white; border-radius: 8px;
-            padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .producto h3 { margin-bottom: 0.5rem; }
-        .producto .precio { color: #2563eb; font-weight: bold; font-size: 1.25rem; }
-        .oculto { display: none; }
-    </style>
-</head>
-<body>
-    <h1>Catálogo de productos</h1>
-    <input type="text" id="busqueda" placeholder="Buscar productos...">
-    <div class="grid" id="catalogo"></div>
-
-    <script>
-        const productos = [
-            { nombre: 'Portátil Pro', precio: 899 },
-            { nombre: 'Monitor 27"', precio: 349 },
-            { nombre: 'Teclado mecánico', precio: 89 },
-            { nombre: 'Ratón inalámbrico', precio: 45 },
-            { nombre: 'Auriculares BT', precio: 79 },
-            { nombre: 'Webcam HD', precio: 59 },
-        ];
-
-        function renderizarProductos(lista) {
-            const catalogo = document.getElementById('catalogo');
-            catalogo.innerHTML = lista.map(p => `
-                <div class="producto">
-                    <h3>${p.nombre}</h3>
-                    <p class="precio">${p.precio.toFixed(2)} €</p>
-                </div>
-            `).join('');
-        }
-
-        renderizarProductos(productos);
-
-        document.getElementById('busqueda').addEventListener('input', (e) => {
-            const filtro = e.target.value.toLowerCase();
-            const filtrados = productos.filter(p =>
-                p.nombre.toLowerCase().includes(filtro)
-            );
-            renderizarProductos(filtrados);
-        });
-    </script>
-</body>
-</html>
-```
-
-</details>
-
-## Resumen
-
-- **CSS**: Flexbox para layouts unidimensionales, Grid para bidimensionales
-- **Responsive**: media queries + unidades relativas + mobile first
-- **Formularios**: validación HTML5 + JavaScript para mejorar UX
-- **DOM**: JavaScript manipula la página en respuesta a eventos del usuario
+import StoryIntro from '../../../components/StoryIntro.astro';
+import Aclaracion from '../../../components/Aclaracion.astro';
+import CasoPractico from '../../../components/CasoPractico.astro';
+
+<StoryIntro icono="🎬" titulo="El día que la interfaz se interpuso">
+  Carla había programado el backend perfecto: rutas REST, base de datos
+  normalizada, autenticación JWT. Pero la interfaz la había hecho en dos
+  tardes, con colores elegidos al azar y botones que se movían según el
+  navegador.
+
+  Cuando se lo enseñó a un compañero, este no sabía ni por dónde empezar.
+  "¿Esto es un botón o un título?". "¿Dónde hago clic para registrarme?".
+
+  La interfaz es lo primero que ve el tribunal. Si es fea, confusa o rota,
+  da igual lo bien que funcione el backend: la primera impresión ya está
+  perdida.
+</StoryIntro>
+
+## La interfaz importa (y mucho)
+
+El usuario (y el tribunal) no ve tu base de datos, ni tu clean code, ni tu
+arquitectura en capas. Ven **pantallas**. Y si las pantallas son confusas,
+el proyecto parece malo, aunque por dentro sea una maravilla.
+
+### Piensa en el usuario, no en ti
+
+Pregúntate para cada pantalla:
+
+- ¿Sabe el usuario qué tiene que hacer aquí?
+- ¿Encuentra fácilmente lo que busca?
+- ¿Entiende los mensajes (errores, confirmaciones)?
+- ¿Puede usar la aplicación sin instrucciones?
+
+<Aclaracion pregunta="¿Y si no se me da bien el diseño visual?">
+  No necesitas ser diseñador gráfico. Basta con seguir principios básicos
+  y usar herramientas que te ayuden:
+
+  - Usa un **framework CSS** (Bootstrap, Tailwind) — te da componentes bonitos
+  - Sigue una **paleta de colores** coherente (coolors.co te ayuda)
+  - Elige una **tipografía** legible y úsala en todo el proyecto
+  - Usa **espaciado** generoso (lo que está muy junto parece amontonado)
+  - Coge **inspiración** de aplicaciones que te gusten
+
+  Si aún así dudas, pregúntale a un compañero: "¿esto se entiende?".
+  El feedback de otros usuarios es la mejor herramienta de diseño.
+</Aclaracion>
+
+## El proceso de construir la interfaz
+
+### Paso 1: Prototipo de baja fidelidad
+
+Dibuja tus pantallas en papel o con herramientas como **Balsamiq**, **Figma**,
+**Excalidraw**. No te preocupes por los colores ni las fuentes. Preocúpate
+por:
+
+- ¿Qué información muestra cada pantalla?
+- ¿Qué acciones puede hacer el usuario?
+- ¿Cómo navega de una pantalla a otra?
+
+### Paso 2: Prototipo interactivo
+
+Con **Figma** o **Adobe XD** puedes crear maquetas en las que se puede hacer
+clic. Pásaselas a un compañero y observa si sabe usarlas sin ayuda.
+
+### Paso 3: Implementación
+
+Traduce el prototipo a código. Empieza por la estructura HTML, luego los
+estilos, luego la interactividad con JavaScript.
+
+**Mobile-first**: diseña primero para pantalla pequeña, luego expande
+para escritorio. Es más fácil añadir que quitar.
+
+<CasoPractico titulo="La misma app, dos interfaces">
+
+  Dos equipos hicieron la misma aplicación: un gestor de tareas.
+
+  **Equipo A**:
+  - Lista de tareas con colores para cada prioridad
+  - Botón "+" visible y grande
+  - Los errores aparecen en rojo al lado del campo
+  - Diseño responsive (se ve bien en móvil y escritorio)
+  - Tiempo invertido en interfaz: 1 semana
+
+  **Equipo B**:
+  - Lista de tareas en texto plano, sin colores
+  - Botón de añadir pequeño y en la esquina
+  - Los errores son alert() de JavaScript
+  - Solo se ve bien en su pantalla (1920x1080)
+  - Tiempo invertido en interfaz: 2 días
+
+  **Resultado**: el Equipo A sacó mejor nota aunque ambos tuvieran la misma
+  funcionalidad. La interfaz cuidada marcó la diferencia.
+
+  **Lección**: la interfaz no es "lo que sobra después de programar".
+  Es parte del proyecto. Invierte tiempo en ella.
+</CasoPractico>
+
+## Lo que el tribunal mira en tu interfaz
+
+- **Consistencia**: todos los botones parecen botones, todos los enlaces parecen enlaces
+- **Claridad**: sé qué hace cada cosa sin tener que pensar
+- **Feedback**: cuando hago clic, pasa algo; si hay error, lo veo
+- **Responsive**: se ve bien en móvil, tablet y escritorio
+- **Accesibilidad mínima**: contraste suficiente, textos legibles
+
+## Checklist para tu interfaz
+
+- [ ] He dibujado las pantallas antes de programarlas
+- [ ] Uso un framework CSS para mantener la consistencia
+- [ ] Los mensajes de error son claros y están visibles
+- [ ] La aplicación funciona bien en móvil (al menos 375px de ancho)
+- [ ] He probado la interfaz con al menos una persona que no sea del equipo
+- [ ] Los tiempos de carga son aceptables
+- [ ] No hay texto cortado, elementos superpuestos ni enlaces rotos

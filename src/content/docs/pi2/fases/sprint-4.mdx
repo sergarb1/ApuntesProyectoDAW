@@ -1,0 +1,32 @@
+---
+title: "🧪 Sprint 4: Testing"
+description: Asegurar la calidad del código con pruebas automatizadas
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+
+<StoryIntro icono="🎬" titulo="Probar para no fallar">
+  Los tests no son un extra. Son la red de seguridad que te permite
+  cambiar código sin miedo a romperlo todo. En PI2 son obligatorios.
+</StoryIntro>
+
+## Objetivos
+
+- Escribir tests unitarios para las funciones críticas
+- Escribir tests de integración para los flujos principales
+- Configurar ejecución automática de tests (CI)
+- Alcanzar una cobertura mínima en las partes importantes
+
+## Entregables
+
+1. **Tests unitarios** (Jest, Vitest, JUnit)
+2. **Tests de integración** de la API
+3. **CI configurado** (GitHub Actions ejecutando tests)
+4. **Informe de cobertura** (opcional)
+
+## Consejos
+
+- Empieza por lo que más puede romperse (login, CRUD principal)
+- Escribe tests para bugs que ya hayas encontrado (regresión)
+- Los tests deben ser rápidos (si tardan 5 minutos, no los ejecutarás)
+- Un test que no se ejecuta automáticamente no sirve

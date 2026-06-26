@@ -1,0 +1,18 @@
+---
+export interface Props {
+  icono?: string;
+  titulo: string;
+}
+
+const { icono = "📖", titulo } = Astro.props;
+---
+<div class="story-intro">
+  <div class="story-intro-header">
+    <span class="story-intro-icon">{icono}</span>
+    <span class="story-intro-label">Contexto</span>
+    <h3>{titulo}</h3>
+  </div>
+  <div class="story-intro-body">
+    <slot />
+  </div>
+</div>

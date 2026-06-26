@@ -1,357 +1,159 @@
 ---
-title: U2 - Programación Orientada a Objetos
-description: Clases, objetos, herencia, interfaces, polimorfismo y excepciones
+title: 🏗️ U2. Diseñar la solución
+description: Cómo dividir el problema en partes manejables y estructurar tu proyecto antes de escribir código
 ---
 
-## Objetivos de la unidad
+import StoryIntro from '../../../components/StoryIntro.astro';
+import Aclaracion from '../../../components/Aclaracion.astro';
+import Comparativa from '../../../components/Comparativa.astro';
+import CasoPractico from '../../../components/CasoPractico.astro';
 
-- Comprender los principios de la POO: encapsulación, herencia, polimorfismo
-- Definir clases y crear objetos en Java y JavaScript
-- Utilizar herencia e interfaces para diseñar jerarquías
-- Manejar excepciones correctamente
+<StoryIntro icono="🎬" titulo="El día que el código se convirtió en espagueti">
+  Pablo empezó a codificar el mismo día que le dieron el proyecto.
+  "Total, ya sé lo que hay que hacer —una clase aquí, un método allá—".
 
-## Introducción
+  Dos semanas después, tenía 2000 líneas en un solo archivo.
+  Las funciones hacían tres cosas cada una. Cambiar el color de un botón
+  rompía la lógica de búsqueda. "¿Por qué pasa esto?", se preguntaba.
 
-La Programación Orientada a Objetos (POO) es un paradigma que organiza el código en torno a **objetos** que contienen datos (atributos) y comportamientos (métodos). Los cuatro pilares son: encapsulación, abstracción, herencia y polimorfismo.
+  Porque no diseñó la solución antes de escribir código.
+  Porque pensó que programar era solo escribir, y no es así.
+  Programar es **diseñar** primero para **escribir** después.
+</StoryIntro>
 
-## Clases y objetos
+## Por qué diseñar antes de codificar
 
-### Java
+Diseñar la solución es como hacer los planos de una casa antes de construirla.
+Puedes empezar a poner ladrillos directamente, pero probablemente te falten
+ventanas, los pasillos no lleven a ninguna parte, y el tejado se caiga.
 
-```java
-// Definición de clase
-public class Persona {
-    // Atributos (encapsulados)
-    private String nombre;
-    private int edad;
+Diseñar tu proyecto significa responder:
 
-    // Constructor
-    public Persona(String nombre, int edad) {
-        this.nombre = nombre;
-        this.edad = edad;
-    }
+- ¿Qué **partes** o **módulos** tiene mi aplicación?
+- ¿Cómo se **comunican** entre sí?
+- ¿Qué **responsabilidades** tiene cada una?
+- ¿Qué **datos** necesita cada parte?
 
-    // Getters y setters
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
-    public int getEdad() { return edad; }
-    public void setEdad(int edad) { this.edad = edad; }
+## Divide y vencerás
 
-    // Método
-    public void saludar() {
-        System.out.println("Hola, soy " + nombre);
-    }
-}
+Todo proyecto se puede dividir en partes más pequeñas. La clave está en
+elegir **cómo** dividirlo.
 
-// Uso
-Persona p = new Persona("Ana", 22);
-p.saludar();
-p.setEdad(23);
+### Por capas (la más común)
+
+```
+Interfaz de usuario  ←  lo que ve el usuario
+       ↓
+Lógica de negocio   ←  las reglas de tu aplicación
+       ↓
+Acceso a datos      ←  cómo guardas y recuperas información
 ```
 
-### JavaScript (ES6+)
+Cada capa se comunica solo con la de al lado. Así, si mañana cambias
+de base de datos, solo tocas la capa de datos. La interfaz sigue igual.
 
-```javascript
-class Persona {
-    constructor(nombre, edad) {
-        this._nombre = nombre;
-        this._edad = edad;
-    }
+### Por funcionalidades
 
-    // Getters y setters
-    get nombre() { return this._nombre; }
-    set nombre(valor) { this._nombre = valor; }
-    get edad() { return this._edad; }
-    set edad(valor) { this._edad = valor; }
-
-    saludar() {
-        console.log(`Hola, soy ${this._nombre}`);
-    }
-}
-
-const p = new Persona("Ana", 22);
-p.saludar();
-p.edad = 23;
+```
+├── Usuarios      (registro, login, perfil)
+├── Productos     (listar, crear, editar, eliminar)
+├── Pedidos       (crear, ver historial, estados)
+└── Pagos         (simulación de pago, factura)
 ```
 
-## Encapsulación
+Cada funcionalidad es independiente. Puedes trabajar en una sin romper otra.
 
-La encapsulación protege los datos internos de un objeto, permitiendo el acceso solo a través de métodos controlados.
+<Aclaracion pregunta="¿Y si mi proyecto es pequeño y no necesita tanta estructura?">
+  Todos los proyectos empiezan siendo pequeños. Pero el que crece sin
+  estructura se convierte en un caos imposible de mantener.
 
-| Nivel de acceso | Java | JavaScript |
-|----------------|------|------------|
-| Privado | `private` | `#` (privado real) |
-| Público | `public` | sin prefijo |
-| Protegido | `protected` | `_` (convención) |
+  No necesitas 15 capas ni patrones complejos. Con separar en 3-4 partes
+  bien definidas tienes suficiente. Lo importante es que cada parte tenga
+  una **responsabilidad clara** y no se mezclen.
 
-```javascript
-// JavaScript con campos privados
-class CuentaBancaria {
-    #saldo = 0;  // privado real
+  Piensa en ello como los cajones de un armario: aunque tengas poca ropa,
+  poner calcetines con calcetines y camisetas con camisetas te ahorrará
+  dolores de cabeza cuando tengas que encontrar algo.
+</Aclaracion>
 
-    constructor(titular) {
-        this.titular = titular;
-    }
+## Cómo documentar el diseño
 
-    ingresar(cantidad) {
-        if (cantidad > 0) this.#saldo += cantidad;
-    }
+No necesitas un documento de 50 páginas. Con estos diagramas basta:
 
-    obtenerSaldo() { return this.#saldo; }
-}
+### Diagrama de arquitectura (cajas y flechas)
+
+Dibuja las partes de tu aplicación y cómo se conectan. Herramientas:
+**Draw.io** (online, gratis), **Mermaid** (en Markdown), o lápiz y papel.
+
+```
+[Navegador] → [Servidor web] → [API] → [Base de datos]
+                                  ↓
+                          [Servicio de correo] (para emails)
 ```
 
-## Herencia
+### Diagrama de componentes
 
-### Java
+Para cada parte, enumera qué hace y qué necesita:
 
-```java
-public class Estudiante extends Persona {
-    private String curso;
+| Componente | Responsabilidad | Depende de |
+|-----------|----------------|------------|
+| Controlador de usuarios | Gestionar registro y login | Servicio de usuarios |
+| Servicio de usuarios | Validar datos, encriptar passwords | Repositorio de usuarios |
+| Repositorio de usuarios | Guardar/recuperar de BD | Base de datos |
 
-    public Estudiante(String nombre, int edad, String curso) {
-        super(nombre, edad);
-        this.curso = curso;
-    }
+<Comparativa
+  dialogos={[
+    { quien: "Diseño mínimo", texto: "Empiezo a codificar y voy decidiendo sobre la marcha. Si algo no encaja, lo muevo. Es más rápido al principio." },
+    { quien: "Diseño planificado", texto: "Dedico 2-3 días a dibujar la estructura antes de escribir código. Cuando programo, sé exactamente dónde va cada cosa. Pierdo tiempo al principio, pero lo recupero con creces después." },
+  ]}
+  titulo="¿Diseñar primero o sobre la marcha?"
+/>
 
-    @Override
-    public void saludar() {
-        System.out.println("Hola, soy " + getNombre() + " del curso " + curso);
-    }
-}
-```
+## Decisiones técnicas con criterio
 
-### JavaScript
+Cuando diseñas tu solución, tendrás que elegir tecnologías. Hazlo con criterio:
 
-```javascript
-class Estudiante extends Persona {
-    constructor(nombre, edad, curso) {
-        super(nombre, edad);
-        this.curso = curso;
-    }
+1. **No elijas lo que está de moda**, elige lo que resuelve tu problema
+2. **No uses una tecnología solo porque la conoces**, a veces merece la pena aprender algo nuevo
+3. **No cambies de tecnología a mitad del proyecto** a menos que sea estrictamente necesario
 
-    saludar() {
-        console.log(`Hola, soy ${this.nombre} del curso ${this.curso}`);
-    }
-}
-```
+Para cada decisión, pregúntate:
+- ¿Esta tecnología me ayuda a resolver el problema o me añade complejidad?
+- ¿Tengo tiempo para aprenderla o voy a estresarme?
+- ¿El equipo (si lo hay) la conoce o vamos a perder tiempo?
 
-## Interfaces (Java) / Duck Typing (JS)
+<CasoPractico titulo="El equipo que no diseñó nada">
+  Cuatro estudiantes decidieron hacer una app para alquilar apuntes entre
+  alumnos. Se repartieron el trabajo así:
+  - Persona A: pantalla de login
+  - Persona B: pantalla de subir apuntes
+  - Persona C: pantalla de buscar
+  - Persona D: base de datos
 
-### Java: interfaz explícita
+  Empezaron a codificar el día 1. A las dos semanas, Persona A había hecho
+  el login en React. Persona B había hecho "subir apuntes" en HTML plano.
+  Persona C había hecho la búsqueda con PHP. Persona D había creado una
+  base de datos en MySQL pero sin conectarla a nada.
 
-```java
-public interface Imprimible {
-    void imprimir();  // método abstracto
-}
+  Cuando intentaron unirlo todo, nada funcionaba. Cada uno había usado
+  tecnologías distintas, estilos diferentes, y los datos no se comunicaban.
 
-public class Factura implements Imprimible {
-    @Override
-    public void imprimir() {
-        System.out.println("Imprimiendo factura...");
-    }
-}
-```
+  **Lección**: diseñar la solución juntos, **antes** de escribir código,
+  habría evitado meses de frustración. Una tarde dibujando la arquitectura
+  habría ahorrado tres semanas de trabajo inútil.
 
-### JavaScript: sin interfaz explícita
+  **Qué harían hoy**: dedicar 2 días a decidir stack común, definir
+  la estructura de carpetas, acordar cómo se comunican las partes, y
+  hacer un prototipo esqueleto antes de que cada uno trabaje por su lado.
+</CasoPractico>
 
-JavaScript no tiene interfaces nativas, pero se usa "duck typing":
+## Checklist para tu proyecto
 
-```javascript
-class Factura {
-    imprimir() {
-        console.log("Imprimiendo factura...");
-    }
-}
+Antes de escribir la primera línea de código:
 
-function procesarImpresion(objeto) {
-    if (typeof objeto.imprimir === 'function') {
-        objeto.imprimir();
-    }
-}
-```
-
-## Polimorfismo
-
-```java
-// Java
-Persona[] personas = {
-    new Persona("Ana", 22),
-    new Estudiante("Luis", 20, "DAW")
-};
-
-for (Persona p : personas) {
-    p.saludar();  // cada uno ejecuta su versión
-}
-```
-
-```javascript
-// JavaScript
-const personas = [
-    new Persona("Ana", 22),
-    new Estudiante("Luis", 20, "DAW")
-];
-
-personas.forEach(p => p.saludar());
-```
-
-## Manejo de excepciones
-
-### Java (checked y unchecked)
-
-```java
-try {
-    int resultado = 10 / 0;  // ArithmeticException
-} catch (ArithmeticException e) {
-    System.out.println("Error: " + e.getMessage());
-} finally {
-    System.out.println("Siempre se ejecuta");
-}
-
-// throws: declarar excepción verificada
-public void leerArchivo() throws IOException {
-    FileReader fr = new FileReader("datos.txt");
-}
-```
-
-### JavaScript (try-catch-finally)
-
-```javascript
-try {
-    const resultado = 10 / 0;
-    if (!isFinite(resultado)) {
-        throw new Error("División por cero");
-    }
-} catch (error) {
-    console.error("Error:", error.message);
-} finally {
-    console.log("Siempre se ejecuta");
-}
-```
-
-## Clases abstractas (Java)
-
-```java
-public abstract class Figura {
-    protected String color;
-
-    public Figura(String color) {
-        this.color = color;
-    }
-
-    public abstract double calcularArea();  // obligatorio implementar
-}
-
-public class Circulo extends Figura {
-    private double radio;
-
-    public Circulo(String color, double radio) {
-        super(color);
-        this.radio = radio;
-    }
-
-    @Override
-    public double calcularArea() {
-        return Math.PI * radio * radio;
-    }
-}
-```
-
-## Buenas prácticas
-
-1. **Encapsular siempre**: atributos privados, getters/setters públicos
-2. **Composición sobre herencia**: prefiere tener objetos dentro de otros antes que heredar
-3. **Principio de responsabilidad única**: cada clase debe tener una sola razón para cambiar
-4. **DRY (Don't Repeat Yourself)**: no dupliques código, extrae a métodos o clases
-
-## Ejercicio práctico
-
-Crea un sistema para gestionar vehículos:
-- Clase base `Vehiculo` con atributos: marca, modelo, velocidadMaxima
-- Método `acelerar()` que aumente la velocidad
-- Clase `Coche` que hereda de `Vehiculo` y añade numPuertas
-- Clase `Moto` que hereda de `Vehiculo` y añade tieneSidecar
-- Sobrescribe `acelerar()` en cada subclase con mensajes distintos
-
-<details>
-<summary>Solución Java</summary>
-
-```java
-public abstract class Vehiculo {
-    protected String marca;
-    protected String modelo;
-    protected int velocidadMaxima;
-    protected int velocidadActual = 0;
-
-    public Vehiculo(String marca, String modelo, int velocidadMaxima) {
-        this.marca = marca;
-        this.modelo = modelo;
-        this.velocidadMaxima = velocidadMaxima;
-    }
-
-    public void acelerar(int incremento) {
-        velocidadActual = Math.min(velocidadActual + incremento, velocidadMaxima);
-    }
-}
-
-public class Coche extends Vehiculo {
-    private int numPuertas;
-
-    public Coche(String marca, String modelo, int velocidadMaxima, int numPuertas) {
-        super(marca, modelo, velocidadMaxima);
-        this.numPuertas = numPuertas;
-    }
-
-    @Override
-    public void acelerar(int incremento) {
-        super.acelerar(incremento);
-        System.out.println("Coche acelerando. Velocidad: " + velocidadActual + " km/h");
-    }
-}
-```
-
-</details>
-
-<details>
-<summary>Solución JavaScript</summary>
-
-```javascript
-class Vehiculo {
-    constructor(marca, modelo, velocidadMaxima) {
-        this.marca = marca;
-        this.modelo = modelo;
-        this.velocidadMaxima = velocidadMaxima;
-        this.velocidadActual = 0;
-    }
-
-    acelerar(incremento) {
-        this.velocidadActual = Math.min(
-            this.velocidadActual + incremento,
-            this.velocidadMaxima
-        );
-    }
-}
-
-class Coche extends Vehiculo {
-    constructor(marca, modelo, velocidadMaxima, numPuertas) {
-        super(marca, modelo, velocidadMaxima);
-        this.numPuertas = numPuertas;
-    }
-
-    acelerar(incremento) {
-        super.acelerar(incremento);
-        console.log(`Coche acelerando. Velocidad: ${this.velocidadActual} km/h`);
-    }
-}
-```
-
-</details>
-
-## Resumen
-
-- **Clase**: Plantilla para crear objetos
-- **Objeto**: Instancia de una clase con estado y comportamiento
-- **Encapsulación**: Ocultar datos internos, exponer solo lo necesario
-- **Herencia**: Una clase hereda atributos y métodos de otra
-- **Polimorfismo**: Misma interfaz, diferentes comportamientos
-- **Excepciones**: Mecanismo para manejar errores de forma controlada
+- [ ] He dividido el proyecto en 3-7 partes o módulos
+- [ ] Cada parte tiene una responsabilidad clara
+- [ ] He dibujado un diagrama de arquitectura
+- [ ] He elegido las tecnologías con criterio
+- [ ] El equipo (si existe) está de acuerdo con la estructura
+- [ ] He validado el diseño con el profesor

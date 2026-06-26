@@ -1,406 +1,143 @@
 ---
-title: U6 - Seguridad en Aplicaciones Web
-description: OWASP Top 10, cifrado, CORS, Helmet, buenas prácticas
+title: 🛡️ U6. Proteger la aplicación
+description: Cómo evitar los problemas de seguridad más comunes en aplicaciones web
 ---
 
-## Objetivos de la unidad
+import StoryIntro from '../../../components/StoryIntro.astro';
+import Aclaracion from '../../../components/Aclaracion.astro';
+import CasoPractico from '../../../components/CasoPractico.astro';
 
-- Identificar y prevenir las vulnerabilidades más comunes (OWASP Top 10)
-- Implementar cifrado de contraseñas y datos sensibles
-- Configurar CORS y cabeceras de seguridad
-- Aplicar buenas prácticas de seguridad en desarrollo
+<StoryIntro icono="🎬" titulo="El día que alguien borró la base de datos">
+  "Se me ocurrió probar a poner `'; DROP TABLE usuarios; --` en el campo
+  de búsqueda... y funcionó".
 
-## Introducción
+  Un estudiante, por curiosidad, probó un ataque de inyección SQL en el
+  proyecto de un compañero. La base de datos se borró entera. No había
+  backup. No había vuelta atrás.
 
-La seguridad web es crítica en cualquier aplicación. Las vulnerabilidades pueden exponer datos de usuarios, permitir accesos no autorizados o comprometer el servidor. Conocer y aplicar medidas preventivas es responsabilidad de todo desarrollador.
+  El proyecto no era público. No era un hacker malicioso. Fue un compañero
+  probando "por si acaso". Pero el daño fue el mismo.
 
-## OWASP Top 10 (2025)
+  La seguridad no es solo para protegerte de hackers. Es para protegerte
+  de **cualquier error** que pueda exponer o destruir tus datos.
+</StoryIntro>
 
-OWASP publica periódicamente las 10 vulnerabilidades web más críticas:
+## Seguridad no es opcional
 
-| # | Vulnerabilidad | Descripción |
-|---|---------------|-------------|
-| 1 | Control de Acceso Roto | Usuarios acceden a recursos sin permisos |
-| 2 | Fallos Criptográficos | Datos sensibles no cifrados |
-| 3 | Inyección | SQL, NoSQL, OS command injection |
-| 4 | Diseño Inseguro | Ausencia de controles de seguridad en el diseño |
-| 5 | Configuración Incorrecta | Puertos abiertos, cabeceras inseguras |
-| 6 | Componentes Vulnerables | Librerías desactualizadas |
-| 7 | Fallos de Autenticación | Sesiones débiles, contraseñas sin hash |
-| 8 | Integridad de Datos y Software | Actualizaciones no verificadas, CI/CD inseguro |
-| 9 | Monitoreo y Logging Insuficientes | No detectar intrusiones |
-| 10 | SSRF (Server-Side Request Forgery) | El servidor hace peticiones a destinos no previstos |
+Tu aplicación web almacena datos de usuarios: nombres, correos, contraseñas.
+Aunque sea un proyecto de clase, esos datos merecen protección.
 
-## Prevención de inyección SQL
+Además, el tribunal valora que tu aplicación sea **segura por diseño**,
+no que "no tenga errores de seguridad porque no la ha visto nadie".
 
-```javascript
-// ❌ VULNERABLE - concatenación directa
-app.get('/api/usuario', (req, res) => {
-    const id = req.query.id;
-    const sql = `SELECT * FROM usuarios WHERE id = ${id}`;
-    // Un atacante: ?id=1; DROP TABLE usuarios--
-});
+## Los 4 problemas más comunes (y cómo evitarlos)
 
-// ✅ SEGURO - prepared statements
-app.get('/api/usuario', async (req, res) => {
-    const [rows] = await pool.execute(
-        'SELECT * FROM usuarios WHERE id = ?',
-        [req.query.id]
-    );
-    res.json(rows);
-});
+### 1. Inyección SQL
+
+**El problema**: el usuario escribe código SQL en un campo de texto y
+la base de datos lo ejecuta.
+
+```sql
+-- Si haces: SELECT * FROM usuarios WHERE email = ' + input + '
+-- Y el usuario escribe: ' OR '1'='1
+-- La consulta se convierte en:
+SELECT * FROM usuarios WHERE email = '' OR '1'='1'  -- ¡devuelve todos los usuarios!
 ```
 
-### Validación y sanitización
+**Solución**: usa consultas parametrizadas, nunca concatenes strings.
 
 ```javascript
-const { body, validationResult } = require('express-validator');
+// ❌ MAL
+db.query("SELECT * FROM usuarios WHERE email = '" + email + "'");
 
-app.post('/api/comentarios',
-    body('texto')
-        .trim()                          // eliminar espacios
-        .escape()                        // escapar HTML (< → &lt;)
-        .isLength({ min: 1, max: 500 }), // longitud controlada
-    (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
-        // Almacenar comentario (ya sanitizado)
-    }
-);
+// ✅ BIEN
+db.execute("SELECT * FROM usuarios WHERE email = ?", [email]);
 ```
 
-## Cifrado de contraseñas
+### 2. Contraseñas en texto plano
 
-Nunca almacenes contraseñas en texto plano. Usa bcrypt (hash + salt).
+**El problema**: guardas la contraseña tal como la escribe el usuario.
+Si alguien accede a la base de datos, tiene todas las contraseñas.
 
-```bash
-npm install bcrypt
-```
+**Solución**: guarda siempre el **hash** de la contraseña, nunca la original.
 
 ```javascript
+// ❌ MAL
+usuario.password = req.body.password;
+
+// ✅ BIEN
 const bcrypt = require('bcrypt');
-const SALT_ROUNDS = 10;
-
-// Registrar usuario
-async function registrar(email, password) {
-    const hash = await bcrypt.hash(password, SALT_ROUNDS);
-    await db.execute(
-        'INSERT INTO usuarios (email, password) VALUES (?, ?)',
-        [email, hash]
-    );
-}
-
-// Verificar login
-async function login(email, password) {
-    const [rows] = await db.execute(
-        'SELECT * FROM usuarios WHERE email = ?',
-        [email]
-    );
-    if (rows.length === 0) return null;
-
-    const usuario = rows[0];
-    const valido = await bcrypt.compare(password, usuario.password);
-
-    return valido ? usuario : null;
-}
+usuario.password_hash = await bcrypt.hash(req.body.password, 10);
 ```
 
-### Otras medidas de autenticación
+### 3. Exposición de datos sensibles
+
+**El problema**: devuelves datos que no deberías (contraseñas, datos internos).
 
 ```javascript
-// Política de contraseñas
-function validarPassword(password) {
-    const minLength = 8;
-    const hasUpper = /[A-Z]/.test(password);
-    const hasLower = /[a-z]/.test(password);
-    const hasNumber = /\d/.test(password);
-    const hasSpecial = /[!@#$%^&*]/.test(password);
+// ❌ MAL: devuelves la contraseña (aunque sea hash)
+res.json(usuario);
 
-    return password.length >= minLength
-        && hasUpper && hasLower
-        && hasNumber && hasSpecial;
-}
-
-// Rate limiting (evitar fuerza bruta)
-const rateLimit = require('express-rate-limit');
-
-const loginLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000,  // 15 minutos
-    max: 5,                      // 5 intentos
-    message: { error: 'Demasiados intentos. Intenta de nuevo en 15 minutos' }
-});
-
-app.post('/api/login', loginLimiter, loginController);
+// ✅ BIEN: filtras lo que devuelves
+res.json({ id: usuario.id, nombre: usuario.nombre, email: usuario.email });
 ```
 
-## Cabeceras de seguridad con Helmet
+### 4. Falta de validación
 
-Helmet configura cabeceras HTTP de seguridad automáticamente.
+**El problema**: confías en que el cliente siempre envía datos correctos.
 
-```bash
-npm install helmet
-```
+**Solución**: valida **siempre** en el servidor. La validación del frontend
+es para mejorar la experiencia, no para proteger los datos.
 
-```javascript
-const helmet = require('helmet');
+<Aclaracion pregunta="¿Necesito HTTPS para un proyecto de clase?">
+  Sí. Si tu aplicación tiene formularios de login o registro, los datos
+  viajan por la red. Sin HTTPS, cualquiera en la misma red wifi puede
+  ver las contraseñas.
 
-app.use(helmet());
+  Plataformas como Vercel, Netlify, o Render ofrecen HTTPS gratis.
+  Si desplegáis en GitHub Pages, también lo tiene.
 
-// Configuración personalizada
-app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'self'"],
-            scriptSrc: ["'self'", "'unsafe-inline'"],
-            styleSrc: ["'self'", "'unsafe-inline'"],
-            imgSrc: ["'self'", "https:", "data:"],
-            connectSrc: ["'self'", "https://api.mi-app.com"],
-        },
-    },
-    // Forzar HTTPS
-    hsts: {
-        maxAge: 31536000,
-        includeSubDomains: true,
-        preload: true,
-    },
-}));
-```
+  No hay excusa para no usarlo.
+</Aclaracion>
 
-### Cabeceras que Helmet configura
+## Buenas prácticas diarias
 
-| Cabecera | Protege contra |
-|----------|---------------|
-| `Content-Security-Policy` | XSS, inyección de scripts |
-| `X-Content-Type-Options` | MIME sniffing |
-| `X-Frame-Options` | Clickjacking |
-| `Strict-Transport-Security` | Ataques MITM (HTTPS forzado) |
-| `X-XSS-Protection` | XSS reflejado (legacy) |
-| `Referrer-Policy` | Fugas de URL en referrer |
+Además de lo anterior, incorpora estos hábitos:
 
-## CORS (Cross-Origin Resource Sharing)
+1. **Variables de entorno**: nunca hardcodees claves, tokens o URLs
+2. **Principio de mínimo privilegio**: el usuario solo accede a lo que necesita
+3. **Validación en servidor**: el frontend miente, el backend protege
+4. **Logs sin datos sensibles**: no registres contraseñas ni tokens en los logs
+5. **Dependencias actualizadas**: `npm audit` o `mvn dependency-check` periódicamente
 
-CORS controla qué dominios pueden acceder a tu API.
+<CasoPractico titulo="El proyecto que filtró datos sin querer">
 
-```bash
-npm install cors
-```
+  Un equipo desarrolló una API para una tienda online. En el endpoint
+  `/api/usuarios/:id` devolvían el objeto completo del usuario, incluyendo
+  `password_hash` y `token_recuperacion`.
 
-```javascript
-const cors = require('cors');
+  Durante el desarrollo no pasó nada porque solo ellos lo usaban.
+  Pero en la presentación, el profesor pidió ver la respuesta de la API
+  y, usando el inspector del navegador, vio que en la respuesta aparecía
+  el hash de la contraseña.
 
-// ❌ Permitir todo (solo desarrollo)
-app.use(cors());
+  No era un fallo crítico (el hash no se puede revertir), pero demostraba
+  que no habían pensado en qué datos exponer. El profesor les preguntó:
+  "¿Y si esto fuera un proyecto real? ¿Qué pasaría?".
 
-// ✅ Configuración específica
-app.use(cors({
-    origin: [
-        'https://miapp.com',
-        'https://admin.miapp.com',
-    ],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,                 // cookies/tokens
-    maxAge: 86400,                     // cachear preflight 24h
-}));
+  No suspendieron, pero perdieron puntos en el apartado de seguridad.
 
-// Para rutas específicas
-app.get('/api/publica', cors(), (req, res) => {
-    res.json({ data: 'accesible desde cualquier origen' });
-});
-```
+  **Lección**: revisa qué datos devuelve cada endpoint de tu API.
+  Si no es necesario que el cliente lo vea, no lo devuelvas.
+</CasoPractico>
 
-## Protección CSRF
+## Checklist para la seguridad
 
-```bash
-npm install csurf
-```
-
-```javascript
-// Envío de formularios: incluir token CSRF
-// Cada formulario incluye un token único que el servidor verifica
-
-// Alternativa moderna: SameSite cookies
-app.use(require('cookie-parser')());
-app.use(require('csurf')({ cookie: true }));
-
-// En las vistas
-// <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-```
-
-## XSS (Cross-Site Scripting)
-
-```javascript
-// ❌ VULNERABLE - renderizar HTML directamente
-function mostrarComentario(comentario) {
-    elemento.innerHTML = comentario;
-    // <script>alert('xss')</script> se ejecutaría
-}
-
-// ✅ SEGURO - usar textContent
-function mostrarComentario(comentario) {
-    elemento.textContent = comentario;
-}
-
-// En React/Vue: el framework escapa automáticamente
-// ❌ Peligroso en React:
-<div dangerouslySetInnerHTML={{ __html: comentario }} />
-// ✅ Seguro (React escapa por defecto):
-<div>{comentario}</div>
-```
-
-## Seguridad en JWT
-
-```javascript
-const jwt = require('jsonwebtoken');
-
-const SECRET = process.env.JWT_SECRET;  // ← variable de entorno, nunca en código
-
-// Token con información mínima
-const token = jwt.sign(
-    {
-        id: usuario.id,
-        rol: usuario.rol,
-        // NO incluir: password, tarjetas, datos sensibles
-    },
-    SECRET,
-    {
-        expiresIn: '24h',
-        issuer: 'mi-app',
-        audience: 'mi-app-frontend',
-    }
-);
-
-// Verificar
-try {
-    const decoded = jwt.verify(token, SECRET, {
-        issuer: 'mi-app',
-        audience: 'mi-app-frontend',
-    });
-    req.usuario = decoded;
-} catch (err) {
-    return res.status(403).json({ error: 'Token inválido o expirado' });
-}
-```
-
-## Variables de entorno (.env)
-
-```txt
-# .env (NUNCA subir a Git)
-JWT_SECRET=clave-super-segura-2026
-DB_HOST=localhost
-DB_USER=app_user
-DB_PASS=contraseña_segura_123
-DB_NAME=mi_proyecto
-PORT=3000
-NODE_ENV=production
-```
-
-```txt
-# .gitignore
-.env
-.env.local
-.env.production
-```
-
-```javascript
-// Cargar variables
-require('dotenv').config();
-
-const dbConfig = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-};
-```
-
-## Buenas prácticas generales
-
-1. **Principio de mínimo privilegio**: cada usuario/rol solo accede a lo necesario
-2. **Defense in depth**: múltiples capas de seguridad (no confíes en una sola medida)
-3. **Validar todo**: nunca confíes en datos del cliente (frontend ni backend)
-4. **Actualizar dependencias**: usa `npm audit` regularmente, Dependabot en GitHub
-5. **Logging de seguridad**: registra intentos de acceso, errores de autenticación
-6. **HTTPS siempre**: redirige HTTP a HTTPS, usa HSTS
-
-## Ejercicio práctico
-
-Audita y corrige las vulnerabilidades de este código:
-
-```javascript
-// ❌ ¿Qué vulnerabilidades tiene?
-app.get('/api/usuario', (req, res) => {
-    const id = req.query.id;
-    const sql = "SELECT * FROM usuarios WHERE id = " + id;
-    db.query(sql, (err, result) => {
-        res.send(result);
-    });
-});
-```
-
-<details>
-<summary>Solución</summary>
-
-```javascript
-// ✅ Versión segura
-const { param, validationResult } = require('express-validator');
-const helmet = require('helmet');
-const cors = require('cors');
-const rateLimit = require('express-rate-limit');
-
-app.use(helmet());
-app.use(cors({ origin: process.env.ALLOWED_ORIGINS?.split(',') }));
-
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100
-});
-app.use('/api/', limiter);
-
-app.get('/api/usuario/:id',
-    param('id').isInt().withMessage('ID debe ser numérico'),
-    async (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
-
-        try {
-            const [rows] = await pool.execute(
-                'SELECT id, nombre, email FROM usuarios WHERE id = ?',
-                [req.params.id]
-            );
-            if (rows.length === 0) {
-                return res.status(404).json({ error: 'No encontrado' });
-            }
-            res.json(rows[0]);
-        } catch (error) {
-            console.error('Error al buscar usuario:', error);
-            res.status(500).json({ error: 'Error interno' });
-        }
-    }
-);
-```
-
-**Vulnerabilidades corregidas:**
-1. Inyección SQL (concatenación) → prepared statements
-2. Exposición de datos (SELECT *) → solo columnas necesarias
-3. No validación de entrada → express-validator
-4. Error expuesto al cliente → logging + mensaje genérico
-5. Sin cabeceras de seguridad → helmet
-6. Sin rate limiting → express-rate-limit
-7. Sin CORS configurado → cors con orígenes permitidos
-8. No usa parámetro de ruta → :id en lugar de query string
-
-</details>
-
-## Resumen
-
-- **OWASP Top 10**: guía de las vulnerabilidades más críticas
-- **Inyección**: siempre prepared statements, validación y sanitización
-- **Cifrado**: bcrypt para contraseñas, JWT con secret fuerte
-- **Helmet**: cabeceras HTTP de seguridad en una línea
-- **CORS**: control de acceso entre dominios
-- **.env**: secretos fuera del código, nunca en Git
+- [ ] Todas las consultas a BD usan parámetros, no concatenación
+- [ ] Las contraseñas se guardan con hash (bcrypt)
+- [ ] Los datos sensibles no se devuelven en las respuestas de la API
+- [ ] El backend valida todos los datos de entrada
+- [ ] Los secrets están en variables de entorno
+- [ ] Uso HTTPS en el despliegue
+- [ ] Los roles y permisos están implementados (al menos lo básico)
+- [ ] No hay archivos de configuración con claves en el repositorio

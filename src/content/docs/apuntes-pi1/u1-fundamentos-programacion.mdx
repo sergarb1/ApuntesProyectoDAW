@@ -1,307 +1,142 @@
 ---
-title: U1 - Fundamentos de Programación
-description: Variables, tipos de datos, estructuras de control, funciones y arrays en Java y JavaScript
+title: 🧭 U1. Definir el proyecto
+description: Cómo pasar de una idea difusa a un proyecto concreto con objetivos claros y alcance definido
 ---
 
-## Objetivos de la unidad
-
-- Comprender los conceptos básicos de la programación estructurada
-- Dominar variables, tipos de datos y operadores en Java y JavaScript
-- Utilizar estructuras de control selectivas e iterativas
-- Crear funciones reutilizables y arrays para almacenar datos
-
-## Introducción
-
-La programación es el proceso de diseñar, codificar y mantener programas informáticos. Los fundamentos son comunes a casi todos los lenguajes: trabajar con datos (variables), tomar decisiones (condicionales), repetir acciones (bucles) y organizar el código (funciones).
-
-## Variables y tipos de datos
-
-### Java (tipado estático)
-
-En Java, toda variable debe declararse con un tipo explícito:
-
-```java
-// Tipos primitivos
-int edad = 20;
-double precio = 29.99;
-char letra = 'A';
-boolean activo = true;
-
-// Tipo referencia (String)
-String nombre = "María";
-
-// Constante
-final double IVA = 0.21;
-```
-
-### JavaScript (tipado dinámico)
-
-En JavaScript, el tipo se infiere del valor asignado:
-
-```javascript
-let edad = 20;           // number
-let precio = 29.99;      // number
-let nombre = "María";    // string
-let activo = true;       // boolean
-let datos = null;        // null
-let sinDefinir;          // undefined
-
-const IVA = 0.21;        // constante (no el valor, la referencia)
-```
-
-### Operadores básicos
-
-| Operación | Java | JavaScript |
-|-----------|------|------------|
-| Suma | `+` | `+` |
-| Resta | `-` | `-` |
-| Multiplicación | `*` | `*` |
-| División | `/` | `/` |
-| Módulo | `%` | `%` |
-| Incremento | `++` | `++` |
-| Igualdad | `==` / `equals()` | `===` (estricta) |
-| AND lógico | `&&` | `&&` |
-| OR lógico | `\|\|` | `\|\|` |
-| Negación | `!` | `!` |
-
-## Estructuras de control selectivas
-
-### if-else
-
-```java
-// Java
-int nota = 7;
-if (nota >= 5) {
-    System.out.println("Aprobado");
-} else if (nota >= 3) {
-    System.out.println("Recuperación");
-} else {
-    System.out.println("Suspenso");
-}
-```
-
-```javascript
-// JavaScript
-const nota = 7;
-if (nota >= 5) {
-    console.log("Aprobado");
-} else if (nota >= 3) {
-    console.log("Recuperación");
-} else {
-    console.log("Suspenso");
-}
-```
-
-### switch
-
-```java
-// Java
-switch (dia) {
-    case 1: System.out.println("Lunes"); break;
-    case 2: System.out.println("Martes"); break;
-    default: System.out.println("Otro");
-}
-```
-
-```javascript
-// JavaScript
-switch (dia) {
-    case 1: console.log("Lunes"); break;
-    case 2: console.log("Martes"); break;
-    default: console.log("Otro");
-}
-```
-
-## Estructuras de control iterativas
-
-### Bucle for
-
-```java
-// Java
-for (int i = 0; i < 5; i++) {
-    System.out.println("Vuelta " + i);
-}
-```
-
-```javascript
-// JavaScript
-for (let i = 0; i < 5; i++) {
-    console.log("Vuelta " + i);
-}
-```
-
-### Bucle while
-
-```java
-// Java
-int i = 0;
-while (i < 5) {
-    System.out.println(i);
-    i++;
-}
-```
-
-```javascript
-// JavaScript
-let i = 0;
-while (i < 5) {
-    console.log(i);
-    i++;
-}
-```
-
-### Bucle for-each / for-of
-
-```java
-// Java (for-each)
-String[] nombres = {"Ana", "Luis", "Eva"};
-for (String nombre : nombres) {
-    System.out.println(nombre);
-}
-```
-
-```javascript
-// JavaScript (for-of)
-const nombres = ["Ana", "Luis", "Eva"];
-for (const nombre of nombres) {
-    console.log(nombre);
-}
-```
-
-## Funciones
-
-### Java
-
-```java
-// Método que suma dos números
-public static int sumar(int a, int b) {
-    return a + b;
-}
-
-// Llamada
-int resultado = sumar(5, 3);
-```
-
-### JavaScript
-
-```javascript
-// Función clásica
-function sumar(a, b) {
-    return a + b;
-}
-
-// Arrow function
-const sumar = (a, b) => a + b;
-
-// Llamada
-const resultado = sumar(5, 3);
-```
-
-## Arrays
-
-### Java
-
-```java
-// Declaración e inicialización
-int[] numeros = {10, 20, 30, 40, 50};
-System.out.println(numeros[0]);        // 10
-System.out.println(numeros.length);    // 5
-
-// Recorrer
-for (int i = 0; i < numeros.length; i++) {
-    System.out.println(numeros[i]);
-}
-```
-
-### JavaScript
-
-```javascript
-const numeros = [10, 20, 30, 40, 50];
-console.log(numeros[0]);         // 10
-console.log(numeros.length);     // 5
-
-// Métodos útiles
-numeros.push(60);                // añade al final
-numeros.pop();                   // elimina el último
-numeros.includes(20);            // true
-
-// Recorrer
-numeros.forEach(n => console.log(n));
-```
-
-## Buenas prácticas
-
-1. **Nombres descriptivos**: `edad` en vez de `e`, `precioTotal` en vez de `pt`
-2. **Constantes para valores fijos**: `final double IVA = 0.21;`
-3. **Un solo propósito por función**: que cada función haga una sola cosa
-4. **Indentación consistente**: mejora la legibilidad del código
-5. **Comentar el porqué, no el qué**: el código ya dice lo que hace
-
-## Ejercicio práctico
-
-Crea un programa que solicite 5 notas, calcule la media y muestre si el alumno está aprobado (media >= 5) o suspenso.
-
-<details>
-<summary>Solución Java</summary>
-
-```java
-import java.util.Scanner;
-
-public class CalculoNotas {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        double suma = 0;
-
-        for (int i = 1; i <= 5; i++) {
-            System.out.print("Nota " + i + ": ");
-            suma += sc.nextDouble();
-        }
-
-        double media = suma / 5;
-        System.out.println("Media: " + media);
-        System.out.println(media >= 5 ? "Aprobado" : "Suspenso");
-    }
-}
-```
-
-</details>
-
-<details>
-<summary>Solución JavaScript</summary>
-
-```javascript
-const readline = require('readline').createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-
-let suma = 0;
-let contador = 0;
-
-function pedirNota() {
-    readline.question('Nota ' + (contador + 1) + ': ', nota => {
-        suma += parseFloat(nota);
-        contador++;
-        if (contador < 5) {
-            pedirNota();
-        } else {
-            const media = suma / 5;
-            console.log('Media: ' + media);
-            console.log(media >= 5 ? 'Aprobado' : 'Suspenso');
-            readline.close();
-        }
-    });
-}
-
-pedirNota();
-```
-
-</details>
-
-## Resumen
-
-- Java usa tipado estático; JavaScript, dinámico
-- `if-else` y `switch` controlan la selección
-- `for`, `while`, `forEach` controlan la repetición
-- Las funciones encapsulan lógica reutilizable
-- Los arrays almacenan colecciones de datos
+import StoryIntro from '../../../components/StoryIntro.astro';
+import Aclaracion from '../../../components/Aclaracion.astro';
+import Comparativa from '../../../components/Comparativa.astro';
+import CasoPractico from '../../../components/CasoPractico.astro';
+
+<StoryIntro icono="🎬" titulo="El día que Ana intentó abarcarlo todo">
+  Ana llegó emocionada a clase. "¡Ya sé lo que voy a hacer! Una red social
+  para mascotas con geolocalización, chat, marketplace, adopciones, y un
+  algoritmo que recomienda parques cercanos según el tipo de perro".
+
+  El profesor asintió, sonrió, y dijo: "Estupendo. ¿Cuánto crees que se tarda
+  en hacer todo eso?".
+
+  Ana calculó: "Dos meses, seguro".
+
+  "Vale. Pues de plazo tienes cuatro meses. Pero además tienes otras 5
+  asignaturas, exámenes, y una vida más allá de DAW".
+
+  Ese día Ana aprendió que un proyecto no se define por lo que **puede llegar
+  a ser**, sino por lo que **vas a conseguir hacer en el tiempo que tienes**.
+  Y que una red social para mascotas entera no la haría ni Google en un
+  cuatrimestre.
+</StoryIntro>
+
+## De la idea al proyecto
+
+Toda idea de proyecto empieza siendo difusa. El objetivo de esta unidad es
+convertir esa chispa inicial en algo **concreto, viable, y planificable**.
+
+### El peligro de las ideas difusas
+
+> "Una app para gestionar tareas"
+
+¿Gestionar tareas de qué tipo? ¿Para quién? ¿En qué plataforma?
+¿Con qué funcionalidades? Una idea así puede derivar en una to-do list
+de 3 días... o en un JIRA que no terminarías nunca.
+
+### Cómo concretar una idea
+
+Para pasar de idea difusa a proyecto definido, responde estas preguntas:
+
+1. **¿Qué problema resuelve?** No es lo mismo "hago una app de recetas"
+   que "ayudo a personas con intolerancias a encontrar recetas adaptadas".
+2. **¿Para quién?** Describe a tu usuario tipo: edad, perfil, necesidades.
+3. **¿Qué hace obligatoriamente?** Funcionalidades imprescindibles (las que
+   justifican que tu proyecto existe).
+4. **¿Qué haría si tuviera tiempo?** Funcionalidades deseables, pero no críticas.
+5. **¿Qué NO va a hacer?** Tan importante como lo que incluyes es lo que excluyes.
+
+### El MVP como mentalidad
+
+**MVP** (Minimum Viable Product / Producto Mínimo Viable) no significa
+"hacerlo mal". Significa **hacer solo lo necesario para que el proyecto
+tenga sentido**. Pregúntate: ¿cuál es la versión más pequeña de mi idea
+que sigue siendo útil?
+
+<Aclaracion pregunta="¿Y si mi MVP se queda en algo demasiado simple?">
+  Es mejor un MVP completo y funcional que un proyecto ambicioso a medias.
+  Un gestor de tareas sencillo pero que funciona, bien presentado y con
+  código limpio, aprueba. Una red social llena de funcionalidades a medio
+  hacer, con bugs y mal documentada, suspende.
+
+  Además, el MVP es la base. Si terminas antes, siempre puedes añadir más.
+  Pero si no llegas al mínimo, no tienes nada que presentar.
+</Aclaracion>
+
+## Objetivos SMART
+
+Los objetivos de tu proyecto deben ser SMART:
+
+| Letra | Significado | Ejemplo |
+|-------|-------------|---------|
+| **S** | Específico (Specific) | "Registro con email y contraseña" vs "Sistema de usuarios" |
+| **M** | Medible (Measurable) | "Soporte para 100 usuarios simultáneos" vs "Que vaya rápido" |
+| **A** | Alcanzable (Achievable) | Con tus conocimientos actuales o aprendiendo lo justo |
+| **R** | Relevante (Relevant) | Aporta valor al proyecto, no es relleno |
+| **T** | Temporal (Time-bound) | "Para la semana 6 del proyecto" vs "Cuando pueda" |
+
+## Alcance: lo que haces y lo que no
+
+Un error clásico es no definir los límites. Usa esta tabla:
+
+| Funcionalidad | Prioridad | Tiempo estimado |
+|--------------|-----------|-----------------|
+| Registro e inicio de sesión | MVP | 1 semana |
+| CRUD de tareas | MVP | 2 semanas |
+| Sistema de etiquetas | MVP | 3 días |
+| Notificaciones push | Deseable | 2 semanas |
+| IA que recomienda tareas | Fuera de alcance | — |
+
+<Aclaracion pregunta="¿Qué hago si el profesor me dice que mi proyecto es demasiado simple?">
+  Si el profesor lo dice, pregúntale exactamente qué le falta.
+  Normalmente no es cuestión de añadir más funcionalidades, sino de
+  **profundizar** en las que ya tienes: mejor documentación, testing,
+  calidad de código, despliegue real, interfaz cuidada.
+
+  Un proyecto pequeño pero excelente vale más que uno grande y mediocre.
+</Aclaracion>
+
+<Comparativa
+  dialogos={[
+    { quien: "Enfoque: abarcar mucho", texto: "Tengo mil ideas y voy a implementarlas todas. Total, tiempo hay —o eso creo. Empezaré por lo más difícil y si sobra tiempo, añado el resto." },
+    { quien: "Enfoque: MVP primero", texto: "Identifico las 3-4 funcionalidades clave que definen mi proyecto. Las implemento bien, las pruebo, las documento. Luego, si queda tiempo, añado más." },
+  ]}
+  titulo="¿Más funcionalidades o mejor hechas?"
+/>
+
+<CasoPractico titulo="Dos proyectos, dos enfoques">
+
+  **Caso A — El ambicioso**
+  Un equipo decidió hacer una plataforma de cursos online con foros, vídeos,
+  chat en vivo, certificados y recomendaciones personalizadas. A mitad de
+  curso se dieron cuenta de que no tenían ni el login bien hecho. En la
+  presentación mostraron un formulario de registro que fallaba y un reproductor
+  de vídeo que no cargaba.
+
+  **Resultado**: Suspenso. Demasiado alcance, cero ejecución.
+
+  **Caso B — El enfocado**
+  Otro equipo hizo una aplicación para que los vecinos de una comunidad
+  gestionen incidencias (una gotera, una luz fundida). Solo tenía: registro,
+  crear incidencia, listar incidencias, cambiar estado. Todo funcionaba.
+  La interfaz era limpia, el código estaba testeado, la memoria documentada.
+
+  **Resultado**: Notable. Poco alcance, pero todo hecho bien.
+
+  La moraleja: **no es lo que prometes, es lo que entregas.**
+</CasoPractico>
+
+## Errores comunes y cómo evitarlos
+
+| Error | Solución |
+|-------|----------|
+| Empezar a codificar sin tener claro el alcance | Dedica una semana solo a definir y planificar |
+| Decir "sí" a cada idea que surge | Mantén una lista de "ideas futuras" fuera del alcance del proyecto |
+| Pensar que "ya irás viendo" | El proyecto sin plan es un barco sin rumbo. Acabarás donde no querías |
+| No consultar con el profesor | Cada 2-3 semanas, valida tu dirección. Mejor corregir a tiempo |

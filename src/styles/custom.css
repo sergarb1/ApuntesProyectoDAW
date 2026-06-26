@@ -123,3 +123,219 @@ table th {
   max-width: 600px;
   margin: 0 auto 1.5rem;
 }
+
+/* StoryIntro */
+.story-intro {
+  margin: 2rem 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--sl-color-gray-4);
+}
+
+.story-intro-header {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.story-intro-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.story-intro-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+  font-weight: 600;
+}
+
+.story-intro-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  flex: 1;
+}
+
+.story-intro-body {
+  padding: 1.5rem;
+  background: var(--sl-color-gray-6);
+  line-height: 1.7;
+}
+
+/* Aclaracion (FAQ colapsable) */
+.aclaracion {
+  margin: 2rem 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--sl-color-gray-4);
+  background: var(--sl-color-gray-6);
+}
+
+.aclaracion-summary {
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #7c3aed, #6366f1);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  list-style: none;
+  user-select: none;
+}
+
+.aclaracion-summary::-webkit-details-marker,
+.aclaracion-summary::marker {
+  display: none;
+  content: '';
+}
+
+.aclaracion-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.aclaracion-pregunta {
+  flex: 1;
+}
+
+.aclaracion-toggle {
+  font-size: 1.5rem;
+  font-weight: 300;
+  transition: transform 0.2s;
+  line-height: 1;
+}
+
+details[open] .aclaracion-toggle {
+  transform: rotate(45deg);
+}
+
+.aclaracion-body {
+  padding: 1.5rem;
+  border-top: 1px solid var(--sl-color-gray-4);
+  background: white;
+}
+
+[data-theme='dark'] .aclaracion-body {
+  background: var(--sl-color-gray-6);
+}
+
+/* Comparativa / diálogo entre tecnologías */
+.comp-dialogo {
+  margin: 2rem 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--sl-color-gray-4);
+}
+
+.comp-dialogo-header {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  color: white;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.comp-dialogo-body {
+  background: var(--sl-color-gray-6);
+}
+
+.comp-dialogo-turno {
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.comp-dialogo-turno.opcion-a {
+  background: rgba(37, 99, 235, 0.05);
+  border-left: 4px solid #2563eb;
+}
+
+.comp-dialogo-turno.opcion-b {
+  background: rgba(202, 138, 4, 0.05);
+  border-right: 4px solid #ca8a04;
+}
+
+.comp-dialogo-quien {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--sl-color-gray-2);
+}
+
+.comp-dialogo-texto {
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* CasoPractico */
+.caso-practico {
+  margin: 2rem 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 2px solid var(--sl-color-accent);
+}
+
+.caso-practico-header {
+  background: var(--sl-color-accent);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.caso-practico-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.caso-practico-header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.caso-practico-body {
+  padding: 1.5rem;
+  background: white;
+}
+
+[data-theme='dark'] .caso-practico-body {
+  background: var(--sl-color-gray-6);
+}
+
+.caso-practico-body pre {
+  margin: 0.5rem 0;
+}
+
+/* contenedor de dos columnas para comparativas */
+.dos-columnas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.dos-columnas > div {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--sl-color-gray-4);
+  background: var(--sl-color-gray-6);
+}
+
+.dos-columnas > div h4 {
+  margin-top: 0;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  .dos-columnas {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,38 +1,102 @@
 ---
-title: Apuntes PI2
-description: Material didáctico completo para el Proyecto Intermodular II
+title: 📗 Apuntes PI2 — Cómo evolucionar el proyecto
+description: "Guía práctica para la segunda fase del proyecto: mejorar, integrar, asegurar y desplegar"
 ---
 
-import { CardGrid, Card } from '@astrojs/starlight/components';
+import StoryIntro from '../../../components/StoryIntro.astro';
 
-Esta sección contiene los apuntes teórico-prácticos necesarios para afrontar con éxito el **Proyecto Intermodular II**. Cada unidad didáctica está alineada con los sprints del proyecto y profundiza en las tecnologías y metodologías profesionales que aplicarás.
+<StoryIntro icono="🎬" titulo="El día que el proyecto se hizo mayor">
+  Habéis llegado a PI2. El MVP de PI1 funcionaba, pero era básico.
+  Ahora toca convertirlo en algo más serio: mejor interfaz, más
+  funcionalidades, pruebas, seguridad, despliegue real.
 
-<CardGrid>
-  <Card title="U1. Arquitectura Web y Patrones" href="/apuntes-pi2/u1-arquitectura-web" icon="layers">
-    MVC, capas, DTO/DAO, inyección de dependencias, buenas prácticas.
-  </Card>
-  <Card title="U2. Frontend con Framework" href="/apuntes-pi2/u2-frontend-framework" icon="code">
-    React y Vue: componentes, estado, rutas, consumo de APIs.
-  </Card>
-  <Card title="U3. APIs REST" href="/apuntes-pi2/u3-apis-rest" icon="server">
-    Express y Spring Boot: endpoints, JWT, middleware, validación.
-  </Card>
-  <Card title="U4. Diseño de Interfaces UI/UX" href="/apuntes-pi2/u4-ui-ux" icon="layout">
-    Figma, diseño responsive, Tailwind, accesibilidad WCAG.
-  </Card>
-  <Card title="U5. Testing Automatizado" href="/apuntes-pi2/u5-testing" icon="shield">
-    Tests unitarios, integración, E2E con Playwright, TDD.
-  </Card>
-  <Card title="U6. Seguridad en Aplicaciones Web" href="/apuntes-pi2/u6-seguridad" icon="lock">
-    OWASP Top 10, cifrado, CORS, Helmet, buenas prácticas.
-  </Card>
-  <Card title="U7. Docker y Contenerización" href="/apuntes-pi2/u7-docker" icon="container">
-    Dockerfile, docker-compose, volúmenes, redes, multi-stage builds.
-  </Card>
-  <Card title="U8. Despliegue Cloud y CI/CD" href="/apuntes-pi2/u8-despliegue-ci-cd" icon="cloud">
-    Railway, Vercel, GitHub Actions, variables de entorno, dominio.
-  </Card>
-  <Card title="U9. Metodologías Ágiles Avanzadas" href="/apuntes-pi2/u9-metodologias-agiles" icon="book-open">
-    Scrum, planning poker, retrospectivas, gestión de producto.
-  </Card>
-</CardGrid>
+  El proyecto ya no es un prototipo. Es un producto que hay que
+  hacer crecer sin que se rompa. Y eso requiere un enfoque distinto.
+</StoryIntro>
+
+## ¿Qué cambia en PI2 respecto a PI1?
+
+PI1 era **hacerlo funcionar**. PI2 es **hacerlo bien**.
+
+| Aspecto | PI1 | PI2 |
+|---------|-----|-----|
+| Objetivo | MVP funcional | Producto completo |
+| Frontend | HTML/CSS básico | Framework con componentes |
+| Backend | CRUD simple | APIs, autenticación, validación |
+| Datos | Una tabla, lo justo | Varias entidades relacionadas |
+| Calidad | "Funciona en mi máquina" | Tests, code review |
+| Despliegue | Local | Cloud, CI/CD |
+| Equipo | Aprendiendo a colaborar | Flujo de trabajo establecido |
+
+## Las 9 unidades de PI2
+
+<div class="card-grid small">
+
+<div class="card">
+
+**🔧 U1. Evolucionar la arquitectura**  
+Refactorizar, pagar deuda técnica, tomar decisiones difíciles.
+
+</div>
+
+<div class="card">
+
+**🖥️ U2. Mejorar el frontend**  
+Componentes, estado, rendimiento, experiencia de usuario.
+
+</div>
+
+<div class="card">
+
+**🔗 U3. Integrar sistemas**  
+APIs, comunicación entre servicios, documentación.
+
+</div>
+
+<div class="card">
+
+**👤 U4. Diseñar para el usuario**  
+UX, usabilidad, accesibilidad, pruebas con usuarios.
+
+</div>
+
+<div class="card">
+
+**✅ U5. Asegurar la calidad**  
+Testing, automatización, métricas de calidad.
+
+</div>
+
+<div class="card">
+
+**🛡️ U6. Proteger la aplicación**  
+Seguridad práctica, OWASP, buenas prácticas diarias.
+
+</div>
+
+<div class="card">
+
+**📦 U7. Preparar el despliegue**  
+Contenedores, entornos, configuración, empaquetado.
+
+</div>
+
+<div class="card">
+
+**🚀 U8. Publicar y mantener**  
+CI/CD, cloud, monitoreo, actualizaciones.
+
+</div>
+
+<div class="card">
+
+**🔁 U9. Gestionar el proyecto**  
+Retrospectivas, agile avanzado, mejora continua.
+
+</div>
+
+</div>
+
+No son independientes. Muchas se solapan: no puedes desplegar sin calidad,
+ni mejorar el frontend sin pensar en el usuario. Úsalas según tu momento
+del proyecto.

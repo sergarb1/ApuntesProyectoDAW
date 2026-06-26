@@ -1,24 +1,15 @@
 ---
-title: Profesores
-description: Equipo docente del módulo de Proyecto Intermodular
+title: 👨‍🏫 Profesores
+description: Equipo docente del Proyecto Intermodular
 ---
 
-## Equipo Docente
+| Profesor | Asignatura | Tutoría |
+|----------|-----------|---------|
+| Por determinar | Coordinador PI | — |
+| Por determinar | Programación | — |
+| Por determinar | Bases de Datos | — |
+| Por determinar | Lenguajes de Marcas | — |
+| Por determinar | Entornos de Desarrollo | — |
+| Por determinar | Diseño de Interfaces | — |
 
-### Coordinación del Módulo
-
-| Nombre | Especialidad |
-|---|---|
-| Sergi Garcia Barea | Coordinador PI, DWEC, DIW |
-
-### Cómo Contactar
-
-- **GitHub**: [sergarb1](https://github.com/sergarb1)
-- **Repositorio**: [ApuntesProyectoDAW](https://github.com/sergarb1/ApuntesProyectoDAW)
-
-### Funciones del Profesorado
-
-- **Tutorización**: seguimiento individualizado del progreso de cada alumno
-- **Evaluación**: aplicación de rúbricas y feedback continuo
-- **Formación**: sesiones teórico-prácticas sobre herramientas y metodologías
-- **Tribunal**: participación en las defensas finales
+*Los datos del equipo docente se actualizarán al inicio del curso.*

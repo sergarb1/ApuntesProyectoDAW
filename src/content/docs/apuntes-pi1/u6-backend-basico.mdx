@@ -1,382 +1,138 @@
 ---
-title: U6 - Desarrollo Backend Básico
-description: PHP y Node.js básico, conexión a base de datos, operaciones CRUD
+title: ⚙️ U6. Implementar la lógica
+description: Cómo priorizar, organizar y escribir el código de tu proyecto sin perderte
 ---
 
-## Objetivos de la unidad
+import StoryIntro from '../../../components/StoryIntro.astro';
+import Aclaracion from '../../../components/Aclaracion.astro';
+import CasoPractico from '../../../components/CasoPractico.astro';
 
-- Comprender el funcionamiento del backend en una aplicación web
-- Implementar un servidor básico con PHP y Node.js
-- Conectar y operar sobre una base de datos MySQL
-- Realizar operaciones CRUD completas
+<StoryIntro icono="🎬" titulo="El día que no sabía por dónde empezar">
+  Sergio se sentó frente al ordenador. Tenía el diseño, los datos modelados,
+  las pantallas dibujadas. Pero el editor estaba en blanco.
 
-## Introducción
+  "¿Empiezo por el registro de usuarios? ¿Por la lista de productos?
+  ¿Primero el frontend o el backend? ¿Y si todo lo que hago hoy lo tengo
+  que cambiar mañana?"
 
-El backend es la capa del servidor que procesa peticiones, interactúa con la base de datos y devuelve respuestas al frontend. Esta unidad cubre PHP y Node.js como tecnologías backend de entrada.
+  Llevaba una semana sin escribir ni una línea. Paralizado por el miedo
+  a hacerlo mal. Hasta que su profesor le dijo: "empieza por lo más fácil
+  y ve avanzando. El código perfecto no existe, el código que funciona sí".
+</StoryIntro>
 
-## PHP básico
+## El arte de empezar a programar
 
-PHP es un lenguaje del lado del servidor ampliamente usado. Se ejecuta en el servidor y genera HTML dinámico.
+El mayor obstáculo no es la complejidad técnica, es saber **por dónde
+empezar**. La clave está en priorizar.
 
-### Sintaxis básica
+### Prioriza por valor, no por dificultad
 
-```php
-<?php
-// Variables
-$nombre = "Ana";
-$edad = 22;
-$precio = 29.99;
+Haz primero lo que **más valor aporta al proyecto** y que **menos dependencias
+tiene**. Normalmente, eso significa:
 
-// Arrays asociativos
-$usuario = [
-    "nombre" => "Ana",
-    "email" => "ana@example.com"
-];
+1. **Autenticación básica** — sin login, no hay usuario que use la app
+2. **CRUD de la entidad principal** — la operación más básica sobre tu recurso clave
+3. **Interfaz mínima** — lo justo para que se vea algo en pantalla
+4. **Mejoras iterativas** — refinar lo que ya funciona
 
-// Condicionales
-if ($edad >= 18) {
-    echo "Mayor de edad";
-} else {
-    echo "Menor de edad";
-}
+### Empieza con un esqueleto
 
-// Bucles
-foreach ($usuario as $clave => $valor) {
-    echo "$clave: $valor<br>";
-}
+No implementes todas las funcionalidades a la vez. Crea una ruta que
+devuelva un "Hola mundo". Luego añade autenticación. Luego añade la
+primera entidad. Ve creciendo por capas.
 
-// Funciones
-function saludar($nombre) {
-    return "Hola, $nombre!";
-}
-
-echo saludar("Ana");
-?>
+```
+Iteración 1: "Hola mundo" desde el servidor
+Iteración 2: Endpoint GET /api/usuarios (datos mock)
+Iteración 3: Conexión a base de datos real
+Iteración 4: CRUD completo de usuarios
+Iteración 5: Autenticación JWT
+Iteración 6: CRUD de la siguiente entidad
+... así hasta terminar
 ```
 
-### Recibir datos del formulario
+<Aclaracion pregunta="¿Qué hago si me atasco en una funcionalidad?">
+  Primero, **no te quedes bloqueado**. Si llevas más de 30 minutos sin
+  avanzar, prueba esto:
 
-```php
-<?php
-// mostrar_formulario.php
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $nombre = htmlspecialchars($_POST["nombre"]);
-    $email = htmlspecialchars($_POST["email"]);
+  1. Divide el problema en partes más pequeñas
+  2. Busca en Google o Stack Overflow (todos lo hacen)
+  3. Pregunta a un compañero o al profesor
+  4. **Salta a otra cosa** y vuelve después
 
-    if (empty($nombre) || empty($email)) {
-        echo "Todos los campos son obligatorios";
-    } else {
-        echo "Registrado: $nombre ($email)";
-    }
-}
-?>
+  A veces la solución aparece cuando dejas de pensar en el problema.
+  Si aún así no avanzas, simplifica la funcionalidad o pregúntate
+  si realmente la necesitas en tu MVP.
+</Aclaracion>
 
-<form method="POST">
-    <input type="text" name="nombre" placeholder="Nombre" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <button type="submit">Enviar</button>
-</form>
+## Organiza tu código
+
+### Estructura de carpetas
+
+No hay una estructura única, pero esta es una base sólida:
+
+```
+src/
+├── routes/          # Definición de endpoints
+├── controllers/     # Lógica de cada endpoint
+├── models/          # Definición de datos
+├── middleware/       # Funciones intermedias (auth, validación)
+├── services/        # Lógica de negocio compleja
+├── utils/           # Funciones auxiliares
+└── config/          # Configuración (BD, variables de entorno)
 ```
 
-### Conexión a MySQL con PDO
+### Comentarios que ayudan
 
-```php
-<?php
-$host = 'localhost';
-$db   = 'mi_proyecto';
-$user = 'root';
-$pass = '';
-$charset = 'utf8mb4';
-
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-];
-
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (PDOException $e) {
-    die("Error de conexión: " . $e->getMessage());
-}
-?>
-```
-
-### CRUD completo en PHP
-
-```php
-<?php
-require_once 'conexion.php';
-
-// CREATE
-function crearUsuario($nombre, $email) {
-    global $pdo;
-    $sql = "INSERT INTO usuarios (nombre, email) VALUES (:nombre, :email)";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute(['nombre' => $nombre, 'email' => $email]);
-    return $pdo->lastInsertId();
-}
-
-// READ (todos)
-function obtenerUsuarios() {
-    global $pdo;
-    $stmt = $pdo->query("SELECT * FROM usuarios ORDER BY id DESC");
-    return $stmt->fetchAll();
-}
-
-// READ (uno)
-function obtenerUsuario($id) {
-    global $pdo;
-    $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE id = :id");
-    $stmt->execute(['id' => $id]);
-    return $stmt->fetch();
-}
-
-// UPDATE
-function actualizarUsuario($id, $nombre, $email) {
-    global $pdo;
-    $sql = "UPDATE usuarios SET nombre = :nombre, email = :email WHERE id = :id";
-    $stmt = $pdo->prepare($sql);
-    return $stmt->execute(['id' => $id, 'nombre' => $nombre, 'email' => $email]);
-}
-
-// DELETE
-function eliminarUsuario($id) {
-    global $pdo;
-    $stmt = $pdo->prepare("DELETE FROM usuarios WHERE id = :id");
-    return $stmt->execute(['id' => $id]);
-}
-?>
-```
-
-### SQL injection: por qué usar prepared statements
-
-```php
-// ❌ PELIGROSO: concatenar strings
-$id = $_GET['id'];
-$stmt = $pdo->query("SELECT * FROM usuarios WHERE id = $id");
-// Un atacante puede pasar: ?id=1; DROP TABLE usuarios--
-
-// ✅ SEGURO: prepared statements
-$stmt = $pdo->prepare("SELECT * FROM usuarios WHERE id = :id");
-$stmt->execute(['id' => $_GET['id']]);
-```
-
-## Node.js básico
-
-Node.js permite ejecutar JavaScript en el servidor. Usaremos el módulo `http` y el framework Express.
-
-### Servidor HTTP básico
+Comenta el **por qué**, no el **qué**:
 
 ```javascript
-// server.js
-const http = require('http');
+// ❌ Mal: ya sé que esto suma
+let total = a + b;
 
-const server = http.createServer((req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.end('<h1>Hola desde Node.js!</h1>');
-});
-
-server.listen(3000, () => {
-    console.log('Servidor en http://localhost:3000');
-});
+// ✅ Bien: explica por qué haces esta operación
+// Sumamos el IVA (21%) al precio base porque la ley lo exige
+let precioFinal = precioBase * 1.21;
 ```
 
-### Express.js
+## Refactoriza desde el principio
 
-```javascript
-// Instalar: npm install express
-const express = require('express');
-const app = express();
-const port = 3000;
+No esperes a tener todo el código escrito para mejorarlo. Cada vez que
+veas que una función se repite, extráela. Cada vez que una clase crezca
+demasiado, divídela.
 
-// Middleware para parsear JSON
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+La refactorización constante evita que el código se convierta en
+"espagueti". Y es más fácil refactorizar 100 líneas que 1000.
 
-// Rutas
-app.get('/', (req, res) => {
-    res.send('<h1>Inicio</h1>');
-});
+<CasoPractico titulo="El estudiante que programó la funcionalidad más difícil primero">
 
-app.get('/api/usuarios', (req, res) => {
-    res.json({ usuarios: [] });
-});
+  Miguel decidió que su proyecto tendría un sistema de recomendación
+  usando machine learning. Pasó tres semanas implementando un algoritmo
+  de recomendación que nunca llegó a funcionar bien. Para entonces,
+  apenas tenía el login y el registro hechos.
 
-app.post('/api/usuarios', (req, res) => {
-    const { nombre, email } = req.body;
-    res.status(201).json({ message: 'Usuario creado', data: req.body });
-});
+  En las últimas dos semanas, tuvo que hacer a toda prisa: CRUD de
+  productos, carrito de compra, pasarela de pago simulada, y la interfaz.
+  Todo mal hecho, sin tests, con bugs evidentes.
 
-app.listen(port, () => {
-    console.log(`Servidor en http://localhost:${port}`);
-});
-```
+  **Resultado**: suspendió. Su proyecto prometía mucho, pero entregó poco.
 
-### Conexión a MySQL con mysql2
+  **Lección**: haz primero lo que sabes que funciona, lo que aporta valor
+  seguro, lo que el tribunal va a ver y probar. Las funcionalidades
+  "avanzadas" son el postre, no el plato principal. Si no tienes un plato
+  principal sólido, el postre no importa.
 
-```javascript
-// Instalar: npm install mysql2
-const mysql = require('mysql2/promise');
+  **Qué haría hoy**: empezar con el CRUD de productos (su entidad principal),
+  luego el carrito, luego la autenticación, luego la interfaz. Y solo si
+  sobra tiempo, experimentar con el algoritmo de recomendación.
+</CasoPractico>
 
-const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'mi_proyecto',
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
-});
+## Checklist para tu implementación
 
-module.exports = pool;
-```
-
-### CRUD completo con Express + MySQL
-
-```javascript
-const express = require('express');
-const pool = require('./db');
-const app = express();
-app.use(express.json());
-
-// CREATE
-app.post('/api/usuarios', async (req, res) => {
-    try {
-        const { nombre, email } = req.body;
-        const [result] = await pool.execute(
-            'INSERT INTO usuarios (nombre, email) VALUES (?, ?)',
-            [nombre, email]
-        );
-        res.status(201).json({ id: result.insertId, nombre, email });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// READ (todos)
-app.get('/api/usuarios', async (req, res) => {
-    try {
-        const [rows] = await pool.query('SELECT * FROM usuarios');
-        res.json(rows);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// READ (uno)
-app.get('/api/usuarios/:id', async (req, res) => {
-    try {
-        const [rows] = await pool.execute(
-            'SELECT * FROM usuarios WHERE id = ?', [req.params.id]
-        );
-        if (rows.length === 0) {
-            return res.status(404).json({ error: 'No encontrado' });
-        }
-        res.json(rows[0]);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// UPDATE
-app.put('/api/usuarios/:id', async (req, res) => {
-    try {
-        const { nombre, email } = req.body;
-        await pool.execute(
-            'UPDATE usuarios SET nombre = ?, email = ? WHERE id = ?',
-            [nombre, email, req.params.id]
-        );
-        res.json({ message: 'Actualizado' });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// DELETE
-app.delete('/api/usuarios/:id', async (req, res) => {
-    try {
-        await pool.execute('DELETE FROM usuarios WHERE id = ?', [req.params.id]);
-        res.json({ message: 'Eliminado' });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-app.listen(3000);
-```
-
-## Buenas prácticas
-
-1. **Validar y sanitizar**: nunca confíes en datos del usuario
-2. **Prepared statements**: siempre para evitar SQL injection
-3. **Manejo de errores**: try-catch en cada operación; responde con códigos HTTP adecuados
-4. **Variables de entorno**: no hardcodees credenciales (usa `.env`)
-5. **Separar capas**: rutas, controladores, modelos en archivos distintos
-
-## Ejercicio práctico
-
-Implementa un backend completo (PHP o Node.js) que gestione una lista de tareas (to-do list):
-- Crear tarea (texto, fecha límite)
-- Listar todas las tareas
-- Marcar tarea como completada
-- Eliminar tarea
-
-<details>
-<summary>Solución Node.js</summary>
-
-```javascript
-const express = require('express');
-const pool = require('./db');
-const app = express();
-app.use(express.json());
-
-// Crear tabla
-// CREATE TABLE tareas (
-//   id INT AUTO_INCREMENT PRIMARY KEY,
-//   texto VARCHAR(255) NOT NULL,
-//   fecha_limite DATE,
-//   completada BOOLEAN DEFAULT FALSE,
-//   creada_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-// );
-
-app.post('/api/tareas', async (req, res) => {
-    const { texto, fecha_limite } = req.body;
-    await pool.execute(
-        'INSERT INTO tareas (texto, fecha_limite) VALUES (?, ?)',
-        [texto, fecha_limite]
-    );
-    res.status(201).json({ message: 'Tarea creada' });
-});
-
-app.get('/api/tareas', async (req, res) => {
-    const [rows] = await pool.query('SELECT * FROM tareas ORDER BY creada_en DESC');
-    res.json(rows);
-});
-
-app.put('/api/tareas/:id/completar', async (req, res) => {
-    await pool.execute(
-        'UPDATE tareas SET completada = NOT completada WHERE id = ?',
-        [req.params.id]
-    );
-    res.json({ message: 'Estado actualizado' });
-});
-
-app.delete('/api/tareas/:id', async (req, res) => {
-    await pool.execute('DELETE FROM tareas WHERE id = ?', [req.params.id]);
-    res.json({ message: 'Tarea eliminada' });
-});
-
-app.listen(3000);
-```
-
-</details>
-
-## Resumen
-
-- **PHP**: lenguaje clásico del lado servidor con PDO para acceso seguro a BD
-- **Node.js**: JavaScript del lado servidor con Express como framework minimalista
-- **CRUD**: operaciones básicas sobre datos (Create, Read, Update, Delete)
-- **Prepared statements**: protección esencial contra SQL injection
-- **Middleware**: funciones que procesan peticiones antes de llegar a las rutas
+- [ ] Tengo una lista priorizada de funcionalidades
+- [ ] Empiezo por lo que menos dependencias tiene
+- [ ] Cada funcionalidad la termino antes de pasar a la siguiente
+- [ ] Refactorizo cuando veo código duplicado
+- [ ] Hago commits pequeños y frecuentes (no "cambios varios")
+- [ ] Pruebo cada funcionalidad antes de darla por terminada
+- [ ] Si me atasco, salto a otra cosa o pido ayuda

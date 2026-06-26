@@ -1,285 +1,159 @@
 ---
-title: U7 - Control de Versiones con Git
-description: Desde init hasta pull requests, trabajo colaborativo en GitHub
+title: 👥 U7. Trabajar en equipo
+description: Cómo organizar el trabajo en grupo, usar git sin morir en el intento y mantener la comunicación
 ---
 
-## Objetivos de la unidad
+import StoryIntro from '../../../components/StoryIntro.astro';
+import Aclaracion from '../../../components/Aclaracion.astro';
+import CasoPractico from '../../../components/CasoPractico.astro';
 
-- Comprender los conceptos fundamentales de Git
-- Inicializar y gestionar repositorios locales
-- Trabajar con ramas y fusiones
-- Colaborar en GitHub mediante pull requests
-- Resolver conflictos básicos
+<StoryIntro icono="🎬" titulo="El día que git dijo 'conflict' y el grupo se rompió">
+  "Vale, cada uno trabaja en su parte y al final lo juntamos".
 
-## Introducción
+  Suena bien, ¿verdad? Es lo que pensaron Marta, Javi y Lucas cuando
+  empezaron su proyecto. Marta haría el frontend, Javi el backend, Lucas
+  la base de datos. Cada uno en su rama de git, sin pisarse.
 
-Git es un sistema de control de versiones distribuido que permite rastrear cambios en el código, colaborar con otros desarrolladores y mantener un historial completo del proyecto.
+  Dos semanas antes de la entrega, intentaron mergear.
 
-## Configuración inicial
+  — "Marta, has cambiado el nombre de una columna que yo usaba"
+  — "Javi, tu API devuelve JSON distinto al que esperaba"
+  — "Lucas, has borrado un archivo que los dos necesitábamos"
+
+  El merge fue un infierno. Pasaron un fin de semana entero arreglando
+  conflictos. Aprendieron que **trabajar en equipo no es repartirse tareas
+  y no hablar**. Es comunicarse constantemente.
+</StoryIntro>
+
+## El equipo empieza antes que el código
+
+Antes de escribir una línea, el equipo debe acordar:
+
+### Reglas básicas
+
+1. **Herramientas de comunicación**: un grupo de WhatsApp o Discord es mínimo. Pero
+   las decisiones importantes no se toman por chat, se hablan.
+2. **Reparto de tareas**: quién hace qué. Que sea claro y equilibrado.
+3. **Reuniones periódicas**: aunque sean 10 minutos al día para actualizar el estado.
+4. **Toma de decisiones**: ¿cómo se decide algo si hay desacuerdo?
+
+### Flujo de trabajo con git
+
+El flujo básico para un equipo pequeño:
+
+```
+main          → solo versiones estables y funcionales
+  └─ dev      → rama de desarrollo, donde se integra todo
+       ├─ feature/login   → cada funcionalidad en su rama
+       ├─ feature/productos
+       └─ feature/pedidos
+```
+
+**Reglas**:
+- Nunca commits directamente a `main`
+- Cada funcionalidad nueva → rama nueva desde `dev`
+- Antes de mergear: code review por otro miembro del equipo
+- Merge a `dev` → probar → merge a `main`
+
+<Aclaracion pregunta="¿Y si somos dos y no necesitamos tanto flujo?">
+  Aunque seáis dos, el flujo de ramas os protege. Trabajar directamente
+  sobre `main` es la receta para el desastre: "es que iba a arreglar una
+  cosa y se me borró todo".
+
+  Para equipos de 2-3 personas, basta con:
+  - `main` (lo que funciona)
+  - Una rama por persona o por funcionalidad
+  - Commits pequeños con mensajes descriptivos
+  - Comunicación diaria de "esto estoy haciendo, esto voy a hacer"
+</Aclaracion>
+
+## Código limpio en equipo
+
+### Estilo común
+Acordad un estilo de código al principio:
+- ¿Tabulaciones o espacios?
+- ¿Punto y coma o no?
+- ¿Comillas simples o dobles?
+- ¿Nombres en español o inglés?
+
+Usad herramientas como **ESLint** o **Prettier** para que el código
+de todos tenga el mismo formato automáticamente.
+
+### Code review
+
+Revisad el código de los demás antes de mergear. No es para "cazar
+errores", es para:
+- Aprender cómo trabaja tu compañero
+- Detectar malos entendidos ("ah, yo pensaba que esta función hacía otra cosa")
+- Mejorar la calidad entre todos
+
+### Commits que se entienden
 
 ```bash
-# Configurar identidad (una vez)
-git config --global user.name "Tu Nombre"
-git config --global user.email "tu@email.com"
+# ❌ Mal
+git commit -m "cambios"
 
-# Ver configuración
-git config --list
-
-# Alias útiles
-git config --global alias.lg "log --oneline --graph --all"
-git config --global alias.s "status -s"
+# ✅ Bien
+git commit -m "Añadir validación de email en formulario de registro"
 ```
 
-## Flujo básico
+Un buen mensaje de commit explica **qué cambia y por qué**.
 
-```bash
-# Inicializar repositorio
-git init
+<CasoPractico titulo="El equipo que aprendió a ser equipo">
 
-# Ver estado
-git status
+  Tres estudiantes empezaron el proyecto con entusiasmo. Cada uno se llevó
+  una parte a casa. Dos semanas después:
+  - Persona A había hecho el login y el registro
+  - Persona B había hecho la gestión de productos
+  - Persona C se había desconectado y no respondía
 
-# Añadir archivos al área de staging
-git add index.html
-git add .              # todos los archivos
+  En la reunión con el profesor, Persona A y B explicaron la situación.
+  El profesor les sugirió: "repartid las tareas de Persona C entre los dos,
+  pero también haced que él se responsabilice de algo concreto y medible".
 
-# Confirmar cambios
-git commit -m "Añadir página principal"
+  Se sentaron, hablaron claro, y rediseñaron el reparto:
+  - Persona A: frontend completo (que ya había mostrado interés)
+  - Persona B: backend completo
+  - Persona C: documentación + tests + despliegue (responsabilidades claras)
 
-# Ver historial
-git log                # historial completo
-git log --oneline      # resumen en una línea
-git log --oneline --graph  # historial gráfico
-```
+  A partir de ahí, se reunían 15 minutos cada día (por Discord) para
+  actualizar el progreso. No funcionó perfecto, pero funcionó.
 
-## El área de staging
+  **Lección**: un equipo no es "cada uno a su bola". Es comunicación
+  constante, reparto claro de responsabilidades, y saber reaccionar
+  cuando alguien se queda atrás.
+</CasoPractico>
 
-```
-Working Directory → git add → Staging Area → git commit → Repositorio
-```
+## Conflictos (de código y de personas)
 
-```bash
-# Añadir interactivamente
-git add -p
+### Conflictos en git
 
-# Ver cambios no añadidos
-git diff
+Los conflictos ocurren cuando dos personas modifican la misma parte.
+No pasa nada. Así se resuelven:
 
-# Ver cambios en staging
-git diff --staged
+1. `git pull` la rama destino
+2. Busca los marcadores `<<<<<<<`, `=======`, `>>>>>>>`
+3. Decide qué versión conservar (o una combinación)
+4. Borra los marcadores
+5. Commit
 
-# Quitar archivo de staging (sin perder cambios)
-git reset HEAD archivo.txt
+Con práctica, resolver conflictos lleva segundos.
 
-# Deshacer cambios locales (restaurar versión del último commit)
-git checkout -- archivo.txt
-```
+### Conflictos entre personas
 
-## Ramas (branches)
+Si alguien no trabaja, si hay diferencias de criterio, si la comunicación
+falla:
 
-Las ramas permiten desarrollar funcionalidades de forma aislada.
+1. **Habladlo en persona** (no por chat). Cada uno explica su punto de vista.
+2. **Buscad un acuerdo** o una solución intermedia.
+3. Si no hay acuerdo, **tercera persona** (el profesor, un mediador).
 
-```bash
-# Crear rama
-git branch feature/login
+## Checklist para tu equipo
 
-# Cambiar a otra rama
-git checkout feature/login
-# o crear y cambiar en un paso:
-git checkout -b feature/login
-
-# Listar ramas
-git branch                 # locales
-git branch -a              # todas (incluye remotas)
-
-# Fusionar rama (estando en main/master)
-git checkout main
-git merge feature/login
-
-# Eliminar rama
-git branch -d feature/login     # local
-git branch -D feature/login     # forzar si no está fusionada
-```
-
-### Merge vs Rebase
-
-```bash
-# Merge: crea un commit de fusión (preserva historial)
-git checkout main
-git merge feature
-
-# Rebase: reescribe historial (historial lineal)
-git checkout feature
-git rebase main
-```
-
-## Remotos (GitHub)
-
-```bash
-# Conectar repositorio local con remoto
-git remote add origin https://github.com/usuario/repo.git
-
-# Ver remotos
-git remote -v
-
-# Subir cambios
-git push -u origin main    # primera vez
-git push                   # siguientes
-
-# Bajar cambios
-git pull                   # fetch + merge
-git fetch                  # solo descarga, no fusiona
-
-# Clonar repositorio existente
-git clone https://github.com/usuario/repo.git
-```
-
-## Pull Requests (GitHub)
-
-Flujo de trabajo típico con PRs:
-
-```bash
-# 1. Actualizar main
-git checkout main
-git pull origin main
-
-# 2. Crear rama para la funcionalidad
-git checkout -b feature/nueva-funcion
-
-# 3. Hacer cambios y commits
-git add .
-git commit -m "Añadir nueva función"
-
-# 4. Subir rama a GitHub
-git push origin feature/nueva-funcion
-
-# 5. En GitHub: crear Pull Request desde feature/nueva-funcion → main
-
-# 6. Después de que el PR se apruebe, eliminar rama local
-git checkout main
-git pull origin main
-git branch -d feature/nueva-funcion
-```
-
-## Resolver conflictos
-
-Los conflictos ocurren cuando dos ramas modifican las mismas líneas.
-
-```bash
-# Al hacer merge, Git muestra:
-# Auto-merging index.html
-# CONFLICT (content): Merge conflict in index.html
-
-# El archivo contendrá:
-# <<<<<<< HEAD
-# <h1>Título desde main</h1>
-# =======
-# <h1>Título desde feature</h1>
-# >>>>>>> feature
-```
-
-Para resolver:
-1. Editar el archivo, quedándote con el contenido deseado
-2. Eliminar los marcadores `<<<<<<<`, `=======`, `>>>>>>>`
-3. Guardar, añadir y commitear
-
-```bash
-git add index.html
-git commit -m "Resolver conflicto en index.html"
-```
-
-## .gitignore
-
-Archivo que excluye archivos/directorios del control de versiones:
-
-```txt
-# Dependencias
-node_modules/
-vendor/
-
-# Build
-dist/
-build/
-.env
-
-# IDE
-.vscode/
-.idea/
-
-# Sistema
-.DS_Store
-Thumbs.db
-
-# Logs
-*.log
-```
-
-## Buenas prácticas con Git
-
-1. **Commits atómicos**: cada commit hace una sola cosa
-2. **Mensajes descriptivos**: `"Añadir validación de email en formulario de registro"` no `"cambios"`
-3. **Commits frecuentes**: mejor muchos pequeños que uno gigante
-4. **No commitear archivos generados**: usa `.gitignore` para builds, dependencias, .env
-5. **Ramas por funcionalidad**: `feature/`, `bugfix/`, `hotfix/`
-6. **Pull antes de push**: `git pull --rebase` para mantener historial lineal
-
-## Ejercicio práctico
-
-Simula el flujo colaborativo:
-1. Crea un repositorio local con `git init`
-2. Haz 3 commits con archivos distintos (index.html, style.css, app.js)
-3. Crea una rama `feature/nueva-seccion` y añade un archivo
-4. Vuelve a main y haz otro commit
-5. Fusiona la rama feature con main
-
-<details>
-<summary>Solución paso a paso</summary>
-
-```bash
-# 1. Inicializar
-mkdir proyecto-ejemplo
-cd proyecto-ejemplo
-git init
-
-# 2. Primer commit
-echo "<h1>Inicio</h1>" > index.html
-git add index.html
-git commit -m "Añadir index.html"
-
-# 3. Segundo commit
-echo "body { font-family: sans-serif; }" > style.css
-git add style.css
-git commit -m "Añadir styles básicos"
-
-# 4. Tercer commit
-echo "console.log('App iniciada');" > app.js
-git add app.js
-git commit -m "Añadir script inicial"
-
-# 5. Rama feature
-git checkout -b feature/nueva-seccion
-echo "<section><h2>Nueva sección</h2></section>" >> index.html
-git add index.html
-git commit -m "Añadir nueva sección al HTML"
-
-# 6. Volver a main y hacer commit
-git checkout main
-echo "/* Comentario */" >> style.css
-git add style.css
-git commit -m "Añadir comentario a CSS"
-
-# 7. Fusionar
-git merge feature/nueva-seccion
-git log --oneline --graph
-```
-
-</details>
-
-## Resumen
-
-- `git init` crea un repositorio
-- `git add` + `git commit` guardan versiones del código
-- Las **ramas** permiten desarrollo paralelo
-- `git merge` o `git rebase` integran cambios
-- Los **pull requests** facilitan la revisión de código
-- Los conflictos se resuelven manualmente editando archivos
+- [ ] Hemos acordado herramientas de comunicación
+- [ ] Tenemos un repositorio compartido con ramas
+- [ ] Cada uno sabe qué tiene que hacer esta semana
+- [ ] Nos reunimos al menos 2 veces por semana
+- [ ] Hacemos code review antes de mergear
+- [ ] Los commits son descriptivos y pequeños
+- [ ] Tenemos un plan si alguien se queda atrás

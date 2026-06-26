@@ -1,111 +1,78 @@
 ---
-title: Metodología
-description: Metodologías de trabajo aplicadas en los proyectos intermodulares
+title: ⚙️ Metodología
+description: Cómo abordar el proyecto con una metodología que te ayude a organizarte
 ---
 
-import { CardGrid, Card } from '@astrojs/starlight/components';
+import StoryIntro from '../../components/StoryIntro.astro';
 
-## Enfoque General
+<StoryIntro icono="🎬" titulo="El día que entendieron que la metodología no era burocracia">
+  "¿Otra reunión?", "¿Otra columna en el tablero?", "¿Otra estimación?".
+  Al principio, todo lo que sonaba a "metodología" les parecía pérdida
+  de tiempo. Querían programar, no hacer reuniones.
 
-La metodología del curso combina **Aprendizaje Basado en Proyectos (ABP)** con metodologías ágiles de desarrollo software, simulando un entorno profesional real.
+  Hasta que llegó la semana antes de la entrega y descubrieron:
+  - Una funcionalidad que daban por hecha no estaba empezada
+  - Dos personas habían trabajado en lo mismo sin saberlo
+  - Nadie sabía qué quedaba por hacer exactamente
 
-## Aprendizaje Basado en Proyectos (ABP)
+  La metodología no es burocracia. Es **no llegar en pánico al final**.
+</StoryIntro>
 
-El ABP es el eje central del curso. En lugar de estudiar conceptos de forma aislada, los alumnos aprenden resolviendo un problema real mediante la construcción de un producto software.
+## ¿Qué metodología usar?
 
-### Principios del ABP
+No hay una única respuesta. Depende de tu equipo y tu proyecto.
 
-1. **Problema real**: el proyecto parte de una necesidad identificada por el alumno
-2. **Autonomía**: el alumno toma decisiones sobre el diseño y la implementación
-3. **Integración**: se aplican conocimientos de todos los módulos del ciclo
-4. **Producto final**: el resultado es un software funcional y documentado
-5. **Evaluación continua**: cada fase es evaluable con feedback inmediato
+### SCRUM (adaptado)
 
-## Scrum
+Para equipos de 2-4 personas, con sprints de 1-2 semanas.
 
-Aplicamos Scrum para la organización del trabajo en PI2:
+**Qué hacer**:
+- Sprint planning al empezar cada sprint (qué haremos, quién lo hará)
+- Daily (15 min, de pie o sentados, pero rápidos)
+- Sprint review al terminar (qué se ha conseguido)
+- Retrospectiva (qué mejorar para el próximo sprint)
 
-### Roles
+**Qué NO hacer**:
+- Scrum Master oficial (rotad el rol)
+- Ceremonias de 2 horas
+- Estimar en puntos de historia (usad horas o días)
+- Sprint backlog inmutable (se puede renegociar)
 
-- **Product Owner**: el profesor, define qué construir y prioriza
-- **Scrum Master**: el alumno rotativo, facilita el proceso
-- **Development Team**: los alumnos, construyen el producto
+### Kanban
 
-### Eventos
+Para equipos que prefieren fluidez continua sin sprunts fijos.
 
-- **Sprint Planning**: planificación del sprint (1h)
-- **Daily Standup**: reunión diaria de 15 minutos
-- **Sprint Review**: demo del incremento al final del sprint
-- **Sprint Retrospective**: mejora continua del proceso
+**Qué hacer**:
+- Tablero con columnas: Pendiente → En curso → Revisión → Hecho
+- Límite de tareas en "En curso" (máximo 2 por persona)
+- Flujo continuo sin fechas fijas
 
-### Artefactos
+**Ventaja**: más flexible, menos reuniones.
+**Desventaja**: menos estructura, fácil procrastinar.
 
-- **Product Backlog**: lista priorizada de funcionalidades
-- **Sprint Backlog**: tareas del sprint en curso
-- **Increment**: resultado funcional de cada sprint
+## El ciclo del proyecto
 
-## Kanban
+Sea cual sea la metodología, el proyecto sigue este ciclo:
 
-Utilizamos Kanban como complemento para la visualización del flujo de trabajo:
-
-- Tablero con columnas: **To Do → In Progress → Review → Done**
-- Límites de trabajo en progreso (WIP)
-- Priorización visual de tareas
-- Herramientas: Jira, Trello, GitHub Projects
-
-## Git Flow
-
-Gestión de versiones con Git siguiendo el modelo Git Flow:
-
-```text
-main        ──●────────────●──────────●──
-              \            /          /
-develop       ──●──●──●──●──●──●────●──
-                \        /  \      /
-feature/*       ●──●──●●    ●──●──●
-                          \
-hotfix/*                    ●──●
+```
+Planificar → Ejecutar → Revisar → Aprender → (repetir)
 ```
 
-- **main**: versión en producción
-- **develop**: integración de funcionalidades
-- **feature/***: nuevas funcionalidades
-- **hotfix/***: correcciones urgentes
+Cada iteración (semana, sprint) deberías:
+1. Elegir qué hacer
+2. Hacerlo
+3. Comprobar que funciona
+4. Reflexionar sobre lo aprendido
 
-## IA como Copiloto
+Sin el paso 4, repites los mismos errores.
+Sin el paso 1, trabajas sin dirección.
 
-La inteligencia artificial se utiliza como herramienta de apoyo, no como sustituto:
+## Herramientas recomendadas
 
-### Permitido
-- Generar estructuras base de código
-- Ayudar en la depuración de errores
-- Mejorar la redacción de documentación
-- Sugerir enfoques de diseño
-- Explicar conceptos complejos
-
-### Prohibido
-- Generar soluciones completas sin comprenderlas
-- Copiar código sin analizarlo ni adaptarlo
-- Eludir el aprendizaje de conceptos fundamentales
-- Superar límites de originalidad y esfuerzo personal
-
-## Trabajo Colaborativo
-
-El trabajo en equipo es fundamental:
-
-- **Parejas o grupos pequeños** (2-3 personas) para fomentar la colaboración
-- **Revisión entre pares** de código y documentación
-- **Presentaciones grupales** en las defensas
-- **Coevaluación** de la participación de los compañeros
-
-<CardGrid>
-  <Card title="Pair Programming">
-    Dos desarrolladores trabajan juntos en la misma tarea: uno escribe, el otro revisa en tiempo real
-  </Card>
-  <Card title="Code Review">
-    Todo el código debe ser revisado por al menos un compañero antes de integrarse
-  </Card>
-  <Card title="Documentación Colaborativa">
-    La documentación se elabora y revisa de forma conjunta usando herramientas colaborativas
-  </Card>
-</CardGrid>
+| Herramienta | Para qué |
+|------------|----------|
+| Trello / GitHub Projects | Tablero Kanban |
+| Notion / Confluence | Documentación compartida |
+| Discord / Slack | Comunicación diaria |
+| Google Calendar | Reuniones y fechas límite |
+| Git + GitHub / GitLab | Control de versiones |

@@ -1,0 +1,32 @@
+---
+title: "🔧 Sprint 3: Backend y APIs"
+description: Mejorar la lógica de backend, la API y la seguridad de la aplicación
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+
+<StoryIntro icono="🎬" titulo="El backend se hace mayor">
+  En PI1 el backend era funcional pero básico. Ahora toca añadirle
+  las capas de validación, seguridad y documentación que necesita
+  un producto serio.
+</StoryIntro>
+
+## Objetivos
+
+- Mejorar la API con validación y manejo de errores
+- Implementar autenticación y autorización (JWT)
+- Documentar la API (Swagger/OpenAPI)
+- Asegurar el backend contra vulnerabilidades comunes
+
+## Entregables
+
+1. **API mejorada**: endpoints con validación y errores consistentes
+2. **Autenticación JWT**: registro, login, rutas protegidas
+3. **Documentación de la API**: Swagger o similar
+4. **Mejoras de seguridad**: consultas parametrizadas, hash de contraseñas
+
+## Consejos
+
+- Valida siempre en el servidor, nunca confíes en el frontend
+- Los códigos HTTP correctos son importantes (201, 400, 401, 404)
+- Documenta la API aunque solo la uses tú

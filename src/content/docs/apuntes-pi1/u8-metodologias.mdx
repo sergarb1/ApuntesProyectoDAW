@@ -1,267 +1,151 @@
 ---
-title: U8 - Metodologías y Herramientas
-description: Lean Canvas, historias de usuario, diagramas UML, planificación
+title: 📋 U8. Planificar y organizarse
+description: Cómo estimar tiempos, priorizar tareas y no perder el rumbo del proyecto
 ---
 
-## Objetivos de la unidad
+import StoryIntro from '../../../components/StoryIntro.astro';
+import Aclaracion from '../../../components/Aclaracion.astro';
+import Comparativa from '../../../components/Comparativa.astro';
+import CasoPractico from '../../../components/CasoPractico.astro';
 
-- Diseñar un modelo de negocio con Lean Canvas
-- Escribir historias de usuario con criterios de aceptación
-- Modelar sistemas con diagramas UML
-- Planificar y estimar tareas de un proyecto software
+<StoryIntro icono="🎬" titulo="El día que quedaba un mes y solo tenían el login">
+  Abril. Quedaban 4 semanas para la entrega. El grupo había trabajado, sí,
+  pero sin plan. Cada semana hacían "un poco de todo": un día frontend,
+  dos días backend, un día cambiaban de idea, otro día no hacían nada.
 
-## Introducción
+  Cuando miraron atrás, se dieron cuenta de que en 3 meses solo tenían:
+  el login, la base de datos a medio hacer, y tres pantallas sin conectar.
 
-Antes de escribir código, es necesario planificar qué construir, para quién y cómo. Esta unidad cubre las metodologías y herramientas esenciales para las fases iniciales del proyecto.
+  Pánico. Reuniones de emergencia. Algunos fines de semana perdidos.
 
-## Lean Canvas
+  La falta de planificación no se nota al principio. Se nota al final.
+  Y al final suele ser demasiado tarde.
+</StoryIntro>
 
-El Lean Canvas es una plantilla de una página que resume los aspectos clave de un proyecto o negocio.
+## Por qué planificar (aunque te dé pereza)
 
-| Sección | Pregunta clave |
-|---------|---------------|
-| Problema | ¿Qué problema resuelves? |
-| Segmento de clientes | ¿Para quién es? |
-| Propuesta de valor única | ¿Qué te diferencia? |
-| Solución | ¿Cómo lo resuelves? |
-| Canales | ¿Cómo llegas a los usuarios? |
-| Fuentes de ingresos | ¿Cómo monetizas? |
-| Estructura de costes | ¿Cuáles son tus gastos? |
-| Métricas clave | ¿Cómo mides el éxito? |
-| Ventaja competitiva | ¿Qué te hace único? |
+Planificar no es hacer documentos bonitos. Es **responder estas preguntas**
+en cada momento:
 
-### Ejemplo: App de gestión de tareas para estudiantes
+- ¿Qué tengo que hacer esta semana?
+- ¿Cuánto tiempo me llevará?
+- ¿Qué hago si me retraso?
+- ¿Estoy avanzando al ritmo correcto?
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│ PROBLEMA                          │ SOLUCIÓN                        │
-│ - Olvidar entregas                │ - Calendario integrado          │
-│ - Mala organización del tiempo    │ - Recordatorios automáticos     │
-│ - Dificultad para priorizar       │ - Sistema de prioridades        │
-├───────────────────────────────────┼─────────────────────────────────┤
-│ PROPUESTA DE VALOR                │ VENTAJA COMPETITIVA             │
-│ "Organiza tus tareas              │ Integración con Google          │
-│  académicas en un solo lugar"     │ Classroom y Moodle              │
-├───────────────────────────────────┼─────────────────────────────────┤
-│ SEGMENTO DE CLIENTES              │ MÉTRICAS CLAVE                  │
-│ - Estudiantes universitarios      │ - Usuarios activos diarios      │
-│ - Estudiantes de FP               │ - Tareas completadas/semana     │
-│                                   │ - Tasa de retención             │
-├───────────────────────────────────┼─────────────────────────────────┤
-│ CANALES                           │ ESTRUCTURA DE COSTES            │
-│ - Web                             │ - Hosting                       │
-│ - App móvil                       │ - API Google/Moodle             │
-│ - Redes sociales                  │ - Dominio                       │
-├───────────────────────────────────┼─────────────────────────────────┤
-│ FUENTES DE INGRESOS               │                                 │
-│ - Freemium (básico gratis)        │                                 │
-│ - Premium (suscripción mensual)   │                                 │
-└───────────────────────────────────┴─────────────────────────────────┘
-```
+Sin planificación, avanzas a ciegas. Con planificación, sabes si vas bien,
+si necesitas acelerar, o si tienes que recortar funcionalidades.
 
-## Historias de Usuario
+## Métodos para organizarte
 
-Las historias de usuario describen funcionalidades desde la perspectiva del usuario final.
+### Kanban (el más visual)
 
-### Formato estándar
+Un tablero con columnas: **Por hacer → En proceso → Hecho**.
 
-```
-**Como** [rol de usuario]
-**Quiero** [acción o funcionalidad]
-**Para** [beneficio o motivo]
-```
+Cada tarea es una tarjeta que se mueve de izquierda a derecha.
 
-### Criterios de aceptación
+| Por hacer | En proceso | Hecho |
+|-----------|------------|-------|
+| CRUD usuarios | Login (Javi) | Diseño BD |
+| Pantalla inicio | Perfil (Marta) | Prototipo |
+| Tests | — | — |
 
-Definen cuándo una historia está completa:
+**Herramientas**: Trello, GitHub Projects, Notion, un pizarra física.
 
-```
-**Dado que** [contexto inicial]
-**Cuando** [acción que realiza el usuario]
-**Entonces** [resultado esperado]
-```
+### SCRUM adaptado a 2-3 personas
 
-### Ejemplo
+No necesitas un Scrum Master ni sprints de 2 semanas perfectos. Pero sí:
 
-```gherkin
-HU-001: Registro de usuario
-Como usuario nuevo
-Quiero registrarme con mi email y contraseña
-Para poder acceder a la aplicación
+1. **Sprint**: bloque de 1-2 semanas con objetivos concretos
+2. **Reunión de planificación**: qué vamos a hacer este sprint
+3. **Reunión diaria** (15 min): qué hice ayer, qué haré hoy, bloqueos
+4. **Revisión**: al final del sprint, qué se consiguió
 
-Criterios de aceptación:
-- Dado que soy un usuario nuevo
-  Cuando introduzco un email válido y una contraseña de al menos 8 caracteres
-  Entonces se crea mi cuenta y recibo un email de confirmación
+<Aclaracion pregunta="¿No es demasiado para un proyecto de clase?">
+  Para un proyecto de clase pequeño, igual sí. Pero para un proyecto
+  intermodular que dura meses y en equipo, la planificación ligera
+  es **necesaria**.
 
-- Dado que introduzco un email ya registrado
-  Cuando envío el formulario de registro
-  Entonces veo un mensaje "El email ya está registrado"
+  No hace falta ceremonies formales. Basta con:
+  - Un tablero Kanban (Trello, GitHub Projects)
+  - Reuniones de 10-15 minutos, 2 veces por semana
+  - Objetivos claros para cada semana
 
-- Dado que introduzco una contraseña débil (< 8 caracteres)
-  Cuando envío el formulario
-  Entonces veo un mensaje "La contraseña debe tener al menos 8 caracteres"
-```
+  La planificación no es burocracia. Es un **mapa** para no perderte.
+</Aclaracion>
 
-### Priorización: MoSCoW
+## Cómo estimar bien
 
-| Prioridad | Significado | Ejemplo |
-|-----------|-------------|---------|
-| **M**ust have | Imprescindible | Login, registro, CRUD principal |
-| **S**hould have | Importante pero no crítico | Búsqueda avanzada |
-| **C**ould have | Deseable | Modo oscuro |
-| **W**on't have | No se hará ahora | Integración con redes sociales |
+Estimar es difícil porque siempre tendemos al optimismo.
+"Esto lo hago en 2 días" → en realidad son 5.
 
-## Diagramas UML
+### Técnica: desglose y multiplica
 
-UML (Unified Modeling Language) es un lenguaje de modelado visual para sistemas software.
+1. Divide la tarea en subtareas de máximo 4 horas
+2. Estima cada subtarea
+3. Multiplica el total por **2** (para cubrir imprevistos)
 
-### Diagrama de Casos de Uso
+**Ejemplo**: "Hacer pantalla de registro"
 
-Muestra actores y funcionalidades del sistema:
+| Subtarea | Estimación |
+|----------|-----------|
+| Maquetar HTML | 2h |
+| Estilos CSS | 1h |
+| Validación JS | 2h |
+| Conectar con API | 2h |
+| Probar | 1h |
+| **Total** | **8h → 16h (2 días)** |
 
-```
-┌──────────────────────────────────────────────────┐
-│                    Sistema                        │
-│                                                    │
-│  ┌──────────┐     ┌─────────────────────┐        │
-│  │ Usuario  │────>│ Registrarse         │        │
-│  └──────────┘     └─────────────────────┘        │
-│       │                                          │
-│       │     ┌─────────────────────┐              │
-│       ├────>│ Iniciar sesión      │              │
-│       │     └─────────────────────┘              │
-│       │                                          │
-│       │     ┌─────────────────────┐              │
-│       ├────>│ Crear tarea         │              │
-│       │     └─────────────────────┘              │
-│       │                                          │
-│  ┌──────────┐     ┌─────────────────────┐        │
-│  │ Admin    │────>│ Gestionar usuarios  │        │
-│  └──────────┘     └─────────────────────┘        │
-└──────────────────────────────────────────────────┘
-```
+El multiplicador por 2 no es pesimismo. Es experiencia. Los imprevistos,
+las dudas, los "y si...", las interrupciones ocurren siempre.
 
-### Diagrama de Clases
+<Comparativa
+  dialogos={[
+    { quien: "Sin planificar", texto: "Voy haciendo tareas según me apetece o según surgen. Al final del mes, no sé si estoy a tiempo. Me estreso y termino haciendo mal las cosas." },
+    { quien: "Con planificación ligera", texto: "Cada semana sé lo que tengo que hacer. Si me retraso, lo veo a tiempo y puedo ajustar. Al final del proyecto, sé que entregaré lo planeado." },
+  ]}
+  titulo="¿Planificar o ir sobre la marcha?"
+/>
 
-Representa las entidades del sistema y sus relaciones:
+## Cómo recuperar el tiempo perdido
 
-```
-┌─────────────────┐          ┌───────────────────┐
-│     Usuario     │          │      Tarea        │
-├─────────────────┤          ├───────────────────┤
-│ - id: int       │1        N│ - id: int         │
-│ - nombre: str   │──────────│ - titulo: str     │
-│ - email: str    │          │ - descripcion: str│
-│ - password: str │          │ - estado: enum    │
-├─────────────────┤          │ - fecha_limite: dt│
-│ + registrarse() │          │ - id_usuario: int │
-│ + login()       │          ├───────────────────┤
-│ + crearTarea()  │          │ + completar()     │
-│ + listarTareas()│          │ + actualizar()    │
-└─────────────────┘          │ + eliminar()      │
-                             └───────────────────┘
-```
+Si te das cuenta de que no llegas (y te darás cuenta si planificas):
 
-### Diagrama de Secuencia
+1. **Prioriza**: haz solo lo que realmente importa para el MVP
+2. **Recorta**: lo que no sea imprescindible, fuera
+3. **Simplifica**: una funcionalidad simple que funciona > una compleja a medias
+4. **Pide ayuda**: al profesor o a compañeros
+5. **No te engañes**: si ves que no llegas, actúa, no esperes
 
-Muestra la interacción temporal entre componentes:
+<CasoPractico titulo="El proyecto que se salvó por un tablero Kanban">
 
-```
-Usuario        Frontend        Backend        BD
-   │              │              │            │
-   │──Registro───>│              │            │
-   │              │──POST /api──>│            │
-   │              │              │──INSERT──>│
-   │              │              │<──OK──────│
-   │              │<──201 Creado│            │
-   │<──Bienvenida─│              │            │
-   │              │              │            │
-   │──Login──────>│              │            │
-   │              │──POST /auth─>│            │
-   │              │              │──SELECT──>│
-   │              │              │<──datos───│
-   │              │<──JWT token─│            │
-   │<──Token──────│              │            │
-```
+  Un equipo de tres empezó usando solo un grupo de WhatsApp para organizarse.
+  "Hoy hago esto", "mañana haré lo otro". Sin prioridades claras, sin fechas.
 
-## Planificación y estimación
+  A mitad de curso, un profesor les recomendó usar **GitHub Projects**.
+  Se tomaron una tarde para:
+  - Listar todas las tareas pendientes
+  - Priorizarlas (imprescindible / deseable / futuro)
+  - Asignar responsables
+  - Poner fechas límite
 
-### WBS (Work Breakdown Structure)
+  Lo que descubrieron les sorprendió: tenían el doble de tareas de las
+  que pensaban y la mitad del tiempo para hacerlas. Recortaron funcionalidades,
+  reordenaron prioridades, y se centraron en lo importante.
 
-Descomposición jerárquica del trabajo:
+  **Resultado**: entregaron a tiempo, con un proyecto completo y funcional.
+  No sobraron lujos, pero no faltó lo esencial.
 
-```
-1.0 Gestor de Tareas
-├── 1.1 Frontend
-│   ├── 1.1.1 Pantalla de login
-│   ├── 1.1.2 Panel principal
-│   ├── 1.1.3 Formulario de tareas
-│   └── 1.1.4 Lista y filtros
-├── 1.2 Backend
-│   ├── 1.2.1 API de autenticación
-│   ├── 1.2.2 API de tareas (CRUD)
-│   └── 1.2.3 Middleware de seguridad
-├── 1.3 Base de datos
-│   ├── 1.3.1 Diseño del esquema
-│   └── 1.3.2 Migraciones
-└── 1.4 Despliegue
-    ├── 1.4.1 Configuración servidor
-    └── 1.4.2 CI/CD
-```
+  **Lección**: ver el trabajo reflejado en un tablero no estresa. Libera.
+  Porque lo que no está escrito no existe, y lo que no está planificado
+  no se hace.
+</CasoPractico>
 
-### Estimación con story points
+## Checklist para tu planificación
 
-Usa la secuencia de Fibonacci (1, 2, 3, 5, 8, 13) para estimar el esfuerzo relativo:
-
-| Puntos | Significado | Ejemplo |
-|--------|-------------|---------|
-| 1 | Trivial | Cambiar color de un botón |
-| 2 | Sencillo | Añadir campo a un formulario |
-| 3 | Medio | Crear una nueva pantalla simple |
-| 5 | Complejo | Implementar sistema de búsqueda |
-| 8 | Muy complejo | Integración con API externa |
-| 13 | Demasiado grande | Dividir en historias más pequeñas |
-
-## Buenas prácticas
-
-1. **Lean Canvas vivo**: actualízalo a medida que el proyecto evoluciona
-2. **Historias INVERT**: Independientes, Negociables, Valiosas, Estimables, Pequeñas, Testeables
-3. **UML mínimo**: solo los diagramas que aporten claridad al equipo
-4. **Dividir lo grande**: si una historia es > 8 puntos, divídela en varias
-5. **Documentar decisiones**: mantén un registro de por qué se tomaron ciertas decisiones
-
-## Ejercicio práctico
-
-Para tu proyecto, completa:
-1. Un Lean Canvas para tu idea de proyecto
-2. 3 historias de usuario con criterios de aceptación (priorizadas con MoSCoW)
-3. Un diagrama de clases con 3 entidades principales
-
-<details>
-<summary>Ejemplo de entrega</summary>
-
-**Lean Canvas** (rellena las 9 secciones para tu idea)
-
-**HU-001: Autenticación**
-Como usuario quiero iniciar sesión con email y contraseña para acceder a mis datos.
-- Dado que tengo una cuenta, cuando introduzco credenciales correctas, accedo al sistema
-- Dado que introduzco credenciales incorrectas, veo un mensaje de error
-
-**HU-002: Gestión de contenido**
-Como usuario quiero crear y editar contenido para mantener actualizada mi información.
-
-**HU-003: Búsqueda**
-Como usuario quiero buscar contenido por palabras clave para encontrar rápidamente lo que necesito.
-
-**Diagrama de clases**:
-Usuario (1) ──── (N) Proyecto (1) ──── (N) Tarea
-
-</details>
-
-## Resumen
-
-- **Lean Canvas**: modelo de negocio en una página
-- **Historias de usuario**: descripción de funcionalidades desde la perspectiva del usuario
-- **UML**: modelado visual de casos de uso, clases y secuencias
-- **Planificación**: WBS para descomponer el trabajo, story points para estimar
+- [ ] Tengo un tablero con todas las tareas del proyecto
+- [ ] Cada tarea tiene responsable y fecha estimada
+- [ ] Tengo las funcionalidades priorizadas (MVP vs deseable)
+- [ ] Sé lo que tengo que hacer esta semana
+- [ ] Hago reuniones de equipo al menos cada 3-4 días
+- [ ] Si veo que me retraso, ajusto el plan inmediatamente
+- [ ] Cada sprint entrego algo funcional, no "código a medias"

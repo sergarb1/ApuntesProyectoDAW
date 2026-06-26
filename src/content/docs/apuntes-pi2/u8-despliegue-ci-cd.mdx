@@ -1,410 +1,143 @@
 ---
-title: U8 - Despliegue Cloud y CI/CD
-description: Railway, Vercel, GitHub Actions, variables de entorno, dominios
+title: 🚀 U8. Publicar y mantener
+description: Cómo poner tu aplicación en producción y mantenerla actualizada con CI/CD
 ---
 
-## Objetivos de la unidad
+import StoryIntro from '../../../components/StoryIntro.astro';
+import Aclaracion from '../../../components/Aclaracion.astro';
+import CasoPractico from '../../../components/CasoPractico.astro';
 
-- Desplegar aplicaciones web en plataformas cloud (Railway, Vercel)
-- Configurar pipelines CI/CD con GitHub Actions
-- Gestionar variables de entorno en producción
-- Configurar dominios personalizados y HTTPS
+<StoryIntro icono="🎬" titulo="El día que la aplicación salió al mundo">
+  "Ya está. Hemos terminado", dijo el equipo. Pero el profesor preguntó:
+  "¿Y dónde puedo verla funcionando?".
 
-## Introducción
+  Silencio. La aplicación estaba en sus portátiles. En localhost.
 
-El despliegue es la fase final del desarrollo. Un pipeline CI/CD automatiza las pruebas y la publicación, garantizando que los cambios lleguen a producción de forma segura y rápida.
+  Pasaron tres días intentando desplegarla en un servidor gratuito.
+  Errores de configuración, puertos cerrados, archivos que faltaban,
+  variables de entorno sin definir. Al final lo consiguieron, pero
+  el estrés de última hora fue evitable.
 
-## Plataformas cloud
+  Desplegar no es "lo que haces al final si sobra tiempo".
+  Es parte del proyecto. Y deberías empezar a pensarlo **antes**
+  de la última semana.
+</StoryIntro>
 
-### Vercel (Frontend)
+## ¿Por qué desplegar?
 
-Vercel es la plataforma ideal para frontends estáticos y frameworks como React, Vue, Astro.
+Un proyecto que solo funciona en localhost está **incompleto**.
+Desplegarlo demuestra que:
 
-```bash
-# Instalar CLI
-npm i -g vercel
+- La aplicación funciona fuera de tu entorno controlado
+- Sabes configurar un servidor
+- Entiendes el ciclo de vida de una aplicación web
+- El tribunal puede probarlo sin instalar nada
 
-# Despliegue inicial
-vercel
+## Opciones de despliegue gratuito
 
-# Despliegue a producción
-vercel --prod
+| Plataforma | Ideal para | HTTPS |
+|-----------|-----------|-------|
+| **Vercel** | Frontend (React, Vue, Astro) | ✅ |
+| **Netlify** | Frontend estático | ✅ |
+| **Render** | Backend + BD gratuita (limitado) | ✅ |
+| **Railway** | Backend + BD | ✅ |
+| **GitHub Pages** | Sitios estáticos | ✅ |
+| **Firebase** | Apps con backend ligero | ✅ |
+| **PythonAnywhere** | Backend Python | ✅ |
 
-# Variables de entorno
-vercel env add SECRET_KEY
-```
+Elige la que mejor se adapte a tu stack. La mayoría tiene planes
+gratuitos suficientes para un proyecto DAW.
 
-```json
-// vercel.json
-{
-    "framework": "astro",
-    "buildCommand": "npm run build",
-    "outputDirectory": "dist",
-    "installCommand": "npm ci",
-    "rewrites": [
-        { "source": "/api/(.*)", "destination": "https://api.mi-app.com/$1" }
-    ],
-    "headers": [
-        {
-            "source": "/(.*)",
-            "headers": [
-                { "key": "X-Content-Type-Options", "value": "nosniff" }
-            ]
-        }
-    ]
-}
-```
+<Aclaracion pregunta="¿Y si el despliegue cuesta dinero?">
+  Casi todas las plataformas tienen plan gratuito. Si tu proyecto
+  es pequeño, no deberías pagar nada.
 
-### Railway (Backend completo)
+  Eso sí, los planes gratuitos tienen limitaciones:
+  - El servidor se "duerme" si no se usa (tarda unos segundos al arrancar)
+  - Almacenamiento limitado
+  - Ancho de banda limitado
 
-Railway despliega backends con BD incluidas.
+  Para una presentación, son suficientes. Si necesitas más, muchas
+  plataformas tienen créditos gratuitos para estudiantes (GitHub Student Pack).
+</Aclaracion>
 
-```bash
-# CLI
-npm i -g @railway/cli
+## CI/CD: que se despliegue solo
 
-# Login
-railway login
+CI/CD significa **Integración Continua / Despliegue Continuo**.
+En cristiano: cada vez que subes código al repositorio, los tests
+se ejecutan automáticamente y, si todo va bien, la aplicación se
+despliega sola.
 
-# Inicializar
-railway init
+### Lo mínimo que deberías tener
 
-# Desplegar
-railway up
-
-# Abrir en navegador
-railway open
-```
-
-```toml
-# railway.toml
-[build]
-builder = "NIXPACKS"
-buildCommand = "npm run build"
-
-[deploy]
-startCommand = "npm start"
-healthcheckPath = "/api/health"
-restartPolicyType = "always"
-```
-
-## GitHub Actions (CI/CD)
-
-GitHub Actions automatiza build, test y deploy.
-
-### Workflow básico: build + test
-
-```yaml
-# .github/workflows/ci.yml
-name: CI
-
-on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'npm'
-
-      - run: npm ci
-
-      - run: npm run lint
-
-      - run: npm test
-
-      - run: npm run build
-```
-
-### Despliegue a Railway
-
-```yaml
-# .github/workflows/deploy-railway.yml
-name: Deploy to Railway
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Install Railway
-        run: npm i -g @railway/cli
-
-      - name: Deploy
-        run: railway up
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-```
-
-### Despliegue a GitHub Pages
+Un flujo CI/CD básico con GitHub Actions:
 
 ```yaml
 # .github/workflows/deploy.yml
-name: Deploy to GitHub Pages
-
+name: Deploy
 on:
   push:
     branches: [main]
-
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-        env:
-          PUBLIC_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist/
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
-```
-
-### Despliegue con Docker + SSH
-
-```yaml
-name: Deploy via Docker
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Build Docker image
-        run: docker build -t mi-app:${{ github.sha }} .
-
-      - name: Push to registry
-        run: |
-          docker tag mi-app:${{ github.sha }} ghcr.io/${{ github.repository }}:latest
-          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-          docker push ghcr.io/${{ github.repository }}:latest
-
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            docker pull ghcr.io/${{ github.repository }}:latest
-            docker stop mi-app || true
-            docker rm mi-app || true
-            docker run -d --name mi-app \
-              -p 3000:3000 \
-              --env-file /opt/mi-app/.env \
-              ghcr.io/${{ github.repository }}:latest
-```
-
-## Variables de entorno en producción
-
-```yaml
-# GitHub Secrets
-# Settings → Secrets and variables → Actions
-# Añadir:
-# - RAILWAY_TOKEN
-# - SSH_HOST
-# - SSH_USER
-# - SSH_KEY
-# - DATABASE_URL
-
-# Acceder en GitHub Actions
-env:
-  DATABASE_URL: ${{ secrets.DATABASE_URL }}
-```
-
-```javascript
-// Código que usa variables de entorno
-const config = {
-    port: process.env.PORT || 3000,
-    dbUrl: process.env.DATABASE_URL,
-    jwtSecret: process.env.JWT_SECRET,
-    nodeEnv: process.env.NODE_ENV || 'development',
-};
-
-if (!config.dbUrl) {
-    throw new Error('DATABASE_URL no configurada');
-}
-```
-
-## Dominio personalizado y HTTPS
-
-### Vercel
-
-```bash
-# Añadir dominio
-vercel domains add miapp.com
-
-# Verificar propiedad (registrar TXT record)
-```
-
-### GitHub Pages
-
-```
-1. Configurar CNAME en repositorio
-   Settings → Pages → Custom domain: apuntes.miapp.com
-2. Crear CNAME record en tu DNS
-   apuntes → sergarb1.github.io
-3. Habilitar HTTPS
-```
-
-```javascript
-// Para GitHub Pages con dominio personalizado
-// Crear archivo CNAME en /public
-echo "apuntes.miapp.com" > public/CNAME
-```
-
-## Buenas prácticas CI/CD
-
-1. **Ejecutar tests antes del deploy**: nunca despliegues código que falle tests
-2. **Variables de entorno en secrets**: nunca hardcodees credenciales
-3. **Entornos por separado**: development → staging → production
-4. **Rollback rápido**: poder volver a versión anterior fácilmente
-5. **Notificaciones**: avisar al equipo cuando un deploy falla o se completa
-
-## Estrategias de despliegue
-
-### Blue-Green Deployment
-
-```
-┌──────────┐     ┌──────────┐
-│  Blue    │     │  Green   │
-│ (viejo)  │────>│ (nuevo)  │
-└──────────┘     └──────────┘
-   ↑ router cambia cuando Green está listo
-```
-
-### Rolling Update
-
-```
-Instancia 1: detener → actualizar → iniciar
-Instancia 2: detener → actualizar → iniciar
-Instancia 3: detener → actualizar → iniciar
-(Sin downtime)
-```
-
-## Ejercicio práctico
-
-Configura un pipeline completo para una app con:
-- Tests automáticos en cada PR
-- Build de Docker image
-- Despliegue automático en main
-
-<details>
-<summary>Solución</summary>
-
-```yaml
-# .github/workflows/ci-cd.yml
-name: CI/CD Pipeline
-
-on:
-  pull_request:
-    branches: [main]
-  push:
-    branches: [main]
-
-jobs:
-  test:
-    if: github.event_name == 'pull_request'
+  test-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'npm'
-      - run: npm ci
-      - run: npm test
-      - run: npm run lint
-
-  build-and-deploy:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run build
-        env:
-          API_URL: ${{ secrets.API_URL }}
-          PUBLIC_URL: https://miapp.com
-
-      - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
+      - run: npm install
+      - run: npm test          # tests automáticos
+      - run: npm run build     # construir
+      - run: npm run deploy    # desplegar
 ```
 
-</details>
+Con esto, cada vez que haces `git push` a `main`, el proyecto se prueba
+y se despliega automáticamente. Sin intervención manual.
 
-## Resumen
+### Ventajas de CI/CD
 
-- **Vercel**: ideal para frontend (React, Astro, Vue)
-- **Railway**: despliegue completo incluyendo backend y BD
-- **GitHub Actions**: CI/CD con workflows YAML
-- **Variables de entorno**: secrets en GitHub, no hardcodeadas
-- **Dominio personalizado**: CNAME + HTTPS automático
-- **Estrategias**: blue-green, rolling update para zero downtime
+- **Olvídate de desplegar manualmente**: un `git push` lo hace todo
+- **Los tests se ejecutan siempre**: si algo falla, no se despliega
+- **El tribunal ve la última versión**: siempre que haces un push
+- **Menos errores humanos**: no olvidas un paso del despliegue
+
+<CasoPractico titulo="El despliegue que impresionó al tribunal">
+
+  Un equipo configuró CI/CD desde el principio. Cada vez que hacían
+  un push a `main`, el proyecto se desplegaba automáticamente en Render.
+
+  El día de la presentación:
+  1. Abrieron la URL en el navegador del tribunal
+  2. La aplicación funcionaba
+  3. El profesor pidió ver el código
+  4. Enseñaron el repositorio con el GitHub Actions configurado
+  5. El profesor hizo un cambio menor en una página, hicieron push,
+     y en 2 minutos el cambio estaba visible en producción
+
+  El tribunal quedó impresionado. No solo habían hecho una aplicación,
+  habían montado un **proceso de desarrollo profesional**.
+
+  **Lección**: CI/CD no es solo para empresas. Es una práctica que
+  demuestra que entiendes cómo funciona el desarrollo de software real.
+  Y en un proyecto DAW, marca la diferencia.
+</CasoPractico>
+
+## Mantenimiento post-despliegue
+
+Una vez desplegada, la aplicación necesita mantenimiento mínimo:
+
+1. **Monitoreo básico**: ¿está funcionando? ¿responde? (herramientas: UptimeRobot)
+2. **Logs**: ¿hay errores? revísalos periódicamente
+3. **Actualizaciones**: las dependencias se quedan obsoletas, actualiza lo crítico
+
+Para un proyecto DAW, el mantenimiento se reduce a "comprobar que funciona
+antes de la presentación". Pero saber que existe es parte de la formación.
+
+## Checklist para tu despliegue
+
+- [ ] He elegido una plataforma de despliegue gratuita
+- [ ] He configurado HTTPS
+- [ ] Las variables de entorno están configuradas en la plataforma
+- [ ] He probado la aplicación desplegada (no solo en local)
+- [ ] Tengo CI/CD configurado (GitHub Actions u otro)
+- [ ] Los tests se ejecutan automáticamente antes de desplegar
+- [ ] La URL de la aplicación está en la memoria del proyecto
+- [ ] He probado la app desplegada desde otro dispositivo
