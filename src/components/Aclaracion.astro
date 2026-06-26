@@ -1,11 +1,12 @@
 ---
 export interface Props {
   pregunta: string;
+  abierto?: boolean;
 }
 
-const { pregunta } = Astro.props;
+const { pregunta, abierto = false } = Astro.props;
 ---
-<details class="aclaracion">
+<details class="aclaracion" {abierto ? 'open' : undefined}>
   <summary class="aclaracion-summary">
     <span class="aclaracion-icon">❓</span>
     <span class="aclaracion-pregunta">{pregunta}</span>
