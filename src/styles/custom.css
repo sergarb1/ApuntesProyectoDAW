@@ -141,9 +141,26 @@
   color: var(--sl-color-accent);
 }
 
+.card-link:active .card {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border-color: var(--sl-color-accent);
+}
+
 @media (max-width: 640px) {
   .card-grid {
     grid-template-columns: 1fr;
+  }
+  .card {
+    padding: 1rem 1.25rem;
+  }
+  .card h3 {
+    font-size: 1rem;
+  }
+  .card-btn {
+    width: 100%;
+    text-align: center;
+    padding: 0.625rem 1rem;
   }
   .hero-links {
     flex-direction: column;
@@ -151,6 +168,12 @@
   }
   .hero-btn {
     justify-content: center;
+  }
+  .portada {
+    margin-bottom: 1.25rem;
+  }
+  .hero-section {
+    padding: 1.5rem 0.5rem;
   }
 }
 
