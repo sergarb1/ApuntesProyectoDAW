@@ -1,5 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 290 50">
-  <rect x="0" y="5" width="40" height="40" rx="8" fill="#2563eb"/>
-  <text x="20" y="33" font-family="system-ui, sans-serif" font-size="22" font-weight="bold" fill="white" text-anchor="middle">PI</text>
-  <text x="50" y="33" font-family="system-ui, sans-serif" font-size="16" font-weight="600" fill="#1e293b">Apuntes Proyecto Intermodular</text>
+  <rect x="0" y="5" width="40" height="40" rx="9" fill="#2563eb"/>
+  <path d="M8 14 Q14 12 20 14 L20 36 Q14 34 8 36 Z" fill="white"/>
+  <path d="M32 14 Q26 12 20 14 L20 36 Q26 34 32 36 Z" fill="white"/>
+  <line x1="20" y1="14" x2="20" y2="36" stroke="#2563eb" stroke-width="1.2" opacity="0.25"/>
+  <line x1="11" y1="18" x2="18" y2="19.5" stroke="#2563eb" stroke-width="0.9" opacity="0.18"/>
+  <line x1="11" y1="23" x2="18" y2="24.5" stroke="#2563eb" stroke-width="0.9" opacity="0.18"/>
+  <line x1="11" y1="28" x2="18" y2="29.5" stroke="#2563eb" stroke-width="0.9" opacity="0.18"/>
+  <line x1="29" y1="18" x2="22" y2="19.5" stroke="#2563eb" stroke-width="0.9" opacity="0.18"/>
+  <line x1="29" y1="23" x2="22" y2="24.5" stroke="#2563eb" stroke-width="0.9" opacity="0.18"/>
+  <line x1="29" y1="28" x2="22" y2="29.5" stroke="#2563eb" stroke-width="0.9" opacity="0.18"/>
+  <text x="50" y="33" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" fill="#2563eb">Apuntes Proyecto Intermodular</text>
 </svg>

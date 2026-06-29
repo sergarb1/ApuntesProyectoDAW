@@ -4,6 +4,7 @@ description: Las herramientas que usarás durante el proyecto y cuándo usar cad
 ---
 
 import StoryIntro from '../../components/StoryIntro.astro';
+import CasoPractico from '../../components/CasoPractico.astro';
 
 <StoryIntro icono="🎬" titulo="El día que se dieron cuenta de que no necesitaban 20 herramientas">
   El equipo empezó con entusiasmo: un chat para hablar, otro para
@@ -29,6 +30,9 @@ Tu repositorio no es solo para el código. También es para:
 - Pull requests (revisión de código)
 - Projects (tablero Kanban integrado)
 
+**Tip**: usa GitHub Projects como tablero. Así tienes código y tareas
+en el mismo sitio. Una herramienta menos que gestionar.
+
 ### 2. Comunicación (Discord, WhatsApp, Slack)
 
 Elegid una. Solo una. No combinéis WhatsApp para "urgente" y Discord
@@ -39,7 +43,7 @@ para "lo demás". Todo en el mismo sitio.
 - Técnico (problemas de código)
 - Off-topic (memes, no interrumpir a los demás)
 
-### 3. Documentación (Google Docs, Notion, Markdown)
+### 3. Documentación (Markdown en el repo)
 
 La memoria del proyecto, las decisiones técnicas, los diagramas.
 Todo en un sitio accesible para todos.
@@ -51,12 +55,50 @@ documentación viaja con el código y tenéis control de versiones.
 
 Un tablero con tres columnas basta:
 
-```
-Por hacer | En proceso | Hecho
-```
+<div class="diagram-flow">
+  <div class="diagram-step">📋 Por hacer</div>
+  <div class="diagram-arrow">→</div>
+  <div class="diagram-step">⚙️ En proceso</div>
+  <div class="diagram-arrow">→</div>
+  <div class="diagram-step">✅ Hecho</div>
+</div>
 
 Si necesitas más, añade "Revisión" o "Bloqueado". Pero no te pases.
 Cuantas más columnas, más tiempo pierdes moviendo tarjetas.
+
+<CasoPractico numero="2" titulo="El día que consolidaron sus herramientas">
+  Un equipo usaba:
+  - WhatsApp para hablar
+  - Trello para tareas
+  - Google Docs para documentación
+  - GitHub para código
+  - Figma para diseños
+  - Drive para assets
+
+  **El problema**: cada vez que necesitaban algo, no sabían dónde buscar.
+  La información estaba fragmentada.
+
+  **La solución**:
+  - Movieron todo a GitHub (Issues + Projects + Wiki)
+  - Markdown para documentación (dentro del repo)
+  - Discord para comunicación (integrado con GitHub)
+  - Figma solo para prototipos iniciales
+
+  **Resultado**: 4 herramientas → 3. La información, centralizada.
+</CasoPractico>
+
+### 5. IDE (VS Code recomendado)
+
+VS Code es el estándar por su ecosistema de extensiones:
+
+| Extensión | Para qué |
+|-----------|----------|
+| ESLint / Prettier | Código limpio y formateado |
+| GitLens | Historial y blame en línea |
+| GitHub Pull Requests | Revisar PRs sin salir del IDE |
+| Live Share | Programar en pareja en remoto |
+| Docker | Gestionar contenedores |
+| Thunder Client | Probar APIs (alternativa a Postman) |
 
 ## Herramientas complementarias
 
@@ -68,9 +110,21 @@ Cuantas más columnas, más tiempo pierdes moviendo tarjetas.
 | Vercel / Netlify | Despliegue frontend | Render, GitHub Pages |
 | UptimeRobot | Monitorizar que la app responde | — |
 
+## Flujo de trabajo típico
+
+```
+1. Abres una Issue en GitHub → tarea pendiente
+2. Mueves la Issue a "En proceso" → estás trabajando
+3. Creas una rama feature/ desde develop → código
+4. Abres un Pull Request → revisión del compañero
+5. Mergeas a develop → integración
+6. Cierras la Issue → ✅
+```
+
 ## Lo que NO necesitas
 
 - Un IDE distinto cada uno (cada uno que use el que quiera)
 - Una herramienta de gestión de proyectos solo porque está de moda
 - Un servicio cloud que nadie sabe configurar
 - Una base de datos externa cuando SQLite local es suficiente
+- Un canal de comunicación distinto para cada tema

@@ -15,20 +15,23 @@
 4. **Apuntes PI2** (oculto) — 9 unidades
 
 ## Componentes propios
-- `StoryIntro.astro` — Bloque narrativo introductorio con icono, título y contenido
-- `Aclaracion.astro` — Caja de aclaración tipo nota informativa
-- `Comparativa.astro` — Tabla comparativa visual con dos columnas enfrentadas
-- `CasoPractico.astro` — Ejemplo práctico aplicado tipo caso de estudio
-- `Footer.astro` — Pie de página personalizado
-- `Hero.astro` — Hero section (reemplaza el de Starlight)
+- `StoryIntro.astro` — Bloque narrativo introductorio con icono, título y contenido. Props: `icono`, `titulo`, contenido slot.
+- `Aclaracion.astro` — Caja de aclaración tipo nota/FAQ colapsable. Props: `icono`, `pregunta`, `abierto` (opcional).
+- `Comparativa.astro` — Diálogo comparativo visual. Props: `titulo`, `dialogos` (array de `{quien, texto}`).
+- `CasoPractico.astro` — Ejemplo práctico tipo caso de estudio. Props: `numero`, `titulo`, contenido slot.
+- `Footer.astro` — Pie de página personalizado.
+- `Hero.astro` — Hero section (reemplaza el de Starlight).
 
 ## Convenios de código
 - **Sidebar**: grupos con `collapsed: true/false`; usar Starlight `link` o `items` anidados
-- **Contenido**: archivos `.mdx` en `src/content/docs/` con frontmatter `title` y `description`
+- **Contenido**: archivos `.mdx` en `src/content/docs/` con frontmatter `title` y `description`. No usar `.md` (todos convertidos a `.mdx`).
 - **Componentes**: import relativo desde `src/components/` (contar niveles `../..`)
+- **Cards**: usar `<div class="card-title">` en vez de `###` heading dentro de `<a class="card-link">` para evitar que Starlight añada `sl-anchor-link` anidado (inválido: `<a><a>`).
 - **Imágenes**: en `public/` referenciadas con base `/ApuntesProyectoDAW/`
 - **Config**: `astro.config.mjs` para sidebar e integraciones; `src/content.config.ts` con `docsLoader` + `docsSchema`
 - **CSS**: estilos de componentes en `src/styles/custom.css` con soporte dark mode
+- **Logo SVG**: `src/assets/logo.svg` (290x50, icono libro abierto + texto)
+- **Favicon SVG**: `public/favicon.svg` (100x100, icono libro abierto)
 
 ## Reglas de import paths
 - `src/content/docs/*.mdx` → `../../components/`
@@ -43,19 +46,30 @@
 
 ## Comandos
 - `npm run dev` — servidor de desarrollo
-- `npm run build` — build estático en `dist/` (49 páginas)
+- `npm run build` — build estático en `dist/` (49 páginas, ~6s)
 - `npm run preview` — preview del build
+
+## CSS / diseño
+- **Card grid**: `grid-template-columns: repeat(2, 1fr)`, `max-width: 750px`, `margin: 2rem auto`. Mobile: `1fr`, `max-width: 100%`.
+- **Card-link**: `display: block`. Sin `width: 100%` (porcentajes en grid items resuelven contra el contenedor, no la celda).
+- **Portada**: `public/portada.webp` (174KB, quality 90). Formato WebP. Sin versión PNG.
+- **Animaciones**: `@keyframes fadeInUp` en card-grid y hero-links. `@keyframes pulse` en `.emoji-404`.
+- **404 page**: `src/content/docs/404.mdx` con emoji animado y navegación mediante Starlight `CardGrid`.
+- **Botones premium**: gradient, pill shape (`999px`), sombras, hover/active states, dark mode.
 
 ## Despliegue
 - GitHub Pages vía Actions (`.github/workflows/deploy.yml`)
 - Node 24, upload `dist/` a gh-pages
 - `.nojekyll` en raíz y `public/` para evitar procesado Jekyll
+- Base URL: `/ApuntesProyectoDAW/`
 
 ## Ubicación de archivos clave
 - `astro.config.mjs` — configuración principal
 - `src/content.config.ts` — loader Starlight
 - `src/content/docs/` — todas las páginas
-- `src/content/docs/index.mdx` — homepage
+- `src/content/docs/index.mdx` — homepage con portada, hero buttons, card-grids
+- `src/content/docs/404.mdx` — página 404 con emoji animado y navegación
 - `src/components/` — componentes Astro (StoryIntro, Aclaracion, Comparativa, CasoPractico, Footer, Hero)
 - `src/styles/custom.css` — estilos globales y de componentes
-- `public/` — assets estáticos (portada.png, cc-by-sa.png, favicon.svg)
+- `src/assets/logo.svg` — logo del header (libro abierto)
+- `public/` — assets estáticos (portada.webp, cc-by-sa.png, favicon.svg, .nojekyll)

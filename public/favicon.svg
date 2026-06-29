@@ -1,4 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" rx="20" fill="#2563eb"/>
-  <text x="50" y="68" font-family="system-ui, sans-serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle">PI</text>
+  <rect width="100" height="100" rx="22" fill="#2563eb"/>
+  <path d="M20 28 Q35 24 50 28 L50 72 Q35 68 20 72 Z" fill="white"/>
+  <path d="M80 28 Q65 24 50 28 L50 72 Q65 68 80 72 Z" fill="white"/>
+  <line x1="50" y1="28" x2="50" y2="72" stroke="#2563eb" stroke-width="2" opacity="0.2"/>
+  <line x1="26" y1="36" x2="46" y2="38" stroke="#2563eb" stroke-width="1.5" opacity="0.15"/>
+  <line x1="26" y1="46" x2="46" y2="48" stroke="#2563eb" stroke-width="1.5" opacity="0.15"/>
+  <line x1="26" y1="56" x2="46" y2="58" stroke="#2563eb" stroke-width="1.5" opacity="0.15"/>
+  <line x1="74" y1="36" x2="54" y2="38" stroke="#2563eb" stroke-width="1.5" opacity="0.15"/>
+  <line x1="74" y1="46" x2="54" y2="48" stroke="#2563eb" stroke-width="1.5" opacity="0.15"/>
+  <line x1="74" y1="56" x2="54" y2="58" stroke="#2563eb" stroke-width="1.5" opacity="0.15"/>
 </svg>

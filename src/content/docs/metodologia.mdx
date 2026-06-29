@@ -4,6 +4,8 @@ description: Cómo abordar el proyecto con una metodología que te ayude a organ
 ---
 
 import StoryIntro from '../../components/StoryIntro.astro';
+import CasoPractico from '../../components/CasoPractico.astro';
+import Comparativa from '../../components/Comparativa.astro';
 
 <StoryIntro icono="🎬" titulo="El día que entendieron que la metodología no era burocracia">
   "¿Otra reunión?", "¿Otra columna en el tablero?", "¿Otra estimación?".
@@ -21,6 +23,11 @@ import StoryIntro from '../../components/StoryIntro.astro';
 ## ¿Qué metodología usar?
 
 No hay una única respuesta. Depende de tu equipo y tu proyecto.
+
+<Comparativa titulo="Scrum vs Kanban" dialogos={[
+  { quien: "✅ Scrum (recomendado para PI1)", texto: "Sprints de 1-2 semanas. Reuniones cortas con propósito. Roles rotativos. Ideal para fechas de entrega fijas." },
+  { quien: "✅ Kanban (recomendado para PI2)", texto: "Flujo continuo sin sprints. Límites de trabajo en curso (WIP). Menos reuniones. Ideal para mantenimiento y mejoras." },
+]} />
 
 ### SCRUM (adaptado)
 
@@ -40,7 +47,7 @@ Para equipos de 2-4 personas, con sprints de 1-2 semanas.
 
 ### Kanban
 
-Para equipos que prefieren fluidez continua sin sprunts fijos.
+Para equipos que prefieren fluidez continua sin sprints fijos.
 
 **Qué hacer**:
 - Tablero con columnas: Pendiente → En curso → Revisión → Hecho
@@ -50,13 +57,30 @@ Para equipos que prefieren fluidez continua sin sprunts fijos.
 **Ventaja**: más flexible, menos reuniones.
 **Desventaja**: menos estructura, fácil procrastinar.
 
+### Git Flow
+
+No es solo para el código. También organiza el trabajo:
+
+| Rama | Propósito |
+|------|-----------|
+| `main` | Código estable y desplegado |
+| `develop` | Integración de funcionalidades |
+| `feature/*` | Una funcionalidad nueva (una por persona) |
+| `hotfix/*` | Corrección urgente |
+
 ## El ciclo del proyecto
 
 Sea cual sea la metodología, el proyecto sigue este ciclo:
 
-```
-Planificar → Ejecutar → Revisar → Aprender → (repetir)
-```
+<div class="diagram-flow">
+  <div class="diagram-step">📋 Planificar</div>
+  <div class="diagram-arrow">→</div>
+  <div class="diagram-step">⚡ Ejecutar</div>
+  <div class="diagram-arrow">→</div>
+  <div class="diagram-step">🔍 Revisar</div>
+  <div class="diagram-arrow">→</div>
+  <div class="diagram-step">🧠 Aprender</div>
+</div>
 
 Cada iteración (semana, sprint) deberías:
 1. Elegir qué hacer
@@ -66,6 +90,49 @@ Cada iteración (semana, sprint) deberías:
 
 Sin el paso 4, repites los mismos errores.
 Sin el paso 1, trabajas sin dirección.
+
+<CasoPractico numero="1" titulo="El equipo que no planificaba">
+  Un equipo de 3 personas decidió que "la metodología era pérdida de
+  tiempo". Se pusieron a programar directamente desde el día 1.
+
+  **Resultado**:
+  - A 3 días de la entrega, descubrieron que dos personas habían
+    implementado la misma funcionalidad
+  - Una feature crítica no se había empezado
+  - Tuvieron que dormir 4 horas al día para llegar
+
+  **Lección**: 30 minutos de planificación al inicio de la semana
+  habrían ahorrado 3 días de caos.
+</CasoPractico>
+
+## Ejemplo de sprint de 2 semanas
+
+### Semana 1
+| Día | Mañana | Tarde |
+|-----|--------|-------|
+| Lunes | Sprint planning (30 min) | Desarrollo |
+| Martes | Daily (15 min) | Desarrollo |
+| Miércoles | Daily (15 min) | Desarrollo |
+| Jueves | Daily (15 min) | Desarrollo |
+| Viernes | Daily (15 min) | Revisión parcial |
+
+### Semana 2
+| Día | Mañana | Tarde |
+|-----|--------|-------|
+| Lunes | Daily (15 min) | Desarrollo |
+| Martes | Daily (15 min) | Desarrollo |
+| Miércoles | Daily (15 min) | Desarrollo |
+| Jueves | Daily (15 min) | Últimas pruebas |
+| Viernes | Sprint review + Retro (45 min) | 🎉 Descanso |
+
+Total de reuniones: **~3 horas en 2 semanas** (menos del 5% del tiempo).
+
+## Errores comunes
+
+- **Sobreplanificar**: perder 2 días planificando un sprint de 1 semana
+- **Infraplanificar**: empezar a programar sin saber qué hace cada uno
+- **No hacer retrospectiva**: repetir los mismos errores sprint tras sprint
+- **Daily que se alarga**: las daily son de 15 min, no de 45
 
 ## Herramientas recomendadas
 

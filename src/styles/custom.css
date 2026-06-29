@@ -18,10 +18,14 @@
   --sl-color-accent-high: #93c5fd;
 }
 
+.sl-anchor-icon {
+  display: none;
+}
+
 .card-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.25rem;
+  gap: 1rem;
   margin: 2rem auto;
   max-width: 750px;
 }
@@ -33,24 +37,28 @@
   }
 }
 
+.card-grid {
+  animation: fadeInUp 0.4s ease-out;
+}
+
 .card {
   border: 1px solid var(--sl-color-gray-4);
   border-radius: 0.75rem;
-  padding: 1.5rem;
+  padding: 1.25rem;
   background: var(--sl-color-gray-6);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
 }
 
-.card h3 {
+.card h3, .card-title {
   margin-top: 0;
   font-size: 1.1rem;
+  transition: color 0.25s ease;
 }
 
 .card-link {
   display: block;
   text-decoration: none;
   color: inherit;
-  width: 100%;
 }
 
 .card-link:hover {
@@ -58,45 +66,38 @@
 }
 
 .card-link:hover .card {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
   border-color: var(--sl-color-accent);
+  background: var(--sl-color-white);
 }
 
-.card-link:hover .card h3 {
+.card-link:hover .card h3,
+.card-link:hover .card-title {
   color: var(--sl-color-accent);
 }
 
 [data-theme='dark'] .card-link:hover .card {
-  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+  background: var(--sl-color-black);
 }
 
 .card-btn {
   display: inline-block;
-  margin-top: 0.75rem;
-  padding: 0.5rem 1.25rem;
-  background: linear-gradient(135deg, var(--sl-color-accent), var(--sl-color-accent-high));
-  color: white;
-  border-radius: 999px;
+  margin-top: 0.5rem;
   font-weight: 600;
   font-size: 0.875rem;
-  letter-spacing: 0.02em;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
-  transition: transform 0.2s, box-shadow 0.2s;
+  color: var(--sl-color-accent);
+  transition: color 0.2s ease;
   pointer-events: none;
 }
 
 .card-link:hover .card-btn {
-  transform: scale(1.04);
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
-}
-
-[data-theme='dark'] .card-btn {
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  color: var(--sl-color-accent-high);
 }
 
 [data-theme='dark'] .card-link:hover .card-btn {
-  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.45);
+  color: var(--sl-color-accent-high);
 }
 
 .portada {
@@ -114,6 +115,7 @@
   justify-content: center;
   margin-bottom: 2rem;
   flex-wrap: wrap;
+  animation: fadeInUp 0.5s ease-out 0.1s both;
 }
 
 .hero-btn {
@@ -128,19 +130,19 @@
   font-size: 0.95rem;
   text-decoration: none;
   box-shadow: 0 3px 12px rgba(37, 99, 235, 0.3);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .hero-btn:hover {
   color: white;
   text-decoration: none;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.45);
 }
 
 .hero-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 .hero-btn.outline {
@@ -155,6 +157,7 @@
   color: var(--sl-color-accent);
   background: transparent;
   box-shadow: none;
+  transform: translateY(-3px);
 }
 
 [data-theme='dark'] .hero-btn {
@@ -181,6 +184,33 @@
   border-color: var(--sl-color-accent);
 }
 
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+.emoji-404 {
+  font-size: 5rem;
+  display: inline-block;
+  animation: pulse 2s ease-in-out infinite;
+  line-height: 1;
+}
+
 @media (max-width: 640px) {
   .card-grid {
     grid-template-columns: 1fr;
@@ -188,13 +218,12 @@
   .card {
     padding: 1rem 1.25rem;
   }
-  .card h3 {
+  .card h3, .card-title {
     font-size: 1rem;
   }
   .card-btn {
     width: 100%;
     text-align: center;
-    padding: 0.625rem 1rem;
   }
   .hero-links {
     flex-direction: column;
@@ -254,6 +283,11 @@ table th, table td {
   border: 1px solid var(--sl-color-gray-4);
   padding: 0.75rem;
   text-align: left;
+  transition: background 0.2s ease;
+}
+
+tbody tr:hover td {
+  background: var(--sl-color-gray-5);
 }
 
 table th {
@@ -382,6 +416,14 @@ details[open] .aclaracion-toggle {
   padding: 1.5rem;
   border-top: 1px solid var(--sl-color-gray-4);
   background: white;
+}
+
+.aclaracion-body {
+  animation: fadeInUp 0.25s ease-out;
+}
+
+details.aclaracion {
+  transition: margin 0.2s ease;
 }
 
 [data-theme='dark'] .aclaracion-body {

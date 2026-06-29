@@ -4,8 +4,10 @@ description: "Dónde encontrar ayuda cuando te atasques: documentación, comunid
 ---
 
 import StoryIntro from '../../components/StoryIntro.astro';
+import CasoPractico from '../../components/CasoPractico.astro';
+import Aclaracion from '../../components/Aclaracion.astro';
 
-<StoryIntro icono="🎬" titulo="El día que Stack Overflow era su主页 sin Internet">
+<StoryIntro icono="🎬" titulo="El día que Stack Overflow era su mejor amigo sin Internet">
   "No me funciona este código", dijo una voz en el grupo.
   "Búscalo en Google", respondió otra.
 
@@ -40,29 +42,69 @@ Incluye siempre:
 - El código relevante (no todo el archivo)
 - Los mensajes de error completos
 
+<CasoPractico numero="3" titulo="El día que aprendieron a buscar">
+  Un alumno llevaba 3 horas atascado con un error de conexión a
+  base de datos. Había probado "cosas" sin saber bien qué hacía.
+
+  **Su proceso**:
+  - Pegó el error en Google
+  - Probó la primera respuesta (no funcionó)
+  - Probó la segunda (tampoco)
+  - Se rindió y preguntó al profesor
+
+  **El profesor hizo**:
+  - Copió el error exacto en Google
+  - Encontró un GitHub Issue con el mismo error
+  - La solución era cambiar una línea de configuración
+
+  **Lección**: el error estaba documentado en GitHub Issues, pero él
+  no sabía buscar allí. Aprender a buscar es tan importante como
+  aprender a programar.
+</CasoPractico>
+
 ## Referencias por tema
 
 ### Frontend
-- MDN Web Docs (la biblia del desarrollo web)
-- CSS-Tricks (guías visuales de CSS)
-- React/Vue/Svelte (documentación oficial, muy bien hecha)
+- [MDN Web Docs](https://developer.mozilla.org/) — la biblia del desarrollo web
+- [CSS-Tricks](https://css-tricks.com/) — guías visuales de CSS
+- Documentación oficial de React / Vue / Svelte
 
 ### Backend
-- Express.js (guía oficial)
-- Node.js (documentación de la API)
-- Spring Boot (guía oficial, muy completa)
+- [Express.js](https://expressjs.com/) guía oficial
+- [Node.js](https://nodejs.org/docs/latest/api/) documentación de la API
+- [Spring Boot](https://spring.io/guides/) guía oficial
 
 ### Bases de datos
-- PostgreSQL / MySQL (documentación oficial)
-- SQL Tutorial (w3schools, para empezar)
+- Documentación oficial de PostgreSQL / MySQL
+- [SQL Tutorial](https://www.w3schools.com/sql/) (w3schools, para empezar)
 
 ### Git
-- Pro Git (libro gratuito, completo)
-- Oh Shit, Git!?! (cuando algo sale mal)
+- [Pro Git](https://git-scm.com/book/es/v2) — libro gratuito y completo
+- [Oh Shit, Git!?!](https://ohshitgit.com/) — cuando algo sale mal
 
 ### Docker
-- Docker Curriculum (tutorial interactivo)
+- [Docker Curriculum](https://docker-curriculum.com/) — tutorial interactivo
 - Documentación oficial de Docker
+
+## IA como recurso de aprendizaje
+
+<Aclaracion icono="🤖" pregunta="¿Puedo usar ChatGPT/Claude para el proyecto?" abierto={true}>
+  Sí, pero con inteligencia:
+
+  **Úsalo para**:
+  - Entender conceptos ("Explícame qué es una API REST como si tuviera 12 años")
+  - Depurar errores ("Este es el error, ¿qué significa?")
+  - Generar ejemplos ("Muéstrame un ejemplo de fetch en JavaScript")
+  - Refactorizar código ("Cómo simplificarías esta función?")
+
+  **NO lo uses para**:
+  - Generar el proyecto entero (no aprenderías nada)
+  - Copiar código sin entenderlo (en la defensa te preguntarán)
+  - Evitar pensar (el error es parte del aprendizaje)
+
+  **Regla de oro**: si no puedes explicar el código que has usado,
+  no lo has aprendido. La IA es un tutor, no un sustituto.
+</Aclaracion>
 
 ## El recurso más infravalorado: tu profesor
 
