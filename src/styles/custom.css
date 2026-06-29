@@ -85,19 +85,29 @@
 .card-btn {
   display: inline-block;
   margin-top: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  background: linear-gradient(135deg, var(--sl-color-accent), var(--sl-color-accent-high));
+  color: white;
+  border-radius: 999px;
   font-weight: 600;
   font-size: 0.875rem;
-  color: var(--sl-color-accent);
-  transition: color 0.2s ease;
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
   pointer-events: none;
 }
 
 .card-link:hover .card-btn {
-  color: var(--sl-color-accent-high);
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+}
+
+[data-theme='dark'] .card-btn {
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
 [data-theme='dark'] .card-link:hover .card-btn {
-  color: var(--sl-color-accent-high);
+  box-shadow: 0 6px 18px rgba(59, 130, 246, 0.45);
 }
 
 .portada {
@@ -224,6 +234,7 @@
   .card-btn {
     width: 100%;
     text-align: center;
+    padding: 0.625rem 1rem;
   }
   .hero-links {
     flex-direction: column;
