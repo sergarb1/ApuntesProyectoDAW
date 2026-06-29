@@ -20,9 +20,17 @@
 
 .card-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 1.25rem;
-  margin: 2rem 0;
+  margin: 2rem auto;
+  max-width: 750px;
+}
+
+@media (max-width: 640px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
 }
 
 .card {
@@ -51,9 +59,7 @@
   display: block;
   text-decoration: none;
   color: inherit;
-  max-width: 600px;
-  justify-self: center;
-  width: 100%;
+  height: 100%;
 }
 
 .card-link:hover {
