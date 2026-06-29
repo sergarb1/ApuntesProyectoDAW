@@ -41,15 +41,6 @@
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-@media (max-width: 640px) {
-  .card {
-    padding: 1rem 1.25rem;
-  }
-  .card-link {
-    max-width: 100%;
-  }
-}
-
 .card h3 {
   margin-top: 0;
   font-size: 1.1rem;
@@ -59,7 +50,7 @@
   display: block;
   text-decoration: none;
   color: inherit;
-  height: 100%;
+  width: 100%;
 }
 
 .card-link:hover {
