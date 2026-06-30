@@ -1,8 +1,5 @@
 @page {
-  margin: 2cm 2.5cm;
-  font-family: "Georgia", "Times New Roman", serif;
-  font-size: 11pt;
-  line-height: 1.6;
+  margin: 0;
 }
 
 body {
@@ -10,35 +7,49 @@ body {
   font-size: 11pt;
   line-height: 1.6;
   color: #1e293b;
+  margin: 0;
+  padding: 0;
 }
 
 .cover-page {
   page-break-after: always;
   text-align: center;
-  padding-top: 8cm;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 0 3cm;
+  box-sizing: border-box;
 }
 
 .cover-page img {
-  max-width: 70%;
+  max-width: 65%;
   height: auto;
   box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  margin-bottom: 2cm;
+  margin-bottom: 1.5cm;
 }
 
 .cover-page h1 {
-  font-size: 24pt;
+  font-size: 22pt;
   color: #1e40af;
-  margin-top: 1cm;
-  margin-bottom: 0.5cm;
+  margin: 0 0 0.5cm 0;
+  border: none;
+  padding: 0;
+  page-break-before: avoid;
 }
 
 .cover-page p {
   font-size: 12pt;
   color: #666;
-  margin: 0.3cm 0;
+  margin: 0.2cm 0;
 }
 
-h1 {
+.content {
+  margin: 2cm 2.5cm;
+}
+
+.content h1 {
   font-size: 20pt;
   color: #1e40af;
   margin-top: 1.5cm;
@@ -48,36 +59,36 @@ h1 {
   page-break-before: always;
 }
 
-h1:first-of-type {
+.content h1:first-of-type {
   page-break-before: avoid;
 }
 
-h2 {
+.content h2 {
   font-size: 16pt;
   color: #2563eb;
   margin-top: 1.2cm;
   margin-bottom: 0.4cm;
 }
 
-h3 {
+.content h3 {
   font-size: 13pt;
   color: #1e293b;
   margin-top: 1cm;
   margin-bottom: 0.3cm;
 }
 
-h4 {
+.content h4 {
   font-size: 11pt;
   color: #475569;
   margin-top: 0.8cm;
 }
 
-p {
+.content p {
   margin: 0.4cm 0;
   text-align: justify;
 }
 
-table {
+.content table {
   border-collapse: collapse;
   width: 100%;
   margin: 0.8cm 0;
@@ -85,19 +96,19 @@ table {
   page-break-inside: avoid;
 }
 
-td, th {
+.content td, .content th {
   border: 1px solid #cbd5e1;
   padding: 0.3cm 0.4cm;
   vertical-align: top;
 }
 
-th {
+.content th {
   background: #f1f5f9;
   font-weight: bold;
   color: #1e293b;
 }
 
-blockquote {
+.content blockquote {
   border-left: 4px solid #2563eb;
   margin: 0.6cm 0;
   padding: 0.4cm 0.8cm;
@@ -105,7 +116,7 @@ blockquote {
   color: #334155;
 }
 
-code {
+.content code {
   font-family: "Courier New", Courier, monospace;
   font-size: 9pt;
   background: #f1f5f9;
@@ -113,7 +124,7 @@ code {
   border-radius: 3px;
 }
 
-pre {
+.content pre {
   background: #f8fafc;
   padding: 0.6cm;
   border: 1px solid #e2e8f0;
@@ -125,17 +136,17 @@ pre {
   overflow-x: auto;
 }
 
-pre code {
+.content pre code {
   background: none;
   padding: 0;
 }
 
-img {
+.content img {
   max-width: 100%;
   height: auto;
 }
 
-details {
+.content details {
   margin: 0.6cm 0;
   padding: 0.4cm 0.8cm;
   border: 1px solid #7c3aed;
@@ -143,18 +154,18 @@ details {
   background: #faf5ff;
 }
 
-summary {
+.content summary {
   font-weight: bold;
   color: #7c3aed;
   font-size: 10pt;
 }
 
-ul, ol {
+.content ul, .content ol {
   margin: 0.4cm 0;
   padding-left: 1.5cm;
 }
 
-li {
+.content li {
   margin: 0.2cm 0;
 }
 
@@ -173,11 +184,32 @@ a {
   text-decoration: none;
 }
 
-/* Print page numbers via @page */
-@page {
-  @bottom-center {
-    content: counter(page) " / " counter(pages);
-    font-size: 9pt;
-    color: #999;
-  }
+#TOC {
+  page-break-after: always;
+  margin: 2cm 2.5cm;
+}
+
+#TOC h1 {
+  font-size: 18pt;
+  color: #1e40af;
+  margin-top: 0;
+  margin-bottom: 0.8cm;
+  border-bottom: 2px solid #2563eb;
+  padding-bottom: 0.3cm;
+  page-break-before: avoid;
+}
+
+#TOC ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+#TOC li {
+  margin: 0.3cm 0;
+  font-size: 10.5pt;
+}
+
+#TOC a {
+  color: #2563eb;
+  text-decoration: none;
 }

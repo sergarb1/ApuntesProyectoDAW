@@ -229,33 +229,49 @@ async function generatePDF(book, mdFile, metadataFile, coverImg) {
   const htmlFile = path.join(BUILD_DIR, `${book.id}.html`);
   const pdfFile = path.join(DOWNLOAD_DIR, `${book.id}.pdf`);
 
-  // Convert markdown to HTML using pandoc
+  // Convert markdown to HTML fragment (no standalone) with TOC
   execSync(
-    `pandoc "${mdFile}" -o "${htmlFile}" ` +
-    `--metadata-file="${metadataFile}" ` +
+    `pandoc "${mdFile}" -o "${htmlFile}.tmp" ` +
     `--resource-path="${BUILD_DIR};${PUBLIC_DIR}" ` +
     `--to html5 ` +
-    `--toc --toc-depth=3 ` +
-    `--standalone ` +
-    `--css="${path.join(__dirname, 'pdf.css')}"`,
+    `--toc --toc-depth=3 `,
     { stdio: 'inherit', cwd: BUILD_DIR }
   );
 
-  // Read the HTML and inject cover image
-  let html = fs.readFileSync(htmlFile, 'utf-8');
+  // Read just the body content
+  let bodyContent = fs.readFileSync(`${htmlFile}.tmp`, 'utf-8');
+
+  // Read cover image as base64
   const coverImgBase64 = fs.readFileSync(coverImg).toString('base64');
   const coverImgDataUri = `data:image/webp;base64,${coverImgBase64}`;
 
-  // Prepend cover page to body
-  html = html.replace('<body>', `<body>
+  const cssPath = path.join(__dirname, 'pdf.css').replace(/\\/g, '/');
+
+  // Build complete HTML with cover + TOC + content wrapped in .content div
+  const html = `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="${cssPath}" />
+</head>
+<body>
+
 <div class="cover-page">
   <img src="${coverImgDataUri}" alt="Portada" />
   <h1>${book.title}</h1>
   <p>Sergi Garcia Barea</p>
   <p>CC BY-SA 4.0</p>
-</div>`);
+</div>
+
+<div class="content">
+${bodyContent}
+</div>
+
+</body>
+</html>`;
 
   fs.writeFileSync(htmlFile, html, 'utf-8');
+  try { fs.unlinkSync(`${htmlFile}.tmp`); } catch {}
 
   const browser = await puppeteer.launch({
     headless: true,
@@ -269,7 +285,7 @@ async function generatePDF(book, mdFile, metadataFile, coverImg) {
     await page.pdf({
       path: pdfFile,
       format: 'A4',
-      margin: { top: '2cm', bottom: '2cm', left: '2.5cm', right: '2.5cm' },
+      margin: { top: '0', bottom: '0', left: '0', right: '0' },
       printBackground: true,
       displayHeaderFooter: true,
       headerTemplate: '<span></span>',
