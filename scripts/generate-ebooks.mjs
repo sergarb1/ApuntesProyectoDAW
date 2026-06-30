@@ -229,44 +229,39 @@ async function generatePDF(book, mdFile, metadataFile, coverImg) {
   const htmlFile = path.join(BUILD_DIR, `${book.id}.html`);
   const pdfFile = path.join(DOWNLOAD_DIR, `${book.id}.pdf`);
 
-  // Convert markdown to HTML fragment (no standalone) with TOC
+  // Convert markdown to HTML fragment
   execSync(
     `pandoc "${mdFile}" -o "${htmlFile}.tmp" ` +
     `--resource-path="${BUILD_DIR};${PUBLIC_DIR}" ` +
-    `--to html5 ` +
-    `--toc --toc-depth=3 `,
+    `--to html5 --toc --toc-depth=3`,
     { stdio: 'inherit', cwd: BUILD_DIR }
   );
 
-  // Read just the body content
-  let bodyContent = fs.readFileSync(`${htmlFile}.tmp`, 'utf-8');
+  const bodyContent = fs.readFileSync(`${htmlFile}.tmp`, 'utf-8');
 
   // Read cover image as base64
   const coverImgBase64 = fs.readFileSync(coverImg).toString('base64');
   const coverImgDataUri = `data:image/webp;base64,${coverImgBase64}`;
 
-  const cssPath = path.join(__dirname, 'pdf.css').replace(/\\/g, '/');
+  // Inline CSS to avoid path resolution issues
+  const cssContent = fs.readFileSync(path.join(__dirname, 'pdf.css'), 'utf-8');
 
-  // Build complete HTML with cover + TOC + content wrapped in .content div
   const html = `<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8" />
-<link rel="stylesheet" href="${cssPath}" />
+<style>${cssContent}</style>
 </head>
 <body>
-
 <div class="cover-page">
   <img src="${coverImgDataUri}" alt="Portada" />
   <h1>${book.title}</h1>
   <p>Sergi Garcia Barea</p>
   <p>CC BY-SA 4.0</p>
 </div>
-
 <div class="content">
 ${bodyContent}
 </div>
-
 </body>
 </html>`;
 

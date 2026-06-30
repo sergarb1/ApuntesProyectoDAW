@@ -1,30 +1,20 @@
-@page {
-  margin: 0;
-}
-
 body {
+  margin: 0;
+  padding: 0;
   font-family: "Georgia", "Times New Roman", serif;
   font-size: 11pt;
   line-height: 1.6;
   color: #1e293b;
-  margin: 0;
-  padding: 0;
 }
 
 .cover-page {
   page-break-after: always;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  padding: 0 3cm;
-  box-sizing: border-box;
+  padding: 15% 3cm;
 }
 
 .cover-page img {
-  max-width: 65%;
+  max-width: 60%;
   height: auto;
   box-shadow: 0 4px 20px rgba(0,0,0,0.15);
   margin-bottom: 1.5cm;
@@ -33,25 +23,25 @@ body {
 .cover-page h1 {
   font-size: 22pt;
   color: #1e40af;
-  margin: 0 0 0.5cm 0;
   border: none;
   padding: 0;
-  page-break-before: avoid;
+  margin: 0 0 0.5cm 0;
 }
 
 .cover-page p {
   font-size: 12pt;
   color: #666;
-  margin: 0.2cm 0;
+  margin: 0.1cm 0;
 }
 
 .content {
-  margin: 2cm 2.5cm;
+  padding: 2cm 2.5cm;
 }
 
 .content h1 {
   font-size: 20pt;
   color: #1e40af;
+  margin: 0;
   margin-top: 1.5cm;
   margin-bottom: 0.5cm;
   border-bottom: 2px solid #2563eb;
@@ -59,7 +49,8 @@ body {
   page-break-before: always;
 }
 
-.content h1:first-of-type {
+.content > h1:first-child {
+  margin-top: 0;
   page-break-before: avoid;
 }
 
@@ -75,12 +66,6 @@ body {
   color: #1e293b;
   margin-top: 1cm;
   margin-bottom: 0.3cm;
-}
-
-.content h4 {
-  font-size: 11pt;
-  color: #475569;
-  margin-top: 0.8cm;
 }
 
 .content p {
@@ -105,7 +90,6 @@ body {
 .content th {
   background: #f1f5f9;
   font-weight: bold;
-  color: #1e293b;
 }
 
 .content blockquote {
@@ -128,7 +112,6 @@ body {
   background: #f8fafc;
   padding: 0.6cm;
   border: 1px solid #e2e8f0;
-  border-radius: 5px;
   font-family: "Courier New", Courier, monospace;
   font-size: 8.5pt;
   line-height: 1.4;
@@ -169,47 +152,11 @@ body {
   margin: 0.2cm 0;
 }
 
-strong {
-  color: #0f172a;
-}
-
 hr {
   margin: 1.5cm 0;
   border: none;
   border-top: 1px solid #e2e8f0;
 }
 
-a {
-  color: #2563eb;
-  text-decoration: none;
-}
-
-#TOC {
-  page-break-after: always;
-  margin: 2cm 2.5cm;
-}
-
-#TOC h1 {
-  font-size: 18pt;
-  color: #1e40af;
-  margin-top: 0;
-  margin-bottom: 0.8cm;
-  border-bottom: 2px solid #2563eb;
-  padding-bottom: 0.3cm;
-  page-break-before: avoid;
-}
-
-#TOC ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-#TOC li {
-  margin: 0.3cm 0;
-  font-size: 10.5pt;
-}
-
-#TOC a {
-  color: #2563eb;
-  text-decoration: none;
-}
+a { color: #2563eb; text-decoration: none; }
+strong { color: #0f172a; }
