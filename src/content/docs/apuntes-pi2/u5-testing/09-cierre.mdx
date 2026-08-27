@@ -1,0 +1,260 @@
+---
+title: "09 — Cierre: consolida lo aprendido"
+description: "Pon en práctica todo lo de la unidad: retos, dilemas, un laboratorio con trampa y un adiós hacia U6."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** ✅ **U5 · Asegurar la calidad** → 09 · Cierre
+
+> En este punto no aprendemos nada nuevo: lo convertimos todo en práctica. Y,
+> como siempre, algo no va a funcionar. 😈
+
+Has aprendido por qué los tests son esenciales, los cuatro tipos de
+test que existen, cómo priorizar qué probar, cómo integrarlos en tu
+flujo de trabajo, qué herramientas usar y cómo verificar todo antes
+de entregar. Ahora toca **usarlo**.
+
+## Sé el Proyecto
+
+Ponte en la piel del proyecto de PI1 de tu equipo. El equipo tiene que
+decidir cómo afrontar la calidad del código en PI2. ¿Qué enfoque eliges?
+
+- **Opción A — "El confiado"**: "No necesitamos tests. Mi código
+  funciona bien. Si algo falla, lo arreglamos en la entrega."
+- **Opción B — "El metódico"**: "Tests unitarios del core, un test de
+  integración del flujo principal y prueba manual antes de cada entrega."
+- **Opción C — "El perfeccionista"**: "Vamos a escribir tests para
+  todo. Cobertura del 100%, tests E2E de cada pantalla, mocking de
+  cada dependencia."
+
+<details>
+<summary>...Respuestas...</summary>
+
+**La opción B.** Es la única que equilibra calidad y eficiencia. La A
+es arriesgada: confiar en que el código funciona sin verificarlo es
+invitar al desastre en la presentación. La C es costosa en tiempo:
+la perfección en testing no existe, y perseguir el 100% de cobertura
+suele dar tests que no aportan valor real. La B invierte el esfuerzo
+justo en lo crítico.
+
+</details>
+
+## Dilema de equipo
+
+Dos miembros del equipo discuten cuánto tiempo dedicar al testing.
+¿Quién tiene razón... o en qué punto se juntan?
+
+<Comparativa
+  dialogos={[
+    { quien: "Ana — 'Más features, menos tests'", texto: "El tribunal valora que la app tenga muchas funcionalidades. Si perdemos tiempo en tests, no damos todo lo prometido." },
+    { quien: "Luis — 'Menos features, más tests'", texto: "Si la app tiene 10 funcionalidades pero 3 no funcionan, peor impresión que 7 que funcionan todas. Los tests garantizan que lo que entregamos funciona." },
+  ]}
+  titulo="¿Más funcionalidades o más calidad?"
+/>
+
+<details>
+<summary>...Respuestas...</summary>
+
+**Luis tiene razón en que lo que funciona impresiona más que lo que
+hay.** Pero Ana tiene razón en que el tribunal espera cierto alcance.
+El equilibrio: 7 funcionalidades con tests y funcionando siempre
+gana a 10 de las cuales 3 fallan. Prioriza calidad sobre cantidad,
+pero no descuides el alcance mínimo.
+
+</details>
+
+## ¿Quién Soy?
+
+Cuatro conceptos de la unidad se presentan enigmáticamente. ¿Adivinas
+quién es quién?
+
+1. "Soy la verificación automatizada de que una función hace lo que
+   debería hacer. Sin mí, el código funciona por casualidad."
+2. "Soy la prueba que simula un usuario completo desde la interfaz
+   hasta la base de datos. Soy lento pero exhaustivo."
+3. "Soy la herramienta que ejecuta tests antes de cada commit. Si
+   fallan, el commit se bloquea."
+4. "Soy la lista de verificación que garantiza que nada se olvida
+   antes de una entrega."
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **Test** (punto 01). 2. **Test E2E/funcional** (punto 02). 3.
+   **Pre-commit hook/Husky** (punto 04). 4. **Checklist** (punto 08).
+
+</details>
+
+## Laboratorio de Tortura
+
+**Duración estimada: 30-40 minutos.** Objetivo: detectar el fallo de una
+implementación que *parece* correcta... y no lo es.
+
+**Contexto.** Un equipo tiene una aplicación de ReservaSalas con
+esta implementación de la función de validación:
+
+```javascript
+function validarFechaReserva(fecha) {
+  const hoy = new Date();
+  const fechaReserva = new Date(fecha);
+
+  if (fechaReserva &lt; hoy) {
+    return { ok: false, error: "La fecha no puede ser pasada" };
+  }
+
+  return { ok: true };
+}
+```
+
+Y este test:
+
+```javascript
+test("rechaza fechas pasadas", () => {
+  const fechaPasada = "2025-01-01";
+  const resultado = validarFechaReserva(fechaPasada);
+  expect(resultado.ok).toBe(false);
+});
+```
+
+**Instrucciones.** Detecta **mínimo 3 problemas** con la validación
+o el test. Después, descubre el **fallo intencionado**.
+
+<details>
+<summary>Pista 1</summary>
+
+¿Qué pasa si alguien pasa la fecha como string "2026-12-25" vs como
+objeto Date? ¿El test prueba el caso real o un caso simplificado?
+
+</details>
+
+<details>
+<summary>Pista 2</summary>
+
+La función compara fechas con `&lt;`. Pero `new Date("2026-12-25")`
+interpreta la fecha en hora local, mientras que `new Date()` incluye
+la hora actual. ¿Qué pasa si ejecutas el test a las 11:59 PM?
+
+</details>
+
+<details>
+<summary>Pista 3 (casi la respuesta)</summary>
+
+El fallo intencionado es que la función no maneja la zona horaria
+correctamente. Un test con una fija "2025-01-01" siempre pasa porque
+es obviamente pasada. Pero si alguien reserva para "hoy" a las 11:59 PM,
+la validación podría fallar o pasar según la hora del servidor.
+
+</details>
+
+<details>
+<summary>...Solución completa...</summary>
+
+**Problemas detectados:** (1) La función no valida que la fecha sea
+una fecha válida (null, undefined, "abc"). (2) No compara solo la
+fecha, sino la hora también (new Date incluye hora). (3) El test solo
+prueba un caso evidente, no el caso límite (hoy a las 23:59). (4) No
+se testea qué pasa con fechas nulas o inválidas. (5) La función no
+normaliza la zona horaria.
+
+**Corrección clave:** separar la comparación de fechas (sin hora)
+y añadir tests para casos borde: fecha nula, string inválido, fecha
+de hoy, fecha de mañana.
+
+El fallo intencionado era la gestión de hora en la comparación de
+fechas.
+
+</details>
+
+## Atrévete a Pensar
+
+Preguntas abiertas. Piensa primero, mira la solución después.
+
+1. Si solo tienes 1 hora para añadir tests a tu proyecto, ¿qué
+   testearías primero?
+2. ¿Cómo convences a un compañero de que los tests no son tiempo
+   perdido?
+3. ¿Cuándo un test automatizado no es suficiente y necesitas prueba
+   manual?
+
+<details>
+<summary>...Sugerencias de respuesta...</summary>
+
+1. Tests unitarios de las funciones de cálculo y validación, y un
+   test de integración del flujo principal. Son lo que más errores
+   previene en menos tiempo.
+2. Con un ejemplo: "Si cambiamos el precio y no hay test, ¿cómo
+   sabemos que el cálculo sigue siendo correcto?". Los datos
+   convencen más que los argumentos.
+3. Cuando importa el aspecto visual, la accesibilidad, o la
+   experiencia de usuario. Un test puede verificar que un botón
+   ejecuta una función, pero no que se ve bien en pantalla.
+
+</details>
+
+## Entrevista de trabajo
+
+Te acaban de contratar como "developer junior". Estas son las preguntas
+que te harán en la entrevista:
+
+1. **"Explícame qué es un test unitario como si yo fuera tu abuela."**
+2. **"¿Por qué no es suficiente con probar la app a mano?"**
+3. **"¿Qué haces si un compañero sube código que rompe los tests?"**
+
+<details>
+<summary>...Modelos de respuesta...</summary>
+
+1. "Abuela, es como cuando usted comprueba si la leche está buena
+   antes de echarla en el café. El test comprueba que una parte de
+   la app funciona como debe. Si falla, lo sabemos antes de que
+   alguien la use."
+2. "Porque a mano probamos lo que ya sabemos que funciona. Los tests
+   automatizados comprueban todo, siempre, igual. Si algo cambia
+   detrás, el test lo detecta."
+3. "Le aviso, y entre los dos arreglamos el código antes de mergear.
+   Si hay tests, sabemos exactamente qué está roto. Si no hay tests,
+   toca buscar a ciegas."
+
+</details>
+
+## Preguntas Tontas
+
+> **Pregunta** — "¿Y si mi proyecto es tan pequeño que no necesita
+> testing?"
+> **Respuesta** — Si tiene una función de cálculo o validación, necesita
+> un test. No es cuestión de tamaño, es cuestión de que si algo puede
+> fallar, quieres saberlo antes de que falle.
+
+> **Pregunta** — "¿Los tests no hacen el código más lento?"
+> **Respuesta** — Los tests no afectan al rendimiento de tu app en
+  producción. Solo se ejecutan durante el desarrollo. Es como un
+  ensayogeneral: no ralentiza el espectáculo, lo mejora.
+
+## Post-Créditos
+
+La aplicación de ReservaSalas funciona perfectamente. Los tests
+unitarios cubren las validaciones y cálculos. El test de integración
+verifica que crear una reserva guarda correctamente en la base de
+datos. La prueba manual confirma que el formulario se ve bien en
+Chrome, Firefox y un móvil. La checklist completa está verificada.
+
+Suena el teléfono. Es el compañero de otro equipo:
+
+"Nuestra app tiene 45 tests que pasan todos. Pero el profesor ha
+probado la app y dice que los formularios no tienen labels. ¿Cómo es
+posible?"
+
+Sonríes. Los tests automatizados verifican que el código es correcto.
+Las pruebas manuales verifican que la app es usable. Y ahora sabes
+exactamente cómo ayudarles.
+
+**PRÓXIMAMENTE EN PI2 U6:** Seguridad, autenticación, protección
+de datos y buenas prácticas para que tu app no solo funcione bien,
+sino que **sea segura**. 🔒
+
+---
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u5-testing) · **Anterior:** [08 · Checklist de calidad](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/08-checklist-de-calidad) · **Siguiente:** [**PI2 U6 · Seguridad**](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad)

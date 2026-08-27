@@ -1,0 +1,247 @@
+---
+title: "01 — ¿Por qué hacer tests?"
+description: "Los tests son un seguro de vida para tu proyecto: detectan errores, documentan comportamiento y te dejan dormir tranquilo."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** ✅ **U5 · Asegurar la calidad** → 01 · ¿Por qué hacer tests?
+
+<StoryIntro icono="🎬" titulo="El seguro de vida que nadie quería contratar">
+  El equipo de ReservasApp llevaba dos semanas sin ejecutar un solo
+  test. "Ya lo probaremos antes de entregar", decía Ana. Pedro insistía:
+  "Si no tenemos tests, ¿cómo sabemos que funciona?".
+
+  La respuesta del equipo era siempre la misma: "Lo probamos a mano.
+  Si funciona, está bien." Pero "probar a mano" significaba que Pedro
+  hacía clic en las mismas 3 pantallas que siempre probaba, ignorando
+  las 12 pantallas que nadie revisaba.
+
+  La semana de la entrega, el profesor descubrió que al crear una reserva
+  con fecha pasada, la app borraba todas las reservas anteriores. Un bug
+  que ningún test cubría y que ninguna prueba manual había detectado.
+</StoryIntro>
+
+## La idea en una frase
+
+> Un test es como un cinturón de seguridad: no lo necesitas hasta que
+> lo necesitas. Y cuando lo necesitas, te alegra tenerlo.
+
+## ¿Qué es un test?
+
+Un test es una **verificación automatizada** de que una parte de tu
+aplicación hace lo que debería hacer. No es una prueba manual donde
+haces clic y miras qué pasa. Es un código que comprueba un resultado
+concreto y te dice **pass** o **fail**.
+
+Por ejemplo:
+
+```javascript
+// Un test simple en JavaScript
+function calcularIVA(precio) {
+  return precio * 1.21;
+}
+
+// El test que lo verifica
+test("el IVA del 21% se calcula correctamente", () => {
+  expect(calcularIVA(100)).toBe(121);
+  expect(calcularIVA(50)).toBe(60.5);
+  expect(calcularIVA(0)).toBe(0);
+});
+```
+
+Si alguien cambia la función y rompe el cálculo, el test falla
+automáticamente. No necesitas que un usuario lo descubra.
+
+## Las cuatro razones para hacer tests
+
+### 1. Detectar errores antes de que lleguen a producción
+
+Los tests atrapan bugs en tu ordenador, no en la presentación.
+Cada error que detectas con un test es un error que el tribunal
+nunca verá.
+
+### 2. Asegurar que los cambios no rompen lo que ya funcionaba
+
+Cuando refactores código o añades una funcionalidad nueva, los tests
+anteriores verifican que lo que antes funcionaba sigue funcionando.
+Esto se llama **regresión**: volver a un estado que ya estaba arreglado.
+
+### 3. Documentar cómo se espera que funcione cada parte
+
+Un test es documentación viva. Si quieres saber qué hace una función,
+lee su test. Es más fiable que un comentario porque el test se ejecuta
+y se verifica solo.
+
+### 4. Dormir tranquilo la noche antes de la presentación
+
+El estrés antes de entregar un proyecto es real. Los tests te dan
+confianza de que las funcionalidades principales funcionan. No todo,
+pero lo crítico.
+
+<Comparativa
+  dialogos={[
+    { quien: "Equipo sin tests", texto: "¿Funcionará mañana? No lo sé. Esperemos que sí. Voy a probar a mano otra vez a las 3 de la madrugada." },
+    { quien: "Equipo con tests", texto: "Los 47 tests pasan. Si mañana funciona, funciona. Si no, el test me dirá exactamente qué está roto." },
+  ]}
+  titulo="La noche antes de la entrega"
+/>
+
+## ¿Cuándo hacer tests?
+
+La respuesta corta: **siempre**. La respuesta práctica:
+
+| Momento | Qué testear |
+|---------|-------------|
+| Al escribir una función | Test unitario de esa función |
+| Al integrar dos partes | Test de integración de la unión |
+| Al entregar | Batería completa de tests + manual |
+| Al hacer un cambio grande | Tests de regresión |
+| Antes de un merge | Todos los tests del proyecto |
+
+### Test-first vs test-after
+
+Hay dos enfoques:
+
+- **Test-first** (TDD): escribes el test antes del código. El test
+  define qué debería hacer la función, y luego implementas para que
+  pase.
+- **Test-after**: escribes el código primero, luego los tests. Más
+  natural para empezar, pero menos riguroso.
+
+Ambos son válidos. Lo importante es **que los tests existan**.
+
+<Comparativa
+  dialogos={[
+    { quien: "Test-first (TDD)", texto: "Primero defino qué quiero que haga. El test rojo me dice que aún no está. Implemento hasta que pasa. Refactorizo." },
+    { quien: "Test-after", texto: "Primero hago que funcione. Luego compruebo que funciona. Si falta algún caso, añado otro test." },
+  ]}
+  titulo="Dos enfoques, mismo resultado"
+/>
+
+## Caso práctico
+
+<CasoPractico titulo="El test que salvó la presentación">
+
+  Un equipo tenía una aplicación de reservas de recursos (salas,
+  proyectores). Dos días antes de la presentación, uno de los miembros
+  hizo un cambio "pequeño" en el backend: "solo he cambiado el nombre
+  de una variable".
+
+  Ese cambio rompió la creación de reservas. No se dieron cuenta porque
+  solo probaron manualmente el login, que seguía funcionando.
+
+  Por suerte, tenían un test automatizado para la creación de reservas.
+  Al ejecutar los tests antes de subir los cambios, el test falló.
+  Detectaron el error, lo corrigieron en 5 minutos, y la presentación
+  fue un éxito.
+
+  **Lección**: un test automatizado te avisa cuando algo se rompe.
+  Sin él, el error habría llegado a producción y la presentación
+  habría sido un desastre.
+
+</CasoPractico>
+
+## Los tests como documentación viva
+
+Cuando escribes un test, estás documentando **cómo se espera que
+funcione** el código. Y a diferencia de un comentario, el test se
+ejecuta. Si el comportamiento cambia, el test falla y te obliga a
+actualizar la documentación (o a arreglar el código).
+
+```javascript
+// Este test documenta que validarEmail acepta emails válidos
+test("acepta emails válidos", () => {
+  expect(validarEmail("usuario@ejemplo.com")).toBe(true);
+  expect(validarEmail("a@b.co")).toBe(true);
+});
+
+// Y también documenta que rechaza emails inválidos
+test("rechaza emails inválidos", () => {
+  expect(validarEmail("")).toBe(false);
+  expect(validarEmail("no-es-email")).toBe(false);
+  expect(validarEmail("@falta-usuario.com")).toBe(false);
+});
+```
+
+Sin este test, un compañero del equipo tendría que leer la función
+`validarEmail` para entender qué acepta y qué rechaza. Con el test,
+lo sabe en 2 segundos.
+
+## ¿Y si no sé hacer tests?
+
+No necesitas ser experto. Necesitas empezar simple:
+
+1. Identifica una función que no dependa de nada externo (un cálculo,
+   una validación)
+2. Escribe un test que compruebe que funciona
+3. Ejecuta el test
+4. Si pasa, añade otro test para un caso que no contemplabas
+
+No necesitas cobertura del 100%. Necesitas cubrir **lo crítico**.
+
+<Aclaracion pregunta="¿Y si no sé hacer tests?">
+  Es el momento de aprender. No necesitas ser experto:
+
+  - **JavaScript/Node**: usa Jest o Vitest. "Cómo testear X con Jest"
+    tiene miles de tutoriales
+  - **Java**: usa JUnit. Es lo que has dado en la asignatura de
+    Programación
+  - **Frontend**: Testing Library o Cypress para pruebas de interfaz
+
+  Empieza por un test simple de una función que no dependa de nada
+  externo. Cuando veas que funciona y te da seguridad, añade más.
+
+  No necesitas cobertura del 100%. Necesitas cubrir lo crítico.
+</Aclaracion>
+
+## Mini-chequeo
+
+**Pregunta 1.** ¿Cuál es el principal beneficio de los tests?
+
+A) Que tu código se ejecuta más rápido
+B) Que detectan errores antes de que lleguen al usuario
+C) Que te permiten escribir menos código
+
+**Pregunta 2.** ¿Qué es la regresión?
+
+A) Una enfermedad que afecta al código
+B) Volver a un estado que ya estaba arreglado
+C) Un tipo de test automatizado
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Los tests detectan errores antes de que lleguen a producción.
+   No hacen el código más rápido ni te permiten escribir menos.
+2. **B**. La regresión es cuando un cambio en el código vuelve a
+   introducir un error que ya estaba corregido. Los tests de regresión
+   previenen esto.
+
+</details>
+
+## Resumen en 3 frases
+
+1. Los tests son verificaciones automatizadas de que tu código hace
+   lo que debería hacer.
+2. Las cuatro razones principales: detectar errores, evitar regresiones,
+   documentar comportamiento y dormir tranquilo.
+3. No necesitas ser experto: empieza con tests simples de funciones
+   puras y ve ampliando.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Test** | Verificación automatizada de comportamiento |
+| **Regresión** | Error que vuelve a aparecer tras haber estado corregido |
+| **Cobertura** | Porcentaje de código cubierto por tests |
+| **TDD** | Test-Driven Development: test antes que código |
+| **Test-after** | Escribir tests después de implementar |
+
+---
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u5-testing) · **Anterior:** [Volver al cierre de U4](/ApuntesProyectoDAW/apuntes-pi2/u4-ui-ux/09-cierre) · **Siguiente:** [02 · Tipos de test](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/02-tipos-de-test)

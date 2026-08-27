@@ -1,0 +1,115 @@
+---
+title: "01 — La interfaz importa (y mucho)"
+description: "El usuario no ve tu base de datos ni tu clean code: ve pantallas. Si son confusas, el proyecto parece malo 🎨"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U5 · Construir la interfaz** → 01 · La interfaz importa
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Carla tenía el backend impecable: rutas REST, base de datos normalizada,
+  autenticación JWT. Pero la interfaz la hizo en dos tardes, con colores al
+  azar y botones que bailaban según el navegador.
+
+  Este capítulo es el baño de realidad que ella no tuvo: **la interfaz no es
+  "lo que sobra después de programar"**. Es lo primero que ve el usuario, el
+  tribunal y tu futuro tú. Si es fea, confusa o rota, da igual lo bien que
+  funcione por dentro: la primera impresión ya está perdida.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> La interfaz es la cara de tu proyecto. No la hagas en dos tardes: hazla con
+> el mismo rigor que el backend.
+
+Es como presentarte a un examen oral. Puedes saberlo todo (tu backend), pero
+si te presentas sin dormir, mal vestido y balbuceando (tu interfaz), el
+tribunal no valorará lo que sabes. La interfaz **es** tu presentación.
+
+## 🎭 Lo que el usuario ve vs. lo que tú construyes
+
+Tú ves: arquitectura en capas, patrones de diseño, clean code, tests, Docker.
+El usuario ve: **pantallas**. Botones. Formularios. Mensajes. Colores.
+Navegación.
+
+```
+TÚ                          USUARIO / TRIBUNAL
+─────────────────────       ─────────────────────
+Models, Services, DTOs      Pantalla de login
+Repositorios, Migraciones   Lista de tareas
+Clean Architecture          Formulario de creación
+Tests unitarios             Mensaje de error en rojo
+CI/CD pipeline              Botón que no responde
+```
+
+Si las pantallas son confusas, el proyecto **parece** malo. Aunque por dentro
+sea una maravilla. La interfaz no es cosmética: es **comunicación**.
+
+## 🚫 La trampa de "ya lo arreglaré al final"
+
+"Primero hago que funcione, luego lo hago bonito."
+
+Esa frase ha hundido más proyectos que cualquier bug. Porque:
+1. **Nunca sobra tiempo**. Al final del curso estás corrigiendo bugs, no
+   puliendo CSS.
+2. **El HTML mal estructurado** arrastra problemas de accesibilidad y SEO
+   que "arreglar luego" cuesta el triple.
+3. **La primera validación con el profesor** suele ser visual. Si ve un caos,
+   te dice "replantea la interfaz" y has perdido semanas.
+
+Hacer la interfaz **bien desde el principio** no es "perfeccionismo": es
+**ahorrar trabajo futuro**.
+
+## 🧱 Los tres pilares de una interfaz que funciona
+
+| Pilar | Qué significa | Si falla... |
+|---|---|---|
+| **Claridad** | El usuario sabe qué hacer sin instrucciones | Se pierde, pregunta, abandona |
+| **Consistencia** | Lo igual se ve igual en toda la app | Cada pantalla es un mundo nuevo |
+| **Feedback** | Cada acción tiene respuesta visible | El usuario no sabe si ha pasado algo |
+
+Estos tres pilares son el hilo conductor de toda esta unidad. Los veremos
+uno a uno en los siguientes puntos.
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** Tu compañero dice: "La interfaz la haremos al final, que lo
+importante es que funcione". ¿Qué le contestas?
+A) "Vale, tú sabes" · B) "La interfaz es lo primero que ve el tribunal; si
+   falla, da igual el backend" · C) "Hazlo tú entonces".
+
+**Pregunta 2.** ¿Cuál de estos NO es un pilar de una interfaz que funciona?
+A) Claridad · B) Consistencia · C) Complejidad visual · D) Feedback.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. La interfaz comunica. Si el tribunal ve caos, asume que el proyecto
+   es caos. 2. **C**. La complejidad visual confunde; la claridad guía.
+
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. El usuario y el tribunal no ven tu código: ven pantallas. Si son confusas,
+   el proyecto parece malo aunque el backend sea perfecto.
+2. "Ya lo arreglo al final" es una trampa: nunca sobra tiempo y el HTML mal
+   hecho arrastra problemas caros.
+3. Una interfaz que funciona se sostiene en tres pilares: claridad,
+   consistencia y feedback.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Interfaz (UI)** | La parte visual e interactiva que ve y toca el usuario |
+| **Backend** | La lógica, datos y servidor que el usuario no ve |
+| **Claridad** | El usuario entiende qué hacer sin instrucciones |
+| **Consistencia** | Los mismos patrones visuales en toda la aplicación |
+| **Feedback** | Respuesta visible a cada acción del usuario |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico) · **Siguiente:** [02 · Piensa en el usuario, no en ti](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/02-piensa-en-el-usuario)

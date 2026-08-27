@@ -1,0 +1,165 @@
+---
+title: "01 — El legado de PI1"
+description: "Qué es la deuda técnica, por qué importa y cómo detectarla en tu proyecto. El primer paso para mejorar es saber qué está mal."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🔧 **U1 · Evolucionar la arquitectura** → 01 · El legado de PI1
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Sergio abre el repositorio de PI1 después de las vacaciones. El primer
+  archivo que ve tiene 1800 líneas. No hay carpetas: todo está en la raíz.
+  Las variables se llaman `x`, `tmp`, `cosa2`. Hay un comentario que dice
+  "// NO TOCAR". No sabe por dónde empezar a arreglar, ni siquiera sabe
+  cuánto hay que arreglar.
+
+  Este capítulo es el diagnóstico: antes de curar, hay que saber qué duele.
+</StoryIntro>
+
+## La idea en una frase
+
+> La deuda técnica es como la deuda financiera: la contraes cuando tomas
+> atajos para ir más rápido, pero **hay que pagarla con intereses**. Cuanto
+> más esperas, más cuesta.
+
+## Qué es la deuda técnica
+
+En finanzas, pedir un préstamo te da dinero rápido pero obliga a pagar más
+tarde con intereses. En programación pasa igual: copiar y pegar código en
+vez de crear una función reutilizable te ahorra 5 minutos hoy, pero te
+costará 2 horas la próxima vez que necesites cambiar algo relacionado.
+
+La deuda técnica no es pecado. Es una herramienta. A veces la contraes
+a propósito para cumplir un plazo. El problema es cuando **la acumulas
+sin ser consciente** y llega un día en que no puedes avanzar sin romper
+cosas.
+
+### Ejemplos concretos
+
+| Tipo de deuda | Ejemplo | Coste futuro |
+|---------------|---------|--------------|
+| Copiar-pegar | Mismo código en 5 archivos | Cambiar algo = 5 sitios |
+| Sin tests | "Funciona, no lo toques" | Un cambio rompe y no te enteras |
+| Variables mal | `a`, `tmp`, `cosa` | Nadie sabe qué hace qué |
+| TODO comments | "// TODO: arreglar esto" | Nadie lo arregla nunca |
+| Acoplamiento | Todo depende de todo | No puedes cambiar nada solo |
+| Hardcoded | Datos fijos en el código | Cambia un valor = compilar todo |
+
+<Comparativa
+  dialogos={[
+    { quien: "María — Deuda técnica baja", texto: "Mi proyecto tiene 300 líneas en 4 archivos. Las funciones hacen una cosa cada una. Los nombres explican qué hacen. Puedo cambiar algo sin miedo." },
+    { quien: "Carlos — Deuda técnica alta", texto: "Mi proyecto tiene 2000 líneas en 1 archivo. Las funciones anidadas hacen 5 cosas cada una. Si cambio una línea, se rompen tres cosas que no sé por qué." },
+  ]}
+  titulo="Dos realidades"
+/>
+
+## Señales de que tu proyecto tiene deuda
+
+No necesitas un auditor. Estas señales te dicen si tu proyecto está
+en problemas:
+
+| Señal | Gravedad | Qué significa |
+|-------|----------|---------------|
+| Archivos con más de 500 líneas | Alta | Probablemente hace demasiadas cosas |
+| Funciones que hacen más de una cosa | Media | Difícil de testear y reutilizar |
+| Sin tests | Alta | Cada cambio es una apuesta |
+| Variables mal nombradas | Baja | Cuesta entender el código |
+| Código sin comentar (y no es obvio) | Media | Nadie sabe por qué está ahí |
+| Importaciones circulares | Alta | El diseño está roto |
+| "No tocar esto" | Alta | Nadie entiende qué hace |
+| Mismo código en varios sitios | Media | Cambiar algo = varios sitios |
+
+<Aclaracion pregunta="¿Y si el proyecto funciona perfectamente? ¿No es la deuda técnica solo un problema de código feo?">
+  Si funciona perfectamente hoy, puede que sí. Pero la pregunta es:
+  ¿puedes añadir una funcionalidad nueva en menos de una hora? Si la
+  respuesta es "no sé, da miedo tocarlo", tienes deuda técnica aunque
+  el código compile. El coste de la deuda no se mide en bugs visibles,
+  sino en **velocidad futura**.
+</Aclaracion>
+
+## Por qué importa en PI2
+
+En PI1, la deuda no se notaba porque todo era nuevo y pequeño. En PI2
+vas a añadir funcionalidades, integrar APIs, escribir tests, desplegar...
+Si la base está mal, cada paso adelante es dos pasos hacia atrás.
+
+Piénsalo así: en PI1 construiste una casita de cartón. En PI2 te piden
+añadir pisos. Si no refuerzas los cimientos, la casita se cae.
+
+### El círculo vicioso
+
+```
+Código desordenado
+    → Da miedo tocarlo
+        → Se parchea en vez de arreglarse
+            → El desorden crece
+                → Da más miedo tocharlo
+                    → ...
+```
+
+Romper este círculo es el objetivo de U1.
+
+## Caso práctico
+
+<CasoPractico titulo="El equipo que descubrió su deuda">
+  Un equipo hizo un levantamiento del código de PI1. Clasificaron cada
+  archivo en tres categorías:
+
+  1. **Verde** — legible, funcional, cambios fáciles (30% del código)
+  2. **Amarillo** — funciona pero da miedo tocar (50% del código)
+  3. **Rojo** — no se entiende, cada cambio rompe algo (20% del código)
+
+  Con esta clasificación, supieron exactamente dónde concentrar el
+  esfuerzo de refactorización: el código rojo primero, el amarillo
+  después, y el verde solo si hacía falta.
+
+  **Lección**: no puedes arreglar lo que no puedes medir. Diagnosticar
+  es el primer paso.
+</CasoPractico>
+
+## Mini-chequeo
+
+**Pregunta 1.** Tu proyecto tiene una función de 300 líneas que hace
+validaciones, consultas a BD y envía emails. ¿Qué tipo de deuda es?
+A) Variables mal nombradas · B) Función que hace más de una cosa ·
+C) Importaciones circulares
+
+**Pregunta 2.** ¿Por qué la deuda técnica es peor en PI2 que en PI1?
+A) Porque PI2 usa más tecnologías · B) Porque PI2 requiere evolucionar
+el código existente, y la deuda te lo impide · C) Porque el tribunal
+es más exigente
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Una función que hace validaciones + BD + emails hace 3 cosas
+   distintas. Debería dividirse en funciones o servicios separados.
+2. **B**. En PI1 creabas desde cero. En PI2 evolucionas lo existente.
+   Si lo existente está mal, cada cambio es una operación delicada.
+
+</details>
+
+## Resumen en 3 frases
+
+1. La deuda técnica es el coste futuro de los atajos de hoy: funciona,
+   pero cada cambio cuesta más caro.
+2. Detectarla es sencillo: archivos gigantes, funciones que hacen todo,
+   sin tests, variables con nombres crípticos.
+3. En PI2, la deuda te frena directamente: no puedes evolucionar lo que
+   no entiendes.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Deuda técnica** | Atajos acumulados que encarecen cambios futuros |
+| **Legacy code** | Código heredado que funciona pero es difícil de mantener |
+| **Refactorizar** | Mejorar la estructura sin cambiar el comportamiento externo |
+| **Acoplamiento** | Dependencia excesiva entre partes del código |
+| **Code smell** | Señal de que algo en el código necesita atención |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web) · **Anterior:** [Volver al índice de U1](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web) · **Siguiente:** [02 · Refactorizar sin romper](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/02-refactorizar-sin-romper)

@@ -1,0 +1,146 @@
+---
+title: "07 — Code review: aprender y detectar malentendidos"
+description: "El code review no es cazar errores: es compartir conocimiento, alinear criterio y evitar sorpresas 👀"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U7 · Trabajar en equipo** → 07 · Code review: aprender y detectar malentendidos
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Tenéis flujo, lint, commits. Ahora toca el momento en que el código
+  de uno pasa por los ojos de otro **antes de integrarse**: el **code
+  review** (revisión de código). No es un trámite burocrático ni una
+  caza de brujas. Es la herramienta más potente para que el equipo
+  aprenda junto, detecte malentendidos pronto y mantenga calidad sin
+  depender de una sola persona.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> Code review = **aprender cómo piensa tu compañero** + **detectar
+> malentendidos** ("ah, yo creía que esta función devolvía X") +
+> **mejorar entre todos**. No es "buscar fallos": es conversar sobre
+> código.
+
+## 🎯 Para qué sirve (y para qué NO)
+
+| SÍ sirve para | NO sirve para |
+|---|---|
+| Entender la solución del compañero | Culpar ("¿por qué has hecho esto así?") |
+| Detectar supuestos distintos ("yo pensaba que...") | Imponer tu estilo personal (para eso está Prettier) |
+| Compartir trucos, patrones, librerías | Bloquear por nimiedades (ortografía en comentario) |
+| Verificar que el código hace lo que dice el ticket | Sustituir tests (los tests capturan regresiones) |
+| Mantener propiedad compartida del código | Que solo una persona sepa cómo funciona cada parte |
+
+> ⚠️ Si el review se siente como examen, **algo falla en la cultura del
+> equipo**. El review es una conversación entre pares.
+
+## ✅ Checklist de review (qué mirar, en orden)
+
+1. **¿Hace lo que pide el issue/ticket?** (funcionalidad)
+2. **¿Entiendo el código al leerlo?** (nombrado, estructura, complejidad)
+3. **¿Hay tests? ¿Cubren lo nuevo?** (cobertura real, no %)
+4. **¿Maneja errores y casos borde?** (null, vacío, red, permisos)
+5. **¿Respeta la arquitectura acordada?** (capas, dependencias, naming)
+6. **¿Hay deuda técnica intencionada?** (comentario `// TODO: ...` con issue)
+7. **¿Documentación actualizada?** (README, OpenAPI, comentarios públicos)
+
+**No miréis**: formato (Prettier), imports ordenados (ESLint), punto y
+coma (Prettier). Eso ya lo hace la máquina.
+
+## 💬 Cómo dar feedback constructivo
+
+| En vez de... | Probad... |
+|---|---|
+| "Esto está mal" | "No entiendo esta parte, ¿me lo explicas?" |
+| "Deberías haber usado X" | "He visto que se usa X en Y, ¿encajaría aquí?" |
+| "Cambia esto" | "Propongo cambiar esto por X porque..." |
+| "Por qué no has hecho..." | "¿Qué tal si probamos X? A mí me ayudó en..." |
+
+**Regla de los dos comentarios**:
+- Si ves algo objetivo (bug, test faltante, rompe arquitectura) → **Request
+  changes** con explicación clara.
+- Si es opinión/subjetivo → **Comment** (no bloquea), conversad en el
+  hilo o en la daily.
+
+## 📋 PR Template (pegad en `.github/pull_request_template.md`)
+
+```markdown
+## Qué hace este PR
+<!-- Descripción breve + link al issue -->
+Closes #123
+
+## Cómo probar
+1. Pasos para verificar manualmente
+2. Tests nuevos: `npm test` / `npm run test:e2e`
+
+## Capturas / logs (si aplica)
+<!-- Pantallas, respuesta API, logs -->
+
+## Checklist del autor
+- [ ] Tests pasan en local
+- [ ] Lint/Prettier OK
+- [ ] Docs actualizadas (si toca)
+- [ ] Sin `console.log` / `debugger` / código comentado
+
+## Notas para el revisor
+<!-- Qué mirar con lupa, dudas, decisiones técnicas -->
+```
+
+<Aclaracion pregunta="¿Y si no sé revisar el código de mi compañero?">
+  **Nadie nace sabiendo**. Empezad así:
+  1. **Leed el ticket/issue** primero: ¿qué se supone que hace?
+  2. **Ejecutad el código en local** (si es frontend/backend completo).
+  3. **Leed el diff** archivo a archivo. Preguntaos: "¿qué hace esto?",
+     "¿por qué así?", "¿qué pasa si...?".
+  4. **Escribid preguntas**, no sentencias. "¿Por qué esta variable se
+     llama `data` y no `usuario`?" es mejor que "Mal nombre".
+  5. **Aprendé de los reviews que recibes**: cuando te revisen, fíjate
+     en qué miran y cómo lo dicen. Esa es la mejor formación.
+</Aclaracion>
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** El objetivo principal del code review es:
+A) Encontrar todos los bugs antes de mergear · B) **Aprender del
+   compañero, alinear criterio y detectar malentendidos** · C) Aprobar
+   que el código sigue la guía de estilo.
+
+**Pregunta 2.** Un comentario de review tipo "Cambia esta variable a
+`userData`" es:
+A) Request changes (bloqueante) · B) **Comment (no bloqueante, opinión)**
+   · C) Approve.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Los tests y el CI cazan bugs; el review es para personas.
+2. **B**. Nombrado es subjetivo (salvo que rompa convención acordada).
+   Se comenta, se habla, no se bloquea.
+
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. Code review = conversación entre pares para aprender, alinear y
+   detectar malentendidos. No es caza de brujas ni control de estilo.
+2. Checklist: funcionalidad → legibilidad → tests → errores →
+   arquitectura → deuda documentada → docs. Formato = máquina.
+3. Feedback en preguntas/propuestas, no órdenes. PR template obliga al
+   autor a explicar y al revisor a saber qué mirar.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Code review** | Revisión de código por otro miembro antes de mergear (PR) |
+| **Request changes** | Estado de PR que bloquea merge: hay cambios objetivos requeridos |
+| **Comment** | Comentario no bloqueante: pregunta, sugerencia, opinión |
+| **PR Template** | Plantilla que GitHub muestra al crear PR: guía al autor y al revisor |
+| **Propiedad compartida** | Nadie "posee" un archivo: todo el equipo entiende y puede tocar todo |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u7-git) · **Anterior:** [06 · Commits que se entienden](/ApuntesProyectoDAW/apuntes-pi1/u7-git/06-commits-que-se-entienden) · **Siguiente:** [08 · Conflictos: de código y de personas](/ApuntesProyectoDAW/apuntes-pi1/u7-git/08-conflictos-codigo-y-personas)

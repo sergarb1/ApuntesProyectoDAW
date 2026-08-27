@@ -1,0 +1,334 @@
+---
+title: "06 — Herramientas de testing"
+description: "Jest, Vitest, JUnit, Cypress y Testing Library: el ecosistema de herramientas para testear tu aplicación."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** ✅ **U5 · Asegurar la calidad** → 06 · Herramientas de testing
+
+<StoryIntro icono="🎬" titulo="La herramienta equivocada para el trabajo correcto">
+  El equipo de TaskManager usaba JUnit para testear su frontend en
+  React. Los tests eran lentos, frágiles y cada cambio de CSS los
+  rompía.
+
+  "¿Por qué usáis JUnit para el frontend?", preguntó el profesor.
+  "Porque es lo que conocemos", respondieron.
+
+  Cambiaron a React Testing Library para el frontend y JUnit solo
+  para el backend. Los tests se volvieron rápidos, estables y
+  útiles. A veces no es cuestión de esfuerzo, sino de usar la
+  herramienta adecuada.
+</StoryIntro>
+
+## La idea en una frase
+
+> No todas las herramientas sirven para todo. Elegir la correcta te
+> ahorra horas de frustración.
+
+## Herramientas para JavaScript/Node.js
+
+### Jest
+
+El framework de testing más popular para JavaScript. Crea Facebook
+(Meta) para testear React, pero funciona con cualquier proyecto JS.
+
+```javascript
+// Instalación
+npm install --save-dev jest
+
+// Ejecución
+npx jest
+
+// package.json
+{
+  "scripts": {
+    "test": "jest"
+  }
+}
+```
+
+**Características:**
+- Incluye todo: aserciones, mocks, cobertura de código
+- Ejecución paralela automática
+- Watch mode: reejecuta tests cuando cambian archivos
+- Gran comunidad y documentación
+
+### Vitest
+
+El "nuevo Jest". Más rápido porque usa Vite como motor de ejecución.
+Si tu proyecto usa Vite, Vitest es la opción natural.
+
+```javascript
+// Instalación
+npm install --save-dev vitest
+
+// Ejecución
+npx vitest
+
+// Ejecución con interfaz gráfica
+npx vitest --ui
+```
+
+**Características:**
+- Compatible con la API de Jest (migración fácil)
+- Más rápido que Jest en proyectos con Vite
+- interfaz gráfica incluida
+- Soporte nativo de TypeScript
+
+<Comparativa
+  dialogos={[
+    { quien: "Jest", texto: "Soy maduro, tengo documentación para todo, y funciona con cualquier proyecto JavaScript. Si no sabes cuál elegir, empieza por mí." },
+    { quien: "Vitest", texto: "Soy rápido, moderno y si ya usas Vite, me configuras en 2 minutos. Y la API es la misma que la de Jest." },
+  ]}
+  titulo="La elección en JavaScript"
+/>
+
+### Testing Library
+
+No es un framework, sino un conjunto de bibliotecas para testear
+interfaces de usuario desde la perspectiva del usuario final.
+
+```javascript
+// React Testing Library
+import { render, screen, fireEvent } from '@testing-library/react';
+
+test("el usuario puede escribir en el buscador", () => {
+  render(&lt;Buscador /&gt;);
+  const input = screen.getByPlaceholderText("Buscar...");
+  fireEvent.change(input, { target: { value: "hola" } });
+  expect(input.value).toBe("hola");
+});
+```
+
+**Filosofía:** testea lo que el usuario ve y hace, no los detalles
+internos del componente.
+
+## Herramientas para Java
+
+### JUnit
+
+El estándar para testing en Java. Si has dado Programación, ya lo
+conoces. JUnit 5 es la versión actual.
+
+```java
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+class CalculadoraTest {
+
+    @Test
+    void sumarDosNumeros() {
+        Calculadora calc = new Calculadora();
+        assertEquals(5, calc.sumar(2, 3));
+    }
+
+    @Test
+    void dividirPorCeroLanzaExcepcion() {
+        Calculadora calc = new Calculadora();
+        assertThrows(ArithmeticException.class,
+            () -> calc.dividir(10, 0));
+    }
+}
+```
+
+**Características:**
+- Anotaciones claras: `@Test`, `@BeforeEach`, `@AfterEach`
+- Integración con Maven y Gradle
+- Assertions completas: assertEquals, assertTrue, assertThrows
+
+### Mockito
+
+Para crear mocks (objetos falsos) en Java. Útil cuando tu código
+depende de una base de datos o un servicio externo.
+
+```java
+@ExtendWith(MockitoExtension.class)
+class ReservaServiceTest {
+
+    @Mock
+    ReservaRepository repository;
+
+    @InjectMocks
+    ReservaService service;
+
+    @Test
+    void crearReservaGuardaEnBD() {
+        Reserva reserva = new Reserva("Sala A", LocalDate.now());
+        when(repository.save(any())).thenReturn(reserva);
+
+        Reserva resultado = service.crear(reserva);
+
+        verify(repository).save(reserva);
+        assertEquals("Sala A", resultado.getSala());
+    }
+}
+```
+
+## Herramientas E2E
+
+### Cypress
+
+El framework E2E más popular para aplicaciones web. Ejecuta pruebas
+directamente en el navegador.
+
+```javascript
+// Instalación
+npm install --save-dev cypress
+
+// Abrir la interfaz de Cypress
+npx cypress open
+
+// Ejecución en terminal
+npx cypress run
+```
+
+```javascript
+// Ejemplo de test E2E
+describe("Login de usuario", () => {
+  it("permite iniciar sesión con credenciales válidas", () => {
+    cy.visit("/login");
+    cy.get('input[name="email"]').type("usuario@test.com");
+    cy.get('input[name="password"]').type("123456");
+    cy.get('button[type="submit"]').click();
+
+    cy.url().should("include", "/dashboard");
+    cy.contains("Bienvenido").should("be.visible");
+  });
+});
+```
+
+### Playwright
+
+La alternativa de Microsoft a Cypress. Soporta múltiples navegadores
+(Chromium, Firefox, WebKit) y es más rápido.
+
+```javascript
+// Instalación
+npm install --save-dev @playwright/test
+
+// Ejecución
+npx playwright test
+
+// Ejemplo
+import { test, expect } from '@playwright/test';
+
+test("registro de usuario", async ({ page }) => {
+  await page.goto("/registro");
+  await page.fill('input[name="nombre"]', "Ana García");
+  await page.fill('input[name="email"]', "ana@test.com");
+  await page.click('button[type="submit"]');
+
+  await expect(page).toHaveURL(/perfil/);
+  await expect(page.locator("h1")).toContainText("Ana García");
+});
+```
+
+## Tabla resumen
+
+| Herramienta | Tipo | Lenguaje | Principal ventaja |
+|-------------|------|----------|-------------------|
+| **Jest** | Unitario/Integración | JavaScript | Todo-en-uno, gran comunidad |
+| **Vitest** | Unitario/Integración | JavaScript | Rápido, moderno, compatible con Jest |
+| **Testing Library** | Frontend | JS/React/Vue | Testea desde la perspectiva del usuario |
+| **JUnit** | Unitario/Integración | Java | Estándar en Java, anotaciones claras |
+| **Mockito** | Mocking | Java | Crea objetos falsos para aislar dependencias |
+| **Cypress** | E2E | JavaScript | Interfaz gráfica, fácil de empezar |
+| **Playwright** | E2E | JavaScript | Multi-navegador, más rápido |
+
+## ¿Qué elegir para tu proyecto?
+
+### Si tu proyecto es JavaScript/React/Vue
+
+- **Unitarios**: Jest o Vitest
+- **Componentes**: React Testing Library / Vue Testing Library
+- **E2E**: Cypress o Playwright
+
+### Si tu proyecto es Java/Spring
+
+- **Unitarios**: JUnit 5
+- **Mocks**: Mockito
+- **Integración**: Spring Boot Test
+
+### Si no sabes cuál elegir
+
+Empieza por Jest (JavaScript) o JUnit (Java). Son los más documentados
+y con más tutoriales disponibles.
+
+<Aclaracion pregunta="¿Necesito instalar todas estas herramientas?">
+  No. Empieza por **una** para tests unitarios (Jest o JUnit). Cuando
+  la domines, añade Testing Library para componentes o Cypress para
+  E2E. No necesitas todo el ecosistema desde el primer día.
+</Aclaracion>
+
+## Caso práctico
+
+<CasoPractico titulo="La migración que ahorró 2 horas semanales">
+
+  Un equipo usaba Selenium para tests E2E en un proyecto React.
+  Cada ejecución tardaba 20 minutos. Los desarrolladores evitaban
+  ejecutarlos porque les rompía el flujo de trabajo.
+
+  Migraron a Cypress. La misma batería de tests pasó de 20 minutos
+  a 3 minutos. Los desarrolladores empezaron a ejecutarlos antes
+  de cada commit porque ya no era un sacrificio de tiempo.
+
+  Además, Cypress tenía mejor debug: cuando un test fallaba, mostraba
+  exactamente en qué paso se rompió y允许 grabar la ejecución para
+  reproducir el error.
+
+  **Lección**: la herramienta adecuada no solo es más rápida, sino
+  que cambia el comportamiento del equipo. Si los tests son lentos,
+  nadie los ejecuta.
+</CasoPractico>
+
+## Mini-chequeo
+
+**Pregunta 1.** ¿Qué herramienta usarías para testear un componente
+React desde la perspectiva del usuario?
+
+A) JUnit · B) Cypress · C) React Testing Library
+
+**Pregunta 2.** ¿Cuál es la principal ventaja de Vitest sobre Jest?
+
+A) Más documentación
+B) Más rápido en proyectos con Vite
+C) Funciona mejor con Java
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **C**. React Testing Library está diseñado específicamente para
+   testear componentes React desde la perspectiva del usuario, no
+   del implementador.
+2. **B**. Vitest usa Vite como motor, por lo que en proyectos con
+   Vite es significativamente más rápido que Jest.
+
+</details>
+
+## Resumen en 3 frases
+
+1. Jest y Vitest para unitarios en JS; JUnit para Java; Testing Library
+   para componentes; Cypress o Playwright para E2E.
+2. No instales todo: empieza por una herramienta de unitarios y ve
+   ampliando cuando la domines.
+3. La herramienta adecuada cambia el comportamiento del equipo: si
+   los tests son rápidos, el equipo los ejecuta.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Jest** | Framework de testing todo-en-uno para JavaScript |
+| **Vitest** | Framework rápido basado en Vite, compatible con Jest |
+| **JUnit** | Framework de testing estándar en Java |
+| **Cypress** | Framework E2E con interfaz gráfica para web |
+| **Mock** | Objeto falso que simula un componente real |
+| **Testing Library** | Biblioteca que testea interfaces desde la perspectiva del usuario |
+
+---
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u5-testing) · **Anterior:** [05 · Pruebas manuales](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/05-pruebas-manuales) · **Siguiente:** [07 · Testing en equipo](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/07-testing-en-equipo)

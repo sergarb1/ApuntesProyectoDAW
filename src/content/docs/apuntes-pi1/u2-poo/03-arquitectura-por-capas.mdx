@@ -1,0 +1,135 @@
+---
+title: "03 — Arquitectura por capas"
+description: "Separar la interfaz, la lógica y los datos en capas que solo hablan con la de al lado: así cambiar una no rompe las demás 🏰"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U2 · Diseñar la solución** → 03 · Arquitectura por capas
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  En el punto 02 aprendiste que todo se divide. Pero "dividir" de cualquier
+  manera no vale: hay cortes que dan ventaja y cortes que no. La primera forma
+  de cortar tu proyecto es la **arquitectura por capas**, la más común de
+  todas.
+
+  Este capítulo te enseña a separar lo que el usuario ve, las reglas de tu
+  aplicación y el guardado de datos, y por qué cada capa se comunica solo con
+  la de al lado.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> Cada capa se comunica solo con la de al lado. Así, si mañana cambias de
+> base de datos, solo tocas la capa de datos. La interfaz sigue igual.
+
+Imagina un restaurante. El comensal (interfaz) no entra en la despensa a por
+los tomates: pide al camarero (lógica), y el camarero habla con la cocina
+(datos). Si mañana el restaurante cambia de proveedor de tomates, el comensal
+ni se entera. Las capas son esos tres pisos del edificio: cada uno habla con
+el de al lado, no con todos a la vez.
+
+## 🏰 Qué son las capas
+
+La arquitectura por capas es la forma más común de dividir un proyecto. Separa
+tu aplicación en tres niveles, cada uno con un trabajo distinto:
+
+```
+Interfaz de usuario  ←  lo que ve el usuario
+       ↓
+Lógica de negocio   ←  las reglas de tu aplicación
+       ↓
+Acceso a datos      ←  cómo guardas y recuperas información
+```
+
+- **Interfaz de usuario**: lo que el usuario ve y toca — pantallas, botones,
+  formularios. En la app de recetas: la página de la receta, el botón de
+  favorito, el formulario de registro.
+- **Lógica de negocio**: las reglas de tu aplicación, las decisiones que
+  importan. Por ejemplo: "una receta solo se muestra si la intolerancia del
+  usuario está incluida en sus ingredientes" o "la contraseña debe tener 8
+  caracteres". Es el cerebro.
+- **Acceso a datos**: cómo guardas y recuperas la información — leer, escribir
+  y buscar en la base de datos (la "BD", donde vive la información de forma
+  permanente). Aquí no se decide nada: solo se guarda y se recupera.
+
+Cada capa tiene una responsabilidad única (el criterio del punto 02). La
+interfaz no decide reglas, la lógica no pinta botones y los datos no razonan:
+solo guardan.
+
+## 🔗 Por qué cada capa habla solo con la de al lado
+
+La regla de oro: la interfaz habla con la lógica, la lógica habla con el
+acceso a datos, y el acceso a datos habla con la base de datos. Nunca en
+saltos. Si la interfaz hablara directamente con la base de datos, cada pantalla
+tendría que saber cómo se guardan los datos... y cualquier cambio en el guardado
+rompería todas las pantallas.
+
+Piénsalo con el restaurante: si cada comensal entrara a la cocina a por lo
+suyo, un cambio de menú sería un caos. El camarero es la frontera.
+
+¿Qué ganas con esta regla? Que los cambios quedan **contenidos**. Mira esta
+tabla:
+
+| Si cambias... | Solo tocas... | Las demás... |
+|---|---|---|
+| El diseño de una pantalla | La interfaz | Siguen igual |
+| Una regla (ej. contraseñas) | La lógica | Siguen igual |
+| La base de datos | El acceso a datos | Siguen igual |
+
+Ese "siguen igual" es oro puro: es lo que te ahorra el espagueti de Pablo.
+
+<Comparativa
+  dialogos={[
+    { quien: "Cambiar de base de datos", texto: "Vale, cambio la base de datos. Voy a tocar todos los archivos donde guardamos cosas: las pantallas, las búsquedas, los informes... Serán dos semanas de retoques y, seguro, algún susto." },
+    { quien: "Con capas bien separadas", texto: "Cambio la base de datos y solo toco la capa de acceso a datos. Las pantallas y la lógica no se enteran: siguen pidiendo los datos igual que siempre. Dos tardes, y sin sustos." },
+  ]}
+  titulo="¿Qué pasa si mañana cambias de base de datos?"
+/>
+
+La segunda voz no es más lista: es más **ordenada**. El punto 05 te enseñará a
+dibujar esta estructura en un diagrama, y el 07 a decidir con qué tecnologías
+montar cada capa.
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** En una arquitectura por capas, la interfaz de usuario:
+A) habla directamente con la base de datos · B) se comunica solo con la lógica
+de negocio · C) es la encargada de guardar los datos.
+
+**Pregunta 2.** Quieres cambiar de base de datos. Con capas bien hechas, tocas:
+A) todas las pantallas · B) solo la capa de acceso a datos · C) la lógica de
+negocio.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Cada capa habla solo con la de al lado. La A es exactamente el salto
+   que rompe todo; la C confunde la interfaz con el acceso a datos.
+2. **B**. Ese es el superpoder de las capas: el cambio de BD queda contenido en
+   el acceso a datos. La interfaz sigue igual.
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. La arquitectura por capas divide tu proyecto en interfaz, lógica de negocio
+   y acceso a datos, cada una con una responsabilidad única.
+2. Cada capa se comunica solo con la de al lado: así, si cambias una, las demás
+   siguen igual.
+3. El "siguen igual" es lo que evita el espagueti: los cambios quedan
+   contenidos en su capa.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Arquitectura por capas** | Dividir el proyecto en niveles que solo hablan con el de al lado |
+| **Interfaz de usuario** | Lo que el usuario ve y toca |
+| **Lógica de negocio** | Las reglas y decisiones de tu aplicación |
+| **Acceso a datos** | La capa que guarda y recupera información |
+| **Base de datos (BD)** | Donde vive la información de forma permanente |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u2-poo) · **Anterior:** [02 · Divide y vencerás](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/02-divide-y-venceras) · **Siguiente:** [04 · Organización por funcionalidades](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/04-organizacion-por-funcionalidades)

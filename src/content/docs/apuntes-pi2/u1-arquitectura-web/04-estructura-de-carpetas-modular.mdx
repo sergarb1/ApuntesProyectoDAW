@@ -1,0 +1,236 @@
+---
+title: "04 — Estructura de carpetas modular"
+description: "Organizar el código por responsabilidades para que el proyecto no sea un desastre. Separa, ordena, mantén."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🔧 **U1 · Evolucionar la arquitectura** → 04 · Estructura de carpetas modular
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Sergio abre la carpeta de su proyecto de PI1. Todo está en la raíz:
+  `index.html`, `script.js`, `estilos.css`, `funciones.js`,
+  `datos.js`, `pruebas.js`, `utils.js`, `backup.js`... No sabe qué
+  archivo contiene qué. Cuando tiene que cambiar algo, abre todos uno
+  por uno hasta dar con el correcto.
+
+  Este capítulo es la solución: organizar el código en carpetas con
+  un propósito claro.
+</StoryIntro>
+
+## La idea en una frase
+
+> Una buena estructura de carpetas es como un plano de casa: no necesitas
+> recorrer toda la casa para encontrar la cocina. Sabes que está en
+> cierta zona, y entras directamente.
+
+## Por qué importa la estructura
+
+Si tu proyecto tiene 10 archivos, da igual cómo los organices. Pero
+cuando llegas a 30, 50 o 100 archivos, sin estructura estás perdido.
+La estructura de carpetas no es estética: es **necesaria para encontrar
+cosas, trabajar en equipo y evitar que archivos colisionen**.
+
+### Principios básicos
+
+1. **Separación por responsabilidad** — cada carpeta tiene un trabajo
+2. **Nombrado claro** — el nombre de la carpeta te dice qué contiene
+3. **Profundidad razonable** — no más de 3-4 niveles de anidamiento
+4. **Consistencia** — todo el equipo usa la misma estructura
+
+## Estructura típica de un proyecto DAW
+
+### Backend (servidor)
+
+```
+server/
+├── routes/          ← Endpoints: GET, POST, PUT, DELETE
+├── controllers/     ← Lógica de cada endpoint
+├── services/        ← Lógica de negocio (reglas, cálculos)
+├── models/          ← Estructura de datos (schemas, entidades)
+├── middleware/      ← Funciones intermedias (auth, validación)
+├── utils/           ← Funciones auxiliares (fechas, hashes)
+├── config/          ← Configuración (puerto, BD, secrets)
+└── index.js         ← Punto de entrada del servidor
+```
+
+**Por qué esta separación:** cada carpeta tiene una responsabilidad.
+Si necesitas cambiar la autenticación, vas a `middleware/`. Si necesitas
+añadir un endpoint, vas a `routes/`. No abres todos los archivos.
+
+### Frontend (cliente)
+
+```
+client/
+├── components/      ← Componentes reutilizables (botón, card, modal)
+├── pages/           ← Pantallas completas (home, perfil, lista)
+├── services/        ← Llamadas a la API (fetch, axios)
+├── store/           ← Estado global (si usas framework)
+├── assets/          ← Imágenes, iconos, fuentes
+├── styles/          ← CSS global y variables
+└── utils/           ← Funciones auxiliares del cliente
+```
+
+**Por qué esta separación:** si necesitas cambiar un botón, vas a
+`components/`. Si cambia la llamada a la API, vas a `services/`.
+Cada cambio tiene un lugar natural donde buscar.
+
+<Comparativa
+  dialogos={[
+    { quien: "Proyecto sin estructura", texto: "Todo en la raíz. 40 archivos. Cuando hay que cambiar el login, se abren 6 archivos para encontrar dónde está la lógica. Dos compañeros modifican el mismo archivo sin darse cuenta." },
+    { quien: "Proyecto con estructura", texto: "Carpetas por responsabilidad. Login está en routes/auth.js, controllers/auth.js y services/auth.js. Se sabe exactamente dónde buscar." },
+  ]}
+  titulo="Antes y después de organizar"
+/>
+
+## Patrones de organización comunes
+
+### MVC (Model-View-Controller)
+
+El patrón más clásico para aplicaciones web:
+
+- **Model** — datos y reglas de negocio (carpeta `models/`)
+- **View** — interfaz visible para el usuario (carpeta `views/` o `components/`)
+- **Controller** — recibe peticiones, coordina modelo y vista (`controllers/`)
+
+### Por funcionalidad
+
+En proyectos con frameworks modernos, es común organizar por feature:
+
+```
+features/
+├── users/
+│   ├── userController.js
+│   ├── userModel.js
+│   └── userRoutes.js
+├── products/
+│   ├── productController.js
+│   ├── productModel.js
+│   └── productRoutes.js
+```
+
+**Ventaja:** todo relacionado con usuarios está junto. Si borras la
+funcionalidad de usuarios, borras una carpeta.
+
+### Híbrido (el más común en DAW)
+
+Combinar ambos: carpetas por responsabilidad dentro de cada feature.
+
+```
+server/
+├── features/
+│   ├── users/
+│   │   ├── user.routes.js
+│   │   ├── user.controller.js
+│   │   └── user.service.js
+│   └── products/
+│       ├── product.routes.js
+│       ├── product.controller.js
+│       └── product.service.js
+├── middleware/
+├── config/
+└── utils/
+```
+
+<Aclaracion pregunta="¿Y si mi proyecto es pequeño? ¿Necesito toda esta estructura?">
+  No. La estructura debe ser proporcional al proyecto. Si tienes 5
+  archivos, no necesitas 8 carpetas. La regla práctica:
+
+  - **Menos de 10 archivos** — estructura plana con nombres claros
+  - **10-30 archivos** — separar en 2-3 carpetas principales
+  - **Más de 30 archivos** — estructura completa por responsabilidades
+
+  Lo que sí necesitas siempre es **consistencia**: que todos los archivos
+  del mismo tipo estén en el mismo sitio.
+</Aclaracion>
+
+<CasoPractico titulo="La reestructuración de un día">
+  Un equipo llegó a PI2 con esta estructura heredada de PI1:
+
+  ```
+  proyecto/
+  ├── index.js (400 líneas)
+  ├── app.js (300 líneas)
+  ├── database.js (200 líneas)
+  ├── users.js (150 líneas)
+  ├── products.js (150 líneas)
+  ├── orders.js (200 líneas)
+  └── helpers.js (100 líneas)
+  ```
+
+  En un día la transformaron en:
+
+  ```
+  server/
+  ├── routes/
+  │   ├── userRoutes.js
+  │   ├── productRoutes.js
+  │   └── orderRoutes.js
+  ├── controllers/
+  │   ├── userController.js
+  │   ├── productController.js
+  │   └── orderController.js
+  ├── services/
+  │   ├── userService.js
+  │   ├── productService.js
+  │   └── orderService.js
+  ├── models/
+  │   └── db.js
+  ├── middleware/
+  │   └── auth.js
+  └── config/
+      └── index.js
+  ```
+
+  El código era el mismo, solo que repartido. Pero la claridad ganada
+  hizo que cada cambio posterior fuera mucho más rápido.
+
+  **Lección**: reorganizar no es reescribir. Es mover código a donde
+  debería haber estado desde el principio.
+</CasoPractico>
+
+## Mini-chequeo
+
+**Pregunta 1.** ¿Cuál es el principio fundamental de una buena
+estructura de carpetas?
+A) Tener muchas carpetas · B) Separar por responsabilidad ·
+C) Usar el mismo nombre que los tutoriales
+
+**Pregunta 2.** Tu proyecto tiene 45 archivos en la raíz. ¿Qué haces?
+A) Sigo añadiendo archivos, ya me煜aré · B) Creo carpetas por
+responsabilidad y muevo los archivos · C) Borro los que no uso
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Separar por responsabilidad: cada carpeta tiene un trabajo,
+   cada archivo tiene un lugar claro donde buscar.
+2. **B**. Con 45 archivos, la estructura es necesaria. Moverlos a
+   carpetas lógicas (routes, controllers, models, etc.) te da orden
+   sin cambiar el código.
+
+</details>
+
+## Resumen en 3 frases
+
+1. Una buena estructura de carpetas te dice **dónde buscar** cada cosa
+   sin tener que abrir archivos al azar.
+2. Separa por **responsabilidad**: rutas, controladores, servicios,
+   modelos, utilidades, configuración.
+3. La estructura debe ser **proporcional** al proyecto y **consistente**
+   en todo el equipo.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Responsabilidad** | Un solo trabajo por carpeta o archivo (Single Responsibility) |
+| **MVC** | Model-View-Controller: patrón que separa datos, interfaz y lógica |
+| **Feature** | Funcionalidad completa del sistema (usuarios, pedidos, etc.) |
+| **Middleware** | Código que se ejecuta entre la petición y la respuesta |
+| **Flat vs Nested** | Estructura plana vs anidada. Elegir según el tamaño del proyecto |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web) · **Anterior:** [03 · Decisiones técnicas en PI2](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/03-decisiones-tecnicas-en-pi2) · **Siguiente:** [05 · Versionado y ramas](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/05-versionado-y-ramas)

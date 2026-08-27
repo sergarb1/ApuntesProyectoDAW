@@ -1,0 +1,158 @@
+---
+title: "07 — Buenas prácticas de datos"
+description: "Nombra bien, no guardes lo calculable y evita que tu base de datos se convierta en un laberinto 🧼"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U3 · Organizar los datos** → 07 · Buenas prácticas de datos
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Laura ya tiene tablas bien formadas y sabe que usará SQL. Pero una base de
+  datos no es buena solo por estar en SQL: puede estar perfectamente
+  conectada y aun así ser un desastre si los nombres son confusos, si se
+  guardan datos que se podrían calcular o si cada columna dice lo que le
+  viene en gana.
+
+  Este capítulo son las normas de higiene de los datos: pocas, sencillas y
+  capaces de ahorrarte consultas locas y bugs que no se rastrean. Media hora
+  de orden ahora, semanas de paz después.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> Buenas prácticas de datos son tres normas simples: nombra bien las cosas,
+> no guardes lo que puedas calcular y protege los datos sensibles. Sin ellas,
+> tu base de datos crece hasta convertirse en un laberinto.
+
+Es como una despensa ordenada: cada cosa en su sitio, con su etiqueta clara y
+sin caducados escondidos. Cuando quieres algo, lo encuentras en segundos. Una
+despensa desordenada no te impide comer hoy... pero el día que necesitas la
+harina, estás veinte minutos buscando entre botes sin etiquetar. Tus datos
+son esa despensa.
+
+## 🏷️ Nombra bien las cosas
+
+El primer gesto de orden es bautizar bien. Reglas mínimas:
+
+- Tablas en plural y **snake_case** (minúsculas y guiones bajos): `usuarios`,
+  `recetas_favoritas`.
+- Columnas descriptivas: `fecha_creacion`, `precio_unitario`.
+- Clave primaria siempre `id`.
+
+| Mal | Bien | Por qué |
+|---|---|---|
+| `Recetas` / `recetasFavoritas` | `recetas` / `recetas_favoritas` | Plural y snake_case: un solo idioma en toda la base |
+| `fecha` (ambigua) | `fecha_creacion` | Que la columna diga exactamente qué guarda |
+| `ident` / `ref` / `codigo` | `id` | La clave primaria siempre se llama `id` |
+
+Estas reglas no son estética: cuando en el punto 05 hayas unido tablas con
+claves foráneas, tu compañero (o tú dentro de tres meses) agradecerá leer
+`recetas.usuario_id` y saber exactamente qué significa sin preguntar a nadie.
+
+## 🚫 No guardes lo que puedas calcular
+
+El segundo mandamiento: la base de datos guarda la **verdad**, no los
+atajos. Si un dato se puede calcular a partir de otros, no se guarda:
+
+- Guarda `fecha_nacimiento`, no `edad` (la edad se calcula cada año).
+- Guarda `precio_unitario` y `cantidad`, no `precio_total` (se calcula).
+
+| Guardas esto | En vez de | Por qué |
+|---|---|---|
+| `fecha_nacimiento` | `edad` | La edad cambia sola cada año; la fecha no miente |
+| `precio_unitario` + `cantidad` | `precio_total` | Si cambia el precio, el "total" guardado se queda obsoleto |
+| `fecha_creacion` | `tiempo_transcurrido` | El tiempo transcurrido se calcula desde la fecha |
+
+El motivo es que los datos calculados **envejecen mal**: guardas la edad 27
+en enero y en mayo sigues guardando 27, aunque el usuario ya tenga 28. En
+cambio, si guardas la fecha de nacimiento, siempre puedes calcular la edad
+correcta. Guardar lo calculable es plantarle una bomba de relojería a tus
+consultas.
+
+<CasoPractico titulo="Una base de datos que creció sin control">
+
+  Un equipo hizo una aplicación para gestionar eventos. Empezaron con una
+  tabla `eventos` con columnas básicas. Según avanzaba el proyecto, fueron
+  añadiendo:
+
+  - `categoria` (texto libre → cada uno escribía "música", "Musica", "MUSICA")
+  - `organizador` (texto → a veces nombre, a veces email, a veces ID)
+  - `asistentes` (texto → lista separada por comas: "1,2,3,4")
+  - `imagenes` (otra tabla que no se llegó a conectar bien)
+
+  El resultado: datos inconsistentes, consultas lentas, y bugs difíciles
+  de rastrear. Tuvieron que rehacer la base de datos a mitad de proyecto.
+
+  **Lección**: media hora diseñando el modelo de datos al principio habría
+  ahorrado semanas de trabajo. No hace falta ser experto, solo ordenado.
+</CasoPractico>
+
+Lee el caso con las tres normas en la mano y verás cada error:
+
+- `categoria` con "música", "Musica" y "MUSICA" → **mismo dato con tres
+  nombres**. Solución: un conjunto cerrado de valores, no texto libre.
+- `asistentes` como lista "1,2,3,4" → **una relación escondida dentro de un
+  campo de texto**. Solución: una tabla `asistentes_evento` con clave
+  foránea (punto 05).
+- `organizador` "a veces nombre, a veces email, a veces ID" → **cada columna
+  con un solo tipo de dato**.
+- `imagenes` "que no se llegó a conectar" → **si creas una tabla, conéctala**,
+  o será otra fuente de inconsistencias.
+
+## 🔒 La tercera norma: protege los datos sensibles
+
+La tercera buena práctica es un capítulo entero de esta unidad (el 08). Avance
+rápido: si guardas contraseñas, nunca en texto plano (usa hash); si guardas
+emails, trátalos como datos identificativos; y los datos bancarios no se
+guardan si no es estrictamente necesario. Los datos no son solo "información":
+son responsabilidad. El punto 08 lo desarrolla completo.
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** ¿Cómo se llama la tabla de la entidad "Receta favorita" según
+las buenas prácticas?
+A) `recetas_favoritas` · B) `RecetasFavoritas` · C) `receta`.
+
+**Pregunta 2.** Para guardar la edad de un usuario, lo correcto es:
+A) guardar `edad` y actualizarla cada año · B) guardar `fecha_nacimiento` y
+calcular la edad · C) no guardar nada.
+
+**Pregunta 3.** En el caso de los eventos, el problema de la columna
+`asistentes` con "1,2,3,4" era:
+A) que los números estaban mal · B) que una relación se guardaba dentro de un
+campo de texto · C) que la tabla se llamaba mal.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **A**. Plural y snake_case: `recetas_favoritas`. (La B mezcla estilos; la C
+   usa singular y olvida que es una relación.)
+2. **B**. Guardas la fecha y calculas la edad: así nunca se queda obsoleta.
+3. **B**. Los asistentes de un evento son una relación que debía estar en una
+   tabla aparte con clave foránea, no en una lista de texto.
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. Nombra bien: tablas en plural y snake_case, columnas descriptivas y clave
+   primaria siempre `id`.
+2. No guardes lo que puedas calcular: `fecha_nacimiento` en vez de `edad`,
+   `precio_unitario` y `cantidad` en vez de `precio_total`.
+3. El caso de la app de eventos demuestra que el desorden se paga rehaciendo
+   la base de datos a mitad de proyecto: media hora de diseño ahorra semanas.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **snake_case** | Estilo de nombres con minúsculas y guiones bajos (`recetas_favoritas`) |
+| **Clave primaria** | El `id` único de cada fila, siempre llamado `id` |
+| **Dato calculable** | Valor que se deduce de otros (edad, totales): no se guarda |
+| **Texto libre** | Campo donde cada uno escribe lo que quiere: fuente de "música"/"Musica" |
+| **Relación escondida** | Conexión metida dentro de un campo (la lista "1,2,3,4"): nunca hacerlo |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd) · **Anterior:** [06 · SQL vs NoSQL y alternativas](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/06-sql-vs-nosql-y-alternativas) · **Siguiente:** [08 · Protege los datos sensibles](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/08-protege-los-datos-sensibles)

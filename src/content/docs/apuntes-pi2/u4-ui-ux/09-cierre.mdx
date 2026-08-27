@@ -1,0 +1,259 @@
+---
+title: "09 — Cierre: consolida lo aprendido"
+description: "Pon en práctica todo lo de la unidad: retos, dilemas, un laboratorio con trampa y un adiós hacia U5."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 👤 **U4 · Diseñar para el usuario** → 09 · Cierre
+
+> En este punto no aprendemos nada nuevo: lo convertimos todo en práctica. Y,
+> como siempre, algo no va a funcionar. 😈
+
+Has aprendido qué es la UX real, los cinco principios de usabilidad,
+cómo hacer tu app accesible, cómo diseñar para móvil, cómo probar con
+usuarios, cómo prototipar antes de programar, cómo escribir mensajes
+útiles y cómo comprobar todo con una checklist. Ahora toca **usarlo**.
+
+## ⭐ Sé el Proyecto
+
+Ponte en la piel del proyecto de PI1 de tu equipo. El equipo tiene que
+decidir cómo afrontar la interfaz de usuario en PI2. ¿Qué enfoque eliges?
+
+- **Opción A — "El programador directo"**: "No necesitamos prototipos
+  ni testing. Yo sé cómo se hace una interfaz. Programo y ya está."
+- **Opción B — "El prototipador metódico"**: "Primero bocetos, luego
+  Figma, luego testing con 3 personas, y después programo con confianza."
+- **Opción C — "El copiador"**: "Busco una app parecida en internet,
+  copio el diseño y le cambio los colores. Así me ahorro todo el
+  trabajo de diseño."
+
+<details>
+<summary>...Respuestas...</summary>
+
+**La opción B.** Es la única que equilibra calidad y eficiencia. La A
+es arriesgada: programar sin prototipar implica reescrituras caras
+cuando algo no funciona. La C es un riesgo peor: copiar un diseño
+ajeno no entiende las necesidades de tus usuarios, y el resultado
+probablemente no encaje con tu proyecto. La B invierte un poco de
+tiempo al principio para ahorrar mucho después.
+
+</details>
+
+## 🔥 Dilema de equipo
+
+Dos miembros del equipo discuten cuánto invertir en diseño y
+accesibilidad. ¿Quién tiene razón... o en qué punto se juntan?
+
+<Comparativa
+  dialogos={[
+    { who: "Laura — 'Primero la funcionalidad'", texto: "Si no tenemos las funcionalidades hechas, ¿qué sentido tiene que la interfaz sea bonita y accesible? Primero código que funcione, luego lo demás." },
+    { who: "Marc — 'Primero el diseño'", texto: "Si programamos una interfaz que nadie puede usar, ¿de qué sirve que las funcionalidades funcionen? El usuario no ve el código, ve la interfaz." },
+  ]}
+  titulo="¿Funcionalidad o interfaz?"
+/>
+
+<details>
+<summary>...Respuestas...</summary>
+
+**Marc tiene razón en que la interfaz es lo que el usuario ve, pero
+Laura tiene razón en que sin funcionalidad no hay producto.** Haz las
+dos cosas en paralelo: prototipa la interfaz mientras programás la
+lógica. Probar con usuarios cuando haya algo que probar. El equilibrio
+es 40% diseño / 60% código, con iteración continua.
+
+</details>
+
+## 🕵️ ¿Quién Soy?
+
+Cuatro conceptos de la unidad se presentan enigmáticamente. ¿Adivinas
+quién es quién?
+
+1. "Soy la capacidad de tu app de ser usada por personas con distintas
+   capacidades. Sin mí, excluyes a parte de la población."
+2. "Soy el esquema en blanco y negro que muestra la estructura de una
+   pantalla sin distracciones visuales."
+3. "Soy el texto que aparece cuando algo falla. Si soy vago, el usuario
+   se frustra. Si soy claro, el usuario me agradece."
+4. "Soy la regla que dice que si el botón es azul en una pantalla,
+   debe ser azul en todas."
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **Accesibilidad** (punto 03). 2. **Wireframe** (punto 06). 3. **Mensaje
+   de error** (punto 07). 4. **Consistencia** (punto 02).
+
+</details>
+
+## ⚡ Laboratorio de Tortura
+
+**Duración estimada: 30-40 minutos.** Objetivo: detectar el fallo de una
+implementación que *parece* correcta... y no lo es.
+
+**Contexto.** Un equipo tiene una aplicación de AppointmentManager con
+esta interfaz en una de sus pantallas principales:
+
+```html
+&lt;div class="appointment-form"&gt;
+  &lt;input type="text" placeholder="Nombre"&gt;
+  &lt;input type="email" placeholder="Email"&gt;
+  &lt;input type="text" placeholder="Fecha (dd/mm/aaaa)"&gt;
+  &lt;input type="text" placeholder="Hora (hh:mm)"&gt;
+  &lt;textarea placeholder="Descripción"&gt;&lt;/textarea&gt;
+  &lt;button onclick="guardar()"&gt;Submit&lt;/button&gt;
+  &lt;p style="color: red; display: none;" id="error"&gt;Error al guardar&lt;/p&gt;
+&lt;/div&gt;
+```
+
+```css
+.appointment-form {
+  width: 600px;
+  margin: 20px auto;
+}
+.appointment-form input {
+  display: block;
+  margin: 5px 0;
+  width: 100%;
+  padding: 8px;
+}
+.appointment-form button {
+  background: #ccc;
+  color: #999;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+```
+
+**Instrucciones.** Detecta **mínimo 5 problemas** de usabilidad,
+accesibilidad o diseño. Después, descubre el **fallo intencionado**.
+
+<details>
+<summary>Pista 1</summary>
+
+Revisa el punto 03 (accesibilidad): ¿hay labels en los campos?
+¿El contraste del botón es suficiente? ¿Se puede navegar con teclado?
+
+</details>
+
+<details>
+<summary>Pista 2</summary>
+
+Revisa el punto 07 (microcopy): ¿el botón dice algo útil? ¿El mensaje
+de error ayuda al usuario? ¿Los placeholders son labels válidos?
+
+</details>
+
+<details>
+<summary>Pista 3 (casi la respuesta)</summary>
+
+El fallo intencionado es que **el botón "Submit" tiene contraste de
+1.6:1** (#ccc sobre #FFF), muy por debajo del mínimo de 4.5:1. Un
+usuario con baja visión no vería el botón.
+
+</details>
+
+<details>
+<summary>...Solución completa...</summary>
+
+**Problemas detectados:** (1) Sin labels — placeholders no son etiquetas
+válidas. (2) Contraste insuficiente — botón #ccc/#999 sobre blanco
+(1.6:1, mínimo 4.5:1). (3) Sin foco visible para teclado. (4) Width
+fijo 600px — se sale en móvil. (5) Error genérico sin ayuda. (6) Sin
+validación visible. (7) Sin confirmación de éxito. (8) Botón "Submit"
+debería decir "Guardar Appointment".
+
+**Corrección clave:** añadir `&lt;label&gt;` a cada campo, cambiar botón a
+`background: #005fcc; color: #fff;`, usar `max-width` en vez de `width`,
+añadir `:focus { outline: 2px solid }`, y mensaje de error con
+`role="alert"` que explique qué hacer.
+
+El fallo intencionado era el contraste del botón: invisible para
+personas con baja visión.
+
+</details>
+
+## 🧠 Atrévete a Pensar
+
+Preguntas abiertas. Piensa primero, mira la solución después.
+
+1. Si solo tienes 2 horas para mejorar la usabilidad de tu app, ¿qué
+   haces primero?
+2. ¿Cómo convences a un compañero de que la accesibilidad no es opcional?
+3. ¿Cuándo un prototipo es "suficientemente bueno" para empezar a
+   programar?
+
+<details>
+<summary>...Sugerencias de respuesta...</summary>
+
+1. Testing con 3 personas: prepara 3 tareas, siéntate al lado, observa.
+   Detectar y corregir los 3 problemas más graves en 2 horas es lo que
+   más impacto tiene.
+2. Con datos: el 15-20% de la población tiene alguna discapacidad. El
+   tribunal puede preguntar. Y la ley lo exige.
+3. Cuando las 3 personas de testing pueden completar las tareas principales
+   sin ayuda.
+
+</details>
+
+## 💬 Entrevista de trabajo
+
+Te acaban de contratar como "frontend junior". Estas son las preguntas
+que te harán en la entrevista:
+
+1. **"Explícame qué es UX como si yo fuera tu abuela."**
+2. **"¿Por qué es importante la accesibilidad web?"**
+3. **"¿Qué haces si un usuario te dice que tu interfaz es confusa?"**
+
+<details>
+<summary>...Modelos de respuesta...</summary>
+
+1. "Abuela, es cómo se siente la persona al usar una app. Si encuentra
+   lo que busca y no se frustra, la experiencia es buena."
+2. "Porque hay personas que no pueden usar una app como yo: no ven la
+   pantalla, no pueden usar ratón. La accesibilidad es que todos puedan
+   usarla. El tribunal se fija y la ley lo exige."
+3. "Le doy las gracias, le pido que me enseñe dónde se confunde, observo
+   y corrijo. La opinión del usuario vale más que la mía."
+
+</details>
+
+## 🤷 Preguntas Tontas
+
+> ❓ **Pregunta** — "¿Y si mi proyecto es tan pequeño que no necesita
+> testing ni prototipado?"
+> **Respuesta** — Si tiene más de una pantalla y un usuario externo,
+> necesita testing. No es cuestión de tamaño, es cuestión de calidad.
+
+> ❓ **Pregunta** — "¿Qué pasa si el tribunal no se fija en la
+> accesibilidad?"
+> **Respuesta** — Puede que no, pero puede que sí. Y lo más importante:
+> la accesibilidad es lo correcto.
+
+## 🎬 Post-Créditos
+
+El proyecto de Sergio funciona en móvil, tablet y desktop. Los mensajes
+de error explican qué hacer. Los formularios tienen labels. El contraste
+es suficiente. Tres compañeros la probaron y completaron todas las tareas.
+
+Suena el teléfono. Es su compañero de testing:
+
+"La app va perfecta en mi móvil. Pero he encontrado una cosa: cuando
+vacío la lista de appointments, la pantalla queda en blanco sin decir
+nada. ¿Es un bug?"
+
+Sergio sonríe. No es un bug. Es un estado vacío que falta por implementar.
+Y ahora sabe exactamente cómo hacerlo.
+
+**PRÓXIMAMENTE EN PI2 U5:** Testing, automatización y métricas de
+calidad para que tu app no solo se vea bien, sino que **funcione
+bien**. ✅
+
+---
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u4-ui-ux) · **Anterior:** [08 · Checklist de usabilidad](/ApuntesProyectoDAW/apuntes-pi2/u4-ui-ux/08-checklist-de-usabilidad) · **Siguiente:** [**PI2 U5 · Testing**](/ApuntesProyectoDAW/apuntes-pi2/u5-testing)

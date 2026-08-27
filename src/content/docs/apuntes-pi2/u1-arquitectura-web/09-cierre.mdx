@@ -1,0 +1,260 @@
+---
+title: "09 — Cierre: consolida lo aprendido"
+description: "Pon en práctica todo lo de la unidad: retos, dilemas, un laboratorio con trampa y un adiós hacia U2."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🔧 **U1 · Evolucionar la arquitectura** → 09 · Cierre
+
+> En este punto no aprendemos nada nuevo: lo convertimos todo en práctica. Y,
+> como siempre, algo no va a funcionar. 😈
+
+Has aprendido a identificar la deuda técnica, refactorizar sin romper,
+tomar decisiones técnicas justificadas, organizar el código en carpetas,
+trabajar con ramas de Git, documentar la arquitectura y priorizar
+inteligentemente. Ahora toca **usarlo**.
+
+## ⭐ Sé el Proyecto
+
+Ponte en la piel del proyecto de PI1 de tu equipo. El equipo tiene que
+decidir cómo afrontar PI2. ¿Qué enfoque eliges?
+
+- **Opción A — "El reescribe total"**: "Borramos todo y empezamos de
+  cero. Es más rápido que intentar arreglar este desastre."
+- **Opción B — "El refactor metódico"**: "Identificamos los 3 problemas
+  más críticos, los arreglamos con ramas y tests, y luego seguimos
+  con funcionalidades nuevas."
+- **Opción C — "El parche rápido"**: "Añadimos las funcionalidades de
+  PI2 encima de lo que hay. Si funciona, no lo toquemos."
+
+<details>
+<summary>...Respuestas...</summary>
+
+**La opción B.** Es la única que equilibra velocidad y calidad. La A
+es un riesgo enorme: reescribir todo implica perder funcionalidades
+que ya funcionan y repetir errores. La C acumula más deuda y el proyecto
+se vuelve inmantenible. Tu proyecto quiere ser la B: refactorizar
+poco a poco, con ramas y tests, sin perder lo que ya funciona.
+
+</details>
+
+## 🔥 Dilema de equipo
+
+Dos miembros del equipo discuten cuánto invertir en arquitectura. ¿Quién
+tiene razón... o en qué punto se juntan?
+
+<Comparativa
+  dialogos={[
+    { quien: "Marc — 'Arquitectura primero'", texto: "Antes de tocar una línea de código, necesitamos estructura de carpetas, ADRs, diagrama de arquitectura y DEUDA.md. Sin eso, cada funcionalidad nueva es caos." },
+    { quien: "Ana — 'Código primero'", texto: "Si nos ponemos a documentar y organizar, no escribimos ni una línea en una semana. El tribunal valora funcionalidades que funcionan, no carpetas bonitas." },
+  ]}
+  titulo="¿Arquitectura o funcionalidades?"
+/>
+
+<details>
+<summary>...Respuestas...</summary>
+
+**Marc tiene el proceso ganado, y Ana tiene un punto válido al principio.**
+Invertir 1-2 días al inicio en estructura y decisiones te ahorra
+semanas de caos después. Pero Ana no está equivocada: no inviertas
+toda la primera semana en documentación sin codear. La proporción
+ideal es 20% arquitectura / 80% código al inicio, que se invierte
+a medida que el proyecto madura. Haz que funcione *bien*, no "solo
+funciona" ni "perfecto antes de empezar".
+
+</details>
+
+## 🕵️ ¿Quién Soy?
+
+Cuatro conceptos de la unidad se presentan enigmáticamente. ¿Adivinas
+quién es quién?
+
+1. "Soy el coste futuro de los atajos de hoy. No me ves, pero cada
+   cambio te cuesta más por mi culpa."
+2. "Soy el documento que justifica por qué elegiste Vue en vez de React.
+   Sin mí, tu decisión parece arbitraria."
+3. "Soy la estrategia de Git que te permite trabajar sin pisarte. Me
+   creas, trabajas, mergeas y borras."
+4. "Soy la lista que consultas antes de cada sprint. Sin mí, olvidas
+   cosas importantes."
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **Deuda técnica** (punto 01 y 07). 2. **ADR** (punto 06). 3. **Feature
+   branch** (punto 05). 4. **Checklist de arquitectura** (punto 08).
+
+</details>
+
+## ⚡ Laboratorio de Tortura
+
+**Duración estimada: 30-40 minutos.** Objetivo: detectar el fallo de una
+implementación que *parece* correcta... y no lo es.
+
+**Contexto.** Un proyecto con todo el código en un solo archivo
+`index.js` de 600 líneas. No hay carpetas, no hay tests, no hay
+README. El código es funcional pero desordenado:
+
+```javascript
+const express = require('express');
+const app = express();
+
+app.get('/api/users', async (req, res) => {
+  const users = await db.query('SELECT * FROM users');
+  res.json(users);
+});
+
+app.post('/api/users', async (req, res) => {
+  const { email, password } = req.body;
+  const hash = await bcrypt.hash(password, 10);
+  await db.query('INSERT INTO users (email, password) VALUES (?, ?)', [email, hash]);
+  res.json({ message: 'Creado' });
+});
+
+app.post('/api/products', async (req, res) => {
+  const { name, price } = req.body;
+  await db.query('INSERT INTO products (name, price) VALUES (?, ?)', [name, price]);
+  res.json({ message: 'Creado' });
+});
+
+app.listen(3000);
+```
+
+**Instrucciones.** Detecta **mínimo 5 problemas** de arquitectura y
+propón la corrección. Después, descubre el **fallo intencionado**.
+
+<details>
+<summary>Pista 1</summary>
+
+Revisa el punto 04 (estructura de carpetas): ¿dónde están los controladores,
+servicios y rutas? ¿Todo está en un solo archivo?
+
+</details>
+
+<details>
+<summary>Pista 2</summary>
+
+Revisa el punto 07 (deuda técnica): ¿hay validación de entrada? ¿Hay
+manejo de errores? ¿Los passwords se guardan en texto plano?
+
+</details>
+
+<details>
+<summary>Pista 3 (casi la respuesta)</summary>
+
+El fallo intencionado es que **los passwords se guardan en texto plano**
+(linea `INSERT INTO users (email, password)` sin hashing). Aunque se
+importa `bcrypt`, no se usa en el POST de usuarios. Además, no hay
+validación de entrada, no hay try/catch, no hay estructura de carpetas,
+y el archivo `index.js` hace todo el trabajo.
+
+</details>
+
+<details>
+<summary>...Solución completa...</summary>
+
+**Problemas detectados:** (1) Todo en un solo archivo — falta separación
+por responsabilidades. (2) Sin validación de entrada. (3) Sin try/catch
+para manejo de errores. (4) Passwords en texto plano (bcrypt se importa
+pero no se usa en el POST). (5) Sin tests. (6) Sin documentación.
+
+**Estructura corregida:**
+
+```
+server/
+├── routes/          (userRoutes.js, productRoutes.js, orderRoutes.js)
+├── controllers/     (userController.js, productController.js)
+├── services/        (userService.js, productService.js)
+├── middleware/      (auth.js, validate.js)
+├── config/          (database.js)
+└── index.js         (solo levanta el servidor)
+```
+
+El fallo intencionado era el password en texto plano: bcrypt se importa
+pero no se usa en el POST. Error de seguridad que el código "parecía"
+resolver sin hacerlo.
+
+</details>
+
+## 🧠 Atrévete a Pensar
+
+Preguntas abiertas. Piensa primero, mira la solución después.
+
+1. ¿Cómo evitas caer en la parálisis por análisis al refactorizar?
+2. ¿Qué haces si no sabes cuál es la mejor decisión técnica y solo
+   puedes probar una?
+3. ¿Cuándo una checklist se convierte en burocracia inútil?
+
+<details>
+<summary>...Sugerencias de respuesta...</summary>
+
+1. Regla práctica: refactoriza **solo** cuando ves duplicación real o una
+   función hace >1 cosa. Tiempo límite: 5 min por refactor.
+2. Documenta la decisión como "temporal" en el ADR: "Elegimos X porque Y,
+   pero vamos a probar Z en el sprint 2". La documentación no es solo
+   para decisiones definitivas.
+3. Cuando se completa mecánicamente sin pensar. Solución: repasarla en
+   equipo y preguntar "¿qué punto nos está costando más?"
+
+</details>
+
+## 💬 Entrevista de trabajo
+
+Te acaban de contratar como "full stack junior". Estas son las preguntas
+que te harán en la entrevista:
+
+1. **"Explícame qué es la deuda técnica como si yo fuera tu abuela."**
+2. **"¿Por qué no se reescribe un proyecto entero en vez de refactorizar?"**
+3. **"¿Qué le dices a un compañero que trabaja directamente en main?"**
+
+<details>
+<summary>...Modelos de respuesta...</summary>
+
+1. "Abuela, es como pedir un préstamo: hoy te va bien, pero luego tienes
+   que pagar más. Copiar código hoy ahorra 5 minutos, pero cambiarlo
+   después costará 2 horas."
+2. "Porque reescribir implica perder funcionalidades que ya funcionan
+   y tardar más de lo que crees. Refactorizar conserva lo que funciona
+   y mejora lo que no."
+3. "Que main es la rama del código que funciona. Si trabaja ahí directamente,
+   puede romper lo que otros están haciendo. La solución: ramas."
+
+</details>
+
+## 🤷 Preguntas Tontas
+
+> ❓ **Pregunta** — "¿Y si mi proyecto es tan pequeño que no necesita
+> estructura de carpetas ni ADRs?"
+> **Respuesta** — Incluso un proyecto pequeño se beneficia de un README
+> y una estructura básica. Empieza bien, escala sin dolor.
+
+> ❓ **Pregunta** — "¿Qué pasa si mi refactor rompe algo que ya
+> funcionaba?"
+> **Respuesta** — Por eso existe el control de versiones. Y por eso los
+> tests son tu red: si el test falla, la refactor rompió algo.
+
+## 🎬 Post-Créditos
+
+El proyecto de Sergio ya no tiene un solo archivo de 600 líneas. Ahora
+tiene rutas, controladores, servicios y configuración en carpetas
+separadas. Un README explica cómo instalarlo. Tres ADRs documentan las
+decisiones técnicas.
+
+Suena el teléfono. Es un mensaje de su compañero de frontend:
+
+"Necesito que el endpoint `GET /api/users` devuelva paginación
+`?page=1&limit=20`. ¿Dónde está el controlador?"
+
+Sergio mira: `server/controllers/userController.js`. Respuesta en 2
+segundos.
+
+**PRÓXIMAMENTE EN PI2 U2:** Frontend con frameworks modernos:
+componentes, estado, rendimiento y experiencia de usuario. 🖥️
+
+---
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web) · **Anterior:** [08 · Checklist de arquitectura](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/08-checklist-de-arquitectura) · **Siguiente:** [**PI2 U2 · Frontend Framework**](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework)

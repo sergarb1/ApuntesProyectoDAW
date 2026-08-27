@@ -1,0 +1,283 @@
+---
+title: "05 — Integrar servicios externos"
+description: "Email, pagos, mapas y autenticación con servicios de terceros. Cómo conectarlos de forma segura usando variables de entorno."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🔗 **U3 · Integrar sistemas** → 05 · Integrar servicios externos
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  El equipo de Laura quería enviar emails de confirmación cuando un usuario
+  se registraba. Programaron el código para enviar el email directamente
+  desde el servidor. Funcionaba... hasta que el proveedor de email bloqueó
+  su IP por enviar demasiados correos sin autenticación.
+
+  No necesitaban reinventar la rueda. Existían servicios que ya hacían
+  esto mejor, más rápido y de forma más fiable. Solo tenían que
+  integrarlos correctamente.
+</StoryIntro>
+
+## La idea en una frase
+
+> No reinventes la rueda: integra servicios que ya existen. Pero hazlo
+> de forma segura, con variables de entorno y modo test.
+
+## Los servicios más comunes en proyectos DAW
+
+| Servicio | Para qué | Ejemplos |
+|----------|----------|----------|
+| **Email** | Envío de correos transaccionales | SendGrid, Mailtrap, Mailgun |
+| **Pagos** | Cobros y facturación | Stripe, PayPal |
+| **Mapas** | Geolocalización y rutas | Google Maps, Leaflet, OpenStreetMap |
+| **Autenticación** | Login con redes sociales | Google OAuth, GitHub OAuth, Auth0 |
+| **Almacenamiento** | Subida de archivos | Cloudinary, AWS S3 |
+| ** IA ** | Funciones inteligentes | OpenAI, Hugging Face |
+
+## Email: SendGrid y Mailtrap
+
+### Mailtrap (desarrollo)
+
+Mailtrap intercepta los emails y los muestra en un panel web. No envía
+emails reales. Ideal para desarrollo:
+
+```javascript
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp.mailtrap.io',
+  port: 2525,
+  auth: {
+    user: process.env.MAILTRAP_USER,
+    pass: process.env.MAILTRAP_PASS
+  }
+});
+
+await transporter.sendMail({
+  from: 'app@midominio.com',
+  to: 'usuario@email.com',
+  subject: 'Bienvenido',
+  html: '<h1>Tu cuenta está activa</h1>'
+});
+```
+
+### SendGrid (producción)
+
+SendGrid es el servicio real para envío de emails. Misma API, solo cambia
+la configuración:
+
+```javascript
+const transporter = nodemailer.createTransport({
+  host: 'smtp.sendgrid.net',
+  port: 587,
+  auth: {
+    user: 'apikey',
+    pass: process.env.SENDGRID_API_KEY
+  }
+});
+```
+
+### El truco: cambiar con una variable de entorno
+
+```javascript
+// .env (desarrollo)
+SMTP_HOST=smtp.mailtrap.io
+SMTP_PORT=2525
+SMTP_USER=tu_usuario_mailtrap
+SMTP_PASS=tu_pass_mailtrap
+
+// .env (producción)
+SMTP_HOST=smtp.sendgrid.net
+SMTP_PORT=587
+SMTP_USER=apikey
+SMTP_PASS=SG.tu_api_key_sendgrid
+```
+
+```javascript
+// Código que funciona en ambos entornos
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS
+  }
+});
+```
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin variables de entorno", texto: "La API key de SendGrid está en el código. Alguien la sube a GitHub. En 5 minutos alguien la usa para enviar spam desde tu cuenta. Factura de 2000€." },
+    { quien: "Con variables de entorno", texto: "La API key está en .env (que está en .gitignore). El código no tiene claves. Si alguien ve el código, no ve nada comprometido." },
+  ]}
+  titulo="Seguridad vs descuido"
+/>
+
+## Pagos: Stripe
+
+Stripe permite cobrar con tarjeta de crédito. Tiene un **modo test**
+que simula cobros sin dinero real:
+
+```javascript
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+// Crear un cargo (modo test)
+const cargo = await stripe.charges.create({
+  amount: 2000, // 20.00€ en céntimos
+  currency: 'eur',
+  source: 'tok_visa', // Token de prueba
+  description: 'Compra en mi tienda'
+});
+```
+
+### Datos de prueba de Stripe
+
+| Campo | Valor |
+|-------|-------|
+| Número de tarjeta | `4242 4242 4242 4242` |
+| Fecha | Cualquier fecha futura |
+| CVC | Cualquier 3 dígitos |
+| Importe | Cualquier cantidad |
+
+**Nunca** uses datos reales en desarrollo. Siempre modo test.
+
+## Mapas: Leaflet y Google Maps
+
+### Leaflet (gratuito, open source)
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<div id="mapa" style="height: 400px;"></div>
+
+<script>
+  const mapa = L.map('mapa').setView([40.4168, -3.7038], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapa);
+  L.marker([40.4168, -3.7038]).addTo(mapa)
+    .bindPopup('Madrid').openPopup();
+</script>
+```
+
+### Google Maps (requiere API key)
+
+```javascript
+// La API key va en variable de entorno
+const map = new google.maps.Map(document.getElementById('mapa'), {
+  center: { lat: 40.4168, lng: -3.7038 },
+  zoom: 13,
+  key: process.env.GOOGLE_MAPS_KEY
+});
+```
+
+## Autenticación: OAuth
+
+OAuth permite que los usuarios se loguen con Google, GitHub, etc.:
+
+```javascript
+// Ejemplo simplificado con Passport.js
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: '/auth/google/callback'
+  },
+  (accessToken, refreshToken, profile, done) => {
+    // Buscar o crear usuario con profile.id
+    return done(null, profile);
+  }
+));
+```
+
+## Variables de entorno: la clave de la seguridad
+
+Las variables de entorno guardan configuraciones sensibles fuera del código:
+
+```
+# .env (NUNCA subir a Git)
+SMTP_HOST=smtp.sendgrid.net
+SMTP_PASS=SG.mi_api_key
+STRIPE_SECRET_KEY=sk_test_abc123
+GOOGLE_CLIENT_ID=mi_client_id
+DATABASE_URL=postgres://user:pass@host:5432/db
+```
+
+### Reglas de oro
+
+1. **Nunca** subas `.env` a Git (añádelo a `.gitignore`)
+2. **Nunca** expongas claves API en el frontend (solo en el backend)
+3. **Usa** `.env.example` con valores vacíos para documentar qué variables
+   necesitas
+4. **Diferencia** entre entornos: `.env.development`, `.env.production`
+
+```
+# .env.example (SÍ se sube a Git)
+SMTP_HOST=
+SMTP_PORT=
+SMTP_USER=
+SMTP_PASS=
+STRIPE_SECRET_KEY=
+GOOGLE_CLIENT_ID=
+```
+
+<Aclaracion pregunta="¿Puedo usar variables de entorno en el frontend?">
+  Sí, pero con precaución. En frameworks como Vite, las variables del
+  frontend deben empezar con `VITE_` y **se incluyen en el bundle**.
+  Nunca pongas claves secretas (API keys de pago, contraseñas) en
+  variables del frontend. Solo usa variables públicas (URLs de APIs
+  que no requieren autenticación).
+</Aclaracion>
+
+## Consejos para integrar servicios externos
+
+1. **Lee la documentación** antes de escribir código
+2. **Usa el modo test/sandbox** mientras desarrollas
+3. **Maneja los errores** del servicio externo (puede caerse)
+4. **No expongas claves API** en el frontend ni en el repositorio
+5. **Usa variables de entorno** para las configuraciones
+6. **Ten un plan B** si el servicio falla (modo offline, mensaje de error)
+7. **Prueba en presentación** antes del día de la defensa
+
+## Caso práctico
+
+<CasoPractico titulo="La integración que salvó la presentación">
+  Un equipo desarrolló una aplicación de reservas para restaurantes.
+  Una de las funcionalidades que más peso tenía era el envío de emails
+  de confirmación al hacer una reserva.
+
+  Durante el desarrollo, probaban con Mailtrap (que intercepta los emails
+  y no los envía de verdad). Todo funcionaba.
+
+  En la presentación, conectaron el servicio real de SendGrid. Y funcionó.
+  El tribunal recibió un email de confirmación en tiempo real. Ese detalle
+  marcó la diferencia: demostraba que la integración era real, no simulada.
+
+  **Lección**: integrar un servicio externo real (aunque sea en modo test)
+  aporta mucho valor a tu proyecto. Pero asegúrate de que funciona antes
+  del día de la defensa.
+</CasoPractico>
+
+## Resumen en 3 frases
+
+1. No reinventes la rueda: usa servicios externos para email (SendGrid),
+   pagos (Stripe) y mapas (Leaflet).
+2. **Siempre** usa variables de entorno para claves y configuraciones:
+   nunca las expongas en el código ni en el repositorio.
+3. **Siempre** desarrolla en modo test/sandbox y prueba la integración
+   real antes de la presentación.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Servicio externo** | API de terceros que tu proyecto consume (email, pagos, etc.) |
+| **Variable de entorno** | Configuración que vive fuera del código (.env) |
+| **Sandbox** | Modo de prueba de un servicio externo sin efectos reales |
+| **OAuth** | Protocolo para autenticación con cuentas de terceros (Google, GitHub) |
+| **API key** | Clave que identifica tu proyecto ante un servicio externo |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest) · **Anterior:** [04 · Manejo de errores](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/04-manejo-de-errores) · **Siguiente:** [06 · Seguridad en la comunicación](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/06-seguridad-en-la-comunicacion)

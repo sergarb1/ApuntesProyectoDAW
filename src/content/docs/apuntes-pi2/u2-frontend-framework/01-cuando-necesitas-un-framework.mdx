@@ -1,0 +1,180 @@
+---
+title: "01 — Cuándo necesitas un framework"
+description: "Las preguntas clave para decidir si tu proyecto necesita un framework frontend o puede sobrevivir con HTML, CSS y JavaScript puro."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🖥️ **U2 · Mejorar el frontend** → 01 · Cuándo necesitas un framework
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Sergio ha terminado PI1 con HTML, CSS y un poco de JavaScript.
+  Funciona. Pero ahora en PI2 tiene 15 pantallas, formularios con
+  validación, datos que cambian según la acción del usuario, y un
+  compañero que le pregunta: "¿No deberíamos usar React?"
+
+  Sergio no sabe qué responder. No sabe si es necesario, si vale la
+  pena, o si es solo moda. Este capítulo es para él.
+</StoryIntro>
+
+## La idea en una frase
+
+> No uses un framework porque esté de moda. Úsalo cuando tu proyecto
+> lo necesite. Y si no lo necesita, no lo compliques.
+
+## ¿Para qué sirve un framework frontend?
+
+Un framework frontend es un conjunto de herramientas que te ayuda a
+construir interfaces de usuario de forma organizada. No es magia: es
+una forma de trabajar que te obliga a separar responsabilidades,
+reutilizar código y gestionar la complejidad.
+
+La analogía clásica es la de LEGO: un framework te da piezas estandarizadas
+(botones, formularios, listas) que encajan entre sí. Sin framework, estás
+cortando bloques de madera y esperando que encajen.
+
+## Las 5 preguntas clave
+
+Antes de decidir, respóndete honestamente:
+
+| Pregunta | Si la respuesta es sí... |
+|----------|--------------------------|
+| ¿Tienes más de 5 pantallas que comparten elementos? | Probablemente necesitas componentes reutilizables |
+| ¿Los datos cambian sin recargar la página? | Necesitas reactividad, que un framework gestiona |
+| ¿Tienes formularios con validación compleja? | Un framework te ahorra mucho código repetitivo |
+| ¿El código JavaScript se está haciendo difícil de mantener? | La organizará en componentes y módulos |
+| ¿Trabajas en equipo y necesitáis un estándar? | Un framework impone una estructura común |
+
+Si respondiste "sí" a **2 o más**, considera un framework. Si solo es 1,
+piénsalo dos veces. Si es 0, quédate con HTML/CSS/JS puro: no necesitas
+más complejidad.
+
+<Comparativa
+  dialogos={[
+    { quien: "Ana — 3 pantallas, poca interactividad", texto: "Mi proyecto tiene home, catálogo y contacto. No hay formularios complejos ni datos dinámicos. Con HTML, CSS y un poco de JS para el menú me basta. Un framework sería ruido." },
+    { quien: "Marc — 12 pantallas, formularios, tiempo real", texto: "Mi proyecto tiene login, registro, dashboard, perfil, listados, formularios con validación, notificaciones en tiempo real... Sin framework estoy muerto. Cada cambio me cuesta el doble." },
+  ]}
+  titulo="No todos lo necesitan"
+/>
+
+## Qué ganas con un framework
+
+| Beneficio | Sin framework | Con framework |
+|-----------|---------------|---------------|
+| Reutilización | Copiar-pegar código | Componentes reutilizables |
+| Mantenimiento | Cambiar en N archivos | Cambiar en 1 sitio |
+| Equipo | Cada uno a su manera | Estructura común |
+| Estado | Variables sueltas | Gestión centralizada |
+| Testing | Difícil | Integrado |
+| Ecosistema | Buscar soluciones | Paquetes probados |
+
+## Qué pierdes (o pagas)
+
+Un framework no es gratis. Añade:
+
+- **Curva de aprendizaje**: necesitas aprender su sintaxis y concepts
+- **Complejidad**: más archivos, más configuración, más dependencias
+- **Tamaño**: un framework pesa más que HTML plano
+- **Over-engineering**: para un proyecto pequeño, es matar moscas
+  a cañonazos
+
+La pregunta no es "¿es mejor un framework?" sino "¿compensa el coste
+frente a lo que gano?"
+
+<Aclaracion pregunta="¿Y si no sé ningún framework?">
+  Aprende lo justo para tu proyecto. No necesitas dominar React al
+  completo. Basta con saber:
+
+  - Crear componentes
+  - Pasar datos entre componentes (props)
+  - Manejar estado local
+  - Hacer peticiones a la API
+
+  El 80% de un proyecto DAW se cubre con eso. Lo demás lo aprendes
+  sobre la marcha. Y hay tutoriales oficiales que en 2-3 horas te
+  ponen en marcha.
+
+  No necesitas ser experto. Necesitas ser funcional.
+</Aclaracion>
+
+## Caso práctico
+
+<CasoPractico titulo="Cuándo dijo basta el equipo de Laura">
+  Laura trabajaba en un proyecto de gestión de turnos. En PI1 eran
+  4 páginas HTML con un formulario básico. Funcionaba.
+
+  En PI2, el proyecto creció: 12 pantallas, formularios con validación
+  en tiempo real, un calendario interactivo, y un panel de admin con
+  datos que se actualizaban constantemente.
+
+  El primer sprint de PI2, Laura intentó mantener HTML puro.Resultado:
+  3 días para hacer un formulario que con React habría sido 2 horas.
+  El código se duplicaba por todas partes. Cada cambio requería tocar
+  4 archivos.
+
+  Al final del sprint, el equipo decidió migrar. No porque React fuera
+  "mejor", sino porque la complejidad del proyecto lo exigía.
+
+  **Lección**: el framework no es un capricho. Es una respuesta a la
+  complejidad. Cuando la complejidad crece, el framework compensa.
+</CasoPractico>
+
+## Caso contrario: cuándo NO usar framework
+
+No todo proyecto necesita un framework. Ejemplos donde **no** compensa:
+
+- **Landing page estática**: una página con información, sin interacción
+- **Portfolio personal**: 3-5 páginas, HTML/CSS basta
+- **Prototipo rápido**: necesitas algo en 2 horas, no en 2 días
+- **Proyecto muy pequeño**: menos de 5 pantallas, sin formularios
+  complejos
+
+Si tu proyecto es de estos, no malgastes tiempo aprendiendo un
+framework. Invierte ese tiempo en contenido y diseño.
+
+## Mini-chequeo
+
+**Pregunta 1.** Un proyecto tiene 8 pantallas, formularios con validación
+en tiempo real y datos que cambian según el usuario. ¿Necesita framework?
+A) Sí, la complejidad lo justifica · B) No, con HTML basta · C) Depende
+del framework
+
+**Pregunta 2.** ¿Cuál es la principal desventaja de usar un framework
+en un proyecto pequeño?
+A) Es más lento · B) Añade complejidad innecesaria · C) No tiene
+desventajas
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **A**. Ocho pantallas con interacción en tiempo real y validación
+   compleja superan lo razonable con HTML plano. Un framework organiza
+   esa complejidad.
+2. **B**. Un framework añade configuración, dependencias y curva de
+   aprendizaje. En un proyecto pequeño, eso es ruido que no compensa.
+
+</details>
+
+## Resumen en 3 frases
+
+1. Un framework frontend organiza la complejidad: componentes, estado,
+   reutilización. Pero tiene un coste en aprendizaje y configuración.
+2. Úsalo cuando tu proyecto lo necesite: múltiples pantallas, datos
+   dinámicos, formularios complejos, trabajo en equipo.
+3. Si tu proyecto es pequeño y estático, no lo compliques: HTML/CSS/JS
+   puro es suficiente y más rápido.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Framework** | Conjunto de herramientas y convenciones para construir software |
+| **Reactividad** | Capacidad de la interfaz de actualizarse automáticamente cuando cambian los datos |
+| **Componente** | Pieza reutilizable de la interfaz (botón, formulario, tarjeta) |
+| **Over-engineering** | Añadir más complejidad de la que el proyecto necesita |
+| **Props** | Datos que un componente recibe de su componente padre |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework) · **Anterior:** [Volver al índice de U1](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/09-cierre) · **Siguiente:** [02 · Elegir el framework adecuado](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/02-elegir-el-framework-adecido)

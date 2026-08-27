@@ -1,0 +1,245 @@
+---
+title: "01 — El problema de los entornos"
+description: "Por qué 'en mi máquina funciona' es la frase más peligrosa del desarrollo y cómo las diferencias entre entornos rompen tu aplicación."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📦 **U7 · Preparar el despliegue** → 01 · El problema de los entornos
+
+<StoryIntro icono="🎬" titulo="El día que 'en mi máquina funciona' no sirvió">
+  "Pues en mi ordenador va perfecto".
+
+  El equipo llevaba una hora intentando arrancar la aplicación en el
+  portátil del profesor. Faltaban dependencias, la versión de Node.js
+  era distinta, la base de datos no se conectaba, las rutas de los
+  archivos no coincidían.
+
+  Habían desarrollado durante meses en sus propios ordenadores, cada uno
+  con su configuración, sus versiones, sus variables de entorno. Nunca
+  habían probado a arrancar el proyecto desde cero en una máquina limpia.
+
+  "En mi máquina funciona" es la frase más peligrosa del desarrollo.
+  Porque el tribunal no usará tu máquina.
+</StoryIntro>
+
+## La idea en una frase
+
+> Tu aplicación funciona en tu ordenador porque conoce tu entorno.
+> En otro entorno, todo puede fallar.
+
+## Por qué funciona en tu máquina
+
+Tu aplicación funciona en tu ordenador porque tiene una configuración
+específica que tú diste por hecha:
+
+- Tu versión de Node.js (20.11.0, no "Node cualquiera")
+- Tu base de datos local ya creada y poblada
+- Tus variables de entorno configuradas en `.env`
+- Tus archivos en rutas absolutas que solo existen en tu máquina
+- Tus dependencias instaladas con una versión exacta de npm
+- Tu sistema operativo (Windows, macOS o Linux)
+
+Cada uno de estos elementos es un punto de fallo potencial. Si alguno
+cambia, la aplicación se rompe. Y en producción, **todo** es distinto.
+
+## Las diferencias que rompen todo
+
+### Versiones de runtime
+
+Node.js 20 y Node.js 18 no se comportan igual. npm 10 y npm 9
+gestionan dependencias de forma diferente. Una librería que funciona
+en tu versión puede fallar en otra.
+
+```
+Tu máquina:     Node 20.11.0 + npm 10.2.4
+Servidor:        Node 18.19.0 + npm 9.6.7
+Resultado:       dependencias incompatibles
+```
+
+### Base de datos
+
+¿Usas MySQL 8.0 en local pero el servidor tiene PostgreSQL 14? ¿O
+peor: el servidor no tiene base de datos instalada? Las diferencias
+entre motores de base de datos son enormes. Incluso entre versiones
+del mismo motor hay comportamientos distintos.
+
+### Variables de entorno
+
+Tu `.env` tiene `DB_URL=localhost:3306/mi_db`. En el servidor, la URL
+es distinta. Si olvidas configurar una variable, la aplicación falla
+al arrancar sin ningún mensaje de error claro.
+
+### Rutas y archivos
+
+En Windows: `C:\Users\serga\proyecto\uploads`. En Linux:
+`/home/proyecto/uploads`. Si hardcodeas rutas absolutas, tu aplicación
+solo funciona en tu máquina.
+
+### Puertos
+
+Tu backend usa el puerto 3000. Pero en el servidor, el puerto 3000
+está ocupado por otro servicio. O el firewall lo bloquea. O la
+plataforma de despliegue asigna un puerto automáticamente.
+
+<Comparativa
+  dialogos={[
+    { quien: "Desarrollador — en local", texto: "Funciona perfecto. El puerto 3000, la BD en localhost, las rutas en C:\\Users\\serga\\uploads. Todo controlado." },
+    { quien: "Servidor de producción", texto: "¿Puerto 3000? Ocupado. ¿localhost? No existe. ¿Rutas de Windows? Esto es Linux. ¿Variable DB_URL? No está definida." },
+  ]}
+  titulo="Dos mundos, una aplicación"
+/>
+
+## El error clásico: configuración hardcodeada
+
+El problema más frecuente es escribir valores directamente en el código:
+
+```javascript
+// ❌ MAL: hardcodeado
+const DB_HOST = "localhost";
+const DB_PORT = 3306;
+const DB_NAME = "mi_base_datos";
+const API_KEY = "sk-1234567890abcdef";
+const PORT = 3000;
+```
+
+Esto funciona en tu máquina. En producción, es un desastre:
+- `localhost` no apunta a la misma máquina en todos los entornos
+- El puerto puede estar ocupado
+- La clave de API es distinta (y no deberías subirla al repositorio)
+
+## La solución: separar configuración de código
+
+La respuesta es usar **variables de entorno**: valores que se definen
+fuera del código y se leen en tiempo de ejecución.
+
+```javascript
+// ✅ BIEN: variables de entorno
+const DB_HOST = process.env.DB_HOST || "localhost";
+const DB_PORT = process.env.DB_PORT || 3306;
+const DB_NAME = process.env.DB_NAME || "mi_base_datos";
+const API_KEY = process.env.API_KEY;
+const PORT = process.env.PORT || 3000;
+```
+
+Ahora el mismo código funciona en cualquier entorno. Solo cambia el
+valor de las variables. En local usa los valores por defecto. En
+producción, las variables se configuran en el servidor.
+
+<Aclaracion pregunta="¿Y si no tengo tiempo para configurar variables de entorno?">
+  Si no puedes usar Docker ni un sistema de configuración elaborado, al menos:
+
+  1. **Documenta los pasos** para arrancar el proyecto desde cero
+  2. **Especifica versiones** exactas (Node 20.11.0, no "Node")
+  3. **Incluye un script** que instale dependencias y arranque todo
+  4. **Prueba en una máquina limpia** antes de la entrega
+
+  Un README con instrucciones claras vale más que un Dockerfile
+  que no funciona. Pero no es excusa para no intentar hacerlo mejor.
+</Aclaracion>
+
+## Los tres niveles de preparación
+
+### Nivel 1 — Mínimo (sin Docker)
+
+- Variables de entorno en vez de valores hardcodeados
+- `package.json` con versiones exactas de dependencias
+- README con instrucciones de instalación paso a paso
+- Script de inicio que comprueba que todo está instalado
+
+### Nivel 2 — Intermedio (con Docker básico)
+
+- Dockerfile que empaqueta la aplicación
+- `.env.example` con las variables necesarias (sin valores reales)
+- `docker-compose.yml` para arrancar todo con un comando
+
+### Nivel 3 — Profesional
+
+- CI/CD que ejecuta tests antes de desplegar
+- Múltiples entornos (development, staging, production)
+- Variables de entorno gestionadas por la plataforma
+- Monitoring y logs centralizados
+
+<CasoPractico titulo="El equipo que perdió 3 días por una ruta hardcodeada">
+
+  Un equipo tenía una aplicación que funcionaba perfectamente en sus
+  portátiles. Pero al llevarla al portátil del profesor, el módulo
+  de subida de archivos no funcionaba.
+
+  El problema: una sola línea de código.
+
+  ```javascript
+  const UPLOADS_DIR = "C:\\Users\\marcos\\Documents\\proyecto\\uploads";
+  ```
+
+  La ruta absoluta de Marcos. En el portátil del profesor, esa ruta
+  no existía. El error que aparecía era genérico: "Error al guardar
+  archivo". No decía nada sobre la ruta.
+
+  Tardaron 3 días en encontrarlo. Si hubieran usado variables de
+  entorno o rutas relativas, lo habrían detectado en 5 minutos.
+
+  **Lección**: nunca hardcodees rutas, URLs ni credenciales. Si algo
+  puede cambiar entre entornos, debe ser una variable de entorno.
+</CasoPractico>
+
+## Cómo detectar si tu proyecto tiene este problema
+
+Hazte estas preguntas:
+
+1. ¿Tienes valores hardcodeados en el código (URLs, rutas, claves)?
+2. ¿Puedes arrancar el proyecto con un solo comando en una máquina limpia?
+3. ¿Has probado a clonar tu repositorio en otra máquina y arrancarlo?
+4. ¿Tu `.env` está en `.gitignore`? (debería estarlo)
+5. ¿Tienes un `.env.example` que documente las variables necesarias?
+
+Si la respuesta a alguna es "no", tu proyecto tiene el problema de
+los entornos. Y el día de la presentación, puede fallarte.
+
+## Mini-chequeo
+
+**Pregunta 1.** ¿Por qué "en mi máquina funciona" es peligroso?
+A) Porque tu máquina es lenta · B) Porque el tribunal no usará tu
+máquina y las diferencias de entorno pueden romper la aplicación ·
+C) Porque Docker es obligatorio
+
+**Pregunta 2.** ¿Qué es una variable de entorno?
+A) Un valor hardcodeado en el código · B) Un valor que se define fuera
+del código y se lee en tiempo de ejecución · C) Una dependencia de
+npm
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. "En mi máquina funciona" ignora que el entorno de desarrollo
+   es distinto del entorno de producción. El tribunal, el profesor o
+   cualquier otro usuario tendrá otra configuración.
+2. **B**. Las variables de entorno permiten que el mismo código funcione
+   en diferentes entornos sin modificarlo. Se definen fuera del código
+   y se leen en tiempo de ejecución.
+
+</details>
+
+## Resumen en 3 frases
+
+1. "En mi máquina funciona" es peligroso porque tu entorno de desarrollo
+   es distinto del entorno de producción.
+2. Las diferencias principales son versiones, base de datos, variables
+   de entorno, rutas y puertos.
+3. La solución es separar la configuración del código usando variables
+   de entorno y probando en máquinas limpias.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Entorno de desarrollo** | Tu máquina con tu configuración y herramientas |
+| **Entorno de producción** | El servidor donde los usuarios usan tu aplicación |
+| **Variable de entorno** | Valor externo al código que se lee en tiempo de ejecución |
+| **Hardcodear** | Escribir valores fijos directamente en el código |
+| **Runtime** | Plataforma donde se ejecuta tu código (Node.js, Python, etc.) |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u7-docker) · **Anterior:** [Cierre de U6 · Proteger la aplicación](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad) · **Siguiente:** [02 · Contenedores: la solución](/ApuntesProyectoDAW/apuntes-pi2/u7-docker/02-contenedores-la-solucion)

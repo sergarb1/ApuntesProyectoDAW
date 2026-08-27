@@ -1,0 +1,175 @@
+---
+title: "08 — Conflictos: de código y de personas"
+description: "Resolver conflictos en Git (merge/rebase) y en el equipo (comunicación, mediación) sin que explote el proyecto ⚔️"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U7 · Trabajar en equipo** → 08 · Conflictos: de código y de personas
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Habéis acordado reglas, herramientas, reparto, flujo Git, lint,
+  commits y review. Pero **los conflictos pasan**. En el código (dos
+  tocan lo mismo) y entre personas (distinto criterio, alguien no
+  avanza, tensiones). Este capítulo te da el protocolo para resolverlos
+  sin que el proyecto —ni el equipo— se rompa.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> Conflicto de código = **procedimiento técnico** (pasos claros, sin
+> drama). Conflicto de personas = **conversación honesta** (cara a
+> cara, buscar acuerdo, mediador si hace falta). Los dos se resuelven
+> antes si hay comunicación diaria.
+
+## 🔧 Conflictos en Git: procedimiento frío
+
+Ocurren cuando dos ramas modifican las **mismas líneas** del mismo
+archivo. Git no puede decidir solo. **No pasa nada**: es rutina.
+
+### Pasos para resolver
+
+```bash
+# 1. Estás en tu feature, quieres integrar dev actualizado
+git checkout feature/mi-rama
+git fetch origin
+git rebase origin/dev    # o: git merge origin/dev
+
+# 2. Git para y marca conflictos:
+#    <<<<<<< HEAD (tu versión)
+#    =======
+#    >>>>>>> origin/dev (versión de dev)
+# 3. Abre el archivo, busca los marcadores
+# 4. Decide: tu versión, la de dev, o una combinación
+# 5. Borra los marcadores <<<<<<< ======= >>>>>>>
+# 6. Guarda y:
+git add archivo-resuelto
+git rebase --continue    # o: git commit (si hiciste merge)
+
+# 7. Repite si hay más archivos en conflicto
+# 8. Al terminar: tests, lint, push --force-with-lease
+```
+
+### Tips para menos conflictos
+
+- **Ramas cortas y frecuentes**: integra `dev` en tu feature **cada día**
+  (`git rebase origin/dev`). Conflictos pequeños = fáciles.
+- **Comunica**: "voy a tocar `auth.service.ts`". Si otro también, hablad
+  **antes** de empezar.
+- **Archivos "calientes"**: `package.json`, `tsconfig.json`, rutas
+  principales. Coordinad quién los toca.
+
+> 💡 **Rebase vs Merge**: Rebase limpia historial (lineal), merge
+> preserva contexto (rama visible). En equipos pequeños, **rebase
+> diario en feature** + **merge (no fast-forward) a dev** tras PR es
+> lo más limpio.
+
+## 👥 Conflictos entre personas: protocolo humano
+
+Si alguien no trabaja, hay diferencias de criterio técnico, la
+comunicación falla o hay tensiones:
+
+### 1. Habladlo en persona (no por chat)
+
+- Quedad 15 min (presencial o videollamada, **cámara encendida**).
+- Cada uno expone su punto **sin interrumpir** (2 min cada uno).
+- Objetivo: entender al otro, no ganar.
+
+### 2. Buscad un acuerdo o solución intermedia
+
+- "Probamos tu enfoque en esta feature y el mío en la siguiente".
+- "Dividimos el módulo: tú haces X, yo Y, y revisamos juntos el
+  contrato (interfaz)".
+- "Pedimos opinión al profesor como tie-break técnico".
+
+### 3. Si no hay acuerdo → tercera persona
+
+- **Profesor** (para alcance, plazos, criterio de evaluación).
+- **Compañero neutral** del equipo (para cuestiones técnicas puras).
+- **Mediador externo** (tutor, orientador) si es relacional.
+
+> ⚠️ **No dejéis que un conflicto personal se enquiste**. Una semana
+> de silencio = dos semanas de arreglo. La daily y la retro son los
+> sitios naturales para sacar temas antes de que exploten.
+
+## 🧩 El caso del "free rider" (quien no aporta)
+
+Patrón: una persona no entrega, no responde, no viene a dailies.
+Protocolo:
+
+1. **Daily**: se nota ("ayer no avanzé", "hoy tampoco sé qué hacer").
+2. **Privado**: un compañero (no el grupo) le pregunta: "¿qué pasa? ¿te
+   bloquea algo? ¿podemos ayudar?".
+3. **Planning**: se redistribuye su carga **visiblemente en el tablero**
+   (nuevas Rs y As), y él/ella se lleva una tarea concreta y medible
+   (docs, tests, despliegue, investigación).
+4. **Seguimiento**: daily + check-in a medio día.
+5. **Si persiste**: se informa al profesor **con datos** (tablero,
+   commits, actas), no con quejas.
+
+<CasoPractico titulo="El equipo que aprendió a ser equipo">
+  Tres estudiantes empezaron el proyecto con entusiasmo. Cada uno se llevó
+  una parte a casa. Dos semanas después:
+  - Persona A había hecho el login y el registro
+  - Persona B había hecho la gestión de productos
+  - Persona C se había desconectado y no respondía
+
+  En la reunión con el profesor, Persona A y B explicaron la situación.
+  El profesor les sugirió: "repartid las tareas de Persona C entre los dos,
+  pero también haced que él se responsabilice de algo concreto y medible".
+
+  Se sentaron, hablaron claro, y rediseñaron el reparto:
+  - Persona A: frontend completo (que ya había mostrado interés)
+  - Persona B: backend completo
+  - Persona C: documentación + tests + despliegue (responsabilidades claras)
+
+  A partir de ahí, se reunían 15 minutos cada día (por Discord) para
+  actualizar el progreso. No funcionó perfecto, pero funcionó.
+
+  **Lección**: un equipo no es "cada uno a su bola". Es comunicación
+  constante, reparto claro de responsabilidades, y saber reaccionar
+  cuando alguien se queda atrás.
+</CasoPractico>
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** Al hacer rebase y aparecer conflictos, ¿qué marcadores
+buscas en el archivo?
+A) `<<<<<<< HEAD`, `=======`, `>>>>>>> origen` · B) `### CONFLICTO ###` · C) `<!-- conflict -->`.
+
+**Pregunta 2.** Ante un conflicto interpersonal, el primer paso es:
+A) Escribir en el grupo de WhatsApp · B) **Hablar en persona/videollamada
+   (cara a cara)** · C) Ir directo al profesor.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **A**. Son los marcadores estándar de conflicto de Git.
+2. **B**. El chat empeora los malentendidos. La voz + cara permite
+   empatía y matices.
+
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. Conflicto Git = rutina técnica: rebase diario, marcadores
+   `<<<<<<< ======= >>>>>>>`, decisión, `add` + `continue`.
+2. Conflicto personas = conversación honesta cara a cara → acuerdo →
+   mediador si hace falta. No chat, no silencio.
+3. Free rider: detectad en daily → hablado en privado → redistribución
+   visible en tablero → seguimiento → profesor con datos si persiste.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Conflicto Git** | Dos ramas modifican las mismas líneas; Git no puede fusionar automáticamente |
+| **Rebase** | Reaplicar tus commits sobre la punta de otra rama (historial lineal) |
+| **Marcadores de conflicto** | `<<<<<<< HEAD`, `=======`, `>>>>>>> rama-origen` |
+| **Free rider** | Persona que no aporta al equipo pero se beneficia del trabajo ajeno |
+| **Mediador** | Tercera persona neutral que ayuda a resolver un desacuerdo |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u7-git) · **Anterior:** [07 · Code review: aprender y detectar malentendidos](/ApuntesProyectoDAW/apuntes-pi1/u7-git/07-code-review) · **Siguiente:** [09 · Cierre: consolida lo aprendido](/ApuntesProyectoDAW/apuntes-pi1/u7-git/09-cierre)

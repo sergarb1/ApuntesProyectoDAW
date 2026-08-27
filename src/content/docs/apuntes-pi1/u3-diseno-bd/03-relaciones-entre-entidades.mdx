@@ -1,0 +1,150 @@
+---
+title: "03 — Relaciones entre entidades"
+description: "Las entidades no viven solas. La pregunta '¿cuántos?' decide cómo se conectan 🔗"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U3 · Organizar los datos** → 03 · Relaciones entre entidades
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Laura ya tiene sus cuatro entidades: Usuario, Receta, Comentario y
+  Valoracion. Pero en una hoja de papel siguen siendo cuatro nombres sueltos.
+  ¿Qué tiene que ver un usuario con una receta? ¿Y una receta con un
+  comentario?
+
+  Este capítulo las conecta. Y la herramienta para hacerlo es ridículamente
+  simple: una sola pregunta repetida hasta que todo encaje. "¿Cuántos?"
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> Las entidades no viven solas: se conectan. Para descubrir cómo, pregúntate
+> siempre "¿cuántos?". La respuesta te da la relación **1 a N**, la que
+> sostiene casi todo tu modelo de datos.
+
+Es como la relación entre una casa y sus llaves: una casa tiene muchas llaves,
+pero cada llave abre una casa (o debería). Cuando sabes quién tiene "muchos" y
+quién tiene "uno", ya sabes cómo ordenar las llaves... es decir, los datos.
+
+## 🔗 Conéctalas: la pregunta "¿cuántos?"
+
+En el punto 02 sacaste las entidades de tu frase de proyecto. Ahora conéctalas
+una a una preguntando lo mismo que preguntaría un niño curioso:
+
+> ¿Cuántos?
+
+Con el ejemplo de la app de recetas:
+
+- Un `Usuario` tiene muchas `Recetas` → 1 a N
+- Una `Receta` tiene muchos `Comentarios` → 1 a N
+- Un `Usuario` deja muchas `Valoraciones` → 1 a N
+- Una `Receta` tiene muchas `Valoraciones` → 1 a N
+
+```
+Usuario ──1──< tiene >──N── Receta
+   │                          │
+   │                          │
+   1                          1
+   │                          │
+   └─< deja >─N── Comentario ─┘
+   └─< deja >─N── Valoracion ─┘
+```
+
+Fíjate en un detalle: **todas las relaciones de este modelo son 1 a N**. Una
+receta no tiene "varios usuarios"; pertenece a uno. Un comentario no es de
+"varias recetas"; es de una. Cuando una relación no sea 1 a N, lo detectarás
+porque la pregunta "¿cuántos?" te devolverá "muchos" en los dos lados... y eso
+se resolverá en el punto 05.
+
+## 🧮 Qué significa "1 a N"
+
+**1 a N** (se lee "uno a muchos") es la relación más común de todas: un
+elemento del lado "uno" se asocia con muchos elementos del lado "N". Reglas
+que se cumplen siempre:
+
+- El lado "1" es la entidad "padre": el Usuario, la Receta.
+- El lado "N" es la entidad "hija": las Recetas de un usuario, los Comentarios
+  de una receta.
+- Cada elemento del lado "N" pertenece a exactamente un elemento del lado "1".
+
+| Lado 1 | Lado N | Frase que lo describe |
+|---|---|---|
+| Usuario | Recetas | "Un usuario tiene muchas recetas" |
+| Receta | Comentarios | "Una receta tiene muchos comentarios" |
+| Usuario | Valoraciones | "Un usuario deja muchas valoraciones" |
+| Receta | Valoraciones | "Una receta tiene muchas valoraciones" |
+
+¿Por qué es tan importante esta distinción? Porque decide dónde se guarda la
+"etiqueta" de la conexión: el lado "N" es quien recuerda a su padre. Eso es
+exactamente la **clave foránea** que verás en el punto 05.
+
+<Aclaracion pregunta="¿Y si en mi proyecto hay relaciones 'muchos a muchos'?">
+  Existen: por ejemplo, "un alumno tiene muchas asignaturas y una asignatura
+  tiene muchos alumnos". Eso es **N a M** y se resuelve con una tabla puente
+  intermedia. Para un proyecto de PI1, lo normal es que con relaciones 1 a N
+  tengas de sobra. Si te aparece una N a M, no te asustes: apúntala en el
+  papel, y cuando toque traducir a tablas (punto 05) verás cómo se parte en
+  dos relaciones 1 a N.
+</Aclaracion>
+
+## 🗺️ Dibuja las conexiones antes de codificar
+
+Con lápiz y papel o una herramienta de dibujo sencilla (como Draw.io), dibuja
+cada entidad en una caja y cada relación como una línea con su "1" y su "N".
+El dibujo no tiene que ser bonito: tiene que ser **verdadero**.
+
+```
+[Usuario] ───1──< tiene >──N── [Receta]
+```
+
+Cuando todas tus relaciones encajan con la pregunta "¿cuántos?", tienes lo
+que se llama un **modelo conceptual**: la foto de tu proyecto en términos de
+datos, sin una sola línea de código. En el punto 04 lo convertimos en un
+esquema formal.
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** "Un usuario tiene muchas recetas" es una relación:
+A) 1 a N · B) N a M · C) sin relación.
+
+**Pregunta 2.** En la relación Receta → Comentarios, ¿qué entidad está en el
+lado "N"?
+A) Receta · B) Comentario · C) Usuario.
+
+**Pregunta 3.** "Una asignatura tiene muchos alumnos y un alumno tiene muchas
+asignaturas" es:
+A) 1 a N · B) N a M · C) 1 a 1.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **A**. Un usuario (el "1") tiene muchas recetas (el "N"): 1 a N.
+2. **B**. Los Comentarios son el lado "N": muchos comentarios pertenecen a
+   una receta.
+3. **B**. Los dos lados tienen "muchos": es una relación N a M, que se
+   resolverá con una tabla intermedia en el punto 05.
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. Las entidades se conectan respondiendo a una sola pregunta: "¿cuántos?".
+2. Las relaciones 1 a N son las más comunes: un elemento del lado "1" tiene
+   muchos del lado "N", y cada "N" pertenece a un único "1".
+3. Un dibujo sencillo con cajas y líneas es tu modelo conceptual: la foto de
+   tu proyecto en términos de datos antes de programar.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Relación** | Conexión entre dos entidades |
+| **1 a N** | "Uno a muchos": un padre con muchos hijos (Usuario → Recetas) |
+| **N a M** | "Muchos a muchos": se resuelve con una tabla intermedia |
+| **Modelo conceptual** | Dibujo de entidades y relaciones sin código |
+| **Clave foránea** | La "etiqueta" que guarda el lado N para recordar a su padre (punto 05) |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd) · **Anterior:** [02 · De las ideas a las entidades](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/02-de-las-ideas-a-las-entidades) · **Siguiente:** [04 · Del modelo conceptual al esquema](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/04-del-modelo-conceptual-al-esquema)

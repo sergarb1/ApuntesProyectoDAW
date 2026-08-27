@@ -1,0 +1,166 @@
+---
+title: "07 — Priorizar lo crítico: auth y datos primero"
+description: "No todas las funcionalidades son iguales. Auth y datos son la base: si fallan, nada funciona. Hazlas bien y hazlas ya 🔐"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U6 · Implementar la lógica** → 07 · Priorizar lo crítico: auth y datos primero
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  El equipo de Sergio decidió dejar el login "para el final" porque "es
+  aburrido". Se pasaron 5 semanas haciendo filtros bonitos, gráficas, modo
+  oscuro y notificaciones. A 3 días de la entrega, intentaron poner auth y
+  rompieron medio proyecto. Las gráficas mostraban datos de otros usuarios. El
+  modo oscuro perdía la sesión.
+
+  Este capítulo explica por qué **auth y datos van PRIMERO**, no al final. Y
+  cómo hacerlos bien sin que sean un lastre.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> Auth y datos son los **cimientos**. Los cimientos se echan antes de poner las
+> ventanas, no después. Si los cimientos fallan, la casa se cae da igual lo
+> bonita que sea la fachada.
+
+## 🏗️ Por qué auth y datos son críticos (y van primero)
+
+| Funcionalidad | Por qué es crítica | Qué pasa si la dejas para el final |
+|---|---|---|
+| **Autenticación (login/registro)** | Es la **puerta de entrada**. Sin usuario identificado, no hay datos personales, no hay permisos, no hay "mis tareas", "mis productos". | Rompes todas las rutas que asumían `req.usuario`. Tienes que tocar controladores, middleware, frontend, tests. |
+| **Autorización (roles/permisos)** | Define **quién puede qué**. Un admin no ve lo que ve un user. | Fugas de datos: usuarios ven/borran/editan lo ajeno. Seguridad rota en producción. |
+| **Modelo de datos principal (entidad core)** | Es el **corazón del dominio**. Todo gira alrededor: listados, búsquedas, relaciones, reportes. | Cambiar el schema a mitad de proyecto = migraciones, seeds rotos, controladores rotos, frontend roto. |
+| **Conexión BD + migraciones** | Es la **infraestructura viva**. Si falla, nada persiste. | Descubres problemas de conexión, tipos, índices, constraints cuando ya tienes código encima. |
+
+**Conclusión:** auth y datos son **trasversales**: tocan casi todo el código.
+Hacerlos al final = reescribir casi todo el código.
+
+## 🎯 El orden correcto de implementación (revisitado)
+
+```
+SEMANA 1-2: CIMIENTOS (críticos, trasversales)
+├── 1. Servidor + health check + logs
+├── 2. Conexión BD + migración inicial (schema entidad principal)
+├── 3. Auth: registro + login + JWT/session + middleware protect
+├── 4. CRUD entidad principal (protegido con auth)
+│
+SEMANA 3-4: NÚCLEO (funcionalidad de valor)
+├── 5. Relaciones (entidades secundarias, población)
+├── 6. Búsquedas, filtros, paginación
+├── 7. Validaciones robustas + manejo errores global
+│
+SEMANA 5+: MEJORAS (deseables)
+├── 8. Features avanzadas (notificaciones, IA, export, etc.)
+├── 9. UI pulida, modo oscuro, accesibilidad
+├── 10. Tests, docs, despliegue, rendimiento
+```
+
+**Nunca** hagas el paso 8 antes del 4. Nunca hagas el 6 antes del 3.
+
+## 🔐 Auth mínima viable (checklist)
+
+No necesitas OAuth2, 2FA, refresh tokens, roles complejos. Para el MVP:
+
+- [ ] **Registro**: email + password (hasheado con bcrypt/argon2) → 201 + usuario.
+- [ ] **Login**: email + password → 200 + token (JWT) o cookie session.
+- [ ] **Middleware `auth`**: verifica token, adjunta `req.usuario`, 401 si inválido.
+- [ ] **Logout**: invalida token (blocklist) o limpia cookie.
+- [ ] **Rutas protegidas**: todas las que tocan datos del usuario usan el middleware.
+
+```javascript
+// auth.middleware.js - EJEMPLO MÍNIMO
+export async function auth(req, res, next) {
+  const token = req.headers.authorization?.replace('Bearer ', '');
+  if (!token) return res.status(401).json({ error: 'Token requerido' });
+
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    req.usuario = await Usuario.findById(payload.sub).lean();
+    if (!req.usuario) return res.status(401).json({ error: 'Usuario no existe' });
+    next();
+  } catch (e) {
+    return res.status(401).json({ error: 'Token inválido o expirado' });
+  }
+}
+```
+
+## 🗄️ Datos: modelo principal primero, migraciones desde día 1
+
+1. **Define el schema de tu entidad principal** (Producto, Tarea, Incidencia...)
+   con **todos los campos obligatorios** del MVP. No "añadiré campos después":
+   añadir campos = migración = riesgo.
+2. **Ejecuta la migración AHORA**. Verifica que crea la tabla/colección bien.
+3. **Seed básico**: 3-5 registros de prueba para desarrollar sin ir a la BD a
+   meter datos a mano cada vez.
+4. **Índices** en campos que filtrarás/ordenarás (email, estado, fechaCreación).
+
+<Comparativa
+  dialogos={[
+    { quien: "Equipo 'Auth al final'", texto: "Hagamos primero lo bonito: dashboard, gráficas, filtros. El login es aburrido y estándar, lo ponemos en la última semana. Total, es copiar-pegar." },
+    { quien: "Equipo 'Auth primero'", texto: "Semana 1: auth + entidad principal. Semana 2: todo lo demás ya sabe quién es el usuario. Si algo falla en auth, lo arreglamos ahora, no cuando todo depende de ello." },
+  ]}
+  titulo="¿Auth al principio o al final?"
+/>
+
+El equipo "Auth primero" no es menos ambicioso: **evita la reescritura masiva**
+de la última semana. El equipo "Auth al final" pasa los últimos días
+arreglando roturas en cascada en lugar de pulir.
+
+## ¿Y si mi proyecto no necesita login (es público)?
+
+<Aclaracion pregunta="¿Y si mi proyecto no necesita login (es público?)">
+
+  Entonces tu "crítico" no es auth, es **la entidad principal + acceso público
+  controlado** (rate limiting, validación estricta, anti-spam). El principio
+  sigue: **identifica qué es transversal (toca todo) y hazlo primero**.
+  En una API pública, lo transversal es: validación de entrada, rate limiting,
+  manejo de errores global, schema de la entidad principal.
+
+</Aclaracion>
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** Tu proyecto tiene usuarios, productos y pedidos. ¿Qué implementas
+en la semana 1?
+A) Dashboard de estadísticas de ventas · B) Auth + CRUD Productos (entidad
+   principal) · C) Notificaciones push de pedidos.
+
+**Pregunta 2.** Dejas auth para el final. A 3 días de entrega, añades
+`req.usuario` a 15 controladores. ¿Qué riesgo corres?
+A) Ninguno, es copy-paste · B) Olvidas uno, alguien accede a datos ajenos,
+   rompes tests, no hay tiempo para probar · C) El profesor te felicita por
+   dejar lo aburrido para el final.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Auth + entidad principal son los cimientos. Lo demás se construye
+   encima.
+2. **B**. Fugas de seguridad, roturas en cascada, cero tiempo para testear.
+
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. **Auth y datos (entidad principal) son cimientos: van PRIMERO.** Son
+   trasversales (tocan todo); hacerlos al final obliga a reescribir casi todo.
+2. Auth MVP = registro, login, token, middleware protect, logout. Nada de
+   OAuth/2FA/roles complejos hasta que el core funciona.
+3. Define schema completo de la entidad principal, migra y seedea en semana 1.
+   Cambiar el modelo después es la mayor fuente de roturas.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Transversal** | Funcionalidad que afecta a muchas/o todas las partes del sistema (auth, BD, logging) |
+| **Cimientos** | Base técnica sobre la que se construye el resto; si falla, todo falla |
+| **Middleware auth** | Filtro que verifica identidad antes de llegar al controlador |
+| **Migración** | Cambio versionado en estructura de BD (crear tabla, añadir columna, índice) |
+| **Seed** | Datos de prueba insertados automáticamente para desarrollar |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u6-backend-basico) · **Anterior:** [06 · Manejo de atascos y debugging](/ApuntesProyectoDAW/apuntes-pi1/u6-backend-basico/06-manejo-de-atascos) · **Siguiente:** [08 · Checklist para tu implementación](/ApuntesProyectoDAW/apuntes-pi1/u6-backend-basico/08-checklist-implementacion)

@@ -1,0 +1,177 @@
+---
+title: "07 — El final del proyecto"
+description: "Cerrar un proyecto correctamente: handoff, preparación de la presentación y últimos pasos antes de la entrega."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🔁 **U9 · Gestionar el proyecto** → 07 · El final del proyecto
+
+El final del proyecto no es "terminar de programar y listo".
+Hay una serie de pasos que conviene hacer bien para no perder
+puntos en la entrega y para que el proyecto quede profesional.
+
+## ¿Qué significa "cerrar" un proyecto?
+
+Cerrar un proyecto implica:
+
+1. **Verificar que todo funciona**: la app no solo funciona en
+   tu máquina, sino que funciona siempre
+2. **Documentar**: hay un README claro, una memoria si la piden,
+   y el código es comprensible
+3. **Desplegar**: la app está accesible desde internet
+4. **Preparar la presentación**: sabéis qué decir y cómo
+5. **Entregar**: todos los archivos están donde deben estar
+
+## La recta final: los últimos 3 días
+
+### Día -3: Verificación
+
+- Ejecuta la app desde cero (clonar, instalar, ejecutar)
+- Prueba todas las funcionalidades en diferentes navegadores
+- Comprueba que los tests pasan
+- Revisa que el README es completo y correcto
+
+### Día -2: Documentación y presentación
+
+- Escribe o revisa la memoria (si la piden)
+- Prepara la presentación (diapositivas o demo en vivo)
+- Ensayad la presentación al menos una vez
+- Preparad respuestas a preguntas probables del tribunal
+
+### Día -1: Última revisión
+
+- Última ejecución completa de la app
+- Verifica que el despliegue funciona
+- Comprueba que todos los archivos están en el repositorio
+- Descansad. Mañana es el día.
+
+## El handoff
+
+El handoff es el momento en que entregáis el proyecto al
+"cliente" (en este caso, el tribunal). Pero también es el
+momento en que os aseguráis de que alguien más podría
+entender y mantener vuestro código.
+
+### El README como handoff
+
+Un buen README responde estas preguntas:
+
+- ¿Qué hace esta aplicación?
+- ¿Cómo la instalo?
+- ¿Cómo la ejecuto?
+- ¿Qué tecnologías usa?
+- ¿Dónde está desplegada?
+- ¿Cómo contribuyo?
+
+Si alguien que no es del equipo puede clonar el repositorio
+y ejecutar la app sin preguntar nada, el handoff es un éxito.
+
+## Preparación de la presentación
+
+### Estructura recomendada
+
+1. **Presentación del equipo** (1 min): quiénes sois, qué rol
+   tuvo cada uno
+2. **Problema que resolvéis** (2 min): qué necesidad cubre
+   vuestra app
+3. **Demo en vivo** (5 min): mostrar las funcionalidades
+   principales
+4. **Decisiones técnicas** (2 min): por qué elegisteis el stack,
+   la arquitectura, etc.
+5. **Qué habéis aprendido** (1 min): lecciones del proyecto
+
+### Consejos para la demo
+
+- **No improviséis**: ensayad la demo al menos 2 veces
+- **Tened datos de prueba**: que el formulario tenga datos,
+  que la gráfica tenga números, que el listado tenga items
+- **Preparad un plan B**: si la app falla en vivo, tened un
+  vídeo o screenshots
+- **No leáis diapositivas**: hablad, no leáis
+- **Controlad el tiempo**: si el tribunal os da 10 minutos,
+  no uséis 15
+
+## Las preguntas del tribunal
+
+El tribunal va a preguntar. Y las preguntas más comunes son:
+
+### Preguntas técnicas
+- "¿Por qué usasteis X en vez de Y?"
+- "¿Cómo habéis desplegado la aplicación?"
+- "¿Cómo gestionáis la seguridad?"
+- "¿Qué haríais si tuvierais más tiempo?"
+
+### Preguntas de gestión
+- "¿Cómo os organizasteis en el equipo?"
+- "¿Cómo repartisteis el trabajo?"
+- "¿Qué problemas tuvisteis y cómo los resolvisteis?"
+
+### Preguntas de negocio
+- "¿Quién es el usuario objetivo?"
+- "¿Cómo ganaría dinero esta aplicación?"
+- "¿Qué diferencia a vuestra app de otras similares?"
+
+**Consejo**: preparad una respuesta para cada categoría. No
+necesitáiis memorizarlas, pero sí tener la idea clara.
+
+<Aclaracion pregunta="¿Y si no sé responder una pregunta del tribunal?">
+  **Di la verdad**: "No lo sé, pero haría esto para averiguarlo."
+  Es mucho mejor que inventar una respuesta. El tribunal valora
+  la honestidad y la capacidad de resolver problemas, no el
+  conocimiento perfecto.
+</Aclaracion>
+
+## Errores comunes en el cierre
+
+- **Dejarlo para el último día**: el cierre lleva tiempo. Empezad
+  al menos 3 días antes.
+- **No probar en otro entorno**: si la app solo funciona en vuestro
+  portátil, no estáis listos para entregar.
+- **Olvidar el despliegue**: un proyecto sin desplegar es un
+  prototipo, no un producto.
+- **No ensayar la presentación**: la primera vez que ejecutáis
+  la demo no puede ser delante del tribunal.
+- **Presentar código sin documentar**: el tribunal no va a leer
+  vuestro código. Necesita una demo y una explicación.
+
+<CasoPractico titulo="El equipo que falló en el último día">
+
+  Un equipo tenía todo listo: la app funcionaba, los tests pasaban,
+  el despliegue estaba hecho. El día de la entrega, el profesor
+  les pidió que clonaran el repositorio en otro ordenador y lo
+  ejecutaran.
+
+  Falló. El README decía `npm install` pero olvidaba `npm run build`.
+  El archivo `.env` no estaba en el repositorio (estaba en
+  `.gitignore`, correctamente, pero no había un `.env.example`).
+  La app necesitaba un servicio de terceros que no estaba
+  documentado.
+
+  **Lo que aprendieron**: un proyecto no está terminado hasta que
+  alguien que no es del equipo puede ejecutarlo sin preguntar.
+
+  **Regla de oro**: el último día, clonad el repositorio en un
+  portátil limpio y ejecutad todo desde cero. Si falla, no
+  estáis listos.
+</CasoPractico>
+
+## Checklist de cierre
+
+Antes de entregar, verifica:
+
+- [ ] La app se ejecuta desde cero en otra máquina
+- [ ] El README explica todo lo necesario
+- [ ] No hay archivos sensibles en el repositorio
+- [ ] El despliegue funciona
+- [ ] Los tests pasan
+- [ ] La presentación está ensayada
+- [ ] Tenéis respuestas a preguntas probables
+- [ ] Todos los archivos están en el repositorio
+
+---
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u9-metodologias-agiles) · **Anterior:** [06 · Comunicación en equipo](/ApuntesProyectoDAW/apuntes-pi2/u9-metodologias-agiles/06-comunicacion-en-equipo) · **Siguiente:** [08 · Checklist de gestión](/ApuntesProyectoDAW/apuntes-pi2/u9-metodologias-agiles/08-checklist-de-gestion)

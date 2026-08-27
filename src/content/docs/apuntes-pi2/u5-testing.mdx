@@ -1,11 +1,13 @@
 ---
-title: ✅ U5. Asegurar la calidad
-description: Cómo probar tu aplicación para que funcione cuando más importa
+title: "✅ U5 — Asegurar la calidad"
+description: "Cómo probar tu aplicación para que funcione cuando más importa: tests, automatización y pruebas manuales."
 ---
 
 import StoryIntro from '../../../components/StoryIntro.astro';
 import Aclaracion from '../../../components/Aclaracion.astro';
 import CasoPractico from '../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** ✅ **U5 · Asegurar la calidad** → Índice
 
 <StoryIntro icono="🎬" titulo="El día que la app se rompió en la presentación">
   "Todo funciona en local", repitió el equipo antes de la defensa.
@@ -23,105 +25,57 @@ import CasoPractico from '../../../components/CasoPractico.astro';
   Y el tribunal es el usuario más importante del día de la defensa.
 </StoryIntro>
 
-## ¿Por qué hacer tests?
+## Mapa de la unidad
 
-Los tests no son un trámite aburrido. Son un **seguro de vida** para
-tu proyecto. Sirven para:
+La unidad se divide en **8 puntos** más un cierre. Cada punto construye
+sobre el anterior:
 
-- Detectar errores antes de que lleguen a producción
-- Asegurarte de que los cambios no rompen lo que ya funcionaba
-- Documentar cómo se espera que funcione cada parte
-- Dormir tranquilo la noche antes de la presentación
+| # | Punto | Idea clave |
+|---|-------|------------|
+| 01 | ¿Por qué hacer tests? | Los tests son un seguro de vida, no un trámite |
+| 02 | Tipos de test | Unitario, integración, funcional, manual |
+| 03 | Qué probar en tu proyecto | Priorizar: lo que más usa, rompe y cambia |
+| 04 | Tests en tu flujo | Integrar tests en el trabajo diario del equipo |
+| 05 | Pruebas manuales | La red de seguridad antes de cada entrega |
+| 06 | Herramientas de testing | Jest, Vitest, JUnit, Cypress, Testing Library |
+| 07 | Testing en equipo | Code review, responsabilidad compartida |
+| 08 | Checklist de calidad | Todo lo que necesitas verificar antes de entregar |
+| 09 | Cierre | Consolidar lo aprendido con retos y laboratorio |
 
-### Tipos de test que deberías conocer
+## Objetivos de aprendizaje
 
-| Tipo | Qué prueba | Ejemplo |
-|------|-----------|---------|
-| **Unitario** | Una función o método aislado | "El cálculo del IVA devuelve el 21%" |
-| **Integración** | Varias partes juntas | "Al crear un usuario, se guarda en BD y se devuelve 201" |
-| **Funcional (E2E)** | Flujo completo del usuario | "El usuario se registra, hace login y ve su perfil" |
-| **Manual** | Una persona prueba la interfaz | "Haz clic aquí, mira qué pasa" |
+Al terminar esta unidad serás capaz de:
 
-## Qué probar en tu proyecto
+- **Explicar** por qué los tests son esenciales para cualquier proyecto
+- **Distinguir** entre tests unitarios, de integración, funcionales y manuales
+- **Decidir** qué partes de tu proyecto merecen test automatizado
+- **Escribir** tests básicos con herramientas reales (Jest, Vitest, JUnit)
+- **Ejecutar** una batería de pruebas manuales completa antes de una entrega
+- **Configurar** un flujo de trabajo donde los tests eviten errores en equipo
+- **Aplicar** una checklist de calidad que cubra todos los aspectos críticos
 
-No hace falta probarlo todo. Prioriza:
+## Competencias que desarrollarás
 
-1. **Lo que más usa el usuario** (login, registro, funcionalidad principal)
-2. **Lo que puede romperse más fácilmente** (validaciones, búsquedas)
-3. **Lo que más ha cambiado** (código recién escrito o refactorizado)
+| Competencia | Cómo se trabaja |
+|-------------|-------------------|
+| **Pensamiento crítico** | Decidir qué probar y qué no, priorizar esfuerzo |
+| **Resolución de problemas** | Detectar y diagnosticar fallos con tests |
+| **Trabajo en equipo** | Compartir responsabilidad de calidad |
+| **Comunicación técnica** | Documentar comportamiento esperado con tests |
+| **Autonomía** | Saber que tu código funciona antes de entregarlo |
 
-### Nivel mínimo para aprobar
+## Navegación
 
-Como mínimo, deberías tener:
+- **[01 · ¿Por qué hacer tests?](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/01-por-que-hacer-tests)** — Empieza aquí
+- **[02 · Tipos de test](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/02-tipos-de-test)** — Profundiza en cada tipo
+- **[03 · Qué probar en tu proyecto](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/03-que-probar-en-tu-proyecto)** — Prioriza tu esfuerzo
+- **[04 · Tests en tu flujo](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/04-tests-en-tu-flujo)** — Integra en tu trabajo diario
+- **[05 · Pruebas manuales](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/05-pruebas-manuales)** — La red de seguridad
+- **[06 · Herramientas de testing](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/06-herramientas-de-testing)** — Conoce el ecosistema
+- **[07 · Testing en equipo](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/07-testing-en-equipo)** — Calidad compartida
+- **[08 · Checklist de calidad](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/08-checklist-de-calidad)** — Antes de entregar
+- **[09 · Cierre](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/09-cierre)** — Consolida lo aprendido
 
-- Tests unitarios de las funciones core (cálculos, validaciones)
-- Un test de integración del flujo principal (registro → login → acción principal)
-- Prueba manual completa antes de cada entrega
+---
 
-<Aclaracion pregunta="¿Y si no sé hacer tests?">
-  Es el momento de aprender. No necesitas ser experto:
-
-  - **JavaScript/Node**: usa Jest o Vitest. "Cómo testear X con Jest" tiene miles de tutoriales
-  - **Java**: usa JUnit. Es lo que has dado en la asignatura de Programación
-  - **Frontend**: Testing Library o Cypress para pruebas de interfaz
-
-  Empieza por un test simple de una función que no dependa de nada externo.
-  Cuando veas que funciona y te da seguridad, añade más.
-
-  No necesitas cobertura del 100%. Necesitas cubrir lo crítico.
-</Aclaracion>
-
-## Cómo integrar tests en tu flujo
-
-### Automatización básica
-
-1. Escribe tests para las funcionalidades que ya tienes
-2. Cuando añadas una nueva funcionalidad, escribe el test primero o al mismo tiempo
-3. Antes de cada commit, ejecuta los tests
-4. Si un test falla, no hagas commit hasta que lo arregles
-
-### En equipo
-
-Cuando trabajáis en grupo, los tests evitan que el código de uno rompa
-el de otro. Si alguien hace un cambio que rompe un test, se entera
-inmediatamente, no días después.
-
-<CasoPractico titulo="El test que salvó la presentación">
-
-  Un equipo tenía una aplicación de reservas de recursos (salas, proyectores).
-  Dos días antes de la presentación, uno de los miembros hizo un cambio
-  "pequeño" en el backend: "solo he cambiado el nombre de una variable".
-
-  Ese cambio rompió la creación de reservas. No se dieron cuenta porque
-  solo probaron manualmente el login, que seguía funcionando.
-
-  Por suerte, tenían un test automatizado para la creación de reservas.
-  Al ejecutar los tests antes de subir los cambios, el test falló.
-  Detectaron el error, lo corrigieron en 5 minutos, y la presentación
-  fue un éxito.
-
-  **Lección**: un test automatizado te avisa cuando algo se rompe.
-  Sin él, el error habría llegado a producción y la presentación
-  habría sido un desastre.
-</CasoPractico>
-
-## Pruebas manuales: la red de seguridad
-
-Aunque tengas tests automatizados, siempre haz una prueba manual completa
-antes de la defensa:
-
-1. Abre la aplicación en un navegador **limpio** (sin datos de sesión)
-2. Recorre el flujo principal del usuario paso a paso
-3. Prueba casos borde: email inválido, contraseña corta, campos vacíos
-4. Prueba en otro dispositivo o navegador
-5. Prueba sin conexión a internet (si aplica)
-
-## Checklist para la calidad
-
-- [ ] Las funciones críticas tienen tests unitarios
-- [ ] El flujo principal tiene un test de integración
-- [ ] Ejecuto los tests antes de cada commit
-- [ ] He hecho una prueba manual completa antes de la entrega
-- [ ] He probado la app en al menos 2 navegadores distintos
-- [ ] He probado la app desde otro ordenador/dispositivo
-- [ ] Los tests están en el repositorio y se ejecutan con un comando
+📚 [Volver al índice de PI2](/ApuntesProyectoDAW/apuntes-pi2) · **Anterior:** [U4 · Diseñar para el usuario](/ApuntesProyectoDAW/apuntes-pi2/u4-ui-ux) · **Siguiente:** [01 · ¿Por qué hacer tests?](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/01-por-que-hacer-tests)

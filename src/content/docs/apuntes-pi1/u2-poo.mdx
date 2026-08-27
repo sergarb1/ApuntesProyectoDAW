@@ -1,6 +1,6 @@
 ---
-title: 🏗️ U2. Diseñar la solución
-description: Cómo dividir el problema en partes manejables y estructurar tu proyecto antes de escribir código
+title: "U2 — Diseñar la solución"
+description: "Cómo dividir el problema en partes manejables y estructurar tu proyecto antes de escribir código 🏗️"
 ---
 
 import StoryIntro from '../../../components/StoryIntro.astro';
@@ -11,149 +11,83 @@ import CasoPractico from '../../../components/CasoPractico.astro';
 <StoryIntro icono="🎬" titulo="El día que el código se convirtió en espagueti">
   Pablo empezó a codificar el mismo día que le dieron el proyecto.
   "Total, ya sé lo que hay que hacer —una clase aquí, un método allá—".
+  Ni un documento. Ni un dibujo. Ni una línea de plan.
 
-  Dos semanas después, tenía 2000 líneas en un solo archivo.
-  Las funciones hacían tres cosas cada una. Cambiar el color de un botón
-  rompía la lógica de búsqueda. "¿Por qué pasa esto?", se preguntaba.
+  Dos semanas después tenía 2000 líneas en un solo archivo. Las funciones
+  hacían tres cosas cada una, los nombres no decían nada y cada arreglo
+  destapaba dos errores nuevos. Una mañana, Pablo quiso cambiar el color de un
+  botón... y se le rompió la lógica de búsqueda. "¿Por qué pasa esto?", se
+  preguntaba.
 
-  Porque no diseñó la solución antes de escribir código.
-  Porque pensó que programar era solo escribir, y no es así.
-  Programar es **diseñar** primero para **escribir** después.
+  Porque no diseñó la solución antes de escribir código. Porque pensó que
+  programar era solo escribir, y no es así. Programar es **diseñar** primero
+  para **escribir** después.
 </StoryIntro>
 
-## Por qué diseñar antes de codificar
+> 🗺️ **El mapa del viaje:** 🚪 Bienvenida → 🧭 U1 → 🌐 AQUÍ ESTÁS (U2) → 🗄️ U3 → 📄 U4 → 🎨 U5 → ⚙️ U6 → 👥 U7 → 📋 U8 → 🔧 PI2 U1 → 🖥️ U2 → 🔗 U3 → 👤 U4 → ✅ U5 → 🛡️ U6 → 📦 U7 → 🚀 U8 → 🔁 U9
+>
+> [█████░░░░░░░░░░░░░░] 2/17 · PI1 · Cómo afrontar el proyecto
 
-Diseñar la solución es como hacer los planos de una casa antes de construirla.
-Puedes empezar a poner ladrillos directamente, pero probablemente te falten
-ventanas, los pasillos no lleven a ninguna parte, y el tejado se caiga.
+Este es el segundo capítulo de un libro de **nueve capítulos**. En U1
+definiste tu proyecto y cerraste el acta con Ana; al terminar esa unidad, su
+compañera le preguntaba: "¿Cómo vamos a montar esto? ¿Por qué archivos
+empezamos? ¿Cómo se guardan las recetas?". Esta unidad es la respuesta: toca
+dibujar el **plano** de la casa que vas a construir. Aquí no se escribe
+código: se **diseña**. Se divide el problema, se dibuja la estructura y se
+toman decisiones con criterio antes de que la primera línea de código te robe
+la libertad.
 
-Diseñar tu proyecto significa responder:
+## 🎯 Objetivo de la unidad
 
-- ¿Qué **partes** o **módulos** tiene mi aplicación?
-- ¿Cómo se **comunican** entre sí?
-- ¿Qué **responsabilidades** tiene cada una?
-- ¿Qué **datos** necesita cada parte?
+Al terminar esta unidad sabrás:
 
-## Divide y vencerás
+- 🧩 Explicar por qué se diseña antes de codificar, con la analogía de la casa.
+- ✂️ Dividir tu proyecto en partes manejables con criterio (divide y vencerás).
+- 🏰 Distinguir la arquitectura por capas y la organización por funcionalidades.
+- 📐 Dibujar un diagrama de arquitectura y un diagrama de componentes.
+- ⚖️ Tomar decisiones técnicas con criterio, sin dejarte llevar por la moda.
+- 🤝 Validar el diseño en equipo antes de escribir la primera línea.
 
-Todo proyecto se puede dividir en partes más pequeñas. La clave está en
-elegir **cómo** dividirlo.
+## 🗺️ Mapa de la unidad
 
-### Por capas (la más común)
+| Punto | Qué aprenderás | Nivel |
+|---|---|---|
+| [01 · Por qué diseñar antes de codificar](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/01-por-que-disenar-antes-de-codificar) | El plano antes que los ladrillos | 🟢 Básico |
+| [02 · Divide y vencerás](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/02-divide-y-venceras) | A dividir el problema con criterio | 🟡 Esencial |
+| [03 · Arquitectura por capas](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/03-arquitectura-por-capas) | Interfaz, lógica y acceso a datos | 🟡 Esencial |
+| [04 · Organización por funcionalidades](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/04-organizacion-por-funcionalidades) | Módulos independientes que no se rompen | 🟡 Esencial |
+| [05 · Diagrama de arquitectura](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/05-diagrama-de-arquitectura) | Cajas y flechas: cómo se conecta tu app | 🟢 Básico |
+| [06 · Diagrama de componentes](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/06-diagrama-de-componentes) | Qué hace cada pieza y de quién depende | 🟢 Básico |
+| [07 · Decisiones técnicas con criterio](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/07-decisiones-tecnicas-con-criterio) | Elegir tecnología con cabeza | 🔴 Crítico |
+| [08 · Validar el diseño en equipo](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/08-validar-el-diseno-en-equipo) | Que nadie construya por su lado | 🔴 Crítico |
+| [09 · Cierre](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/09-cierre) | A consolidar lo aprendido con retos | 🟣 Desafío |
 
-```
-Interfaz de usuario  ←  lo que ve el usuario
-       ↓
-Lógica de negocio   ←  las reglas de tu aplicación
-       ↓
-Acceso a datos      ←  cómo guardas y recuperas información
-```
+## 📖 Qué encontrarás en el cierre (09)
 
-Cada capa se comunica solo con la de al lado. Así, si mañana cambias
-de base de datos, solo tocas la capa de datos. La interfaz sigue igual.
+El punto 09 no es teoría nueva: es el **gimnasio** de la unidad.
 
-### Por funcionalidades
+- ⭐ **Sé el Proyecto** — te pones en la piel de una arquitectura y eliges con cabeza.
+- 🕵️ **¿Quién Soy?** — adivinanzas sobre capas, módulos y diagramas.
+- ⚡ **Laboratorio de Tortura** — un diagrama con un fallo que tendrás que diagnosticar.
+- 🧠 **Atrévete a Pensar** — preguntas abiertas para ir más allá de la teoría.
+- 💬 **Entrevista de trabajo** — defiende tu diseño ante un tribunal.
+- 🎬 **Post-Créditos** — la escena que enlaza con U3.
 
-```
-├── Usuarios      (registro, login, perfil)
-├── Productos     (listar, crear, editar, eliminar)
-├── Pedidos       (crear, ver historial, estados)
-└── Pagos         (simulación de pago, factura)
-```
+## ✅ Competencias cubiertas
 
-Cada funcionalidad es independiente. Puedes trabajar en una sin romper otra.
+| Competencia | Descripción | Dónde se cubre |
+|---|---|---|
+| CG1 | Capacidad de análisis y síntesis para identificar problemas y proponer soluciones | ✅ Puntos 1, 2 y 7 |
+| CG2 | Capacidad de organización y planificación del trabajo | ✅ Puntos 5, 6 y 8 |
+| CE2 | Diseñar la arquitectura de una aplicación web | ✅ Puntos 3, 5, 6 y 7 |
 
-<Aclaracion pregunta="¿Y si mi proyecto es pequeño y no necesita tanta estructura?">
-  Todos los proyectos empiezan siendo pequeños. Pero el que crece sin
-  estructura se convierte en un caos imposible de mantener.
+## 🚪 ¿Por dónde empiezo?
 
-  No necesitas 15 capas ni patrones complejos. Con separar en 3-4 partes
-  bien definidas tienes suficiente. Lo importante es que cada parte tenga
-  una **responsabilidad clara** y no se mezclen.
+- **¿Cero conocimientos?** Empieza por el [punto 01 · Por qué diseñar antes de codificar](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/01-por-que-disenar-antes-de-codificar) y lee en orden: toda la unidad está pensada para un nivel de entrada cero.
+- **¿Ya sabes por qué dividir, pero no cómo?** Vete directo a los [puntos 03](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/03-arquitectura-por-capas) y [04](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/04-organizacion-por-funcionalidades): capas y funcionalidades son las dos formas de dividir que usarás de verdad.
+- **¿Vas justo de tiempo?** Lee el [punto 05 · Diagrama de arquitectura](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/05-diagrama-de-arquitectura), el [punto 08 · Validar el diseño en equipo](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/08-validar-el-diseno-en-equipo) y haz el [cierre](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/09-cierre). Con eso ya tienes lo esencial.
+- **¿Tu equipo tira cada uno por su lado?** No te pierdas el [punto 08 · Validar el diseño en equipo](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/08-validar-el-diseno-en-equipo) antes de que nadie escriba una línea.
 
-  Piensa en ello como los cajones de un armario: aunque tengas poca ropa,
-  poner calcetines con calcetines y camisetas con camisetas te ahorrará
-  dolores de cabeza cuando tengas que encontrar algo.
-</Aclaracion>
+**📍 Primer punto:** [01 · Por qué diseñar antes de codificar](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/01-por-que-disenar-antes-de-codificar)
 
-## Cómo documentar el diseño
-
-No necesitas un documento de 50 páginas. Con estos diagramas basta:
-
-### Diagrama de arquitectura (cajas y flechas)
-
-Dibuja las partes de tu aplicación y cómo se conectan. Herramientas:
-**Draw.io** (online, gratis), **Mermaid** (en Markdown), o lápiz y papel.
-
-```
-[Navegador] → [Servidor web] → [API] → [Base de datos]
-                                  ↓
-                          [Servicio de correo] (para emails)
-```
-
-### Diagrama de componentes
-
-Para cada parte, enumera qué hace y qué necesita:
-
-| Componente | Responsabilidad | Depende de |
-|-----------|----------------|------------|
-| Controlador de usuarios | Gestionar registro y login | Servicio de usuarios |
-| Servicio de usuarios | Validar datos, encriptar passwords | Repositorio de usuarios |
-| Repositorio de usuarios | Guardar/recuperar de BD | Base de datos |
-
-<Comparativa
-  dialogos={[
-    { quien: "Diseño mínimo", texto: "Empiezo a codificar y voy decidiendo sobre la marcha. Si algo no encaja, lo muevo. Es más rápido al principio." },
-    { quien: "Diseño planificado", texto: "Dedico 2-3 días a dibujar la estructura antes de escribir código. Cuando programo, sé exactamente dónde va cada cosa. Pierdo tiempo al principio, pero lo recupero con creces después." },
-  ]}
-  titulo="¿Diseñar primero o sobre la marcha?"
-/>
-
-## Decisiones técnicas con criterio
-
-Cuando diseñas tu solución, tendrás que elegir tecnologías. Hazlo con criterio:
-
-1. **No elijas lo que está de moda**, elige lo que resuelve tu problema
-2. **No uses una tecnología solo porque la conoces**, a veces merece la pena aprender algo nuevo
-3. **No cambies de tecnología a mitad del proyecto** a menos que sea estrictamente necesario
-
-Para cada decisión, pregúntate:
-- ¿Esta tecnología me ayuda a resolver el problema o me añade complejidad?
-- ¿Tengo tiempo para aprenderla o voy a estresarme?
-- ¿El equipo (si lo hay) la conoce o vamos a perder tiempo?
-
-<CasoPractico titulo="El equipo que no diseñó nada">
-  Cuatro estudiantes decidieron hacer una app para alquilar apuntes entre
-  alumnos. Se repartieron el trabajo así:
-  - Persona A: pantalla de login
-  - Persona B: pantalla de subir apuntes
-  - Persona C: pantalla de buscar
-  - Persona D: base de datos
-
-  Empezaron a codificar el día 1. A las dos semanas, Persona A había hecho
-  el login en React. Persona B había hecho "subir apuntes" en HTML plano.
-  Persona C había hecho la búsqueda con PHP. Persona D había creado una
-  base de datos en MySQL pero sin conectarla a nada.
-
-  Cuando intentaron unirlo todo, nada funcionaba. Cada uno había usado
-  tecnologías distintas, estilos diferentes, y los datos no se comunicaban.
-
-  **Lección**: diseñar la solución juntos, **antes** de escribir código,
-  habría evitado meses de frustración. Una tarde dibujando la arquitectura
-  habría ahorrado tres semanas de trabajo inútil.
-
-  **Qué harían hoy**: dedicar 2 días a decidir stack común, definir
-  la estructura de carpetas, acordar cómo se comunican las partes, y
-  hacer un prototipo esqueleto antes de que cada uno trabaje por su lado.
-</CasoPractico>
-
-## Checklist para tu proyecto
-
-Antes de escribir la primera línea de código:
-
-- [ ] He dividido el proyecto en 3-7 partes o módulos
-- [ ] Cada parte tiene una responsabilidad clara
-- [ ] He dibujado un diagrama de arquitectura
-- [ ] He elegido las tecnologías con criterio
-- [ ] El equipo (si existe) está de acuerdo con la estructura
-- [ ] He validado el diseño con el profesor
+**⏭️ Al acabar la unidad, continúa en [U3 · Organizar los datos](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd).**

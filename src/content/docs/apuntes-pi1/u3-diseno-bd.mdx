@@ -1,6 +1,6 @@
 ---
-title: 🗄️ U3. Organizar los datos
-description: Cómo decidir qué información guardar, cómo estructurarla y qué herramientas usar
+title: "U3 — Organizar los datos"
+description: "Cómo decidir qué información guardar, cómo estructurarla y qué herramientas usar 🗄️"
 ---
 
 import StoryIntro from '../../../components/StoryIntro.astro';
@@ -11,133 +11,83 @@ import CasoPractico from '../../../components/CasoPractico.astro';
 <StoryIntro icono="🎬" titulo="El día que los datos se descontrolaron">
   Laura estaba orgullosa de su aplicación de recetas. Tenía registro,
   búsqueda, valoraciones... pero algo fallaba. Cuando un usuario se
-  daba de baja, sus recetas favoritas desaparecían. Cuando dos usuarios
-  tenían el mismo nombre, se mezclaban sus datos.
+  daba de baja, sus recetas favoritas desaparecían con él. Cuando dos
+  usuarios tenían el mismo nombre, sus datos se mezclaban: las recetas
+  de Marta aparecían en el perfil de Marta... y también en el de la
+  otra Marta.
 
   — "Es que no pensé bien cómo guardar la información", admitió.
 
-  Laura había empezado creando una tabla "recetas" y, según necesitaba
-  más cosas, añadía columnas, tablas sueltas, y un par de archivos JSON
-  "temporales" que se volvieron permanentes.
+  Laura había empezado con una tabla "recetas". Según necesitaba más
+  cosas, añadía columnas, tablas sueltas, un campo de "favoritas" que
+  guardaba listas separadas por comas, y un par de archivos JSON
+  "temporales" que se volvieron permanentes. Todo funcionaba... hasta
+  que dejó de funcionar, y ya no sabía por qué.
 
-  El caos de datos es silencioso: no da error hasta que es demasiado tarde.
+  El caos de datos es silencioso: no da error hasta que es demasiado
+  tarde. Esta unidad es la historia de cómo Laura (y tú) aprenden a
+  pensar en los datos antes de que los datos piensen por ellos.
 </StoryIntro>
 
-## Piensa en los datos antes de programar
+> 🗺️ **El mapa del viaje:** 🚪 Bienvenida → 🧭 U1 → 🏗️ U2 → 🌐 AQUÍ ESTÁS (U3) → 📄 U4 → 🎨 U5 → ⚙️ U6 → 👥 U7 → 📋 U8 → 🔧 PI2 U1 → 🖥️ U2 → 🔗 U3 → 👤 U4 → ✅ U5 → 🛡️ U6 → 📦 U7 → 🚀 U8 → 🔁 U9
+>
+> [██████░░░░░░░░░░░░░] 3/17 · PI1 · Cómo afrontar el proyecto
 
-Antes de escribir una sola función, pregúntate:
+Este es el capítulo 3 de un libro de nueve. En [U2 · Diseñar la solución](/ApuntesProyectoDAW/apuntes-pi1/u2-poo) dibujaste la arquitectura y las decisiones técnicas: qué pantallas habrá, qué módulos, qué flujo. Ahora toca la pregunta incómoda: **¿qué información vas a guardar y cómo la vas a organizar?**
 
-- ¿Qué **entidades** existen en mi proyecto? (usuarios, productos, pedidos...)
-- ¿Qué **atributos** tiene cada una? (nombre, email, precio, fecha...)
-- ¿Cómo se **relacionan** entre sí? (un usuario tiene muchos pedidos)
-- ¿Qué **reglas** debo cumplir? (email único, precio positivo...)
+Aquí no escribimos una sola línea de código SQL. Hacemos algo más importante y que se paga caro si se ignora: **decidir qué datos existen en tu proyecto, cómo se conectan y dónde se guardan**. Si tu aplicación es un edificio, esta unidad es la instalación eléctrica: invisible, aburrida... y fatal si se hace mal.
 
-### De las ideas a las entidades
+## 🎯 Objetivo de la unidad
 
-Coge tu idea de proyecto y extrae los **sustantivos**. Esos son tus candidatos
-a entidades:
+Al terminar esta unidad sabrás:
 
-> "Una aplicación donde **usuarios** pueden publicar **recetas**,
-> y otros **usuarios** pueden dejar **comentarios** y **valoraciones**"
+- 🗄️ Distinguir qué información merece guardarse y cuál se puede calcular.
+- 🧱 Extraer las **entidades** y atributos de tu proyecto sin ser experto en bases de datos.
+- 🔗 Conectar entidades con relaciones "1 a N" respondiendo a la pregunta "¿cuántos?".
+- 🗺️ Dibujar un modelo conceptual y traducirlo a tablas con claves foráneas.
+- 🧰 Elegir entre **SQL**, **NoSQL** y otras alternativas según lo que guardes.
+- 🔒 Proteger datos sensibles como contraseñas y emails desde el primer día.
 
-Entidades: `Usuario`, `Receta`, `Comentario`, `Valoracion`
+## 🗺️ Mapa de la unidad
 
-### Relaciones entre entidades
+| Punto | Qué aprenderás | Nivel |
+|---|---|---|
+| [01 · Piensa en los datos antes de programar](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/01-piensa-en-los-datos-antes-de-programar) | Las 4 preguntas que evitan el caos de datos | 🟢 Básico |
+| [02 · De las ideas a las entidades](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/02-de-las-ideas-a-las-entidades) | A extraer entidades de un texto | 🟢 Básico |
+| [03 · Relaciones entre entidades](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/03-relaciones-entre-entidades) | A conectar entidades con "¿cuántos?" | 🟡 Esencial |
+| [04 · Del modelo conceptual al esquema](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/04-del-modelo-conceptual-al-esquema) | A dibujar el modelo y definir atributos | 🟡 Esencial |
+| [05 · Traduce a tablas](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/05-traduce-a-tablas) | A pasar el modelo a tablas y claves | 🟡 Esencial |
+| [06 · SQL vs NoSQL y alternativas](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/06-sql-vs-nosql-y-alternativas) | A elegir la herramienta para cada dato | 🟡 Esencial |
+| [07 · Buenas prácticas de datos](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/07-buenas-practicas-de-datos) | A nombrar y modelar sin redundancia | 🔴 Crítico |
+| [08 · Protege los datos sensibles](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/08-protege-los-datos-sensibles) | A proteger contraseñas y datos personales | 🔴 Crítico |
+| [09 · Cierre](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/09-cierre) | A consolidar lo aprendido con retos | 🟣 Desafío |
 
-Conéctalas. Pregunta: "¿cuántos?":
+## 📖 Qué encontrarás en el cierre (09)
 
-- Un `Usuario` tiene muchas `Recetas` → 1 a N
-- Una `Receta` tiene muchos `Comentarios` → 1 a N
-- Un `Usuario` deja muchas `Valoraciones` → 1 a N
-- Una `Receta` tiene muchas `Valoraciones` → 1 a N
+El punto 09 no es teoría nueva: es el **gimnasio** de la unidad.
 
-<Aclaracion pregunta="¿Necesito siempre una base de datos relacional?">
-  No. Depende de lo que guardes:
+- ⭐ **Sé el Proyecto** — te pones en la piel de un modelo de datos y eliges con cabeza.
+- 🕵️ **¿Quién Soy?** — adivinanzas sobre entidades, claves y bases de datos.
+- ⚡ **Laboratorio de Tortura** — un esquema con errores escondidos que tendrás que diagnosticar.
+- 🧠 **Atrévete a Pensar** — preguntas abiertas para ir más allá de la teoría.
+- 💬 **Entrevista de trabajo** — explícale una clave foránea a tu abuela. Literalmente.
+- 🎬 **Post-Créditos** — la escena que enlaza con U4.
 
-  - **Datos estructurados con relaciones** (usuarios ↔ pedidos) → SQL
-  - **Documentos flexibles** (catálogos, configuraciones) → NoSQL
-  - **Archivos** (imágenes, PDFs) → Sistema de archivos o cloud storage
-  - **Datos temporales** (sesiones, caché) → En memoria (Redis, etc.)
+## ✅ Competencias cubiertas
 
-  Para un proyecto DAW, lo normal es SQL (MySQL, PostgreSQL, SQLite).
-  Es lo que se enseña, lo más documentado, y suficiente para el 90% de los casos.
-</Aclaracion>
+| Competencia | Descripción | Dónde se cubre |
+|---|---|---|
+| CG1 | Capacidad de análisis y síntesis para identificar problemas y proponer soluciones | ✅ Puntos 1, 2 y 3 |
+| CE2 | Diseñar la arquitectura de una aplicación web | ✅ Puntos 4, 5, 6 y 7 |
+| CE3 | Implementar una aplicación web funcional (MVP) | ✅ Punto 5 |
 
-## Del modelo conceptual al esquema
+## 🚪 ¿Por dónde empiezo?
 
-No necesitas ser experto en bases de datos para hacer un buen diseño.
-Sigue estos pasos:
+- **¿Cero conocimientos?** Empieza por el [punto 01 · Piensa en los datos antes de programar](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/01-piensa-en-los-datos-antes-de-programar) y lee en orden: toda la unidad está pensada para un nivel de entrada cero.
+- **¿Ya sabes qué quieres guardar?** Vete al [punto 03 · Relaciones entre entidades](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/03-relaciones-entre-entidades) y al [punto 05 · Traduce a tablas](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/05-traduce-a-tablas): ahí se decide la estructura.
+- **¿Vas justo de tiempo?** Lee el [punto 07 · Buenas prácticas](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/07-buenas-practicas-de-datos) y el [punto 08 · Protege los datos sensibles](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/08-protege-los-datos-sensibles), y haz el [cierre](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/09-cierre).
+- **¿No te fías de tu esquema?** No te pierdas el [punto 02 · De las ideas a las entidades](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/02-de-las-ideas-a-las-entidades) antes de tocar una tabla.
 
-### Paso 1: Dibuja las entidades y relaciones
+**📍 Primer punto:** [01 · Piensa en los datos antes de programar](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/01-piensa-en-los-datos-antes-de-programar)
 
-Con lápiz y papel o Draw.io:
-```
-[Usuario] ───< tiene >─── [Receta]
-   │                          │
-   └──< deja >── [Comentario] ┘
-```
-
-### Paso 2: Define los atributos clave
-
-Para cada entidad, decide qué datos guardar. Empieza por los imprescindibles
-y añade solo lo que realmente necesitas:
-
-| Entidad | Atributos |
-|---------|-----------|
-| Usuario | id, nombre, email, password_hash, fecha_registro |
-| Receta | id, titulo, ingredientes, instrucciones, usuario_id, fecha |
-| Comentario | id, texto, usuario_id, receta_id, fecha |
-
-### Paso 3: Traduce a tablas
-
-Cada entidad → una tabla. Cada atributo → una columna.
-Las relaciones 1 a N → una clave foránea en la tabla "muchos".
-
-<Comparativa
-  dialogos={[
-    { quien: "Enfoque: diseñar primero", texto: "Dedico una tarde a dibujar el modelo de datos. Identifico entidades, relaciones y restricciones. Cuando programo, sé exactamente qué tablas crear." },
-    { quien: "Enfoque: crear sobre la marcha", texto: "Empiezo con una tabla y voy añadiendo columnas según las necesito. Si algo no encaja, creo otra tabla. Al final, el esquema es un laberinto." },
-  ]}
-  titulo="¿Modelar primero o sobre la marcha?"
-/>
-
-## Buenas prácticas para tus datos
-
-### Nombra bien las cosas
-- Tablas en plural y snake_case: `usuarios`, `recetas_favoritas`
-- Columnas descriptivas: `fecha_creacion`, `precio_unitario`
-- Clave primaria siempre `id`
-
-### No guardes lo que puedas calcular
-- Guarda `fecha_nacimiento`, no `edad` (la edad se calcula)
-- Guarda `precio_unitario` y `cantidad`, no `precio_total` (se calcula)
-
-### Protege los datos sensibles
-- Contraseñas → hash (bcrypt), nunca texto plano
-- Emails → pueden ser identificativos, trátalos con cuidado
-- Datos bancarios → no los guardes si no es estrictamente necesario
-
-<CasoPractico titulo="Una base de datos que creció sin control">
-  Un equipo hizo una aplicación para gestionar eventos. Empezaron con una
-  tabla `eventos` con columnas básicas. Según avanzaba el proyecto, fueron
-  añadiendo:
-
-  - `categoria` (texto libre → cada uno escribía "música", "Musica", "MUSICA")
-  - `organizador` (texto → a veces nombre, a veces email, a veces ID)
-  - `asistentes` (texto → lista separada por comas: "1,2,3,4")
-  - `imagenes` (otra tabla que no se llegó a conectar bien)
-
-  El resultado: datos inconsistentes, consultas lentas, y bugs difíciles
-  de rastrear. Tuvieron que rehacer la base de datos a mitad de proyecto.
-
-  **Lección**: media hora diseñando el modelo de datos al principio habría
-  ahorrado semanas de trabajo. No hace falta ser experto, solo ordenado.
-</CasoPractico>
-
-## Preguntas clave para tu proyecto
-
-- ¿Qué pasaría si esta tabla tuviera 10.000 filas?
-- ¿Un usuario puede tener 0 elementos de esta entidad?
-- ¿Qué reglas debo cumplir (email único, precio mínimo)?
-- ¿Qué pasa si elimino un usuario: cascada o solo ese registro?
-- ¿Necesito que algún campo sea único o combinación única?
+**⏭️ Al acabar la unidad, continúa en [U4 · Documentar y comunicar](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas).**

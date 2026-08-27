@@ -1,0 +1,213 @@
+---
+title: "06 — Accesibilidad web"
+description: "a11y básico: contraste, teclado, etiquetas ARIA, por qué importa y cómo implementarlo sin volverse loco."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🖥️ **U2 · Mejorar el frontend** → 06 · Accesibilidad web
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Sergio tiene una interfaz bonita, rápida y funcional. Un compañero
+  le pregunta: "¿Y si alguien no puede usar el ratón?" Sergio no sabe
+  qué responder. Nunca pensó en eso.
+
+  La accesibilidad web (a11y) no es un extra: es un requisito. El 15%
+  de la población mundial tiene alguna discapacidad. Tu interfaz debe
+  funcionar para todos, no solo para quienes ven bien y usan ratón.
+</StoryIntro>
+
+## La idea en una frase
+
+> La accesibilidad no es caridad: es ingeniería. Un sitio accesible
+> funciona mejor para todos: personas con discapacidad, personas con
+> ratón roto, personas con el sol en la pantalla, personas mayores.
+
+## ¿Qué es la accesibilidad web?
+
+Es que tu sitio web pueda ser usado por **todas las personas**,
+independientemente de su capacidades o discapacidades. Incluye:
+
+- **Visual**: personas ciegas, con baja visión, con daltonismo
+- **Motriz**: personas que no pueden usar ratón (usan teclado, voz,
+  switches)
+- **Auditiva**: personas sordas o con dificultades auditivas
+- **Cognitiva**: personas con dificultades de comprensión, TDAH,
+  dislexia
+
+## Los 4 pilares de la accesibilidad
+
+### 1. Contraste de colores
+
+El texto debe ser legible contra su fondo. La比率 mínima es 4.5:1
+para texto normal y 3:1 para texto grande.
+
+```
+Buen contraste:    texto negro (#000) sobre fondo blanco (#FFF) → 21:1
+Mal contraste:     texto gris (#999) sobre fondo blanco (#FFF) → 2.8:1
+```
+
+Herramientas para verificar:
+- Chrome DevTools → pestaña Accessibility
+- Extensiones como WAVE o axe
+- webaim.org/resources/contrastchecker
+
+### 2. Navegación por teclado
+
+Toda la funcionalidad debe ser accesible sin ratón. Las personas
+usadoras de lectores de pantalla o con dificultades motrices navegan
+con Tab, Enter, Escape y flechas.
+
+**Checklist de teclado:**
+- [ ] Todos los elementos interactivos son alcanzables con Tab
+- [ ] El orden de Tab es lógico (de arriba a abajo, de izquierda a derecha)
+- [ ] El foco es visible (nunca `outline: none` sin alternativa)
+- [ ] Los menús se navegan con flechas
+- [ ] Los modales se cierran con Escape
+
+```css
+/* NUNCA hagas esto */
+*:focus { outline: none; }
+
+/* Haz esto en su lugar */
+*:focus-visible {
+  outline: 2px solid #0066cc;
+  outline-offset: 2px;
+}
+```
+
+### 3. Etiquetas ARIA
+
+ARIA (Accessible Rich Internet Applications) son atributos HTML que
+dan información extra a los lectores de pantalla. No los uses a
+lo loco: many veces un HTML semántico basta.
+
+**Cuándo usar HTML semántico (preferido):**
+
+```html
+<!-- Mal: div con click -->
+<div class="btn" onclick="enviar()">Enviar</div>
+
+<!-- Bien: botón nativo -->
+<button onclick="enviar()">Enviar</button>
+
+<!-- Mal: span como enlace -->
+<span class="link" onclick="navegar()">Ir a inicio</span>
+
+<!-- Bien: enlace nativo -->
+<a href="/inicio">Ir a inicio</a>
+```
+
+**Cuándo usar ARIA (cuando HTML semántico no basta):**
+
+```html
+<!-- Botón que abre/cierra un menú -->
+<button
+  aria-expanded="false"
+  aria-controls="menu-principal"
+  onclick="toggleMenu()"
+>
+  Menú
+</button>
+
+<!-- Indicador de carga -->
+<div role="status" aria-live="polite">
+  Cargando productos...
+</div>
+```
+
+### 4. Contenido alternativo
+
+Las imágenes necesitan texto alternativo. Los videos necesitan
+subtítulos. Los formularios necesitan labels.
+
+```html
+<!-- Imagen con alt -->
+<img src="producto.webp" alt="Zapatillas deportivas azules talla 42" />
+
+<!-- Imagen decorativa -->
+<img src="decoracion.png" alt="" />
+
+<!-- Formulario con labels -->
+<label for="email">Correo electrónico</label>
+<input type="email" id="email" name="email" required />
+```
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin accesibilidad", texto: "Un usuario ciego intenta comprar en tu tienda. No hay alt en las imágenes, el formulario no tiene labels, el botón de compra no es alcanzable con teclado. Se va a la competencia." },
+    { quien: "Con accesibilidad", texto: "Mismo usuario, misma tienda. El lector de pantalla lee los alt de las imágenes, el formulario tiene labels claros, el botón es focusable. Puede comprar como cualquiera." },
+  ]}
+  titulo="Dos experiencias, misma funcionalidad"
+/>
+
+## Errores comunes y cómo evitarlos
+
+| Error | Consecuencia | Solución |
+|-------|-------------|----------|
+| `outline: none` sin alternativa | El foco no se ve, nadie sabe dónde está | Usar `focus-visible` con estilo claro |
+| Imágenes sin `alt` | El lector de pantalla no sabe qué muestra | Siempre `alt`, vacío si es decorativa |
+| Formularios sin `label` | El lector de pantalla no sabe qué campo es | Siempre `<label for="id">` |
+| Colores con bajo contraste | Texto ilegible para personas con baja visión | Ratio mínimo 4.5:1 |
+| Divs como botones | No son focusables ni anunciadas | Usar `<button>` nativo |
+| Modales sin gestión de foco | El foco se pierde al abrir el modal | Trap del foco dentro del modal |
+
+<Aclaracion pregunta="¿Tengo que hacer todo accesible al 100%?">
+  No desde el primer día. Pero hay un mínimo que no puedes ignorar:
+  contraste, labels en formularios, alt en imágenes, y navegación
+  por teclado. Con eso cubres el 80% de los problemas más graves.
+
+  La accesibilidad es un proceso, no un checkbox. Empieza con lo
+  básico, usa herramientas automatizadas para detectar errores graves,
+  y ve mejorando.
+</Aclaracion>
+
+## Caso práctico
+
+<CasoPractico titulo="El formulario que nadie podía rellenar">
+  Un proyecto tenía un formulario de registro con 8 campos. Los campos
+  no tenían labels, solo placeholders grises. El botón de enviar era
+  un div con un onclick. El formulario no daba feedback de errores.
+
+  Un compañero con baja visión intentó rellenarlo: no sabía qué campo
+  era qué (sin labels). Otro compañero intentó usar Tab: el foco no
+  era visible (outline: none). Un tercero intentó con lector de pantalla:
+  nada era announced.
+
+  Corrección en 1 hora:
+  1. Añadir `<label>` a cada campo
+  2. Restaurar el `focus-visible` con estilo claro
+  3. Cambiar el div por un `<button>` nativo
+  4. Añadir `aria-invalid` y `aria-describedby` para errores
+
+  Resultado: el formulario era usable para todos. Sin cambiar el
+  diseño visual.
+
+  **Lección**: la accesibilidad no es un cambio visual. Es estructural.
+  Y se puede hacer sin romper el diseño.
+</CasoPractico>
+
+## Resumen en 3 frases
+
+1. La accesibilidad es un requisito, no un extra. El 15% de la
+   población tiene alguna discapacidad que afecta cómo usa la web.
+2. Los 4 pilares: contraste suficiente, navegación por teclado,
+   HTML semántico con ARIA cuando hace falta, y contenido alternativo
+   en imágenes y formularios.
+3. Empieza con lo básico: labels, alt, contraste, focus-visible. Con
+   eso cubres el 80% de los problemas más graves.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **a11y** | Abreviatura de "accessibility" (11 letras entre a y y) |
+| **ARIA** | Atributos HTML que dan información extra a lectores de pantalla |
+| **Focus visible** | Indicador visual de qué elemento tiene el foco del teclado |
+| **Contraste** | Diferencia de luminosidad entre texto y fondo |
+| **Lector de pantalla** | Software que lee en voz alta el contenido de la pantalla |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework) · **Anterior:** [05 · Rendimiento y optimización](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/05-rendimiento-y-optimizacion) · **Siguiente:** [07 · Probar la interfaz](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/07-probar-la-interfaz)

@@ -1,11 +1,13 @@
 ---
-title: 🖥️ U2. Mejorar el frontend
-description: "Cómo evolucionar la interfaz de usuario: componentes, frameworks, estado y rendimiento"
+title: "U2. Mejorar el frontend"
+description: "Cómo evolucionar la interfaz de usuario: frameworks, componentes, estado, rendimiento y accesibilidad."
 ---
 
 import StoryIntro from '../../../components/StoryIntro.astro';
 import Aclaracion from '../../../components/Aclaracion.astro';
 import CasoPractico from '../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🖥️ **U2 · Mejorar el frontend** → Índice
 
 <StoryIntro icono="🎬" titulo="El día que el frontend se volvió complejo">
   En PI1, la interfaz eran 3 páginas HTML con un poco de CSS y JavaScript
@@ -18,112 +20,111 @@ import CasoPractico from '../../../components/CasoPractico.astro';
   a un framework.
 </StoryIntro>
 
-## ¿Necesitas un framework frontend?
+## Mapa de la unidad
 
-No todos los proyectos lo necesitan. Pregúntate:
+¿Por dónde se va? Esta unidad tiene **8 puntos teóricos + 1 cierre**.
+No son independientes: cada punto construye sobre el anterior.
 
-- ¿Tienes muchas pantallas que comparten elementos?
-- ¿Los datos cambian dinámicamente (sin recargar la página)?
-- ¿Tienes formularios complejos con mucha validación?
-- ¿El código JavaScript se te está haciendo difícil de mantener?
+| Punto | Tema | Idea clave |
+|-------|------|------------|
+| [01](01-cuando-necesitas-un-framework) | Cuándo necesitas un framework | Las 5 preguntas para decidir |
+| [02](02-elegir-el-framework-adecido) | Elegir el framework adecuado | React, Vue, Svelte, Astro comparados |
+| [03](03-componentes-la-pieza-fundamental) | Componentes: la pieza fundamental | Responsabilidad única, props, reutilización |
+| [04](04-gestionar-el-estado) | Gestionar el estado | Props drilling, stores, cuándo usar cada uno |
+| [05](05-rendimiento-y-optimizacion) | Rendimiento y optimización | Imágenes, peticiones, lazy loading, caché |
+| [06](06-accesibilidad-web) | Accesibilidad web | a11y, contraste, teclado, ARIA |
+| [07](07-probar-la-interfaz) | Probar la interfaz | Método de 3 personas, observación |
+| [08](08-checklist-de-frontend) | Checklist de frontend | Lista completa antes de cada entrega |
+| [09](09-cierre) | Cierre | Retos, dilemas, laboratorio con trampa |
 
-Si respondiste "sí" a dos o más, considera un framework.
+## Objetivos
 
-### ¿Cuál elegir?
+Al final de esta unidad serás capaz de:
 
-| Framework | Curva | Ideal para |
-|-----------|-------|------------|
-| **React** | Media | Proyectos grandes, mucha comunidad |
-| **Vue** | Baja | Proyectos medianos, fácil de empezar |
-| **Svelte** | Baja | Proyectos donde quieres menos código |
-| **Astro** | Media | Sitios con poco JavaScript, contenido estático |
+1. **Decidir** si tu proyecto necesita un framework y cuál elegir
+2. **Diseñar** componentes con responsabilidad única y props claras
+3. **Gestionar** el estado local y global sin over-engineering
+4. **Optimizar** el rendimiento: imágenes, peticiones, renderizado
+5. **Mejorar** la accesibilidad: contraste, teclado, ARIA, labels
+6. **Probar** la interfaz con usuarios reales (método de 3 personas)
+7. **Aplicar** una checklist completa antes de cada entrega
 
-No elijas el que está de moda. Elige el que mejor se adapte a tu proyecto
-y a lo que sepas (o tengas tiempo de aprender).
+## Competencias
 
-<Aclaracion pregunta="¿Y si no sé ningún framework?">
-  Aprende lo justo para tu proyecto. No necesitas dominar React al completo.
-  Basta con saber:
+| Competencia PI2 | Puntos de U2 |
+|-----------------|--------------|
+| C1 · Evolucionar la arquitectura | 01, 02, 03 |
+| C2 · Mejorar el frontend | 01-08 (toda la unidad) |
+| C3 · Integrar sistemas | 04 (estado y peticiones) |
+| C4 · Diseñar para el usuario | 06, 07 |
+| C5 · Asegurar la calidad | 08 (checklist) |
 
-  - Crear componentes
-  - Pasar datos entre componentes (props)
-  - Manejar estado local
-  - Hacer peticiones a la API
+## Contenido de la unidad
 
-  El 80% de un proyecto DAW se cubre con eso. Lo demás lo aprendes
-  sobre la marcha. Y hay tutoriales oficiales que en 2-3 horas te ponen
-  en marcha.
-</Aclaracion>
+<div class="card-grid small">
 
-## Componentes: la pieza fundamental
+<div class="card">
 
-Un componente es una parte reutilizable de la interfaz. Un botón, una
-tarjeta, un formulario, un encabezado.
+[**01 · Cuándo necesitas un framework**](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/01-cuando-necesitas-un-framework)
+Las 5 preguntas clave. No todos los proyectos lo necesitan.
 
-### Piensa en componentes desde el principio
+</div>
 
-Mira tu interfaz y pregúntate: ¿qué partes se repiten?
+<div class="card">
 
-- Todos los botones se parecen → crea un `Button` component
-- Las tarjetas de producto son iguales → crea un `ProductCard`
-- El formulario de registro es similar al de login → comparte `InputField`
+[**02 · Elegir el framework adecuado**](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/02-elegir-el-framework-adecido)
+React, Vue, Svelte, Astro comparados por curva, comunidad y caso de uso.
 
-Cada componente debe:
-- Hacer una sola cosa
-- Recibir datos por props
-- No depender de nada externo
+</div>
 
-### Estado: dónde vive la información
+<div class="card">
 
-Uno de los mayores desafíos del frontend es gestionar el **estado**
-(los datos que cambian en la interfaz).
+[**03 · Componentes: la pieza fundamental**](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/03-componentes-la-pieza-fundamental)
+Responsabilidad única, props, reutilización. Un componente = una cosa.
 
-**Regla simple**: el estado vive lo más arriba posible y fluye hacia abajo.
+</div>
 
-```
-App (tiene los usuarios)
-├── ListaUsuarios (recibe usuarios como prop)
-│   └── UsuarioCard (recibe un usuario como prop)
-└── FormularioUsuario (recibe función para añadir usuario)
-```
+<div class="card">
 
-Si dos componentes necesitan los mismos datos, el estado debe estar
-en el componente padre de ambos.
+[**04 · Gestionar el estado**](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/04-gestionar-el-estado)
+Dónde vive la información, props drilling, cuándo usar un store.
 
-<CasoPractico titulo="Del HTML plano a los componentes">
+</div>
 
-  En PI1, un equipo hizo su interfaz con HTML plano y jQuery. Cada página
-  era un archivo HTML independiente. El menú de navegación estaba copiado
-  en los 5 archivos. Cuando cambiaban un enlace, tenían que actualizarlo
-  en los 5 sitios.
+<div class="card">
 
-  En PI2 migraron a React. Crearon componentes:
-  - `Navbar` (una vez, se reutiliza en todas partes)
-  - `ProductCard` (se reutiliza para cada producto)
-  - `Button`, `Input`, `Modal` (componentes atómicos)
+[**05 · Rendimiento y optimización**](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/05-rendimiento-y-optimizacion)
+Imágenes, peticiones, lazy loading, caché. Cada segundo cuenta.
 
-  El resultado: menos código, cambios más rápidos, interfaz más consistente.
-  Lo que antes era mantenible con esfuerzo, ahora era mantenible con facilidad.
+</div>
 
-  **Lección**: un framework no es un capricho. Cuando tu interfaz crece,
-  es una necesidad. Pero no migres hasta que realmente lo necesites.
-</CasoPractico>
+<div class="card">
 
-## Rendimiento: que no tarde
+[**06 · Accesibilidad web**](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/06-accesibilidad-web)
+a11y básico: contraste, teclado, ARIA, labels. Para todos los usuarios.
 
-Una interfaz bonita pero lenta es una mala interfaz. Cuida:
+</div>
 
-1. **Tamaño de las imágenes**: no subas fotos de 5MB, comprímelas
-2. **Peticiones a la API**: no hagas 20 llamadas si puedes hacer 1
-3. **Renderizado**: no renderices todo de golpe, usa paginación o carga perezosa
-4. **Caché**: guarda datos que no cambian a menudo (lista de provincias, etc.)
+<div class="card">
 
-## Checklist para tu frontend
+[**07 · Probar la interfaz**](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/07-probar-la-interfaz)
+Método de 3 personas, observación, por qué tu opinión no cuenta.
 
-- [ ] La interfaz se ve bien en móvil, tablet y escritorio
-- [ ] Los tiempos de carga son aceptables (< 3 segundos)
-- [ ] Uso componentes reutilizables donde tiene sentido
-- [ ] El estado está gestionado de forma coherente
-- [ ] Las imágenes están optimizadas
-- [ ] La navegación es intuitiva
-- [ ] Los mensajes de error son claros y visibles
+</div>
+
+<div class="card">
+
+[**08 · Checklist de frontend**](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/08-checklist-de-frontend)
+Lista completa: componentes, estado, rendimiento, accesibilidad, UX.
+
+</div>
+
+</div>
+
+**09 · Cierre** → [Consolida lo aprendido con retos y laboratorio](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/09-cierre)
+
+No son independientes. Muchas se solapan: no puedes optimizar el
+rendimiento sin componentes bien diseñados, ni probar la interfaz
+sin pensar en accesibilidad. Úsalas según tu momento del proyecto.
+
+📚 **Anterior:** [PI2 U1 · Evolucionar la arquitectura](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web) · **Siguiente:** [PI2 U3 · APIs REST](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest)

@@ -1,0 +1,150 @@
+---
+title: "06 — Diagrama de componentes"
+description: "La tabla que dice qué hace cada pieza de tu aplicación y de quién depende para funcionar 🔩"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U2 · Diseñar la solución** → 06 · Diagrama de componentes
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  El diagrama de arquitectura del punto 05 te mostró las piezas grandes y sus
+  flechas. Pero dentro de cada pieza grande hay piezas más pequeñas: los
+  **componentes**. ¿Qué hace cada uno y de quién depende?
+
+  Este capítulo te enseña el diagrama de componentes: la tabla que convierte
+  el plano en la lista de piezas con su trabajo y sus necesidades.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> Para cada parte de tu aplicación, enumera qué hace y qué necesita. Así sabes
+> qué construir y en qué orden.
+
+Es la lista de la compra de tu proyecto: el diagrama de arquitectura dice "hay
+una cocina", y el de componentes dice "la cocina necesita fuego, agua y un
+chef". Sin esa segunda lista, "hay una cocina" no se puede construir.
+
+## 🔩 Qué es un componente
+
+Un **componente** es una pieza con una responsabilidad concreta dentro de tu
+aplicación: gestionar el registro, validar datos, guardar usuarios. Mientras el
+diagrama de arquitectura muestra las grandes estancias (navegador, servidor,
+base de datos), el diagrama de componentes hace zoom dentro de una de ellas y
+enumera las piezas que la componen.
+
+La prueba del componente bien hecho es la del punto 02: sabe responder a la
+pregunta "¿qué haces tú?" con una sola frase. Si la respuesta tiene un "y
+además...", ese componente es dos componentes.
+
+## 📋 La tabla de componentes
+
+El diagrama de componentes más práctico no se dibuja con cajas: es una **tabla**
+con tres columnas. Este es el ejemplo clásico de una app con usuarios:
+
+| Componente | Responsabilidad | Depende de |
+|-----------|----------------|------------|
+| Controlador de usuarios | Gestionar registro y login | Servicio de usuarios |
+| Servicio de usuarios | Validar datos, encriptar passwords | Repositorio de usuarios |
+| Repositorio de usuarios | Guardar/recuperar de BD | Base de datos |
+
+Léela en tres pasos:
+
+1. **Componente**: el nombre de la pieza. Los nombres dicen qué hacen: un
+   *controlador* recibe las peticiones y las dirige; un *servicio* aplica la
+   lógica; un *repositorio* guarda y recupera datos.
+2. **Responsabilidad**: su trabajo único. "Gestionar registro y login",
+   "validar datos", "guardar/recuperar de BD": cada frase es una sola cosa.
+3. **Depende de**: lo que necesita para trabajar. El controlador necesita al
+   servicio, el servicio al repositorio y el repositorio a la base de datos.
+
+La tabla se lee de arriba abajo como una cadena: lo de arriba pide, lo de
+abajo provee. Esa dirección es la misma que veíamos en las flechas del punto 05.
+
+## 🧭 Cómo leer "Depende de"
+
+La columna "Depende de" es la más importante para planificar:
+
+- Si X depende de Y, **X no puede probarse sin Y**. El orden de construcción
+  natural es de abajo arriba: primero el repositorio, luego el servicio, luego
+  el controlador.
+- Si Y cambia por dentro (pero cumple el mismo acuerdo de comunicación), X no
+  se entera. Ese acuerdo es el que vimos en el punto 04.
+- **Dependencias circulares son una alarma**: si A depende de B y B depende de
+  A, ninguna puede vivir sin la otra y cualquier cambio las rompe a las dos.
+  En el cierre (punto 09) cazarás una a propósito.
+
+Sobre "encriptar passwords": significa que las contraseñas se guardan de forma
+que ni siquiera quien tenga acceso a la base de datos pueda leerlas en claro.
+Es una responsabilidad típica del servicio de usuarios, y la verás en detalle
+cuando llegue el momento de implementarlo.
+
+<CasoPractico titulo="La tabla de componentes de la app de recetas">
+
+  El equipo de Ana pasó su árbol de funcionalidades (punto 04) a una tabla de
+  componentes para saber qué construir primero:
+
+  | Componente | Responsabilidad | Depende de |
+  |-----------|----------------|------------|
+  | Controlador de recetas | Listar y mostrar recetas | Servicio de recetas |
+  | Servicio de recetas | Filtrar por intolerancia | Repositorio de recetas |
+  | Repositorio de recetas | Guardar/recuperar recetas de la BD | Base de datos |
+  | Controlador de favoritos | Añadir y mostrar favoritos | Servicio de favoritos |
+  | Servicio de favoritos | Validar el favorito y a qué usuario pertenece | Repositorio de favoritos |
+  | Repositorio de favoritos | Guardar/recuperar favoritos de la BD | Base de datos |
+
+  **Conclusión del equipo**: la base de datos es la base de todo (nadie puede
+  vivir sin ella), y el servicio de recetas se construye antes que el de
+  favoritos, porque favoritos guarda recetas. Dos componentes, una flecha más,
+  y el plan de construcción quedó escrito.
+</CasoPractico>
+
+Fíjate en el patrón de la tabla: cada funcionalidad (recetas, favoritos) se
+repite como una mini-cadena controlador → servicio → repositorio. Esas son las
+capas del punto 03, aplicadas dentro de cada funcionalidad del punto 04. Las
+dos formas de dividir, juntas en una sola tabla.
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** La columna "Depende de" indica:
+A) quién copia a quién · B) qué necesita el componente para funcionar · C) el
+sueldo de cada pieza.
+
+**Pregunta 2.** Si el repositorio de usuarios depende de la base de datos, lo
+natural es construir:
+A) primero la base de datos y el repositorio · B) primero el controlador · C)
+todo a la vez sin orden.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. La dependencia dice qué necesita cada pieza para trabajar y por
+   tanto en qué orden construir. Las otras opciones no tienen sentido.
+2. **A**. Se construye de abajo arriba: la base de datos y el repositorio
+   primero, porque el controlador no puede funcionar sin ellos. El orden lo
+   escribe la columna "Depende de".
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. El diagrama de componentes enumera para cada parte qué hace (responsabilidad)
+   y qué necesita (depende de).
+2. La tabla se lee como una cadena: lo de arriba pide, lo de abajo provee, y el
+   orden de construcción va de abajo arriba.
+3. Las dependencias circulares son una alarma: si A depende de B y B de A,
+   ninguna vive sin la otra.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Componente** | Pieza con una responsabilidad concreta |
+| **Controlador** | Recibe las peticiones y las dirige |
+| **Servicio** | Aplica la lógica (validar, encriptar, filtrar) |
+| **Repositorio** | Guarda y recupera datos de la base de datos |
+| **Dependencia** | Lo que un componente necesita para funcionar |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u2-poo) · **Anterior:** [05 · Diagrama de arquitectura](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/05-diagrama-de-arquitectura) · **Siguiente:** [07 · Decisiones técnicas con criterio](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/07-decisiones-tecnicas-con-criterio)

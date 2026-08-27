@@ -1,0 +1,175 @@
+---
+title: "08 — Checklist de arquitectura"
+description: "La lista completa que combina todo lo anterior. Un recurso para consultarte siempre antes de cada sprint."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🔧 **U1 · Evolucionar la arquitectura** → 08 · Checklist de arquitectura
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Has aprendido sobre deuda técnica, refactorización, decisiones
+  técnicas, estructura de carpetas, Git, documentación y priorización.
+  Son muchas cosas. Cuando estás metido en el sprint, es fácil olvidar
+  alguna.
+
+  Este capítulo es tu hoja de ruta: una checklist completa que puedes
+  consultar antes de cada sprint, cada merge o cada entrega. Imprímela,
+  pegala en la pared, tatúatela en el brazo. Es tu brújula.
+</StoryIntro>
+
+## La idea en una frase
+
+> Una checklist no es burocracia: es la memoria externa que te evita
+> cometer errores que ya sabes cómo evitar. Los pilotos la usan.
+  Los cirujanos la usan. Tú también deberías.
+
+## Checklist de arquitectura
+
+### Deuda técnica
+
+- [ ] He identificado la deuda técnica que arrastro de PI1
+- [ ] La deuda está clasificada por prioridad (urgente, importante, baja)
+- [ ] He creado un archivo `DEUDA.md` con la lista actualizada
+- [ ] La deuda urgente se está abordando antes de añadir funcionalidades
+  nuevas
+- [ ] Cada sprint dedico al menos un 20% del tiempo a mejorar el código
+
+### Refactorización
+
+- [ ] Cada cambio refactorizado va precedido de un commit del estado actual
+- [ ] Trabajo en una rama dedicada para la refactorización
+- [ ] Existe al menos un test que verifique el comportamiento antes del
+  cambio
+- [ ] Los cambios son pequeños y cada uno se prueba por separado
+- [ ] Si un refactor falla, reviero el cambio y busco la causa antes de
+  reintentar
+
+### Decisiones técnicas
+
+- [ ] He documentado las decisiones técnicas principales (framework, API, BD)
+- [ ] Cada decisión tiene justificación (no "porque sí")
+- [ ] Las alternativas fueron evaluadas antes de decidir
+- [ ] Las decisiones están documentadas en ADRs
+- [ ] El equipo conoce y entiende las decisiones tomadas
+
+### Estructura de carpetas
+
+- [ ] El código está organizado por responsabilidades (routes, controllers,
+  services, models)
+- [ ] Cada archivo tiene un nombre claro que indica su propósito
+- [ ] No hay más de 3-4 niveles de anidamiento
+- [ ] La estructura es consistente en todo el proyecto
+- [ ] No hay archivos sueltos en la raíz sin una carpeta clara
+
+### Versionado y ramas
+
+- [ ] Nadie trabaja directamente en `main`
+- [ ] Cada funcionalidad nueva se desarrolla en una rama con nombre claro
+  (`feature/`, `fix/`, `refactor/`)
+- [ ] Los commits son atómicos (un cambio = un commit) con mensajes claros
+- [ ] Las ramas se borran después de mergearlas
+- [ ] Antes de mergear, se verifica que la rama destino está actualizada
+
+### Documentación
+
+- [ ] El README incluye instrucciones de instalación en 5 minutos
+- [ ] Existe un diagrama de arquitectura (ASCII, Mermaid o imagen)
+- [ ] Las decisiones técnicas están documentadas en ADRs
+- [ ] La documentación se actualiza cuando cambia la arquitectura
+- [ ] El proyecto es comprensible sin tener que preguntar al autor
+
+### Calidad general
+
+- [ ] El código es legible por alguien que no lo escribió
+- [ ] Las funciones hacen una sola cosa
+- [ ] Los nombres de variables y funciones explican qué hacen
+- [ ] No hay código duplicado sin justificación
+- [ ] Las dependencias están actualizadas y no tienen vulnerabilidades
+  conocidas
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin checklist", texto: "Llego al sprint, código furioso, a por las funcionalidades. A mitad del sprint me doy cuenta de que la estructura está mal y tengo que reorganizarlo todo. Pierdo 2 días." },
+    { quien: "Con checklist", texto: "Antes de empezar el sprint, repaso la checklist. Detecto que la estructura de carpetas necesita ajustes. Lo arreglo en 30 minutos antes de tocar funcionalidades." },
+  ]}
+  titulo="Prepararse vs improvisar"
+/>
+
+<Aclaracion pregunta="¿Tengo que cumplir TODOS los puntos antes de cada sprint?">
+  No. La checklist es una guía, no una norma estricta. Algunos puntos
+  son para el inicio del proyecto (estructura de carpetas, decisiones
+  técnicas), otros son continuos (deuda técnica, versionado), y otros
+  son para antes de la entrega (documentación, calidad general).
+
+  La idea es consultarla periódicamente y preguntarte: "¿estoy olvidando
+  algo importante?" Si la respuesta es no, estás en buen camino.
+</Aclaracion>
+
+## Cuándo usar la checklist
+
+| Momento | Puntos clave a revisar |
+|---------|----------------------|
+| **Inicio del proyecto** | Decisiones técnicas, estructura de carpetas, documentación |
+| **Cada sprint** | Deuda técnica, versionado, calidad general |
+| **Antes de merge** | Ramas, commits, tests |
+| **Antes de la entrega** | Documentación, diagramas, README, ADRs |
+
+## Mini-check de rapidez
+
+Si necesitas una revisión rápida (2 minutos), estos son los 5 puntos
+más críticos:
+
+1. **¿Main está limpio?** — solo código que funciona
+2. **¿Hay un README?** — alguien puede levantar el proyecto sin preguntar
+3. **¿Las decisiones están justificadas?** — ADRs o al menos explicación
+4. **¿La estructura tiene sentido?** — carpetas por responsabilidad
+5. **¿La deuda urgente se está abordando?** — no está acumulándose
+
+Si respondes sí a las 5, estás en buen punto. Si alguna es no,
+¿por qué no?
+
+<CasoPractico titulo="La checklist que salvó un sprint">
+  Un equipo tenía la entrega del proyecto en 2 semanas. Estaban
+  nerviosos y a punto de empezar a codear sin plan. El líder de
+  equipo sacó la checklist y la repasaron juntos en 15 minutos.
+
+  Resultados del repaso:
+  - **Decisiones técnicas**: no documentadas. Las documentaron en
+    una hora (3 ADRs).
+  - **Estructura de carpetas**: caótica. La reorganizaron en medio
+    día.
+  - **README**: no existía. Lo escribieron en 30 minutos.
+  - **Deuda técnica**: 8 items urgentes. Priorizaron los 3 más
+    críticos.
+
+  Con la checklist, perdieron 1 día al inicio pero ganaron 3 días
+  de productividad en el sprint. La entrega fue tranquila y el
+  proyecto estaba sólido.
+
+  **Lección**: 15 minutos de checklist ahorran días de caos.
+</CasoPractico>
+
+## Resumen en 3 frases
+
+1. La checklist es tu **memoria externa**: un recurso para consultarte
+   antes de cada sprint y no olvidar nada importante.
+2. Revisa los puntos clave en los **momentos clave**: inicio de proyecto,
+   cada sprint, antes de merge, antes de la entrega.
+3. No necesitas cumplir todo a la vez: usa la checklist como **brújula**,
+   no como camisa de fuerza.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Checklist** | Lista de puntos que deben verificarse antes de una acción |
+| **Sprint** | Periodo de tiempo (1-2 semanas) en el que el equipo trabaja en tareas concretas |
+| **Merge** | Unir una rama de funcionalidad en la rama principal |
+| **ADR** | Architecture Decision Record: documento que justifica una decisión de diseño |
+| **Calidad de código** | Grado en que el código es legible, mantenible y libre de errores |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web) · **Anterior:** [07 · Deuda técnica en acción](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/07-deuda-tecnica-en-accion) · **Siguiente:** [09 · Cierre](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/09-cierre)

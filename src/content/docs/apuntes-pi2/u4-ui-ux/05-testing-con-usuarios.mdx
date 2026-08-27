@@ -1,0 +1,197 @@
+---
+title: "05 — Testing con usuarios"
+description: "El método de 3 personas: preparar tareas, observar sin ayudar y detectar dudas, errores y frustración. La forma más rápida de mejorar tu interfaz."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 👤 **U4 · Diseñar para el usuario** → 05 · Testing con usuarios
+
+<StoryIntro icono="🎬" titulo="El día que descubrieron lo obvio... con ayuda externa">
+  El equipo llevaba semanas con su aplicación. La conocían tan bien que
+  cada botón, cada flujo, cada mensaje les parecía perfectamente claro.
+
+  Entonces invitaron a tres compañeros de otra clase para que la
+  probaran. Uno no encontró el botón principal. Otro no entendió un
+  mensaje de error. La tercera cerró la app en la segunda pantalla
+  porque no sabía cómo volver atrás.
+
+  Los problemas que llevaban semanas ahí, invisible para ellos, saltaron
+  a la luz en 20 minutos.
+</StoryIntro>
+
+## La idea en una frase
+
+> No necesitas laboratorio de usabilidad ni presupuesto. Necesitas 3
+> personas, 3 tareas y ganas de observar.
+
+## El método de 3 personas
+
+No necesitas un estudio de usabilidad profesional. Necesitas esto:
+
+### Paso 1: prepara 3 tareas
+
+Elige las tareas más importantes de tu app. Normalmente son:
+
+1. **Registro/inicio de sesión**: "Regístrate con un email nuevo"
+2. **Tarea principal**: "Crea un [objeto de tu app] con los datos X"
+3. **Tarea avanzada**: "Modifica lo que acabas de crear y bórralo"
+
+Las tareas deben ser **específicas y observables**. No "usa la app",
+sino "regístrate con el email test@ejemplo.com y crea una cita para
+el viernes a las 10:00".
+
+### Paso 2: siéntate al lado (sin ayudar)
+
+Reúne a 3 personas que **no sean del equipo**. Pueden ser compañeros
+de otra clase, amigos, familiares. Lo importante es que no conocen
+la app.
+
+Sentarlas al lado tuyo, con la pantalla visible. Y then **no hagas
+nada**. No expliques, no ayudes, no digas "no, eso es así". Solo
+observa.
+
+### Paso 3: observa dudas, errores y frustración
+
+Mientras la persona usa la app, anota:
+
+- **Dudas**: "¿Dónde está el botón?", "¿Esto es un enlace?"
+- **Errores**: clic en el lugar equivocado, formulario mal rellenado
+- **Frustración**: suspiros, pausas largas, preguntas repetidas
+
+No corrijas. No expliques. Solo observa y apunta.
+
+<Aclaracion pregunta="¿Y si me da vergüenza que fallen cosas que yo hice?">
+  Es normal. Pero piensa: es mejor que fallen contigo mirando (y tú
+  arreglando después) que el día de la presentación del tribunal.
+
+  Los mejores diseñadores del mundo no asumen que su diseño es perfecto.
+  Lo prueban, descubren errores y los corrigen. El testing no es un
+  examen para ti, es una herramienta para mejorar.
+</Aclaracion>
+
+## Qué mirar durante la prueba
+
+### Indicadores clave
+
+| Indicador | Qué significa | Qué hacer |
+|-----------|---------------|-----------|
+| **Tiempo por tarea** | Cuánto tarda en completar | Si tarda mucho, hay confusión |
+| **Errores cometidos** | Clics en el lugar equivocado | El diseño no es claro |
+| **Preguntas que hace** | "¿Dónde está...?", "¿Esto qué es?" | El elemento no comunica |
+| **Momentos de pausa** | Silencios largos sin hacer nada | El usuario no sabe qué hacer |
+| **Frustración visible** | Suspiros, "no entiendo esto" | Hay un problema grave |
+
+### La regla de oro
+
+Si 2 de 3 personas tienen el mismo problema, **es un problema de diseño,
+no de usuario**. No digas "es que la persona no sabe usarlo". Tu diseño
+debería ser tan claro que no haga falta saber.
+
+## Cómo registrar los resultados
+
+No necesitas un formulario complejo. Usa una tabla simple:
+
+| Tarea | Persona 1 | Persona 2 | Persona 3 |
+|-------|-----------|-----------|-----------|
+| Registrarse | 45s, no encontró el botón | 30s, ok | 60s, confundida con el formulario |
+| Crear appointment | 90s, error en campo fecha | 120s, no vio el botón de guardar | 150s, pidió ayuda |
+| Modificar appointment | No encontró cómo | 40s, ok | No intentó |
+
+Con esta tabla ves al instante qué pantallas necesitan mejora.
+
+<Comparativa
+  dialogos={[
+    { who: "Equipo sin testing", texto: "Nuestra app funciona perfectamente. Los botones están donde deberían estar. El flujo es lógico." },
+    { who: "Equipo con testing", texto: "Descubrimos que el 67% de los usuarios no encontraba el botón principal. Lo movimos de posición y la tasa de completado subió al 95%." },
+  ]}
+  titulo="Dos realidades"
+/>
+
+## Iterar: probar, arreglar, repetir
+
+El testing no es un evento único. Es un ciclo:
+
+1. **Probar** con 3 personas
+2. **Detectar** los problemas más graves (los que afectan a 2+ personas)
+3. **Arreglar** esos problemas
+4. **Volver a probar** con 3 personas nuevas
+
+Una sola iteración puede mejorar tu app un 50%. Dos iteraciones la
+convierten en algo completamente distinto.
+
+### Cuándo parar
+
+No necesitas perfección. Para cuando:
+- Las 3 personas completan las 3 tareas sin ayuda
+- No hay errores que afecten a más de 1 persona
+- El tiempo por tarea es razonable (menos de 2 minutos)
+
+<CasoPractico titulo="Tres personas, una tarde, una transformación">
+
+  Un equipo tenía una aplicación de AppointmentManager. La probaron
+  con 3 compañeros de clase.
+
+  **Primera ronda (3 personas):**
+  - Persona 1: no encontró el botón de "nueva appointment" (era un
+    icono sin texto)
+  - Persona 2: rellenó el formulario pero no vio el botón de enviar
+    (estaba debajo del scroll)
+  - Persona 3: entendió todo pero no supo cómo ver sus appointments
+    creadas
+
+  **Cambios realizados:**
+  1. El icono pasó a ser un botón con texto "Nueva Appointment"
+  2. El botón de enviar se fijó al fondo de la pantalla (sticky)
+  3. Se añadió un enlace "Mis appointments" en el menú principal
+
+  **Segunda ronda (3 personas nuevas):**
+  - Las 3 completaron las 3 tareas sin ayuda
+  - Tiempo medio: 45 segundos por tarea
+  - Ninguna pregunta sobre navegación
+
+  **Lección**: una tarde de testing y una hora de cambios mejoraron
+  la app más que una semana de desarrollo sin feedback.
+</CasoPractico>
+
+## Mini-chequeo
+
+**Pregunta 1.** ¿Cuántas personas necesitas para un testing básico?
+A) 10-15 · B) 3-5 · C) 1
+
+**Pregunta 2.** ¿Qué haces cuando la persona se equivoca durante la prueba?
+A) Le explicas cómo se hace · B) Anotas el error y no ayudas hasta que termine la tarea · C) Le dices que lo intente de otra manera
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Con 3-5 personas detectas el 85% de los problemas de
+   usabilidad. Más personas dan rendimientos decrecientes.
+2. **B**. No ayudes. Observa. Si ayudas, no estás descubriendo qué
+   falla en tu diseño, sino qué falla en tu explicación.
+
+</details>
+
+## Resumen en 3 frases
+
+1. Testing con usuarios es preparar 3 tareas, sentar a 3 personas
+   y observar dónde se equivocan sin ayudarlas.
+2. Si 2 o más personas tienen el mismo problema, es un problema de
+   diseño, no de usuario.
+3. Una tarde de testing puede mejorar tu app más que una semana de
+   desarrollo sin feedback externo.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Testing de usabilidad** | Observar a personas reales usando tu app para detectar problemas |
+| **Iteración** | Ciclo de probar → detectar → arreglar → volver a probar |
+| **Tarea** | Acción específica que el usuario debe completar |
+| **Frustración** | Señal de que algo en el diseño falla |
+| **Iterar** | Repetir el ciclo de mejora hasta que los problemas se resuelvan |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u4-ui-ux) · **Anterior:** [04 · Diseño para móvil](/ApuntesProyectoDAW/apuntes-pi2/u4-ui-ux/04-diseno-para-movil) · **Siguiente:** [06 · Prototipado rápido](/ApuntesProyectoDAW/apuntes-pi2/u4-ui-ux/06-prototipado-rapido)

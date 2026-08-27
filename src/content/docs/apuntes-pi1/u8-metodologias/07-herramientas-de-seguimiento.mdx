@@ -1,0 +1,211 @@
+---
+title: "07 — Herramientas de seguimiento"
+description: "GitHub Projects, Trello, Notion y la pizarra física: qué herramienta elegir según tu equipo y cómo sacarle partido"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U8 · Planificar y organizarse** → 07 · Herramientas de seguimiento
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  El equipo había decidido organizar su trabajo. Tenían claro que necesitaban
+  un tablero, sprints y reuniones. Pero cada vez que alguien proponía una
+  herramienta, surgían los debates: "Trello es más visual", "GitHub Projects
+  ya lo tenemos", "Notion sirve para todo", "una pizarra física es más
+  rápido".
+
+  El debate de la herramienta les robó un día entero. Al final, la mejor
+  herramienta fue la que eligieron rápido y empezaron a usar.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> La mejor herramienta de seguimiento es **la que usas**. No la más
+> bonita, no la más completa: la que realmente abre el equipo cada día
+  y actualiza. Cualquier herramienta vale si se usa.
+
+## 🛠️ Opción 1: GitHub Projects (recomendada)
+
+Si ya tenéis repositorio en GitHub, esta es la opción más natural.
+
+**Ventajas**:
+- Integrada directamente con el repositorio
+- Puedes crear tarjetas desde issues de GitHub
+- Vistas de tablero (kanban) y de tabla
+- Filtros por etiqueta, responsable, milestone
+- Historial de cambios automático
+- **Gratis** para estudiantes
+
+**Cómo empezar**:
+1. Id a vuestro repositorio → pestaña "Projects"
+2. Cread un proyecto nuevo → elegid "Board"
+3. Crear columnas: "Por hacer", "En proceso", "En revisión", "Hecho"
+4. Añadid tarjetas: podéis crearlas desde issues o directamente
+5. Etiquetas: MVP, bug, feature, mejora
+
+**Tip**: si creáis una issue por cada tarea, podéis enlazar commits y PRs
+con la tarea correspondiente. Así tenéis trazabilidad completa.
+
+## 🛠️ Opción 2: Trello
+
+La herramienta visual por excelencia.
+
+**Ventajas**:
+- Extremadamente visual e intuitivo
+- Arrastrar tarjetas de columna en columna
+- Etiquetas de color, fechas, checklists, descripciones
+- Integraciones con GitHub, Google Drive, etc.
+- App móvil muy buena
+
+**Desventajas**:
+- Sin integración directa con el código
+- Las tarjetas no enlazan con issues de Git
+- Gratis pero con límites (10 tableros activos)
+
+**Cómo empezar**:
+1. Crear tablero nuevo
+2. Crear listas (columnas): "Por hacer", "En proceso", "Hecho"
+3. Añadir tarjetas con nombre, descripción, etiqueta y fecha
+4. Mover tarjetas cuando se avanza
+
+## 🛠️ Opción 3: Notion
+
+La navaja suiza: tableros + wiki + documentación en un solo sitio.
+
+**Ventajas**:
+- Tableros kanban + bases de datos + páginas de documentación
+- Personalización muy alta
+- Filtros, búsquedas, vistas múltiples
+- Bueno si ya usáis Notion para apuntes o documentación
+
+**Desventajas**:
+- Más complejo de configurar que Trello
+- Puede ser demasiado para lo que necesitáis
+- Sin integración directa con Git
+
+## 🛠️ Opción 4: Pizarra física
+
+Sticky notes en una pared. Simple, visual, sin pantallas.
+
+**Ventajas**:
+- Extremadamente visual y tangible
+- Sin curva de aprendizaje
+- Perfecta para reuniones presenciales
+- El movimiento físico de la tarjeta es satisfactorio
+
+**Desventajas**:
+- Sin historial ni seguimiento automático
+- No accesible a distancia
+- Se borra si alguien tropieza con la pared
+- Sin integración con Git
+
+**Consejo**: usadla como **complemento** del tablero digital. En reuniones
+presenciales, moveid sticky notes en la pared para discutir, y después
+actualizad el tablero digital.
+
+<Comparativa
+  dialogos={[
+    { quien: "GitHub Projects", texto: "Todo en un sitio: código, issues, tablero, historial. Si ya usáis GitHub, es la opción más eficiente. Sin cambiar de herramienta." },
+    { quien: "Trello", texto: "Más visual e intuitivo. Arrastras tarjetas y ves el flujo al instante. Ideal si necesitáis algo rápido sin configuración." },
+    { quien: "Notion", texto: "Tablero + documentación + wiki. Si ya usáis Notion para todo, añadir un tablero es natural. Pero puede ser demasiado." },
+    { quien: "Pizarra física", texto: "Sticky notes en la pared. Lo más rápido para empezar. Pero sin historial, sin remoto, y sin integración con Git." },
+  ]}
+  titulo="¿Qué herramienta elige tu equipo?"
+/>
+
+## 🧩 ¿Cuál elegir?
+
+| Situación | Herramienta recomendada |
+|---|---|
+| Ya tenéis repositorio en GitHub | **GitHub Projects** |
+| Necesitáis algo rápido e intuitivo | **Trello** |
+| Usáis Notion para todo | **Notion** |
+| El equipo se reúne presencialmente | **Pizarra física** + digital |
+| Tenéis remoto y presencial | **GitHub Projects** o **Trello** |
+| Sois 2 personas | **Trello** o **GitHub Projects** (más ligero) |
+| Sois 3+ personas | **GitHub Projects** o **Notion** (más filtros) |
+
+<Aclaracion pregunta="¿Qué pasa si el equipo no se pone de acuerdo?">
+  La herramienta no importa tanto como el **hábito de usarla**. Si
+  el debate sobre la herramienta dura más de 15 minutos, decidid
+  "la más sencilla" (Trello) y seguid.
+
+  Podéis cambiar después. Lo que **no podéis** es perder otro día
+  sin tablero. Un mal tablero usado es mejor que un tablero perfecto
+  que no existe.
+</Aclaracion>
+
+## 📋 Configuración mínima para empezar
+
+Para cualquiera de las herramientas, esta es la configuración mínima:
+
+```
+COLUMNAS:
+1. Por hacer
+2. En proceso
+3. Hecho
+
+ETIQUETAS:
+- 🔴 MVP (imprescindible)
+- 🟡 Deseable
+- 🟢 Futuro
+- 🔵 Bug
+- ⚪ Documentación
+
+CADA TARJETA:
+- Nombre claro
+- Responsable
+- Estimación (horas)
+- Fecha límite (si aplica)
+```
+
+**Regla de oro**: si una tarjeta no tiene responsable, **nadie la hará**.
+Si no tiene estimación, no sabéis si encaja en el sprint.
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** La herramienta más importante es:
+A) La más completa
+B) La más visual
+C) La que el equipo usa realmente
+D) La que tiene más integraciones
+
+**Pregunta 2.** Una tarjeta sin responsable en el tablero:
+A) La hace quien tenga tiempo
+B) Nadie la hará: asignadla ya
+C) Esperad a la próxima reunión
+D) Borradsla si nadie la quiere
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **C**. Una herramienta perfecta que no se usa no vale. Una herramienta
+   simple que se usa todos los días sí vale.
+2. **B**. Sin responsable, la tarjeta se queda ahí para siempre.
+   Asignadla en la planning.
+
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. **GitHub Projects** es la mejor opción si ya tenéis repositorio: todo
+   integrado, gratis, sin cambiar de herramienta.
+2. **Trello** es la más visual e intuitiva para empezar rápido. **Notion**
+   si ya usáis Notion para todo. **Pizarra física** como complemento.
+3. La mejor herramienta es la que **usáis**. No perdáis un día debatiendo:
+   elegid, configurad las columnas y empezad.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Tablero kanban** | Vista visual con columnas (estados) y tarjetas (tareas) |
+| **GitHub Projects** | Herramienta de gestión de proyectos integrada en GitHub |
+| **Trello** | Herramienta visual de tableros con tarjetas arrastrables |
+| **Notion** | Plataforma todo-en-uno: tableros, wiki, documentación |
+| **Milestone** | Marco temporal en GitHub para agrupar tareas por sprint/fecha |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias) · **Anterior:** [06 · Cómo recuperar el tiempo perdido](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/06-como-recuperar-el-tiempo) · **Siguiente:** [08 · Checklist de planificación](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/08-checklist-de-planificacion)

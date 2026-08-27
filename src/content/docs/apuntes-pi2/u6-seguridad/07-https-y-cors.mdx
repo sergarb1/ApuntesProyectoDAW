@@ -1,0 +1,268 @@
+---
+title: "07 — HTTPS y CIFRADO"
+description: "Por qué la comunicación entre cliente y servidor debe estar cifrada, y cómo configurar HTTPS y CORS."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🛡️ **U6 · Proteger la aplicación** → 07 · HTTPS y CIFRADO
+
+<StoryIntro icono="🎬" titulo="La contraseña que viajaba sin cifrar">
+  Un equipo desplegó su aplicación en un servidor local de la clase.
+  Sin HTTPS. Los datos viajaban en texto plano por la red.
+
+  Un compañero instaló Wireshark en su portátil y capturó el tráfico
+  de la red. En menos de 5 minutos vio emails y contraseñas de todos
+  los que habían hecho login.
+
+  No era un ataque sofisticado. Solo era leer lo que la red ya estaba
+  enviando sin proteger.
+</StoryIntro>
+
+## La idea en una frase
+
+> Si tu aplicación no usa HTTPS, cualquier persona en la misma red
+> puede leer todo lo que el usuario envía: contraseñas, tokens, datos.
+
+## HTTP vs HTTPS
+
+**HTTP** envía datos en texto plano: cualquiera que intercepte la
+comunicación puede leer todo.
+
+**HTTPS** cifra la comunicación entre el navegador y el servidor.
+Aunque alguien intercepte los datos, verá una secuencia de caracteres
+ilegible.
+
+### Analogía
+
+Imagina que envías una carta por correo:
+
+- **HTTP**: es una postal. El cartero, el repartidor, cualquiera que
+  la toque puede leerla.
+- **HTTPS**: es una carta en un sobre cerrado con candado. Solo el
+  destinatario tiene la llave.
+
+## Por qué HTTPS es obligatorio
+
+### 1. Protege datos sensibles
+
+Sin HTTPS, contraseñas, tokens, datos personales y números de tarjeta
+viajan en texto plano por la red. Cualquier persona en la misma wifi
+puede leerlos.
+
+### 2. Los navegadores lo exigen
+
+Chrome, Firefox y Safari muestran advertencias en sitios sin HTTPS.
+Los formularios de login en HTTP pueden ser bloqueados directamente.
+
+### 3. Los API modernas lo requieren
+
+Muchas APIs (Google, Stripe, Twilio) rechazan peticiones HTTP.
+Solo aceptan HTTPS.
+
+### 4. SEO y confianza
+
+Google penaliza sitios sin HTTPS. Los usuarios desconfían de sitios
+que muestran "No seguro" en la barra de direcciones.
+
+## Cómo obtener HTTPS gratis
+
+No necesitas comprar un certificado. Estas plataformas lo ofrecen
+gratis automáticamente:
+
+| Plataforma | HTTPS gratis | Despliegue |
+|------------|-------------|------------|
+| **Vercel** | Sí | SPA, SSR, frameworks |
+| **Netlify** | Sí | SPA, SSR, frameworks |
+| **GitHub Pages** | Sí | HTML estático, Astro, Hugo |
+| **Render** | Sí | Backend, base de datos |
+| **Cloudflare Pages** | Sí | Cualquier framework |
+
+### Ejemplo con Vercel
+
+```bash
+# Instalar Vercel CLI
+npm i -g vercel
+
+# Desplegar
+vercel
+
+# HTTPS se configura automáticamente
+# Tu app estará en https://tu-proyecto.vercel.app
+```
+
+### Ejemplo con Netlify
+
+```bash
+# Instalar Netlify CLI
+npm i -g netlify-cli
+
+# Desplegar
+netlify deploy --prod
+
+# HTTPS se configura automáticamente
+```
+
+No hay excusa para no usar HTTPS. Si tu plataforma no lo ofrece
+gratis, cambia de plataforma.
+
+## CORS: quién puede acceder a tu API
+
+**CORS (Cross-Origin Resource Sharing)** controla qué dominios pueden
+hacer peticiones a tu API. Sin CORS, cualquier sitio web podría hacer
+peticiones a tu backend.
+
+### El problema
+
+Imagina que tu API está en `https://mi-api.com`. Sin CORS, cualquier
+sitio web podría hacer:
+
+```javascript
+// Desde cualquier sitio web malicioso
+fetch('https://mi-api.com/api/usuarios', {
+  headers: { 'Authorization': 'token-robase' }
+});
+```
+
+Si el usuario está logueado en tu app y visita el sitio malicioso,
+su navegador enviaría su token automáticamente (si usas cookies).
+
+### La solución
+
+CORS define qué dominios pueden acceder a tu API:
+
+```javascript
+// Express.js — Configurar CORS
+const cors = require('cors');
+
+// ❌ MAL — Permitir todo (no protege nada)
+app.use(cors());
+
+// ✅ BIEN — Solo permitir tu dominio
+app.use(cors({
+  origin: 'https://mi-app.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
+// ✅ BIEN — Múltiples orígenes permitidos
+app.use(cors({
+  origin: ['https://mi-app.com', 'https://mi-app-staging.com'],
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
+```
+
+### Respuestas de CORS comunes
+
+| Mensaje | Significado |
+|---------|-------------|
+| `Access-Control-Allow-Origin: *` | Cualquier sitio puede acceder (peligroso) |
+| `Access-Control-Allow-Origin: https://mi-app.com` | Solo tu sitio puede acceder |
+| `No 'Access-Control-Allow-Origin' header` | CORS no está configurado, la petición se bloquea |
+
+## HTTPS + CORS juntos
+
+HTTPS y CORS son complementarios:
+
+- **HTTPS** protege la comunicación: cifra los datos en tránsito
+- **CORS** controla el acceso: define quién puede hacer peticiones
+
+Un sitio sin HTTPS puede tener CORS configurado, pero los datos
+viajan en texto plano. Un sitio con HTTPS pero sin CORS abierto
+cifra la comunicación pero no controla quién accede.
+
+Necesitas **los dos** para una aplicación segura.
+
+<Comparativa
+  dialogos={[
+    { quien: "HTTP sin CORS (doble vulnerabilidad)", texto: "Los datos viajan en texto plano Y cualquier sitio puede hacer peticiones a mi API. Doble riesgo." },
+    { quien: "HTTPS con CORS (protección completa)", texto: "Los datos están cifrados Y solo los dominios autorizados pueden acceder a mi API. Doble protección." },
+  ]}
+  titulo="Dos capas de seguridad"
+/>
+
+## Caso práctico
+
+<CasoPractico titulo="La API que aceptaba peticiones de cualquier sitio">
+
+  Un equipo tenía una API de gestión de tareas desplegada en Render
+  con HTTPS. Pero no habían configurado CORS. La API respondía a
+  cualquiera.
+
+  Un compañero creó un HTML simple en su portátil:
+
+  ```html
+  &lt;script&gt;
+    fetch('https://api-tareas.render.app/api/tareas')
+      .then(r =&gt; r.json())
+      .then(data =&gt; console.log(data));
+  &lt;/script&gt;
+  ```
+
+  Al abrirlo en el navegador, vio todas las tareas de todos los
+  usuarios. No necesitaba autenticación. La API no verificaba de
+  dónde venían las peticiones.
+
+  Si hubieran configurado CORS para aceptar solo su dominio real,
+  esta petición habría sido bloqueada por el navegador.
+
+  **Lección**: HTTPS cifra la comunicación, pero CORS controla quién
+  puede acceder. Necesitas ambos.
+
+</CasoPractico>
+
+<Aclaracion pregunta="¿CORS protege contra ataques desde el servidor?">
+  No. CORS solo funciona en el navegador. Un atacante que haga
+  peticiones desde su propio servidor (con curl, Postman o cualquier
+  herramienta HTTP) puede ignorar CORS completamente.
+
+  CORS protege contra ataques que se ejecutan **desde el navegador**
+  del usuario (como scripts maliciosos en otra web). Para proteger
+  contra ataques desde el servidor, necesitas autenticación y
+  autorización correctas (punto 06).
+</Aclaracion>
+
+## Mini-chequeo
+
+**Pregunta 1.** ¿Qué hace HTTPS?
+A) Comprime los datos · B) Cifra la comunicación entre cliente y
+servidor · C) Verifica la identidad del usuario
+
+**Pregunta 2.** ¿Qué hace CORS?
+A) Cifra las peticiones HTTP · B) Controla qué dominios pueden
+hacer peticiones a tu API · C) Genera certificados SSL
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. HTTPS cifra la comunicación, haciendo que los datos sean
+   ilegibles para cualquiera que los intercepte.
+2. **B**. CORS define qué orígenes (dominios) pueden hacer peticiones
+   a tu API desde un navegador. No cifra, controla el acceso.
+
+</details>
+
+## Resumen en 3 frases
+
+1. HTTPS cifra la comunicación: sin él, contraseñas y datos viajan
+   en texto plano por la red.
+2. CORS controla quién puede acceder a tu API: sin él, cualquier
+   sitio web puede hacer peticiones a tu backend.
+3. HTTPS y CORS son complementarios: necesitas los dos para una
+   aplicación segura.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **HTTPS** | HTTP con cifrado TLS/SSL; protege los datos en tránsito |
+| **TLS/SSL** | Protocolo de cifrado que protege la comunicación |
+| **Certificado SSL** | Documento que verifica la identidad del servidor |
+| **CORS** | Controla qué dominios pueden acceder a tu API desde un navegador |
+| **Origin** | El dominio de origen de una petición HTTP |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad) · **Anterior:** [06 · Autenticación y autorización](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad/06-autenticacion-y-autorizacion) · **Siguiente:** [08 · Checklist de seguridad](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad/08-checklist-de-seguridad)

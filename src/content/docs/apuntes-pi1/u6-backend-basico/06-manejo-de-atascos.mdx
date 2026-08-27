@@ -1,0 +1,153 @@
+---
+title: "06 — Manejo de atascos y debugging"
+description: "Te bloqueas. Es normal. Lo que no es normal es quedarse paralizado. Estrategias reales para desatascarte y seguir 🐛"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U6 · Implementar la lógica** → 06 · Manejo de atascos y debugging
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Sergio lleva dos horas mirando el mismo error. `Cannot read property 'map' of
+  undefined`. Ha probado 15 cambios. Nada funciona. La frustración sube, la
+  productividad baja a cero.
+
+  Este capítulo no te enseña a programar: te enseña a **no quedarte atascado**.
+  Porque atascarse es inevitable; quedarse paralizado es opcional.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> Un atasco no es un fallo técnico: es un **bucle mental**. La salida no es
+> "pensar más fuerte", es **cambiar de estrategia**: dividir, buscar, preguntar,
+> saltar, simplificar.
+
+## 🛑 La regla de los 30 minutos
+
+> **Si llevas más de 30 minutos sin avanzar (sin que la prueba pase, sin que
+> el error cambie, sin entender la causa), PARA.**
+
+No es rendirse. Es **gestión de tiempo**. 30 minutos girando en lo mismo
+significa que tu enfoque actual no funciona. Necesitas otro.
+
+## 🧰 Kit de desatasco: 5 estrategias en orden
+
+### 1. Divide el problema en partes más pequeñas
+El error `Cannot read property 'map' of undefined` no se arregla mirándolo.
+Se arregla preguntando: **¿dónde viene ese `undefined`?**
+
+```javascript
+// ANTES: todo en una línea, imposible de depurar
+const nombres = datos.usuarios.map(u => u.nombre);
+
+// DESPUÉS: divide y observa
+console.log('datos:', datos);           // ¿existe?
+console.log('datos.usuarios:', datos.usuarios);  // ¿es array?
+const usuarios = datos.usuarios ?? [];  // fallback seguro
+const nombres = usuarios.map(u => u.nombre);
+```
+
+**Regla:** si no puedes señalar con el dedo la línea exacta que falla, el
+código es demasiado denso. Divídelo.
+
+### 2. Busca en Google / Stack Overflow (todos lo hacen)
+No es trampa. Es **reutilizar conocimiento**. Copia el mensaje de error
+exacto (sin tus rutas ni variables), pégalo en Google. Si no hay resultado en
+3 minutos, prueba variaciones: quita números de línea, generaliza nombres.
+
+### 3. Pregunta a un compañero o al profesor
+**Pero pregunta bien**. No "no me funciona". Sí:
+> "Estoy en `POST /api/productos`. Al hacer `producto.save()` me da
+> `ValidationError: path 'precio' required`. El body que envío es
+> `{nombre: 'Zapas'}`. He probado añadir `precio: 0` y sigue fallando.
+> ¿Se te ocurre por qué?"
+
+Contexto + qué probaste + qué esperabas = ayuda rápida.
+
+### 4. **Salta a otra cosa y vuelve después**
+A veces el cerebro necesita **incubación**. Cambia de tarea: haz el README,
+revisa la checklist, limpia imports, escribe un test tonto. Vuelve en 1-2
+horas o mañana. La solución a veces aparece en la ducha.
+
+### 5. Simplifica la funcionalidad o cuestiona si la necesitas
+Si llevas días en una feature, pregúntate: **¿Está en el MVP?** Si es
+deseable → muévela a "después". Si es MVP → ¿puedo hacer una versión más
+simple? (ej. sin validación compleja, sin edge cases, hardcodeado temporal).
+
+## 🔍 Debugging sistemático: el método científico
+
+No "pruebo cosas al azar". **Hipótesis → Experimento → Observación → Conclusión**.
+
+| Paso | Qué haces | Ejemplo |
+|---|---|---|
+| 1. **Reproduce** | Aísla el caso mínimo que falla | `curl` exacto que da error |
+| 2. **Hipótesis** | "Creo que X es la causa" | "El middleware auth no adjunta `req.usuario`" |
+| 3. **Test** | Añade log / breakpoint / test para verificar X | `console.log('req.usuario:', req.usuario)` |
+| 4. **Observa** | ¿Confirma o niega la hipótesis? | `undefined` → hipótesis confirmada |
+| 5. **Arregla / Repite** | Corrige o formula nueva hipótesis | Añadir `req.usuario = await...` en middleware |
+
+**Herramientas aliadas:**
+- `console.log` / `console.dir(objeto, {depth: null})` — rápido, sucio, efectivo.
+- `debugger` + Chrome DevTools / VS Code — pausa ejecución, inspecciona scope.
+- **Tests unitarios** — si tienes uno que falla, el debugging es "arreglar el test".
+- **Postman / Thunder Client** — repite peticiones exactas sin frontend.
+## ¿Qué hago si me atasco en una funcionalidad?
+
+<Aclaracion pregunta="¿Qué hago si me atasco en una funcionalidad?">
+
+  Primero, **no te quedes bloqueado**. Si llevas más de 30 minutos sin
+  avanzar, prueba esto:
+
+  1. Divide el problema en partes más pequeñas
+  2. Busca en Google o Stack Overflow (todos lo hacen)
+  3. Pregunta a un compañero o al profesor
+  4. **Salta a otra cosa** y vuelve después
+
+  A veces la solución aparece cuando dejas de pensar en el problema.
+  Si aún así no avanzas, simplifica la funcionalidad o pregúntate
+  si realmente la necesitas en tu MVP.
+
+</Aclaracion>
+
+## 🧠 Mini-chequeo
+**Pregunta 1.** Llevas 45 minutos con un error 500 que no cambia. ¿Qué haces?
+A) Sigues probando cambios aleatorios · B) Aplicas la regla de los 30 min:
+   divides, buscas, preguntas, saltas o simplificas · C) Dejas el proyecto.
+
+**Pregunta 2.** El método científico de debugging empieza por:
+A) Arreglar lo que creas que falla · B) Reproducir el caso mínimo que falla · C)
+   Buscar en Stack Overflow.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. 30 min sin avanzar = cambio de estrategia obligatorio.
+2. **B**. Sin reproducción fiable, cualquier arreglo es suerte.
+
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. **Atascarse es normal; quedarse paralizado no lo es.** Regla de los 30
+   minutos: si no avanzas, cambia de estrategia (divide, busca, pregunta, salta,
+   simplifica).
+2. Debugging = **método científico**: reproduce → hipotetiza → testea →
+   observa → arregla. No "pruebo cosas al azar".
+3. A veces la mejor solución es **preguntar si la funcionalidad es MVP**. Si no
+   lo es, muérela o muévela a "después". Si lo es, haz una versión simple
+   primero.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Atasco** | Estado de no avance pese a esfuerzo continuado |
+| **Incubación** | Efecto cognitivo: la solución surge tras dejar el problema y hacer otra cosa |
+| **Reproducir** | Aislar el caso mínimo y determinista que provoca el fallo |
+| **Hipótesis** | Suposición fundamentada sobre la causa del fallo |
+| **Fallback / valor por defecto** | Valor seguro que evita errores si falta dato (ej. `?? []`) |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u6-backend-basico) · **Anterior:** [05 · Refactorizar desde el principio](/ApuntesProyectoDAW/apuntes-pi1/u6-backend-basico/05-refactorizar-desde-el-principio) · **Siguiente:** [07 · Priorizar lo crítico: auth y datos primero](/ApuntesProyectoDAW/apuntes-pi1/u6-backend-basico/07-priorizar-lo-critico)

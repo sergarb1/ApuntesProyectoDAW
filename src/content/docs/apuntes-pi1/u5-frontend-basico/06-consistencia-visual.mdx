@@ -1,0 +1,158 @@
+---
+title: "06 — Consistencia visual"
+description: "Paleta, tipografía, espaciado y componentes repetibles. Que lo igual se vea igual en toda la app 🎯"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U5 · Construir la interfaz** → 06 · Consistencia visual
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Carla tenía cada pantalla con sus propios colores, sus propios tamaños de
+  botón, sus propios márgenes. El dashboard era azul, el formulario verde,
+  el perfil naranja. Parecían apps distintas.
+
+  La consistencia visual no es "hacerlo bonito": es **hacerlo predecible**.
+  Cuando el usuario aprende cómo funciona una pantalla, ese aprendizaje debe
+  servirle en la siguiente. Si cada pantalla tiene su propio idioma visual,
+  el usuario reaprende en cada clic.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> La consistencia es el pegamento de la usabilidad. Define tu sistema una
+> vez; aplícalo en todas partes.
+
+Es como el código de circulación: semáforos, señales, marcas viales son
+iguales en toda la ciudad. Si cada cruce inventara sus propias señales,
+conducir sería agotador. Tu interfaz es esa ciudad: define tus "señales"
+(paleta, tipografía, espaciado, componentes) y úsalas en todas partes.
+
+## 🎨 Los 4 pilares de la consistencia
+
+### 1. Paleta de colores (máx. 5-6 colores)
+
+| Rol | Cantidad | Ejemplo |
+|---|---|---|
+| **Primario** | 1 | Azul #2563eb (botones principales, enlaces) |
+| **Secundario** | 1 | Gris #64748b (botones secundarios, bordes) |
+| **Éxito** | 1 | Verde #16a34a (confirmaciones, guardado) |
+| **Advertencia** | 1 | Ámbar #f59e0b (alertas, pendientes) |
+| **Error/Peligro** | 1 | Rojo #dc2626 (errores, acciones destructivas) |
+| **Neutros** | 2-3 | Blanco, gris 100, gris 900 (fondos, textos, bordes) |
+
+**Herramienta:** [coolors.co](https://coolors.co) o [colorhunt.co](https://colorhunt.co) para generar paletas accesibles (contraste AA).
+
+### 2. Tipografía (máx. 2 fuentes)
+
+- **Fuente principal** (UI, textos, formularios): legible en 14-16px, buenos
+  glifos. Ej: Inter, Roboto, System UI, Nunito.
+- **Fuente de display** (opcional, solo títulos grandes): con personalidad.
+  Ej: Poppins, Outfit, Plus Jakarta Sans.
+
+**Regla:** tamaños en escala (rem), no píxeles fijos. Ej: `text-sm`, `text-base`,
+`text-lg`, `text-xl`, `text-2xl` (o escala tipográfica modular).
+
+### 3. Espaciado (sistema de 4px o 8px)
+
+Todo margen, padding, gap, gap entre elementos viene de una **escala única**:
+
+```
+Espacio base = 4px (o 8px)
+Escala: 0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 32, 40, 48, 64...
+       (× base)
+```
+
+En Tailwind: `p-1` (4px), `p-2` (8px), `p-3` (12px), `p-4` (16px), `p-6` (24px)...
+**Nunca** inventes `margin: 13px` o `padding: 27px`. Usa la escala.
+
+### 4. Componentes repetibles (la biblioteca)
+
+No repitas HTML/CSS para lo mismo. Crea **componentes** (o partials/includes)
+y reúsalos:
+
+| Componente | Qué unifica |
+|---|---|
+| `Button` | Tamaños (sm, md, lg), variantes (primary, secondary, ghost, danger), estados (hover, focus, disabled, loading) |
+| `Input` / `Select` / `Textarea` | Label, error inline, hint, estados |
+| `Card` | Padding, sombra, borde, radio, header/body/footer |
+| `Alert` / `Toast` | Variantes (info, success, warning, error), dismissible |
+| `Modal` / `Dialog` | Backdrop, focus trap, cierre ESC, animación |
+| `Table` / `List` | Empty state, loading, paginación |
+| `Badge` / `Tag` | Variantes, tamaños, dot indicador |
+
+## 🛠️ Cómo mantener la consistencia en tu proyecto
+
+1. **Crea un archivo `design-tokens.css` (o `tailwind.config.js`)** con tus
+   colores, espaciados, tipografía, radios, sombras. Único punto de verdad.
+2. **Documenta tus componentes** (aunque sea en un `.md` interno): props,
+   variantes, ejemplos de uso.
+3. **Revisa en cada PR**: "¿Este botón usa `btn--primary` o se ha inventado
+   un `background: #3b82f6`?".
+4. **Usa el framework** (Tailwind/Bootstrap/Pico): ellos ya imponen consistencia.
+   No los pelees.
+
+## 🧩 Caso práctico: la paleta que creció
+
+<CasoPractico titulo="De 4 colores a 47 (y cómo volver)" >
+
+  **Semana 1:** Equipo define 4 colores. Todo bien.
+  **Semana 3:** "Necesito un verde más claro para este badge" → `green-300`.
+  **Semana 5:** "Este botón debe destacar más" → `blue-600` (primario era `blue-500`).
+  **Semana 7:** "El error no se ve bien en fondo oscuro" → `red-400` para dark mode.
+  **Semana 9:** Auditoría: **47 colores distintos** en el CSS. Ningún componente
+  es reutilizable tal cual.
+
+  **Solución (semana 10):**
+  1. Congelan la paleta: 6 colores + neutros.
+  2. Migran todo a tokens: `color-primary`, `color-danger`, `color-success`...
+  3. Crean 6 componentes base (Button, Input, Card, Alert, Badge, Modal).
+  4. Borran 1.200 líneas de CSS "inventado".
+
+  **Lección:** la consistencia se decide **al principio** y se defiende
+  **cada semana**. No es trabajo extra: es trabajo que te ahorras.
+
+</CasoPractico>
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** Tu app tiene botones azules, verdes, morados y naranjas según
+la pantalla. ¿Qué pilar de consistencia falla?
+A) Tipografía · B) Paleta · C) Espaciado · D) Componentes.
+
+**Pregunta 2.** En tu CSS aparecen `margin: 13px`, `padding: 27px`, `gap: 19px`.
+¿Qué regla del espaciado rompen?
+A) Usar rem en vez de px · B) Usar escala de 4/8px · C) No usar variables CSS
+   · D) No usar framework.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Paleta: cada pantalla inventa su color. 2. **B**. Valores sueltos
+   rompen la escala; el ojo nota la inconsistencia aunque no sepa por qué.
+
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. Consistencia = predecibilidad. Define paleta (5-6 colores), tipografía (2
+   fuentes), espaciado (escala 4/8px) y componentes **una vez**.
+2. Usa un framework CSS (Tailwind, Bootstrap, Pico) y sus tokens: ellos ya
+   imponen consistencia. No los pelees con valores inventados.
+3. Audita tu CSS cada 2-3 semanas: busca colores sueltos, espaciados mágicos,
+   componentes duplicados. Refactoriza a tokens/componentes.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Design tokens** | Valores base del diseño (colores, espaciados, tipografía) centralizados |
+| **Sistema de diseño** | Conjunto de tokens, componentes y reglas que gobiernan la UI |
+| **Consistencia visual** | Lo igual se ve y comporta igual en toda la aplicación |
+| **Escala de espaciado** | Conjunto de valores múltiples de una unidad base (4px u 8px) |
+| **Componente reutilizable** | Pieza de UI encapsulada con variantes y estados definidos |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico) · **Anterior:** [05 · Implementación mobile-first](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/05-implementacion-mobile-first) · **Siguiente:** [07 · Feedback y errores visibles](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/07-feedback-y-errores-visibles)

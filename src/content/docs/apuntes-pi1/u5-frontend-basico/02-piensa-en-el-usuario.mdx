@@ -1,0 +1,147 @@
+---
+title: "02 — Piensa en el usuario, no en ti"
+description: "Cuatro preguntas para que cada pantalla guíe, no confunda. El usuario no eres tú 👤"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U5 · Construir la interfaz** → 02 · Piensa en el usuario
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Carla hizo la interfaz pensando en ella: sabía dónde estaba cada cosa,
+  entendía sus propios colores, sus botones tenían sentido... para ella.
+
+  Cuando se la enseñó a un compañero, este no sabía ni por dónde empezar.
+  "¿Esto es un botón o un título?". "¿Dónde hago clic para registrarme?".
+
+  Este capítulo te da las **cuatro preguntas** que Carla no se hizo. Son el
+  filtro que pasa cada pantalla antes de llegar a producción. Si una pantalla
+  no las supera, no está lista.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> No diseñas para ti: diseñas para alguien que no sabe nada de tu proyecto.
+> Pregúntale a la pantalla, no a tu cabeza.
+
+Es como escribir instrucciones para montar un mueble. Tú lo has montado
+veinte veces y sabes dónde va cada tornillo. Quien lee las instrucciones
+no. Si las instrucciones dan por sentado lo que tú sabes, el mueble acaba
+cojo. Tu interfaz son esas instrucciones.
+
+## ❓ Las 4 preguntas del usuario
+
+Para **cada pantalla** que hagas, respóndete estas cuatro preguntas. Si alguna
+tiene un "no" o un "depende", la pantalla no está terminada.
+
+### 1. ¿Sabe el usuario qué tiene que hacer aquí?
+
+Mira la pantalla con ojos de quien llega por primera vez. ¿Hay una acción
+principal clara? ¿Un título que explique el propósito? ¿O es un muro de
+elementos sin jerarquía?
+
+```
+❌ Pantalla confusa          ✅ Pantalla clara
+─────────────────────       ─────────────────────
+[Título genérico]           [Crear nueva tarea]
+[Input sin label]           [Título de la tarea *]
+[Botón "OK"]                [Descripción (opcional)]
+[Botón "Cancelar"]          [Crear tarea] [Cancelar]
+[Enlace raro]               (Acción principal destacada)
+```
+
+### 2. ¿Encuentra fácilmente lo que busca?
+
+La navegación no es un juego de escondite. Los elementos importantes
+(crear, buscar, filtrar, volver) deben estar donde el ojo va primero:
+arriba a la izquierda, o en la zona de acción principal.
+
+### 3. ¿Entiende los mensajes (errores, confirmaciones, estados)?
+
+"Error 500" no es un mensaje para el usuario. "No hemos podido guardar
+la tarea. Inténtalo de nuevo en unos segundos" sí lo es. Los mensajes
+deben ser **humanos, específicos y accionables**.
+
+### 4. ¿Puede usar la aplicación sin instrucciones?
+
+La prueba definitiva: dale el móvil a alguien que no sea de tu equipo.
+Sin explicarle nada, pídele que haga la tarea principal. Observa. Donde
+dude, ahí hay trabajo por hacer.
+
+## 🧪 La prueba del compañero
+
+Antes de validar con el profesor, pásale la interfaz a un compañero.
+Dile: "Intenta crear una tarea / registrarte / buscar X". **No le ayudes**.
+Toma nota de:
+- Dónde hace clic (y no pasa nada).
+- Qué lee y no entiende.
+- Qué busca y no encuentra.
+- Qué le frustra.
+
+Esos puntos son tu **lista de tareas de interfaz** para la siguiente sesión.
+
+## 🧩 Caso práctico: la pantalla de login
+
+<CasoPractico titulo="Login: antes y después de las 4 preguntas">
+
+  **Versión "yo lo entiendo" (la de Carla):**
+  - Dos inputs sin label (placeholder que desaparece al escribir).
+  - Botón "Entrar" gris sobre gris.
+  - Sin enlace a "¿Olvidaste contraseña?".
+  - Si falla: `alert("Credenciales inválidas")`.
+
+  **Versión "usuario real":**
+  - Labels visibles: "Email", "Contraseña".
+  - Botón principal azul, con texto "Iniciar sesión".
+  - Enlace "¿No recuerdas tu contraseña?" visible.
+  - Error inline: "El email o la contraseña no coinciden" en rojo junto
+    al formulario.
+  - Checkbox "Recordarme" (opcional, pero útil).
+
+  **Resultado:** la segunda versión la usa cualquiera sin preguntar. La
+  primera hace que el usuario llame a soporte... o abandone.
+
+</CasoPractico>
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** Tu pantalla tiene un botón principal "Guardar" y otro
+"Cancelar" con el mismo estilo visual. ¿Qué pregunta de las 4 falla?
+A) ¿Sabe qué hacer? · B) ¿Encuentra lo que busca? · C) ¿Entiende los
+mensajes? · D) ¿Puede usarla sin instrucciones?
+
+**Pregunta 2.** Un mensaje de error dice "Error 422: Unprocessable Entity".
+¿Qué le falta para ser útil al usuario?
+A) Color rojo · B) Explicar qué pasó y qué puede hacer · C) Un icono de
+   advertencia · D) Salir en un modal.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **A**. Si la acción principal no destaca, el usuario no sabe qué hacer
+   (pregunta 1). 2. **B**. El código técnico no ayuda al usuario; necesita
+   saber qué hacer ahora.
+
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. No diseñas para ti: diseñas para alguien que no sabe nada de tu proyecto.
+2. Cada pantalla debe pasar 4 preguntas: ¿sabe qué hacer?, ¿encuentra lo
+   que busca?, ¿entiende los mensajes?, ¿puede usarla sin instrucciones?
+3. La prueba del compañero (sin ayudarle) es la forma más barata y rápida
+   de encontrar problemas de usabilidad.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Usabilidad** | Facilidad con la que un usuario logra sus objetivos en la interfaz |
+| **Acción principal** | La tarea más importante que el usuario hace en esa pantalla |
+| **Feedback inline** | Mensaje junto al elemento que lo provocó (no en alert/modal) |
+| **Prueba de usabilidad** | Observar a alguien usando tu interfaz sin ayudarle |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico) · **Anterior:** [01 · La interfaz importa](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/01-la-interfaz-importa) · **Siguiente:** [03 · Prototipo de baja fidelidad](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/03-prototipo-baja-fidelidad)

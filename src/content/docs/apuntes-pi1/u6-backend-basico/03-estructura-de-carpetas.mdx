@@ -1,0 +1,150 @@
+---
+title: "03 — Estructura de carpetas"
+description: "Una estructura clara no es burocracia: es el mapa para que encuentres (y tus compañeros) cualquier cosa en segundos 📁"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U6 · Implementar la lógica** → 03 · Estructura de carpetas
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Sergio empieza a crear archivos. `routes.js`, `controllers.js`,
+  `models.js`... todo en la raíz. A las dos semanas tiene 40 archivos sueltos,
+  no sabe dónde está el middleware de auth, y cada import es un `../../../../`.
+
+  Este capítulo te da una **estructura base probada**. No es la única posible,
+  pero funciona para el 90% de proyectos de clase. Adáptala, no la inventes
+  desde cero.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> La estructura de carpetas es el **plano de tu código**. Si no tienes plano,
+> cada visita al código es una búsqueda del tesoro. Con plano, vas directo a
+> la habitación.
+
+## 🏗️ Estructura base recomendada
+
+Esta estructura separa **responsabilidades** (qué hace cada cosa) y escala bien
+hasta proyectos medianos:
+
+```
+src/
+├── routes/          # Definición de endpoints (qué URL, qué método, qué handler)
+├── controllers/     # Lógica de cada endpoint (petición → respuesta)
+├── models/          # Definición de datos (schemas, tipos, validaciones)
+├── services/        # Lógica de negocio compleja (reutilizable entre controladores)
+├── middleware/      # Funciones intermedias (auth, validación, logs, errores)
+├── utils/           # Funciones auxiliares puras (formateo, cálculos, helpers)
+└── config/          # Configuración centralizada (BD, env, constantes globales)
+```
+
+### Qué va en cada carpeta
+
+| Carpeta | Responsabilidad | Ejemplos |
+|---|---|---|
+| **routes/** | "Mapa de la API": une URL + método + controller | `productos.routes.js`, `auth.routes.js`, `index.routes.js` |
+| **controllers/** | "Traductor": recibe request, llama a service/model, forma response | `productos.controller.js` (getAll, getOne, create, update, delete) |
+| **models/** | "Contrato de datos": schema BD, tipos TypeScript, validaciones | `Producto.model.js`, `Usuario.model.js`, `producto.schema.ts` |
+| **services/** | "Cerebro": lógica de negocio pura, sin saber de HTTP | `email.service.js`, `pago.service.js`, `recomendacion.service.js` |
+| **middleware/** | "Filtros": se ejecutan antes/después del controller | `auth.middleware.js`, `validate.middleware.js`, `error.middleware.js` |
+| **utils/** | "Navaja suiza": funciones puras, sin efectos secundarios | `date.utils.js`, `slug.utils.js`, `crypto.utils.js` |
+| **config/** | "Interruptores": todo lo que cambia entre entornos | `db.config.js`, `env.config.js`, `jwt.config.js` |
+
+## 🔄 Flujo de una petición en esta estructura
+
+```
+PETICIÓN HTTP
+     │
+     ▼
+┌─────────────┐
+│   routes/   │  ──► "GET /api/productos → productosController.getAll"
+└─────────────┘
+     │
+     ▼
+┌─────────────────┐     ┌──────────────┐
+│  middleware/    │────►│  controllers/│  (auth, validación, logs)
+│  (auth check)   │     │  (petición → │
+└─────────────────┘     │   respuesta) │
+                        └──────┬───────┘
+                               │
+                               ▼
+                        ┌──────────────┐     ┌─────────────┐
+                        │  services/   │────►│  models/    │
+                        │  (lógica     │     │  (schema,   │
+                        │   negocio)   │     │   BD)       │
+                        └──────────────┘     └─────────────┘
+                               │
+                               ▼
+                        ┌──────────────┐
+                        │  controllers/│  (formatea respuesta)
+                        └──────────────┘
+                               │
+                               ▼
+                        RESPUESTA HTTP
+```
+
+## 🎯 Principios de esta estructura
+
+1. **Separación de responsabilidades**: el controller no sabe de BD; el model no
+   sabe de HTTP; el service no sabe de request/response.
+2. **Un archivo, una cosa**: `productos.controller.js` solo controla productos.
+   Si crece, divídelo (`productos.read.controller.js`, `productos.write.controller.js`).
+3. **Imports limpios**: usa `index.js` en cada carpeta para exportar y que los
+   imports sean `import { getAll } from '../controllers'` en vez de rutas
+   profundas.
+4. **No forced**: si tu proyecto es tiny (3 endpoints), igual no necesitas
+   `services/`. Pero **empieza con la estructura completa**; borrar es más fácil
+   que añadir orden después.
+
+## ¿Y si uso un framework que impone su estructura (Next.js, Nuxt, NestJS)?
+
+<Aclaracion pregunta="¿Y si uso un framework que impone su estructura (Next.js, Nuxt, NestJS)?">
+
+  Adapta la **mentalidad**, no la estructura literal. En Next.js App Router,
+  `app/api/` hace de `routes/`, `lib/` o `services/` hace de `services/`,
+  `models/` o `db/` hace de `models/`. Lo importante es que **sepas dónde va
+  cada responsabilidad**: "esto es lógica de negocio", "esto es acceso a datos",
+  "esto es middleware". Si sabes eso, cualquier estructura funciona.
+
+</Aclaracion>
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** ¿Dónde va la función que calcula el IVA de un precio?
+A) `controllers/` · B) `models/` · C) `utils/`.
+
+**Pregunta 2.** El middleware de autenticación (verificar JWT) ¿dónde vive?
+A) `controllers/auth.js` · B) `middleware/auth.middleware.js` · C) `services/auth.service.js`.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **C**. `utils/`: función pura, sin efectos secundarios, reutilizable.
+2. **B**. `middleware/`: se ejecuta antes del controller, es un filtro transversal.
+
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. Usa una **estructura base probada** (routes, controllers, models, services,
+   middleware, utils, config) y adáptala, no la inventes.
+2. Cada carpeta tiene **una responsabilidad clara**: routes = mapa, controllers
+   = traducción HTTP, models = datos, services = negocio, middleware = filtros.
+3. El flujo es: **route → middleware → controller → service → model →
+   controller → response**. Respétalo y tu código será navegable.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Controller** | Recibe request HTTP, delega, forma response HTTP |
+| **Service** | Lógica de negocio pura, sin saber de HTTP ni BD directamente |
+| **Model** | Definición de datos (schema, tipos, validaciones de BD) |
+| **Middleware** | Función que se ejecuta en la cadena request→response (auth, logs, errores) |
+| **Repository / Data Access** | A veces separado de models: encapsula queries BD complejas |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u6-backend-basico) · **Anterior:** [02 · Esqueleto incremental](/ApuntesProyectoDAW/apuntes-pi1/u6-backend-basico/02-esqueleto-incremental) · **Siguiente:** [04 · Comentarios que ayudan](/ApuntesProyectoDAW/apuntes-pi1/u6-backend-basico/04-comentarios-que-ayudan)

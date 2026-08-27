@@ -1,10 +1,11 @@
 ---
-title: 🎨 U5. Construir la interfaz
-description: Cómo diseñar y construir la parte visual de tu proyecto pensando en quien la va a usar
+title: "U5 — Construir la interfaz"
+description: "Cómo diseñar y construir la parte visual de tu proyecto pensando en quien la va a usar 🎨"
 ---
 
 import StoryIntro from '../../../components/StoryIntro.astro';
 import Aclaracion from '../../../components/Aclaracion.astro';
+import Comparativa from '../../../components/Comparativa.astro';
 import CasoPractico from '../../../components/CasoPractico.astro';
 
 <StoryIntro icono="🎬" titulo="El día que la interfaz se interpuso">
@@ -21,99 +22,69 @@ import CasoPractico from '../../../components/CasoPractico.astro';
   perdida.
 </StoryIntro>
 
-## La interfaz importa (y mucho)
+> 🗺️ **El mapa del viaje:** 🚪 Bienvenida → 🧭 U1 → 🏗️ U2 → 🗄️ U3 → 📄 U4 → 🌐 AQUÍ ESTÁS (U5) → ⚙️ U6 → 👥 U7 → 📋 U8 → 🔧 PI2 U1 → 🖥️ U2 → 🔗 U3 → 👤 U4 → ✅ U5 → 🛡️ U6 → 📦 U7 → 🚀 U8 → 🔁 U9
+>
+> [█████████░░░░░░░░░░] 5/17 · PI1 · Cómo afrontar el proyecto
 
-El usuario (y el tribunal) no ve tu base de datos, ni tu clean code, ni tu
-arquitectura en capas. Ven **pantallas**. Y si las pantallas son confusas,
-el proyecto parece malo, aunque por dentro sea una maravilla.
+Este es el quinto capítulo de un libro de **diecisiete capítulos**. Hasta ahora
+has definido el proyecto (U1), diseñado la solución (U2), modelado los datos
+(U3) y preparado las vistas servidor (U4). Aquí aprendes a **construir la
+interfaz**: la parte que el usuario ve, toca y juzga. No necesitas ser
+diseñador gráfico: necesitas principios, proceso y empatía con quien usa tu
+aplicación.
 
-### Piensa en el usuario, no en ti
+## 🎯 Objetivo de la unidad
 
-Pregúntate para cada pantalla:
+Al terminar esta unidad sabrás:
 
-- ¿Sabe el usuario qué tiene que hacer aquí?
-- ¿Encuentra fácilmente lo que busca?
-- ¿Entiende los mensajes (errores, confirmaciones)?
-- ¿Puede usar la aplicación sin instrucciones?
+- 🎨 Distinguir una interfaz que confunde de una que guía.
+- 👤 Aplicar las **4 preguntas del usuario** a cada pantalla que haces.
+- ✏️ Hacer un **prototipo de baja fidelidad** antes de escribir HTML.
+- 🔗 Convertir el prototipo en un **prototipo interactivo** y validarlo.
+- 📱 Implementar **mobile-first** con un framework CSS.
+- 🎯 Mantener **consistencia visual** en todo el proyecto.
+- ⚠️ Mostrar **feedback y errores** claros y visibles.
+- 👁️ Saber **qué mira el tribunal** en tu interfaz y prepararla.
 
-<Aclaracion pregunta="¿Y si no se me da bien el diseño visual?">
-  No necesitas ser diseñador gráfico. Basta con seguir principios básicos
-  y usar herramientas que te ayuden:
+## 🗺️ Mapa de la unidad
 
-  - Usa un **framework CSS** (Bootstrap, Tailwind) — te da componentes bonitos
-  - Sigue una **paleta de colores** coherente (coolors.co te ayuda)
-  - Elige una **tipografía** legible y úsala en todo el proyecto
-  - Usa **espaciado** generoso (lo que está muy junto parece amontonado)
-  - Coge **inspiración** de aplicaciones que te gusten
+| Punto | Qué aprenderás | Nivel |
+|---|---|---|
+| [01 · La interfaz importa](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/01-la-interfaz-importa) | Por qué la interfaz no es "lo que sobra" | 🟢 Básico |
+| [02 · Piensa en el usuario](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/02-piensa-en-el-usuario) | Las 4 preguntas que guían cada pantalla | 🟡 Esencial |
+| [03 · Prototipo baja fidelidad](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/03-prototipo-baja-fidelidad) | Dibujar pantallas antes de programar | 🟡 Esencial |
+| [04 · Prototipo interactivo](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/04-prototipo-interactivo) | Validar navegación antes de codificar | 🟡 Esencial |
+| [05 · Implementación mobile-first](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/05-implementacion-mobile-first) | Estructura HTML, estilos, JS en orden | 🟡 Esencial |
+| [06 · Consistencia visual](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/06-consistencia-visual) | Paleta, tipografía, espaciado, componentes | 🟢 Básico |
+| [07 · Feedback y errores](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/07-feedback-y-errores-visibles) | Qué pasa al hacer clic y al fallar | 🔴 Crítico |
+| [08 · Lo que el tribunal mira](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/08-lo-que-el-tribunal-mira) | Checklist real de defensa | 🔴 Crítico |
+| [09 · Cierre](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/09-cierre) | Consolidar con retos y laboratorio | 🟣 Desafío |
 
-  Si aún así dudas, pregúntale a un compañero: "¿esto se entiende?".
-  El feedback de otros usuarios es la mejor herramienta de diseño.
-</Aclaracion>
+## 📖 Qué encontrarás en el cierre (09)
 
-## El proceso de construir la interfaz
+El punto 09 no es teoría nueva: es el **gimnasio** de la unidad.
 
-### Paso 1: Prototipo de baja fidelidad
+- ⭐ **Sé la Interfaz** — te pones en la piel de una pantalla y eliges con cabeza.
+- 🕵️ **¿Quién Soy?** — adivinanzas sobre los conceptos de la unidad.
+- ⚡ **Laboratorio de Tortura** — una práctica con un fallo que tendrás que diagnosticar.
+- 🧠 **Atrévete a Pensar** — preguntas abiertas para ir más allá de la teoría.
+- 💬 **Entrevista de trabajo** — explícale a tu abuela por qué mobile-first.
+- 🎬 **Post-Créditos** — la escena que enlaza con U6.
 
-Dibuja tus pantallas en papel o con herramientas como **Balsamiq**, **Figma**,
-**Excalidraw**. No te preocupes por los colores ni las fuentes. Preocúpate
-por:
+## ✅ Competencias cubiertas
 
-- ¿Qué información muestra cada pantalla?
-- ¿Qué acciones puede hacer el usuario?
-- ¿Cómo navega de una pantalla a otra?
+| Competencia | Descripción | Dónde se cubre |
+|---|---|---|
+| CG5 | Aprendizaje autónomo y búsqueda de información técnica | ✅ Puntos 3, 4, 5 |
+| CE3 | Diseñar y desarrollar interfaces de usuario accesibles y usables | ✅ Puntos 1-8 |
 
-### Paso 2: Prototipo interactivo
+## 🚪 ¿Por dónde empiezo?
 
-Con **Figma** o **Adobe XD** puedes crear maquetas en las que se puede hacer
-clic. Pásaselas a un compañero y observa si sabe usarlas sin ayuda.
+- **¿Cero conocimientos?** Empieza por el [punto 01 · La interfaz importa](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/01-la-interfaz-importa) y lee en orden: toda la unidad está pensada para un nivel de entrada cero.
+- **¿Ya sabes HTML/CSS?** Vete directo al [punto 03 · Prototipo de baja fidelidad](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/03-prototipo-baja-fidelidad) y al [punto 05 · Implementación mobile-first](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/05-implementacion-mobile-first): ahí se juega el 80% de tu interfaz.
+- **¿Vas justo de tiempo?** Lee el [punto 08 · Lo que el tribunal mira](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/08-lo-que-el-tribunal-mira) y haz el [cierre](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/09-cierre). Con eso ya tienes lo esencial.
+- **¿Tu interfaz "se rompe" en móvil?** No te pierdas el [punto 05 · Implementación mobile-first](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/05-implementacion-mobile-first) y el [punto 07 · Feedback y errores](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/07-feedback-y-errores-visibles) antes de presentar.
 
-### Paso 3: Implementación
+**📍 Primer punto:** [01 · La interfaz importa](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/01-la-interfaz-importa)
 
-Traduce el prototipo a código. Empieza por la estructura HTML, luego los
-estilos, luego la interactividad con JavaScript.
-
-**Mobile-first**: diseña primero para pantalla pequeña, luego expande
-para escritorio. Es más fácil añadir que quitar.
-
-<CasoPractico titulo="La misma app, dos interfaces">
-
-  Dos equipos hicieron la misma aplicación: un gestor de tareas.
-
-  **Equipo A**:
-  - Lista de tareas con colores para cada prioridad
-  - Botón "+" visible y grande
-  - Los errores aparecen en rojo al lado del campo
-  - Diseño responsive (se ve bien en móvil y escritorio)
-  - Tiempo invertido en interfaz: 1 semana
-
-  **Equipo B**:
-  - Lista de tareas en texto plano, sin colores
-  - Botón de añadir pequeño y en la esquina
-  - Los errores son alert() de JavaScript
-  - Solo se ve bien en su pantalla (1920x1080)
-  - Tiempo invertido en interfaz: 2 días
-
-  **Resultado**: el Equipo A sacó mejor nota aunque ambos tuvieran la misma
-  funcionalidad. La interfaz cuidada marcó la diferencia.
-
-  **Lección**: la interfaz no es "lo que sobra después de programar".
-  Es parte del proyecto. Invierte tiempo en ella.
-</CasoPractico>
-
-## Lo que el tribunal mira en tu interfaz
-
-- **Consistencia**: todos los botones parecen botones, todos los enlaces parecen enlaces
-- **Claridad**: sé qué hace cada cosa sin tener que pensar
-- **Feedback**: cuando hago clic, pasa algo; si hay error, lo veo
-- **Responsive**: se ve bien en móvil, tablet y escritorio
-- **Accesibilidad mínima**: contraste suficiente, textos legibles
-
-## Checklist para tu interfaz
-
-- [ ] He dibujado las pantallas antes de programarlas
-- [ ] Uso un framework CSS para mantener la consistencia
-- [ ] Los mensajes de error son claros y están visibles
-- [ ] La aplicación funciona bien en móvil (al menos 375px de ancho)
-- [ ] He probado la interfaz con al menos una persona que no sea del equipo
-- [ ] Los tiempos de carga son aceptables
-- [ ] No hay texto cortado, elementos superpuestos ni enlaces rotos
+**⏭️ Al acabar la unidad, continúa en [U6 · Implementar la lógica](/ApuntesProyectoDAW/apuntes-pi1/u6-backend-basico).**

@@ -1,0 +1,209 @@
+---
+title: "07 — Deuda técnica en acción"
+description: "Ejemplos reales de cuándo pagar la deuda técnica y cuándo no. Priorización inteligente para no perder el tiempo."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🔧 **U1 · Evolucionar la arquitectura** → 07 · Deuda técnica en acción
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Sergio ya sabe qué es la deuda técnica y cómo refactorizar. Pero
+  cuando mira su proyecto de PI1, se da cuenta de que hay deuda por
+  todas partes. No puede arreglarlo todo. Necesita decidir dónde gastar
+  su tiempo limitado: ¿en la deuda que más duele o en la que es más
+  fácil de arreglar?
+
+  Este capítulo es la guía de priorización: no toda la deuda merece
+  ser pagada al mismo ritmo.
+</StoryIntro>
+
+## La idea en una frase
+
+> No toda la deuda técnica merece ser pagada hoy. Algunas deudas son
+> baratas y puedes esperar. Otras te están costando caro cada día.
+> La clave es **saber cuál es cuál**.
+
+## Cuándo pagar la deuda
+
+No es lo mismo un comentario mal puesto que una función de 500 líneas
+que hace todo. La priorización depende de dos factores: **dolor** y
+**frecuencia**.
+
+### Matriz de priorización
+
+| | Se usa poco | Se usa mucho |
+|---|---|---|
+| **Dolor bajo** | Baja prioridad — no toques | Media prioridad — mejora cuando puedas |
+| **Dolor alto** | Media prioridad — mejora si toca | **Alta prioridad — arréglalo ya** |
+
+**Dolor alto** = cambiar algo rompe otras cosas, o cuesta mucho
+entenderlo.
+
+**Se usa mucho** = lo tocas cada semana o más.
+
+La intersección "dolor alto + se usa mucho" es la deuda que más te
+está costando. Ahí es donde inviertes primero.
+
+### Ejemplos prácticos
+
+| Deuda técnica | Dolor | Frecuencia | Prioridad |
+|---------------|-------|------------|-----------|
+| Función de 400 líneas en el login | Alto | Cada día | Urgente |
+| Variable `x` en un helper que solo usas una vez | Bajo | Cada mes | Baja |
+| Código duplicado en 3 endpoints de usuarios | Alto | Cada semana | Alta |
+| Comentario TODO en un archivo olvidado | Bajo | Nunca | Mínima |
+| Sin tests en la lógica de negocio | Alto | Cada cambio | Urgente |
+| Estilo CSS desordenado | Medio | Cada semana | Media |
+
+<Comparativa
+  dialogos={[
+    { quien: "Priorizar por facilidad", texto: "Arranco primero los TODOs y renombro las variables. Son cambios rápidos y me siento productivo. En un día hice 30 cambios." },
+    { quien: "Priorizar por impacto", texto: "La función de login de 400 líneas me cuesta 2 horas cada vez que la toco. La refactorizo primero, aunque me cueste un día entero. Después, cada cambio de login será de 10 minutos." },
+  ]}
+  titulo="¿Por facilidad o por impacto?"
+/>
+
+## Cuándo NO pagar la deuda
+
+No toda la deuda técnica es un problema urgente. A veces, dejarla
+estar es la decisión correcta:
+
+- **Deuda en código que no vas a tocar** — si hay un archivo con
+  estilo antiguo pero funciona y nadie lo modifica, déjalo.
+- **Deuda que requiere un reescribe completo** — si arreglar algo
+  implica rehacer toda la funcionalidad, considera si el tiempo lo
+  merece.
+- **Deuda en prototipos descartables** — si el código es un prototipo
+  que no llegará a producción, no inviertas en pulirlo.
+
+<Aclaracion pregunta="¿Y si el tribunal me pregunta por qué no arreglé toda la deuda técnica?">
+  Explica tu criterio de priorización: "Identificamos 12 problemas de
+  deuda técnica. Los 4 más críticos (login, base de datos, estructura
+  de carpetas, tests) se arreglaron en la primera semana. Los 4
+  siguientes se mejoraron incrementalmente. Los 4 restantes estaban en
+  código que no se modifica y no afecta al mantenimiento."
+
+  Esto demuestra que priorizaste con criterio, no que dejaste cosas
+  sin hacer por pereza.
+</Aclaracion>
+
+## Estrategias de pago
+
+### Pago inmediato
+
+Cuando la deuda es urgente (dolor alto + se usa mucho), la pagas
+antes de seguir avanzando. Es como pagar una factura vencida: cuesta,
+pero si no la pagas, los intereses te ahogan.
+
+**Ejemplo**: la función de login que hace 5 cosas. La divides antes
+de añadir la funcionalidad de "recordar contraseña".
+
+### Pago gradual
+
+Cuando la deuda es importante pero no urgente, la pagas poco a poco
+mientras avanzas con funcionalidades nuevas.
+
+**Ejemplo**: el código duplicado entre endpoints. Cada vez que tocas
+uno de esos endpoints, aprovechas para extraer la función duplicada.
+
+### Pago diferido
+
+Cuando la deuda es baja prioridad, la anotas en una lista y la pagas
+cuando sobra tiempo (spoiler: casi nunca sobra tiempo, pero al menos
+queda documentada).
+
+**Ejemplo**: el comentario TODO en un archivo que nadie toca. Queda
+anotado para cuando el proyecto esté terminado.
+
+## La lista de deuda técnica
+
+Crea un archivo `DEUDA.md` en la raíz del proyecto con todas las
+deudas identificadas:
+
+```markdown
+# Deuda Técnica Identificada
+
+## Urgente
+- [ ] Dividir login.js (400 líneas) en módulos
+- [ ] Añadir tests a lógica de negocio
+- [ ] Separar configuración de hardcoded values
+
+## Importante
+- [ ] Eliminar código duplicado en endpoints
+- [ ] Renombrar variables crípticas (a, tmp, cosa)
+- [ ] Actualizar dependencias obsoletas
+
+## Baja
+- [ ] Limpiar TODOs pendientes
+- [ ] Unificar estilo de comentarios
+- [ ] Borrar archivos de backup innecesarios
+```
+
+Esta lista es tu mapa. Cada vez que trabajas en el proyecto, consultas
+la lista y decides si toca pagar algo.
+
+<CasoPractico titulo="El equipo que pagó la deuda en sprints">
+  Un equipo dividió el pago de deuda técnica en los sprints de PI2:
+
+  **Sprint 1** (urgente): refactorizar login, separar servicios,
+  añadir tests básicos. Resultado: cada cambio de login pasó de 2 horas
+  a 15 minutos.
+
+  **Sprint 3** (importante): eliminar código duplicado, renombrar
+  variables, actualizar dependencias. Resultado: el código era legible
+  por cualquier miembro del equipo.
+
+  **Sprint 5** (baja): limpiar TODOs, unificar comentarios, borrar
+  backups. Resultado: el proyecto estaba "pulido" para la entrega.
+
+  Cada sprint dedicaron el 20% del tiempo a deuda y el 80% a funcionalidades
+  nuevas. La proporción fue sostenible y el proyecto mejoró continuamente.
+
+  **Lección**: el pago de deuda no es un evento único, es un hábito.
+</CasoPractico>
+
+## Mini-chequeo
+
+**Pregunta 1.** Tu proyecto tiene una función que se usa cada día y
+cada vez que la tocas se rompe algo. ¿Qué prioridad tiene?
+A) Baja, porque funciona · B) Urgente, porque duele y se usa mucho ·
+C) Media, porque solo es una función
+
+**Pregunta 2.** ¿Cuándo es correcto NO pagar la deuda técnica?
+A) Cuando no da pereza · B) Cuando el código no se va a modificar y
+no afecta al mantenimiento · C) Nunca, toda la deuda debe pagarse
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Dolor alto + frecuencia alta = prioridad urgente. Esa función
+   te está costando tiempo cada día.
+2. **B**. No toda la deuda merece ser pagada. Si el código funciona,
+   no se modifica y no afecta a nadie, puede quedarse así.
+
+</details>
+
+## Resumen en 3 frases
+
+1. Prioriza por **dolor** (cuánto cuesta cambiar) y **frecuencia**
+   (cuántas veces lo tocas). Lo que más duele y más se usa va primero.
+2. No toda la deuda merece ser pagada: si el código no se modifica y
+   funciona, déjalo estar.
+3. Lleva una **lista de deuda técnica** (`DEUDA.md`) y paga poco a poco
+   en cada sprint, sin abandonar las funcionalidades nuevas.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Deuda técnica** | Atajos acumulados que encarecen cambios futuros |
+| **Priorización** | Decidir en qué orden se abordan los problemas según su impacto |
+| **Pago inmediato** | Resolver la deuda antes de seguir avanzando |
+| **Pago gradual** | Resolver la deuda poco a poco mientras se trabaja en otras cosas |
+| **DEUDA.md** | Archivo que lista todas las deudas identificadas para su seguimiento |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web) · **Anterior:** [06 · Documentar la arquitectura](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/06-documentar-la-arquitectura) · **Siguiente:** [08 · Checklist de arquitectura](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/08-checklist-de-arquitectura)

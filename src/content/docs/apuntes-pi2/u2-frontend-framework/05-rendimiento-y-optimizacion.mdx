@@ -1,0 +1,193 @@
+---
+title: "05 — Rendimiento y optimización"
+description: "Imágenes, peticiones, renderizado, caché: cómo hacer que tu interfaz no tarde más de lo aceptable."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🖥️ **U2 · Mejorar el frontend** → 05 · Rendimiento y optimización
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Sergio tiene una interfaz bonita, con componentes bien diseñados y
+  estado bien gestionado. Pero los usuarios se quejan: "Va lento".
+  "Tarda 5 segundos en cargar". "En el móvil se congela".
+
+  La interfaz es una carrera de obstáculos. Cada segundo que el usuario
+  espera, un porcentaje se va. Optimizar no es un lujo: es supervivencia.
+</StoryIntro>
+
+## La idea en una frase
+
+> Un sitio lento es un sitio que pierde usuarios. Cada segundo extra
+> de carga reduce la conversión un 7%. Optimizar no es elegante: es
+> necesario.
+
+## ¿Por qué importa el rendimiento?
+
+Los números son crudos:
+
+| Tiempo de carga | Qué pasa |
+|-----------------|----------|
+| 0-1 segundos | Experiencia fluida |
+| 1-3 segundos | Aceptable, pero notorio |
+| 3-5 segundos | El 32% de usuarios se va |
+| 5+ segundos | El 53% de usuarios se va |
+
+En un proyecto DAW con tribunal, un sitio lento da mala impresión.
+En producción, un sitio lento pierde dinero.
+
+## Los 4 grandes enemigos del rendimiento
+
+### 1. Imágenes pesadas
+
+Las imágenes suelen ser el mayor peso de una página. Un usuario sube
+una foto de 5MB desde el móvil y tú la muestras sin comprimir.
+
+**Soluciones:**
+
+- **Comprimir**: usa herramientas como Squoosh, ImageOptim o Sharp
+- **Formatos modernos**: WebP o AVIF en vez de PNG/JPEG
+- **Responsive**: sirve imágenes diferentes según el tamaño de pantalla
+- **Lazy loading**: carga la imagen solo cuando aparece en pantalla
+
+```html
+<!-- Lazy loading nativo -->
+<img src="producto.webp" loading="lazy" alt="Producto" />
+
+<!-- Responsive con srcset -->
+<img
+  src="producto-400.webp"
+  srcset="producto-400.webp 400w, producto-800.webp 800w"
+  sizes="(max-width: 600px) 400px, 800px"
+  loading="lazy"
+  alt="Producto"
+/>
+```
+
+### 2. Peticiones innecesarias
+
+Cada petición a la API tiene un coste: latencia de red, overhead de
+HTTP headers, tiempo de procesamiento en el servidor.
+
+**Soluciones:**
+
+- **Combinar endpoints**: si necesitas usuario + productos, haz 1
+  petición en vez de 2
+- **Paginación**: no cargues 500 productos de golpe, carga 20
+- **Debounce en búsqueda**: no hagas una petición por cada tecla
+- **Cache de respuestas**: si los datos no cambian, no vuelvas a
+  pedirlos
+
+### 3. Renderizado pesado
+
+Si tu componente renderiza 1000 elementos de golpe, el navegador
+se congela un momento.
+
+**Soluciones:**
+
+- **Virtualización**: solo renderiza los elementos visibles (react-window,
+  vue-virtual-scroller)
+- **Paginación**: divide en páginas de 20-50 elementos
+- **Lazy loading de componentes**: carga componentes pesados solo
+  cuando se necesiten
+- **Debouncing**: retrasa el renderizado durante la escritura del
+  usuario
+
+### 4. Sin caché
+
+Si el usuario visita la página 3 veces en un día, ¿por qué cargar
+los mismos datos 3 veces?
+
+**Soluciones:**
+
+- **localStorage/sessionStorage**: guarda datos que no cambian a menudo
+- **Service Workers**: cachea peticiones para uso offline
+- **HTTP Cache**: configura headers `Cache-Control` en el servidor
+- **State persistence**: guarda el estado del store en localStorage
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin optimización", texto: "Página de catálogo: 47 imágenes sin comprimir (12MB total), 15 peticiones API, renderiza 200 productos de golpe. Tiempo de carga: 8 segundos. El 53% de usuarios se va." },
+    { quien: "Con optimización", texto: "Misma página: imágenes WebP comprimidas (800KB), 3 peticiones con cache, renderiza 20 productos con lazy loading. Tiempo de carga: 1.5 segundos. Los usuarios se quedan." },
+  ]}
+  titulo="Antes y después de optimizar"
+/>
+
+## Métricas clave
+
+| Métrica | Qué mide | Objetivo |
+|---------|----------|----------|
+| **LCP** (Largest Contentful Paint) | Tiempo hasta que carga el contenido principal | Menos de 2.5s |
+| **FID** (First Input Delay) | Tiempo hasta que el navegador responde a la primera interacción | Menos de 100ms |
+| **CLS** (Cumulative Layout Shift) | Cuánto se mueve el contenido mientras carga | Menos de 0.1 |
+
+Puedes medirlas con Lighthouse (incluido en Chrome DevTools), PageSpeed
+Insights o web.dev/measure.
+
+## Checklist de rendimiento
+
+- [ ] Imágenes comprimidas y en formato moderno (WebP/AVIF)
+- [ ] Lazy loading en imágenes que no son above-the-fold
+- [ ] Número mínimo de peticiones API
+- [ ] Datos cacheados que no cambian a menudo
+- [ ] Renderizado de listas largas con virtualización o paginación
+- [ ] Código JavaScript dividido en chunks (code splitting)
+- [ ] Tiempo de carga menor de 3 segundos
+
+<Aclaracion pregunta="¿Cuánto debo optimizar?">
+  Depende del contexto. Para un proyecto DAW, una carga de menos de
+  3 segundos es un objetivo razonable. No necesitas llegar a 0.5
+  segundos como Google.
+
+  Prioriza: primero las imágenes (mayor impacto), luego las peticiones,
+  luego el renderizado. No optimices prematuramente: primero haz que
+  funcione, luego haz que sea rápido.
+</Aclaracion>
+
+## Caso práctico
+
+<CasoPractico titulo="El catálogo que se cargaba en 12 segundos">
+  Un proyecto de e-commerce tenía un catálogo con 300 productos. Cada
+  producto tenía una imagen de 2-3MB (subida directamente desde el
+  móvil del cliente). Todo se cargaba de golpe: 300 imágenes, 300
+  tarjetas renderizadas.
+
+  Optimización en 3 pasos:
+  1. **Imágenes**: comprimir a WebP, máximo 200KB cada una. De 900MB
+     a 60MB. Tiempo de carga: de 8s a 2s.
+  2. **Renderizado**: lazy loading + paginación de 20 productos. Solo
+     se renderizan los visibles. Tiempo de primera pintura: de 2s a
+     0.8s.
+  3. **Caché**: guardar la lista de productos en localStorage. En
+     visitas subsequentes: carga instantánea.
+
+  Resultado final: de 12 segundos a 1.2 segundos. Los usuarios se
+  quedaron.
+
+  **Lección**: optimizar no es opcional. Es parte del desarrollo,
+  no algo que se hace "después".
+</CasoPractico>
+
+## Resumen en 3 frases
+
+1. Las imágenes son el mayor enemigo del rendimiento: comprimelas,
+   usa formatos modernos y carga lazy.
+2. Minimiza peticiones API, cachea datos que no cambian y divide
+   el renderizado en partes manejables.
+3. Mide con Lighthouse, establece un objetivo de menos de 3 segundos
+   y prioriza los cambios de mayor impacto.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Lazy loading** | Cargar un recurso solo cuando se necesita, no antes |
+| **WebP** | Formato de imagen moderno, menor tamaño que PNG/JPEG |
+| **LCP** | Largest Contentful Paint: tiempo hasta que carga el contenido principal |
+| **Code splitting** | Dividir el JavaScript en chunks que se cargan bajo demanda |
+| **Debounce** | Retrasar una acción hasta que el usuario deja de interactuar |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework) · **Anterior:** [04 · Gestionar el estado](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/04-gestionar-el-estado) · **Siguiente:** [06 · Accesibilidad web](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/06-accesibilidad-web)

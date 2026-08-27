@@ -1,0 +1,235 @@
+---
+title: "07 — Herramientas de desarrollo"
+description: "Postman, Insomnia, Swagger UI y curl. Herramientas para probar, documentar y depurar APIs de forma eficiente."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🔗 **U3 · Integrar sistemas** → 07 · Herramientas de desarrollo
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  El equipo de Marcos probaba su API escribiendo peticiones curl en la
+  terminal. Funcionaba, pero era incómodo: cada petición requería copiar
+  y pegar una línea de 200 caracteres, recordar los flags, y cuando algo
+  fallaba, no sabía por qué.
+
+  Descubrió que existían herramientas que hacían esto mucho más fácil.
+  Herramientas con interfaz gráfica, historial, colecciones y
+  documentación automática.
+</StoryIntro>
+
+## La idea en una frase
+
+> No probé tu API en el navegador y digas "parece que funciona". Usa
+> herramientas serias: te ahorrarán horas de debugging.
+
+## Postman: el Swiss Army de las APIs
+
+Postman es la herramienta más popular para probar APIs. Permite crear
+peticiones HTTP con interfaz gráfica.
+
+### Qué puedes hacer con Postman
+
+- **Enviar peticiones** GET, POST, PUT, DELETE con cuerpo, cabeceras y autenticación
+- **Guardar colecciones** de peticiones organizadas por proyecto
+- **Variables** de entorno (desarrollo vs producción)
+- **Automatizar tests** que se ejecutan con cada petición
+- **Documentación** automática de la API
+
+### Ejemplo: probar un endpoint
+
+```
+1. Abrir Postman
+2. Seleccionar método: GET
+3. Introducir URL: http://localhost:3000/api/usuarios
+4. Añadir cabecera: Authorization: Bearer tu_token
+5. Hacer clic en "Send"
+6. Ver la respuesta en el panel inferior
+```
+
+### Colecciones
+
+Una colección es un grupo de peticiones organizadas:
+
+```
+📁 Mi API
+├── 📁 Usuarios
+│   ├── GET /api/usuarios
+│   ├── POST /api/usuarios
+│   ├── GET /api/usuarios/5
+│   └── DELETE /api/usuarios/5
+├── 📁 Productos
+│   ├── GET /api/productos
+│   └── POST /api/productos
+└── 📁 Auth
+    ├── POST /api/login
+    └── POST /api/register
+```
+
+Puedes exportar la colección y compartirla con tu equipo. Todos prueban
+la misma API con las mismas peticiones.
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin Postman", texto: "Escribo curl en la terminal. Cada petición es una línea larga. Si algo falla, no sé si es la URL, las cabeceras o el cuerpo. Copio y pego entre terminales." },
+    { quien: "Con Postman", texto: "Tengo una colección con todas las peticiones. Hago clic y veo la respuesta. Si falla, Postman me dice qué campo falta. Guardo el historial y lo comparto con el equipo." },
+  ]}
+  titulo="Terminal vs interfaz"
+/>
+
+## Insomnia: la alternativa ligera
+
+Insomnia es como Postman pero más ligero y con menos funciones. Ideal
+si no necesitas toda la potencia de Postman.
+
+### Ventajas de Insomnia
+
+- Interfaz más limpia
+- Más rápido para peticiones simples
+- Exporta a OpenAPI directamente
+- Gratuito para uso individual
+
+### Cuándo elegir Insomnia vs Postman
+
+| Criterio | Insomnia | Postman |
+|----------|----------|---------|
+| Ligereza | Más ligero | Más pesado |
+| Funciones | Básicas | Muchas (tests, mocks,monitoreo) |
+| Curva aprendizaje | Muy baja | Media |
+| Colaboración | Limitada | Equipos, workspaces |
+| Exportar OpenAPI | Sí | Sí (con plugin) |
+
+## Swagger UI: documentación interactiva
+
+Si tu API tiene una especificación OpenAPI, Swagger UI genera una web
+donde puedes probar cada endpoint directamente desde el navegador.
+
+### Cómo configurarlo
+
+```javascript
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
+  customSiteTitle: 'Documentación de mi API',
+  customCss: '.swagger-ui .topbar { display: none }'
+}));
+```
+
+### Qué ofrece Swagger UI
+
+- Lista de todos los endpoints agrupados por recurso
+- Formularios para enviar datos
+- Respuestas de ejemplo
+- Esquemas de datos
+- Botón "Try it out" para probar en vivo
+
+### Para el tribunal
+
+Swagger UI es una forma excelente de mostrar tu API en la presentación.
+El tribunal puede probar los endpoints sin necesitar Postman ni terminal.
+
+```bash
+# En producción, Swagger UI puede estar protegido
+app.use('/api-docs', authMiddleware, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+```
+
+## curl: la herramienta de terminal
+
+curl es una herramienta de línea de comandos para hacer peticiones HTTP.
+Está instalada en prácticamente todos los sistemas operativos.
+
+### Ejemplos básicos
+
+```bash
+# GET simple
+curl http://localhost:3000/api/usuarios
+
+# GET con cabeceras
+curl -H "Authorization: Bearer tu_token" http://localhost:3000/api/usuarios
+
+# POST con cuerpo JSON
+curl -X POST http://localhost:3000/api/usuarios \
+  -H "Content-Type: application/json" \
+  -d '{"nombre": "Ana", "email": "ana@email.com"}'
+
+# PUT
+curl -X PUT http://localhost:3000/api/usuarios/5 \
+  -H "Content-Type: application/json" \
+  -d '{"nombre": "Ana García"}'
+
+# DELETE
+curl -X DELETE http://localhost:3000/api/usuarios/5
+
+# Ver solo cabeceras de respuesta
+curl -I http://localhost:3000/api/usuarios
+```
+
+### Cuándo usar curl
+
+- **Scripts de automatización** (CI/CD, testing automatizado)
+- **Debugging rápido** en terminal
+- **Cuando no tienes interfaz gráfica** (servidor remoto)
+- **Compartir peticiones** en chat (una línea, fácil de copiar)
+
+### Cuándo NO usar curl
+
+- Cuando necesitas ver respuestas formateadas (usa Postman)
+- Cuando necesitas historial de peticiones (usa Postman)
+- Cuando necesitas enviar archivos (Postman es más fácil)
+
+<Aclaracion pregunta="¿Cuál debo usar: Postman, Insomnia o curl?">
+  Depende del contexto:
+
+  - **Postman**: para desarrollo diario, pruebas manuales, colecciones
+    compartidas. Es la opción más completa.
+  - **Insomnia**: si prefieres algo ligero y solo necesitas probar
+    peticiones.
+  - **curl**: para scripts, automatización y debugging rápido en terminal.
+
+  La recomendación: aprende Postman (es el más usado en empresas) y curl
+  (para scripting). Insomnia es un bonus si quieres alternativa ligera.
+</Aclaracion>
+
+## Caso práctico
+
+<CasoPractico titulo="La colección que ahorró 3 horas al equipo">
+  El equipo de Laura creó una colección de Postman con todas las peticiones
+  de su API. Cada endpoint tenía tests automáticos que verificaban el
+  formato de la respuesta.
+
+  Cuando el backend cambió la estructura de un endpoint, los tests de
+  Postman fallaron automáticamente. El equipo detectó el problema en
+  5 minutos, no en 3 horas como la semana anterior.
+
+  Además, compartieron la colección con el frontend. El frontend pudo
+  programar contra las respuestas reales sin esperar a que el backend
+  estuviera listo, usando las respuestas de ejemplo de la colección.
+
+  **Lección**: las herramientas de testing de APIs no son un lujo.
+  Son una inversión que se amortiza en el primer sprint.
+</CasoPractico>
+
+## Resumen en 3 frases
+
+1. **Postman** es la herramienta estándar para probar APIs: crea
+   peticiones, guarda colecciones y automatiza tests.
+2. **Swagger UI** genera documentación interactiva desde OpenAPI:
+   ideal para mostrar tu API al tribunal.
+3. **curl** es útil para scripting y debugging rápido, pero para
+   desarrollo diario usa una herramienta con interfaz gráfica.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Postman** | Herramienta gráfica para probar y documentar APIs |
+| **Insomnia** | Alternativa ligera a Postman |
+| **Swagger UI** | Generador de documentación interactiva desde OpenAPI |
+| **curl** | Herramienta de terminal para peticiones HTTP |
+| **Colección** | Grupo de peticiones API organizadas y reutilizables |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest) · **Anterior:** [06 · Seguridad en la comunicación](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/06-seguridad-en-la-comunicacion) · **Siguiente:** [08 · Checklist de integraciones](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/08-checklist-de-integraciones)

@@ -1,11 +1,13 @@
 ---
-title: 🔗 U3. Integrar sistemas
-description: Cómo conectar tu frontend con tu backend y con servicios externos de forma ordenada
+title: "🔗 U3 · Integrar sistemas"
+description: "APIs, comunicación entre frontend y backend, servicios externos y documentación. Cómo conectar las piezas de tu aplicación sin que nada se rompa."
 ---
 
 import StoryIntro from '../../../components/StoryIntro.astro';
 import Aclaracion from '../../../components/Aclaracion.astro';
 import CasoPractico from '../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🔗 **U3 · Integrar sistemas** → Índice
 
 <StoryIntro icono="🎬" titulo="El día que el frontend y el backend no se hablaban">
   "Es que el frontend espera un JSON con `nombre_usuario` y el backend
@@ -21,125 +23,143 @@ import CasoPractico from '../../../components/CasoPractico.astro';
   cómo se comunican** antes de programar cada parte.
 </StoryIntro>
 
-## La comunicación entre partes
+## Mapa de la unidad
 
-Tu proyecto tiene partes que necesitan comunicarse. Normalmente:
+| Punto | Tema | Qué aprenderás |
+|-------|------|----------------|
+| 01 | Comunicación entre partes | Por qué el frontend y el backend necesitan un contrato |
+| 02 | Definir la API | Principios REST, endpoints, métodos y códigos de estado |
+| 03 | Contrato antes de codificar | OpenAPI/Swagger y el enfoque API-first |
+| 04 | Manejo de errores | Formatos uniformes, códigos HTTP y errores reutilizables |
+| 05 | Integrar servicios externos | Email, pagos, mapas, autenticación y variables de entorno |
+| 06 | Seguridad en la comunicación | CORS, tokens, HTTPS y protección de claves API |
+| 07 | Herramientas de desarrollo | Postman, Insomnia, Swagger UI y curl |
+| 08 | Checklist de integraciones | Lista completa para revisar antes de cada sprint |
+| 09 | Cierre | Retos, dilemas, laboratorio con trampa y adiós hacia U4 |
 
-- **Frontend ↔ Backend** (API REST o GraphQL)
-- **Backend ↔ Base de datos**
-- **Backend ↔ Servicios externos** (email, pagos, mapas)
+## Objetivos de la unidad
 
-Cada comunicación necesita un **contrato**: qué datos se envían, qué datos
-se reciben, en qué formato.
+Al final de esta unidad serás capaz de:
 
-### Define el contrato antes de programar
+1. **Diseñar una API REST** con endpoints claros, métodos correctos y códigos de estado apropiados.
+2. **Definir contratos** entre frontend y backend antes de escribir código, usando OpenAPI/Swagger.
+3. **Manejar errores** de forma uniforme en backend y frontend, con formatos predecibles.
+4. **Integrar servicios externos** (email, pagos, mapas) de forma segura usando variables de entorno.
+5. **Proteger la comunicación** con CORS, autenticación por tokens y HTTPS.
+6. **Usar herramientas** como Postman, Insomnia y Swagger UI para probar y documentar APIs.
 
-Antes de que cada miembro del equipo programe su parte, acordad:
+## Competencias que desarrollarás
 
-```
-GET /api/usuarios → 200 { id, nombre, email }
-POST /api/usuarios ← { nombre, email } → 201 { id, nombre, email }
-PUT /api/usuarios/:id ← { nombre } → 200 { id, nombre, email }
-DELETE /api/usuarios/:id → 204 (sin contenido)
-```
+| Competencia | Nivel | Dónde se trava |
+|-------------|-------|----------------|
+| **Comunicación efectiva** | Alto | Puntos 01, 03, 08 |
+| **Resolución de problemas** | Alto | Puntos 02, 04, 07 |
+| **Trabajo en equipo** | Medio | Puntos 01, 03, 06 |
+| **Planificación y organización** | Medio | Puntos 03, 08 |
+| **Seguridad informática** | Medio | Puntos 05, 06 |
+| **Análisis y síntesis** | Medio | Puntos 02, 04 |
 
-Con esto, el frontend puede programar sabiendo qué va a recibir,
-y el backend sabiendo qué tiene que devolver. Sin sorpresas.
+## ¿Por qué importa esta unidad?
 
-### Herramientas para definir APIs
+En PI1, el frontend y el backend eran uno solo: JavaScript en el navegador
+hablando con una base de datos directamente. En PI2, las cosas cambian:
 
-- **Swagger/OpenAPI**: documentación interactiva de la API
-- **Postman**: para probar los endpoints
-- **Insomnia**: alternativa a Postman, más ligera
+- El frontend vive en el navegador (o en un framework como React/Vue).
+- El backend vive en un servidor (Node, Python, Java).
+- Entre ambos hay una **API**: un contrato que define qué se envía y qué se recibe.
 
-<Aclaracion pregunta="¿API REST siempre o hay alternativas?">
-  REST es el estándar y suficiente para el 95% de los proyectos DAW.
+Si el contrato está mal definido, el proyecto se convierte en un campo de
+batalla. Esta unidad te enseña a evitarlo.
 
-  Alternativas:
-  - **GraphQL**: más flexible, el frontend pide exactamente lo que necesita
-  - **WebSockets**: comunicación bidireccional en tiempo real (chat, notificaciones)
-  - **gRPC**: más rápido, pero más complejo
-
-  Si tu proyecto es estándar (CRUD + autenticación), quédate con REST.
-  Si necesitas tiempo real o mucha flexibilidad, explora las alternativas,
-  pero asume que aprenderás algo nuevo.
+<Aclaracion pregunta="¿Esto es solo para proyectos con backend propio?">
+  No. Aunque tu proyecto sea frontend-only (sin servidor propio), necesitas
+  conectar con servicios externos: una API de clima, un servicio de email,
+  un pasarela de pagos. Los mismos principios se aplican: define el contrato,
+  maneja los errores, protege las claves.
 </Aclaracion>
 
-## Manejo de errores en la comunicación
+## Caso práctico de la unidad
 
-Los errores van a ocurrir. Lo importante es que sean **predecibles**.
-
-### En el backend
-
-```javascript
-// Estructura de error uniforme
-{
-  "error": "usuario_no_encontrado",
-  "mensaje": "No existe un usuario con el ID 42",
-  "codigo": 404
-}
-```
-
-Siempre el mismo formato, siempre el código HTTP correcto.
-
-### En el frontend
-
-```javascript
-// Manejo de errores genérico
-async function fetchAPI(url, options) {
-  const res = await fetch(url, options);
-  if (!res.ok) {
-    const error = await res.json();
-    mostrarError(error.mensaje);
-    return null;
-  }
-  return res.json();
-}
-```
-
-No manejes errores caso por caso. Crea un mecanismo genérico y reutilízalo.
-
-## Integración con servicios externos
-
-Muchos proyectos DAW usan servicios de terceros:
-
-- **Email**: SendGrid, Mailtrap (para pruebas)
-- **Pagos**: Stripe (modo test, sin dinero real)
-- **Mapas**: Google Maps, Leaflet
-- **Autenticación**: Google Login, GitHub OAuth
-
-### Consejos para integrar servicios externos
-
-1. **Lee la documentación** antes de escribir código
-2. **Usa el modo test/sandbox** mientras desarrollas
-3. **Maneja los errores** del servicio externo (puede caerse)
-4. **No expongas claves API** en el frontend ni en el repositorio
-5. **Usa variables de entorno** para las configuraciones
-
-<CasoPractico titulo="La integración que salvó la presentación">
-
-  Un equipo había desarrollado una aplicación de reservas para restaurantes.
+<CasoPractico titulo="La app de reservas que salvó la presentación">
+  Un equipo desarrolló una aplicación de reservas para restaurantes.
   Una de las funcionalidades que más peso tenía era el envío de emails
   de confirmación al hacer una reserva.
 
   Durante el desarrollo, probaban con Mailtrap (que intercepta los emails
-  y no los envía de verdad). Todo funcionaba.
+  y no los envía de verdad). Todo funcionaba. Pero el día de la
+  presentación decidieron conectar SendGrid en modo test. El tribunal
+  recibió un email de confirmación en tiempo real.
 
-  En la presentación, conectaron el servicio real de SendGrid. Y funcionó.
-  El tribunal recibió un email de confirmación en tiempo real. Ese detalle
-  marcó la diferencia: demostraba que la integración era real, no simulada.
-
-  **Lección**: integrar un servicio externo real (aunque sea en modo test)
-  aporta mucho valor a tu proyecto. Pero asegúrate de que funciona antes
-  del día de la defensa.
+  Ese detalle marcó la diferencia: demostraba que la integración era real,
+  no simulada. La clave estuvo en que siguieron todos los pasos de esta
+  unidad: definieron el contrato, probaron con herramientas, manejaron
+  errores y usaron variables de entorno.
 </CasoPractico>
 
-## Checklist para tus integraciones
+## Links a los puntos
 
-- [ ] Frontend y backend hablan el mismo idioma (formato de datos)
-- [ ] Los errores tienen un formato coherente
-- [ ] La API está documentada (al menos los endpoints principales)
-- [ ] Las claves y configuraciones están en variables de entorno
-- [ ] Los servicios externos están en modo test/sandbox
-- [ ] He probado la comunicación entre partes con casos reales
-- [ ] Tengo un plan B si un servicio externo falla en la presentación
+<div class="card-grid small">
+
+<div class="card">
+
+[**01 · Comunicación entre partes**](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/01-comunicacion-entre-partes)
+Frontend, backend y la brecha que los separa.
+
+</div>
+
+<div class="card">
+
+[**02 · Definir la API**](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/02-definir-la-api)
+Principios REST, métodos HTTP y códigos de estado.
+
+</div>
+
+<div class="card">
+
+[**03 · Contrato antes de codificar**](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/03-contrato-antes-de-codificar)
+OpenAPI, Swagger y el enfoque API-first.
+
+</div>
+
+<div class="card">
+
+[**04 · Manejo de errores**](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/04-manejo-de-errores)
+Formatos uniformes y manejo reutilizable.
+
+</div>
+
+<div class="card">
+
+[**05 · Integrar servicios externos**](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/05-integrar-servicios-externos)
+Email, pagos, mapas y autenticación.
+
+</div>
+
+<div class="card">
+
+[**06 · Seguridad en la comunicación**](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/06-seguridad-en-la-comunicacion)
+CORS, tokens, HTTPS y claves API.
+
+</div>
+
+<div class="card">
+
+[**07 · Herramientas de desarrollo**](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/07-herramientas-de-desarrollo)
+Postman, Insomnia, Swagger UI y curl.
+
+</div>
+
+<div class="card">
+
+[**08 · Checklist de integraciones**](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/08-checklist-de-integraciones)
+Lista completa para revisar tus integraciones.
+
+</div>
+
+</div>
+
+**09 · Cierre** → [Consolida lo aprendido con retos y laboratorio](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/09-cierre)
+
+---
+
+📚 [Volver al índice de PI2](/ApuntesProyectoDAW/apuntes-pi2) · **Anterior:** [09 · Cierre de U2](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/09-cierre) · **Siguiente:** [01 · Comunicación entre partes](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/01-comunicacion-entre-partes)

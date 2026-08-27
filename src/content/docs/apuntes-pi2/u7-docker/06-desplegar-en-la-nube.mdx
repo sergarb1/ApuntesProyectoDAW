@@ -1,0 +1,352 @@
+---
+title: "06 — Desplegar en la nube"
+description: "Opciones de despliegue gratuito: Vercel, Netlify, Render, GitHub Pages y VPS. Cuándo usar cada una y cómo configurarlas."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📦 **U7 · Preparar el despliegue** → 06 · Desplegar en la nube
+
+<StoryIntro icono="🎬" titulo="El día que la app salió de localhost">
+  "¿Dónde puedo ver la aplicación funcionando?", preguntó el profesor.
+
+  Silencio. La app estaba en los portátiles del equipo. En localhost.
+  Nadie fuera de su grupo podía verla.
+
+  Pasaron tres días intentando desplegarla. Errores de configuración,
+  puertos cerrados, variables de entorno sin definir. Al final lo
+  consiguieron, pero el estrés fue evitable.
+
+  Desplegar no es "lo que haces al final si sobra tiempo". Es parte
+  del proyecto. Y deberías empezar a pensarlo desde el primer sprint.
+</StoryIntro>
+
+## La idea en una frase
+
+> Un proyecto que solo funciona en localhost está incompleto.
+> Desplegarlo demuestra que sabes llevarlo al mundo real.
+
+## Opciones de despliegue gratuito
+
+### Frontend estático (sin backend)
+
+| Plataforma | Ideal para | HTTPS | Custom domain |
+|-----------|-----------|-------|---------------|
+| **GitHub Pages** | Repositorios Git | ✅ gratis | ✅ |
+| **Vercel** | React, Vue, Astro, Next | ✅ gratis | ✅ |
+| **Netlify** | Sitios estáticos, JAMstack | ✅ gratis | ✅ |
+
+Para un frontend puro (HTML/CSS/JS, React, Vue, Astro), estas tres
+son la opción correcta. Son gratuitas, rápidas y automáticamente
+actualizadas con cada push a Git.
+
+### Backend + Base de datos
+
+| Plataforma | Backend | BD incluida | Plan gratuito |
+|-----------|---------|-------------|---------------|
+| **Render** | Node, Python, Ruby, Go | PostgreSQL | ✅ (limitado) |
+| **Railway** | Node, Python, Ruby | PostgreSQL, MySQL | ✅ (créditos) |
+| **Fly.io** | Cualquier Docker | PostgreSQL | ✅ (limitado) |
+| **VPS (Hetzner, DigitalOcean)** | Cualquier cosa | Tú la instalas | ❌ (desde 4€/mes) |
+
+Para un backend con base de datos, Render o Railway son las más
+sencillas para empezar. Un VPS da más control pero más trabajo.
+
+<Comparativa
+  dialogos={[
+    { quien: "GitHub Pages / Vercel / Netlify", texto: "Ideal para frontend. Subes el código, se despliega solo. HTTPS gratis. Sin servidor que mantener." },
+    { quien: "Render / Railway / VPS", texto: "Necesario para backend. Tienes servidor, base de datos, variables de entorno. Más complejo pero más potente." },
+  ]}
+  titulo="Frontend vs Backend en la nube"
+/>
+
+## Desplegar frontend en Vercel
+
+### Paso 1: preparar el proyecto
+
+Asegúrate de que tu proyecto tiene un script de build:
+
+```json
+{
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite"
+  }
+}
+```
+
+### Paso 2: conectar el repositorio
+
+1. Ve a [vercel.com](https://vercel.com) y crea una cuenta
+2. Importa tu repositorio de GitHub
+3. Vercel detecta automáticamente el framework
+4. Haz clic en "Deploy"
+
+### Paso 3: configurar
+
+Vercel configura automáticamente:
+- Build command: `npm run build`
+- Output directory: `dist` (o `build`)
+- Node.js version: la que detecte
+
+### Resultado
+
+En 1-2 minutos, tu app está en una URL como `mi-proyecto.vercel.app`.
+HTTPS incluido. Cada push a `main` despliega automáticamente.
+
+## Desplegar frontend en GitHub Pages
+
+### Con Astro / Vite
+
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - uses: actions/deploy-pages@v4
+```
+
+### Con React / Vue
+
+Si tu app usa React Router o Vue Router en modo "history", necesitas
+un archivo `404.html` que redirija a `index.html`:
+
+```javascript
+// vite.config.js
+export default defineConfig({
+  base: '/nombre-repositorio/',
+})
+```
+
+## Desplegar backend en Render
+
+### Paso 1: crear un "Web Service"
+
+1. Ve a [render.com](https://render.com) y crea una cuenta
+2. Haz clic en "New Web Service"
+3. Conecta tu repositorio de GitHub
+
+### Paso 2: configurar
+
+- **Runtime**: Node
+- **Build Command**: `npm install && npm run build`
+- **Start Command**: `node server.js`
+- **Port**: el que use tu app (3000, 8080, etc.)
+
+### Paso 3: variables de entorno
+
+En el dashboard de Render, añade las variables de entorno:
+- `DB_HOST` = host de tu base de datos
+- `DB_PASSWORD` = contraseña
+- `NODE_ENV` = production
+- `PORT` = (Render asigna uno automáticamente)
+
+### Paso 4: base de datos
+
+Render ofrece PostgreSQL gratuito. Créalo desde el dashboard y
+copia la URL de conexión como variable de entorno.
+
+## Desplegar en un VPS
+
+Un VPS (Virtual Private Server) es una máquina virtual en la nube.
+Tienes control total, pero también toda la responsabilidad.
+
+### Opciones económicas
+
+| Proveedor | Plan más barato | Especificaciones |
+|-----------|----------------|------------------|
+| **Hetzner** | CX22 | 2 vCPU, 4 GB RAM, 40 GB SSD |
+| **DigitalOcean** | Droplet | 1 vCPU, 1 GB RAM, 25 GB SSD |
+| **Oracle Cloud** | Always Free | 1-4 OCPU, 1-24 GB RAM (gratis) |
+
+### Pasos básicos en un VPS
+
+```bash
+# 1. Conectar al servidor
+ssh root@tu-servidor.com
+
+# 2. Actualizar el sistema
+apt update && apt upgrade -y
+
+# 3. Instalar Docker
+curl -fsSL https://get.docker.com | sh
+
+# 4. Clonar tu repositorio
+git clone https://github.com/tu-usuario/tu-proyecto.git
+cd tu-proyecto
+
+# 5. Configurar variables de entorno
+cp .env.example .env
+nano .env   # rellenar valores
+
+# 6. Arrancar
+docker-compose up -d
+
+# 7. Instalar Nginx (reverse proxy)
+apt install nginx -y
+```
+
+<details>
+<summary>Configuración básica de Nginx como reverse proxy</summary>
+
+```nginx
+# /etc/nginx/sites-available/tu-app
+server {
+    listen 80;
+    server_name tu-dominio.com;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
+
+```bash
+# Activar la configuración
+ln -s /etc/nginx/sites-available/tu-app /etc/nginx/sites-enabled/
+nginx -t
+systemctl restart nginx
+```
+
+</details>
+
+## Comparativa: plataforma managed vs VPS
+
+| Aspecto | Plataforma managed (Vercel, Render) | VPS (Hetzner, DigitalOcean) |
+|---------|-------------------------------------|----------------------------|
+| **Facilidad** | Muy fácil, pocos clicks | Necesitas conocimientos de Linux |
+| **Control** | Limitado | Total |
+| **Coste** | Gratis (plan gratuito) | Desde 4€/mes |
+| **Mantenimiento** | Ellos lo hacen tú | Tú lo haces todo |
+| **Escalabilidad** | Automática | Manual |
+| **Para un proyecto DAW** | ✅ Recomendado | Si necesitas control total |
+
+<Aclaracion pregunta="¿Cuál debo elegir para mi proyecto DAW?">
+  **Plataforma managed** (Vercel, Render, etc.) si:
+  - Es tu primer proyecto con despliegue
+  - Quieres que funcione rápido sin complicaciones
+  - Tu proyecto es frontend + backend sencillo
+
+  **VPS** si:
+  - Quieres aprender administración de servidores
+  - Necesitas control total sobre la configuración
+  - Tu proyecto tiene requisitos específicos (WebSocket, cron jobs, etc.)
+
+  Para la mayoría de proyectos DAW, una plataforma managed es suficiente.
+</Aclaracion>
+
+## Despliegue continuo (auto-deploy)
+
+La mayoría de plataformas ofrecen **auto-deploy**: cada push a `main`
+despliega la nueva versión automáticamente.
+
+### Vercel / Netlify
+
+- Conectas el repositorio
+- Cada push a `main` despliega
+- Cada PR crea una "preview deployment"
+
+### GitHub Pages
+
+- Usas GitHub Actions (como en el ejemplo anterior)
+- Cada push a `main` ejecuta el workflow
+
+### Render
+
+- En los settings del servicio, habilita "Auto Deploy"
+- Cada push a `main` despliega
+
+<CasoPractico titulo="El equipo que desplegó en 15 minutos y causó sensación">
+
+  Un equipo tenía su proyecto frontend (Astro) y backend (Node.js
+  con Express). El día de la presentación, querían que el tribunal
+  viera la app funcionando.
+
+  **Frontend → Vercel:**
+  1. Crearon cuenta en Vercel (2 minutos)
+  2. Importaron repositorio de GitHub (1 minuto)
+  3. Vercel detectó Astro automáticamente
+  4. Deploy en 90 segundos
+  5. URL lista: `proyecto-equipo.vercel.app`
+
+  **Backend → Render:**
+  1. Crearon cuenta en Render (2 minutos)
+  2. Crearon Web Service desde GitHub (2 minutos)
+  3. Configuraron build y start commands (2 minutos)
+  4. Añadieron variables de entorno (3 minutos)
+  5. Deploy en 3 minutos
+  6. URL lista: `api-proyecto-equipo.onrender.com`
+
+  Total: 15 minutos. El tribunal pudo probar la app desde su propio
+  navegador. Sin instalar nada. Sin "en mi máquina funciona".
+
+  **Lección**: desplegar no es tan difícil como parece. Las plataformas
+  modernas te lo ponen muy fácil. La excusa de "no sé desplegar" ya
+  no vale.
+</CasoPractico>
+
+## Mini-chequeo
+
+**Pregunta 1.** ¿Cuál es la mejor opción para desplegar un frontend
+estático (HTML/CSS/JS)?
+A) Un VPS con Docker · B) GitHub Pages, Vercel o Netlify · C) Render
+con PostgreSQL
+
+**Pregunta 2.** ¿Qué es el auto-deploy?
+A) Un script que despliega manualmente · B) La configuración que hace
+que cada push a `main` despliegue automáticamente · C) Un contenedor
+Docker que se auto-actualiza
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Para frontend estático, las plataformas gratuitas como GitHub
+   Pages, Vercel o Netlify son la opción más sencilla y económica.
+2. **B**. Auto-deploy conecta tu repositorio con la plataforma de
+   despliegue. Cada push a la rama principal ejecuta el build y
+   despliega la nueva versión automáticamente.
+
+</details>
+
+## Resumen en 3 frases
+
+1. Para frontend estático, usa GitHub Pages, Vercel o Netlify: son
+   gratuitas, rápidas y automáticas.
+2. Para backend con base de datos, usa Render o Railway: tienen planes
+   gratuitos con todo lo necesario para un proyecto DAW.
+3. Un VPS da más control pero más trabajo. Para un proyecto DAW, una
+   plataforma managed es suficiente.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Desplegar** | Poner tu aplicación en un servidor accesible por internet |
+| **VPS** | Máquina virtual privada en la nube con control total |
+| **Auto-deploy** | Despliegue automático con cada push a Git |
+| **Reverse proxy** | Servidor que redirige peticiones a tu aplicación (Nginx) |
+| **Preview deployment** | Versión temporal de una PR para probar cambios |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u7-docker) · **Anterior:** [05 · Variables de entorno en producción](/ApuntesProyectoDAW/apuntes-pi2/u7-docker/05-variables-de-entorno-en-produccion) · **Siguiente:** [07 · Documentar el proceso](/ApuntesProyectoDAW/apuntes-pi2/u7-docker/07-documentar-el-proceso)

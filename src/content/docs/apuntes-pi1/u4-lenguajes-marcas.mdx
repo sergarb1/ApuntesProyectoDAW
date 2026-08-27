@@ -1,134 +1,87 @@
 ---
-title: 📄 U4. Documentar y comunicar
-description: "Cómo explicar tu proyecto de forma clara: memoria técnica, informes y presentación oral"
+title: "U4 — Documentar y comunicar"
+description: "Cómo explicar tu proyecto de forma clara: memoria técnica, informes y presentación oral 📄"
 ---
 
 import StoryIntro from '../../../components/StoryIntro.astro';
 import Aclaracion from '../../../components/Aclaracion.astro';
+import Comparativa from '../../../components/Comparativa.astro';
 import CasoPractico from '../../../components/CasoPractico.astro';
 
 <StoryIntro icono="🎬" titulo="El día que el tribunal no entendió nada">
   Marcos había programado durante meses. Su aplicación funcionaba. Pero
   cuando llegó a la defensa, el tribunal le preguntó:
-
   — "Explícanos la arquitectura de tu solución".
-
   Marcos sudaba. Había pasado tanto tiempo programando que no sabía
   explicar lo que había hecho. Señalaba partes del código que ni él
   recordaba bien. La memoria era un documento que había escrito la
   noche anterior, con capturas de pantalla mal pegadas y frases copiadas
   de internet.
-
   Aprobó, pero raspado. Su proyecto era mejor que su presentación.
   Y eso no debería pasar.
 </StoryIntro>
 
-## Documentar no es opcional
+> 🗺️ **El mapa del viaje:** 🚪 Bienvenida → 🧭 U1 → 🏗️ U2 → 🗄️ U3 → 🌐 AQUÍ ESTÁS (U4) → 🎨 U5 → ⚙️ U6 → 👥 U7 → 📋 U8 → 🔧 PI2 U1 → 🖥️ U2 → 🔗 U3 → 👤 U4 → ✅ U5 → 🛡️ U6 → 📦 U7 → 🚀 U8 → 🔁 U9
+>
+> [███████░░░░░░░░░░░░] 4/17 · PI1 · Cómo afrontar el proyecto
 
-La documentación no es un trámite aburrido que haces al final. Es la **carta
+Este es el cuarto capítulo de un libro de nueve. Hasta ahora has definido tu
+proyecto, lo has diseñado y has modelado sus datos. Ahora toca **explicarlo**.
+Porque documentar no es un trámite aburrido que haces al final: es la **carta
 de presentación** de tu proyecto. Una buena memoria puede salvar un proyecto
 regular. Una mala memoria puede hundir un proyecto excelente.
 
-### ¿Qué hay que documentar?
+## 🎯 Objetivo de la unidad
 
-En PI1 necesitas:
+Al terminar esta unidad sabrás:
 
-1. **Memoria del proyecto**: documento formal que explica todo tu trabajo
-2. **Presentación oral**: los minutos que tienes para defenderlo
-3. **Código comentado**: lo justo para que se entienda
+- 📝 Distinguir qué se documenta y qué no en PI1 (memoria, presentación, código).
+- 🏗️ Aplicar la estructura estándar de una memoria técnica con sus seis secciones.
+- ✍️ Escribir siguiendo las cinco reglas de oro (capturas, diagramas, código relevante, lenguaje formal, sin faltas).
+- 🎬 Aplicar la regla del minuto inicial y la estructura de 10 minutos en tu presentación.
+- 🚫 Evitar los errores típicos que hunden una defensa (leer diapositivas, letra pequeña, excusas técnicas).
+- 🎒 Preparar un kit de plan B y ensayar con simulacro real antes del día D.
 
-## Cómo escribir una buena memoria
+## 🗺️ Mapa de la unidad
 
-### Estructura recomendada
+| Punto | Qué aprenderás | Nivel |
+|---|---|---|
+| [01 · Documentar no es opcional](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/01-documentar-no-es-opcional) | Por qué la memoria es tu carta de presentación | 🟢 Básico |
+| [02 · Qué documentar en PI1](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/02-que-documentar-en-pi1) | Las tres cosas que debes documentar sí o sí | 🟢 Básico |
+| [03 · La estructura de la memoria](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/03-la-estructura-de-la-memoria) | Las seis secciones estándar y su extensión | 🟡 Esencial |
+| [04 · Reglas de oro de la memoria](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/04-reglas-de-oro-de-la-memoria) | Capturas, diagramas, código, lenguaje y ortografía | 🟡 Esencial |
+| [05 · Presentaciones que no aburren](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/05-presentaciones-que-no-aburren) | La regla del minuto inicial: enganchar | 🟡 Esencial |
+| [06 · La estructura de 10 minutos](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/06-la-estructura-de-10-minutos) | Minuto a minuto: demo, arquitectura, decisiones, dificultades | 🟡 Esencial |
+| [07 · Lo que NO hacer en una defensa](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/07-lo-que-no-hacer-en-una-defensa) | Leer diapositivas, letra 10, excusas, dar la espalda | 🔴 Crítico |
+| [08 · Ensayo y plan B](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/08-ensayo-y-plan-b) | Niveles de ensayo, kit de plan B, checklist | 🔴 Crítico |
+| [09 · Cierre](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/09-cierre) | Consolida: retos, dilemas, laboratorio, entrevista | 🟣 Desafío |
 
-No inventes la rueda. Sigue esta estructura:
+## 📖 Qué encontrarás en el cierre (09)
 
-| Sección | Qué poner | Extensión |
-|---------|-----------|-----------|
-| **Introducción** | Contexto, problema que resuelve, objetivo | 1-2 páginas |
-| **Análisis** | Requisitos, usuarios, estudio de alternativas | 2-3 páginas |
-| **Diseño** | Arquitectura, diagramas, decisiones técnicas | 3-4 páginas |
-| **Implementación** | Tecnologías, funcionalidades, capturas | 3-4 páginas |
-| **Pruebas** | Qué has probado y cómo | 1-2 páginas |
-| **Conclusiones** | Qué has aprendido, dificultades, trabajo futuro | 1 página |
+El punto 09 no es teoría nueva: es el **gimnasio** de la unidad.
 
-### Reglas de oro
+- ⭐ **Sé el Proyecto** — te pones en la piel de una memoria y eliges con cabeza.
+- 🕵️ **¿Quién Soy?** — adivinanzas sobre los conceptos de la unidad.
+- ⚡ **Laboratorio de Tortura** — una práctica con un fallo que tendrás que diagnosticar.
+- 🧠 **Atrévete a Pensar** — preguntas abiertas para ir más allá de la teoría.
+- 💬 **Entrevista de trabajo** — explícale tu proyecto en 30 segundos.
+- 🎬 **Post-Créditos** — la escena que enlaza con U5.
 
-1. **Capturas de pantalla**: cada funcionalidad importante debe tener una
-2. **Diagramas**: un diagrama vale más que mil palabras
-3. **Código solo el relevante**: no copies el proyecto entero, solo fragmentos clave
-4. **Lenguaje formal pero claro**: ni "luego hice no sé qué" ni "en virtud de lo dispuesto"
-5. **Sin faltas de ortografía**: usa correctores. Las faltas restan seriedad
+## ✅ Competencias cubiertas
 
-<Aclaracion pregunta="¿Cuánto tiene que ocupar la memoria?">
-  No se mide en páginas, se mide en **contenido útil**. Una memoria de 20
-  páginas bien escritas, con diagramas y capturas, vale más que 80 páginas
-  de relleno.
+| Competencia | Descripción | Dónde se cubre |
+|---|---|---|
+| CG3 | Comunicación oral y escrita en la presentación de resultados | ✅ Puntos 1, 5, 6 y 8 |
+| CE5 | Documentar el proceso de desarrollo | ✅ Puntos 1, 2, 3 y 4 |
+| CE6 | Presentar y defender el proyecto ante un tribunal | ✅ Puntos 5, 6, 7 y 8 |
 
-  Como referencia: entre 30 y 60 páginas para PI1. Pero pregúntale a tu
-  profesor, que cada uno tiene su criterio.
-</Aclaracion>
+## 🚪 ¿Por dónde empiezo?
 
-## Cómo hacer una presentación que no aburra
+- **¿Cero conocimientos?** Empieza por el [punto 01 · Documentar no es opcional](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/01-documentar-no-es-opcional) y lee en orden: toda la unidad está pensada para un nivel de entrada cero.
+- **¿Ya tienes la memoria borrador?** Vete directo al [punto 03 · La estructura de la memoria](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/03-la-estructura-de-la-memoria) y al [punto 04 · Reglas de oro de la memoria](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/04-reglas-de-oro-de-la-memoria): ahí se juega el 80% de tu nota escrita.
+- **¿La defensa es la semana que viene?** No te pierdas el [punto 05 · Presentaciones que no aburren](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/05-presentaciones-que-no-aburren), el [punto 07 · Lo que NO hacer en una defensa](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/07-lo-que-no-hacer-en-una-defensa) y el [punto 08 · Ensayo y plan B](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/08-ensayo-y-plan-b).
+- **¿Odias hablar en público?** El [punto 05](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/05-presentaciones-que-no-aburren) te da la estructura para no improvisar.
 
-### La regla del minuto inicial
+**📍 Primer punto:** [01 · Documentar no es opcional](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/01-documentar-no-es-opcional)
 
-En el primer minuto de tu presentación, el tribunal decide si le interesa
-tu proyecto. No empieces con:
-- "Bueno, nosotros hemos hecho una aplicación sobre..."
-- "Nuestro proyecto trata de..."
-
-Empieza con:
-- **El problema**: "Cada año, los estudiantes de DAW pierden apuntes..."
-- **La solución**: "Por eso hemos creado una plataforma donde..."
-- **Una demo rápida**: "Enseñémoslo ya"
-
-### Estructura de una presentación de 10 minutos
-
-| Minuto | Qué hacer |
-|--------|-----------|
-| 0-1 | Enganchar: problema + solución |
-| 1-3 | Demo rápida (lo más impactante primero) |
-| 3-5 | Explicar la arquitectura (sin tecnicismos) |
-| 5-7 | Decisiones técnicas importantes |
-| 7-8 | Dificultades y cómo las superaste |
-| 8-10 | Conclusiones y preguntas |
-
-### Lo que NO hacer
-
-- Leer diapositivas (el tribunal sabe leer)
-- Poner 20 líneas de código en una diapositiva
-- Usar letra tamaño 10 porque no cabe todo
-- Decir "esto se ve mal porque el proyector no funciona"
-- Hablar de espaldas al público mirando la pantalla
-
-<CasoPractico titulo="El proyecto bien hecho que casi suspende por la presentación">
-
-  Un equipo desarrolló un sistema de gestión para una pequeña biblioteca.
-  El código era limpio, la base de datos estaba bien normalizada, y el
-  testing cubría el 80% del código. Pero:
-
-  - La memoria la entregaron con títulos mal formateados y sin índice
-  - Las capturas eran pequeñas y borrosas
-  - En la presentación, el portátil no se conectó al proyector y perdieron
-    5 minutos
-  - Leían las diapositivas sin mirar al tribunal
-  - Cuando les preguntaron por una decisión técnica, no supieron explicarla
-
-  **Resultado**: un 5 raspado. El profesor les dijo: "el proyecto merecía
-  más, pero no supisteis vendérmelo".
-
-  **Qué harían hoy**: ensayar la presentación 3 veces antes, tener un plan
-  B para el proyector, preparar respuestas a preguntas típicas, y dedicar
-  más tiempo a la memoria que al último detalle del código.
-</CasoPractico>
-
-## Checklist para tu defensa
-
-- [ ] La memoria está completa, maquetada y sin faltas
-- [ ] He ensayado la presentación al menos 2 veces
-- [ ] Tengo plan B si falla el proyector o el portátil
-- [ ] Sé responder por qué elegí cada tecnología
-- [ ] Puedo explicar la arquitectura sin mirar apuntes
-- [ ] He preparado respuestas a posibles preguntas
-- [ ] La demo funciona sin conexión a internet (por si acaso)
+**⏭️ Al acabar la unidad, continúa en [U5 · Construir la interfaz](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico).**

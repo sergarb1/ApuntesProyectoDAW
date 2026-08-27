@@ -1,0 +1,304 @@
+---
+title: "05 — Configurar el proyecto"
+description: "Scripts de build, dependencias y ajustes para que tu app esté lista para producción antes de desplegar."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🚀 **U8 · Publicar y mantener** → 05 · Configurar el proyecto
+
+<StoryIntro icono="🎬" titulo="El build que nunca funcionó">
+  El equipo tenía la app perfecta en local. Abrían el navegador,
+  todo funcionaba. Decidieron desplegar en Vercel.
+
+  Hicieron push. Vercel intentó construir el proyecto. Error:
+  `npm run build: script not found`. Miraron el package.json.
+  El script se llamaba `build:prod`, no `build`.
+
+  Lo corrigieron, volvieron a hacer push. Nuevo error: `Cannot
+  find module 'express'`. Habían olvidado instalar las
+  dependencias de producción.
+
+  Tardaron 2 horas en configurar lo que debería haber llevado
+  5 minutos. Todo porque el proyecto no estaba preparado para
+  producción.
+
+  Antes de desplegar, prepara el proyecto. Es como antes de
+  viajar: si no haces la maleta bien, llegas sin ropa.
+</StoryIntro>
+
+## La idea en una frase
+
+> Un proyecto listo para desplegar tiene scripts correctos, dependencias
+> instaladas y configuración por entorno. Si falta algo, el deploy falla.
+
+## Preparar el package.json
+
+El `package.json` es el centro de tu proyecto. Si los scripts no
+están bien, CI/CD no funciona.
+
+### Scripts mínimos
+
+```json
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "lint": "eslint ."
+  }
+}
+```
+
+Los scripts que necesitas:
+
+| Script | Qué hace | Cuándo se usa |
+|--------|---------|---------------|
+| `build` | Construye la versión de producción | En CI/CD, antes de desplegar |
+| `test` | Ejecuta los tests | En CI/CD, antes del build |
+| `lint` | Comprueba el estilo del código | Opcional en CI/CD |
+| `preview` | Vista previa de la versión construida | Para probar antes de desplegar |
+
+### El script de build es obligatorio
+
+Si tu workflow ejecuta `npm run build` y no tienes ese script, el
+workflow falla. Comprueba que el nombre del script coincide con el
+que usa tu plataforma de despliegue.
+
+Vercel: `build`
+Netlify: `build`
+Render: `build`
+
+Si usas un nombre diferente, configúralo en la plataforma.
+
+## Las dependencias: production vs development
+
+```json
+{
+  "dependencies": {
+    "express": "^4.18.0",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "vitest": "^1.0.0",
+    "eslint": "^8.50.0"
+  }
+}
+```
+
+**`dependencies`**: lo que tu app necesita para funcionar en
+producción. Se instalan con `npm install --production`.
+
+**`devDependencies`**: lo que solo necesitas para desarrollar
+(herramientas de build, tests, linters). No se instalan en
+producción.
+
+El error más común es tener una dependencia de producción en
+devDependencies. La app funciona en local (porque `npm install`
+instala todo), pero en producción falla porque falta la
+dependencia.
+
+<Comparativa
+  dialogos={[
+    { quien: "package.json mal configurado", texto: "dependencies: { 'vite': '^5.0.0' }. devDependencies: { 'express': '^4.18.0' }. En local funciona porque npm install instala todo. En producción, express no se instala y la app falla." },
+    { quien: "package.json correcto", texto: "dependencies: { 'express': '^4.18.0' }. devDependencies: { 'vite': '^5.0.0', 'vitest': '^1.0.0' }. En producción solo se instalan las dependencias necesarias." },
+  ]}
+  titulo="El lugar correcto para cada dependencia"
+/>
+
+## Variables de entorno por entorno
+
+Tu app necesita configuraciones diferentes en local y en producción.
+La solución es usar variables de entorno.
+
+### Archivos de configuración
+
+```
+config/
+├── default.js      # común a todos los entornos
+├── development.js  # solo en local
+└── production.js   # solo en producción
+```
+
+### En el código
+
+```javascript
+const config = require('./config/default');
+const envConfig = require(`./config/${process.env.NODE_ENV || 'development'}`);
+
+module.exports = { ...config, ...envConfig };
+```
+
+### En la plataforma de despliegue
+
+Cada plataforma tiene un sitio para definir variables de entorno:
+
+- **Vercel**: Settings → Environment Variables
+- **Render**: Environment → Environment Variables
+- **Netlify**: Site settings → Build & deploy → Environment
+
+Nunca subas `.env` al repositorio. Usa `.env.example` para
+documentar las variables necesarias.
+
+## El .gitignore correcto
+
+Sin un `.gitignore` adecuado, subes archivos innecesarios al
+repositorio y la imagen Docker se infla.
+
+```
+# .gitignore
+node_modules/
+.env
+dist/
+build/
+*.log
+.DS_Store
+```
+
+**`node_modules/`**: nunca subas dependencias al repositorio.
+Son miles de archivos que se instalan con `npm install`.
+
+**`.env`**: contiene contraseñas y tokens. Nunca deben estar
+en el repositorio.
+
+**`dist/` o `build/`**: la versión construida. Se genera con
+`npm run build` y no debe versionarse.
+
+## El .env.example
+
+Crea un `.env.example` que documente las variables necesarias
+(sin valores reales):
+
+```
+# .env.example
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=mi_app
+DB_USER=root
+DB_PASSWORD=tu_password_aqui
+API_KEY=tu_api_key_aqui
+PORT=3000
+```
+
+Quien clone el repositorio sabe exactamente qué variables
+necesita. En la plataforma de despliegue, define cada variable
+con su valor real.
+
+<Aclaracion pregunta="¿Y si no uso variables de entorno?">
+  Si tu app no tiene contraseñas, URLs de base de datos ni
+  configuraciones que cambien entre entornos, no necesitas
+  variables de entorno. Pero casi toda app las necesita.
+
+  Incluso el puerto puede ser una variable de entorno: en local
+  usas el 3000, en producción la plataforma asigna uno
+  automáticamente (como Vercel o Render).
+</Aclaracion>
+
+## El README: tu documento de presentación
+
+Un README claro ahorra horas de soporte. Debe incluir:
+
+1. **Qué hace la app**: descripción breve
+2. **Requisitos**: versiones de Node.js, npm, etc.
+3. **Instalación**: paso a paso desde cero
+4. **Variables de entorno**: lista de `.env.example`
+5. **Desarrollo**: cómo ejecutar en local
+6. **Despliegue**: cómo desplegar en producción
+7. **Tests**: cómo ejecutar los tests
+
+```markdown
+# Mi Proyecto
+
+## Requisitos
+- Node.js 20+
+- npm 10+
+
+## Instalación
+git clone https://github.com/usuario/proyecto.git
+cd proyecto
+npm install
+cp .env.example .env
+
+## Desarrollo
+npm run dev
+
+## Tests
+npm test
+
+## Despliegue
+Automático con GitHub Actions al hacer push a main.
+```
+
+## Checklist de configuración
+
+- [ ] El `package.json` tiene scripts `build`, `test` y `dev`
+- [ ] Las dependencias de producción están en `dependencies`
+- [ ] Las dependencias de desarrollo están en `devDependencies`
+- [ ] Existe un `.gitignore` que excluye `node_modules`, `.env`, `dist`
+- [ ] Existe un `.env.example` con las variables necesarias
+- [ ] Las variables de entorno están configuradas en la plataforma
+- [ ] El README documenta la instalación paso a paso
+- [ ] El `package-lock.json` está en el repositorio
+
+<CasoPractico titulo="El proyecto que se preparó en 15 minutos">
+
+  Un equipo dedicó 15 minutos a preparar el proyecto antes de
+  desplegar:
+
+  1. Comprobaron que `npm run build` funcionaba (2 min)
+  2. Comprobaron que `npm test` pasaba (2 min)
+  3. Crearon `.env.example` con las variables necesarias (3 min)
+  4. Actualizaron el `.gitignore` (1 min)
+  5. Configuraron las variables de entorno en Render (5 min)
+  6. Hicieron push y el despliegue fue automático (2 min)
+
+  En 15 minutos, el proyecto estaba listo para producción.
+  Sin sorpresas, sin errores, sin estrés.
+
+  **Lección**: preparar el proyecto antes de desplegar ahorra
+  horas de depuración después.
+</CasoPractico>
+
+## Mini-chequeo
+
+**Pregunta 1.** ¿Qué script es obligatorio para que CI/CD funcione?
+A) `dev` · B) `build` · C) `start`
+
+**Pregunta 2.** ¿Dónde deben estar las dependencias de producción?
+A) En `devDependencies` · B) En `dependencies` · C) En `scripts`
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. El script `build` es el que ejecuta CI/CD para construir la
+   versión de producción. Si no existe, el workflow falla.
+2. **B**. Las dependencias de producción van en `dependencies` porque
+   son las que la app necesita para funcionar fuera de tu máquina.
+
+</details>
+
+## Resumen en 3 frases
+
+1. El `package.json` debe tener scripts `build`, `test` y `dev` para
+   que CI/CD funcione.
+2. Las dependencias de producción van en `dependencies`, las de
+   desarrollo en `devDependencies`.
+3. Un `.gitignore` correcto y un `.env.example` evitan errores
+   comunes en el despliegue.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Build** | Compilar o preparar la app para producción |
+| **Dependencies** | Paquetes que la app necesita para funcionar |
+| **devDependencies** | Herramientas solo para desarrollo |
+| **.gitignore** | Archivo que dice qué no subir al repositorio |
+| **.env.example** | Plantilla de variables de entorno sin valores reales |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd) · **Anterior:** [04 · GitHub Actions](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd/04-github-actions) · **Siguiente:** [06 · Desplegar en producción](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd/06-desplegar-en-produccion)

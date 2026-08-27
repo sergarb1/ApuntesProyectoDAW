@@ -1,0 +1,191 @@
+---
+title: "01 — Comunicación entre partes"
+description: "Por qué el frontend y el backend necesitan un contrato. La brecha más común en proyectos DAW y cómo cerrarla."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🔗 **U3 · Integrar sistemas** → 01 · Comunicación entre partes
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  El equipo de Sergio lleva tres días sin poder conectar el frontend con
+  el backend. El frontend espera un JSON con `nombre_usuario` y el backend
+  devuelve `userName`. El frontend espera un array, el backend devuelve
+  un objeto con `data` y `total`. Los errores llegan en formatos distintos.
+
+  No es un problema de código. Es un problema de **comunicación**. Y la
+  solución no es más código: es un contrato.
+</StoryIntro>
+
+## La idea en una frase
+
+> Frontend y backend son dos personas que hablan idiomas distintos. El
+> contrato es el diccionario que les permite entenderse.
+
+## Las tres comunicaciones de tu proyecto
+
+Cualquier aplicación web moderna tiene tres canales de comunicación:
+
+```
+┌──────────┐    API REST     ┌──────────┐    SQL/ORM    ┌──────────┐
+│ Frontend │ ◄──────────────► │ Backend  │ ◄────────────► │    BD    │
+└──────────┘                  └──────────┘                └──────────┘
+                                    │
+                                    │ API externa
+                                    ▼
+                              ┌──────────────┐
+                              │ Serv. externo │
+                              │ (email, pagos)│
+                              └──────────────┘
+```
+
+### 1. Frontend ↔ Backend
+
+Es la comunicación más visible. El navegador envía peticiones HTTP y el
+servidor responde con datos (normalmente JSON). Aquí es donde más errores
+ocurren porque **dos personas distintas** programan cada lado.
+
+### 2. Backend ↔ Base de datos
+
+El servidor consulta y modifica los datos. Normalmente usa un ORM
+(Sequelize, Prisma, TypeORM) que traduce entre código y SQL. Esta
+comunicación es más controlada porque la gestiona una sola persona.
+
+### 3. Backend ↔ Servicios externos
+
+El servidor se conecta con servicios de terceros: envío de emails
+(SendGrid), pasarela de pagos (Stripe), mapas (Google Maps). Aquí el
+contrato lo define **otra empresa**, y tú te adaptas a él.
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin contrato", texto: "El frontend espera { nombre, email }. El backend devuelve { name, mail }. Nadie se pone de acuerdo. Pierden 3 días." },
+    { quien: "Con contrato", texto: "Definen: GET /api/usuarios devuelve [{ id, nombre, email }]. El frontend programa contra eso. El backend lo cumple. Conectan en 2 horas." },
+  ]}
+  titulo="La diferencia entre caos y orden"
+/>
+
+## Por qué falla la comunicación
+
+Los problemas más frecuentes en proyectos DAW:
+
+| Problema | Ejemplo | Consecuencia |
+|----------|---------|--------------|
+| Nombres distintos | `nombre_usuario` vs `userName` | El frontend no encuentra el campo |
+| Estructura distinta | Array vs objeto con paginación | El frontend rompe al acceder |
+| Errores inconsistentes | `{ error: "..." }` vs `{ message: "..." }` | No se puede manejar errores uniformemente |
+| Códigos HTTP mal usados | Devolver 200 cuando hay error | El frontend no detecta el fallo |
+| Sin documentación | "Pregúntale al de backend" | El frontend adivina y falla |
+
+### El caso de Sergio
+
+Sergio programó el backend. Su compañero programó el frontend. Cada uno
+usó el nombre que le pareció natural. Cuando intentaron conectar:
+
+```javascript
+// Frontend espera esto:
+const { nombre_usuario } = await fetch('/api/usuarios').then(r => r.json());
+
+// Pero el backend devuelve esto:
+// { "userName": "sergio", "email": "sergio@email.com" }
+
+// resultado: nombre_usuario === undefined
+```
+
+No era un bug. Era falta de contrato.
+
+## El contrato: qué es y por qué importa
+
+Un contrato es un acuerdo escrito (no de palabra) sobre:
+
+- **Qué endpoints existen** (GET /api/usuarios, POST /api/usuarios, etc.)
+- **Qué datos se envían** (campos, tipos, obligatoriedad)
+- **Qué datos se reciben** (estructura de la respuesta)
+- **Qué errores se devuelven** (formato y códigos HTTP)
+
+### Ejemplo de contrato
+
+```
+GET /api/usuarios
+Respuesta 200:
+{
+  "data": [
+    { "id": 1, "nombre": "Ana", "email": "ana@email.com" }
+  ],
+  "total": 1
+}
+
+POST /api/usuarios
+Cuerpo: { "nombre": "string", "email": "string" }
+Respuesta 201:
+{
+  "id": 2,
+  "nombre": "Luis",
+  "email": "luis@email.com"
+}
+
+Errores:
+400 → { "error": "datos_invalidos", "mensaje": "El email es obligatorio" }
+409 → { "error": "email_duplicado", "mensaje": "Ya existe un usuario con ese email" }
+```
+
+Con esto, el frontend puede programar sabiendo exactamente qué va a
+recibir, y el backend sabe exactamente qué tiene que devolver.
+
+<Aclaracion pregunta="¿Y si el contrato cambia durante el desarrollo?">
+  Puede pasar. La clave es **comunicar el cambio** inmediatamente. Si el
+  backend cambia la estructura de la respuesta, el frontend lo necesita
+  saber al momento. Por eso existen herramientas como Swagger: muestran
+  el contrato actualizado en tiempo real.
+</Aclaracion>
+
+## Caso práctico
+
+<CasoPractico titulo="El equipo que definió el contrato en una pizarra">
+  Antes de escribir una sola línea de código, el equipo se reunió durante
+  una hora con una pizarra. Dibujaron los endpoints y la estructura de
+  datos de cada uno. Lo documentaron en un archivo markdown.
+
+  Resultados:
+  - El frontend programó sin preguntar al backend en todo el sprint
+  - El backend cumplió el contrato sin sorpresas
+  - Cuando hubo un cambio, lo comunicaron en el canal de equipo en 5 minutos
+  - La integración took solo medio día (frente a los 3 días del equipo anterior)
+
+  **Lección**: una hora de planificación ahorra días de desintegración.
+</CasoPractico>
+
+## ¿Qué hace falta para comunicarse bien?
+
+Tres requisitos mínimos:
+
+1. **Contrato escrito** — no de palabra, sino en un documento que ambos
+   consultan.
+2. **Formatos consistentes** — mismo idioma (JSON), misma estructura,
+   mismos códigos de error.
+3. **Herramientas de prueba** — Postman o Insomnia para probar cada
+   endpoint antes de conectar el frontend.
+
+## Resumen en 3 frases
+
+1. Tu proyecto tiene al menos tres canales de comunicación: frontend-backend,
+   backend-BD y backend-servicios externos.
+2. Cada canal necesita un **contrato**: qué datos se envían, qué se reciben
+   y qué errores se devuelven.
+3. Definir el contrato **antes de programar** ahorra días de debugging
+   y frustración.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Contrato API** | Acuerdo sobre formatos, endpoints y errores entre frontend y backend |
+| **Endpoint** | URL a la que se hace una petición (GET /api/usuarios) |
+| **JSON** | Formato de intercambio de datos más usado en web |
+| **HTTP** | Protocolo de comunicación entre navegador y servidor |
+| **REST** | Estilo arquitectónico para diseñar APIs |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest) · **Anterior:** [Volver al índice de U3](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest) · **Siguiente:** [02 · Definir la API](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/02-definir-la-api)

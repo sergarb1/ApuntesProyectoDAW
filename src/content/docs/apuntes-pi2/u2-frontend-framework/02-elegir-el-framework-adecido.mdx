@@ -1,0 +1,181 @@
+---
+title: "02 — Elegir el framework adecuado"
+description: "Comparativa práctica de React, Vue, Svelte y Astro: fortalezas, debilidades y criterios reales para decidir cuál usar en tu proyecto."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🖥️ **U2 · Mejorar el frontend** → 02 · Elegir el framework adecuado
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Sergio ya decidió que necesita un framework. Ahora surge la siguiente
+  pregunta: ¿cuál? Su compañero le dice "React porque es el que usa
+  todo el mundo". Otro le recomienda Vue porque "es más fácil". Un
+  tercero jura por Svelte. Y alguien mencionó Astro.
+
+  Hay demasiadas opiniones y muy pocas datos. Este capítulo te da
+  los datos para decidir por ti mismo.
+</StoryIntro>
+
+## La idea en una frase
+
+> El mejor framework es el que se adapta a tu proyecto y a lo que sabes,
+> no el que tiene más estrellas en GitHub.
+
+## Los cuatro candidatos
+
+### React
+
+Creado por Meta (Facebook) en 2013. Es el framework frontend más usado
+del mundo. Su idea central: la interfaz es una función del estado
+(`UI = f(state)`).
+
+| Aspecto | Detalle |
+|---------|---------|
+| Curva de aprendizaje | Media-alta. JSX al principio confunde |
+| Comunidad | Enorme. Cualquier problema tiene solución en Stack Overflow |
+| Ecosistema | React Router, Redux, Next.js, mil librerías |
+| Ideal para | Proyectos grandes, equipos,ibilidades a largo plazo |
+| Riesgo | Tanta opción puede abrumar al principio |
+
+### Vue
+
+Creado por Evan You en 2014. Diseñado para ser adoptado progresivamente:
+puedes empezar a usarlo en una página HTML existente sin migrar todo.
+
+| Aspecto | Detalle |
+|---------|---------|
+| Curva de aprendizaje | Baja-media. Template syntax es cercana a HTML |
+| Comunidad | Grande, sobre todo en China y Europa |
+| Ecosistema | Vue Router, Pinia, Nuxt.js |
+| Ideal para | Proyectos medianos, aprendizaje rápido, migraciones graduales |
+| Riesgo | Menos ofertas de trabajo que React en algunos mercados |
+
+### Svelte
+
+Creado por Rich Harris en 2016. No usa un Virtual DOM: compila el
+código a JavaScript vanilla optimizado en tiempo de build.
+
+| Aspecto | Detalle |
+|---------|---------|
+| Curva de aprendizaje | Baja. Sintaxis cercana a HTML/CSS/JS puro |
+| Comunidad | Pequeña pero activa y entusiasta |
+| Ecosistema | SvelteKit (full stack), pocas librerías externas |
+| Ideal para | Proyectos donde quieres menos código, startups, prototipos |
+| Riesgo | Menos opciones si necesitas algo muy específico |
+
+### Astro
+
+Creado por Fred K. Schott en 2021. No es un framework UI: es un
+framework de build para sitios con poco JavaScript. Puedes usar
+React, Vue o Svelte como componentes dentro de Astro.
+
+| Aspecto | Detalle |
+|---------|---------|
+| Curva de aprendizaje | Media. Concepto de islands es nuevo |
+| Comunidad | Creciente rápidamente |
+| Ecosistema | Integración con todos los frameworks UI |
+| Ideal para | Blogs, documentación, landing pages, contenido estático |
+| Riesgo | No es ideal para SPAs con mucha interactividad |
+
+<Comparativa
+  dialogos={[
+    { quien: "React — El polifacético", texto: "Soy el más usado del mundo. Tengo la mayor comunidad, el mayor ecosistema y la mayor cantidad de trabajo. Pero aprendeme bien: JSX, hooks, estado... no soy el más fácil, pero soy el más versátil." },
+    { quien: "Vue — El accesible", texto: "Soy el que más se parece a HTML. Puedes empezar a usarme en una página existente sin migrar todo. Mi curva es suave y mi documentación es excellent. Si quieres aprender rápido, soy tu framework." },
+    { quien: "Svelte — El eficiente", texto: "No uso Virtual DOM. Compilo a JavaScript puro y optimizado. Mi código es más corto, más rápido y más fácil de entender. Pero mi comunidad es más pequeña." },
+    {的人: "Astro — El híbrido", texto: "No soy un framework UI, soy un framework de build. Puedes usar React, Vue o Svelte dentro de mí. Ideal para contenido estático con islands de interactividad. Pero no soy para SPAs puras." },
+  ]}
+  titulo="Los cuatro candidatos se presentan"
+/>
+
+## Tabla comparativa directa
+
+| Criterio | React | Vue | Svelte | Astro |
+|----------|-------|-----|--------|-------|
+| Curva de aprendizaje | Media-alta | Baja-media | Baja | Media |
+| Comunidad | Enorme | Grande | Pequeña | Creciente |
+| Ecosistema | Enorme | Grande | Pequeño | Medio |
+| Rendimiento | Bueno | Bueno | Excelente | Excelente (SSG) |
+| Trabajo disponible | Muchísimo | Mucho | Poco | Poco |
+| Complejidad del proyecto | Grande | Mediana | Mediana | Contenido estático |
+| HTTP setup | Next.js | Nuxt.js | SvelteKit | Integrado |
+
+## Criterios para decidir
+
+No elijas por popularidad. Elige por estas preguntas:
+
+1. **¿Cuánto sabes?** Si no sabes ninguno, Vue es el más amigable.
+   Si ya sabes React, quédate con React.
+2. **¿Qué tan grande es tu proyecto?** Pequeño-mediano: Vue o Svelte.
+   Grande: React. Estático: Astro.
+3. **¿Qué tan importante es el rendimiento?** Muy importante: Svelte
+   o Astro. Normal: React o Vue valen.
+4. **¿Necesitas deploy estático?** Astro es el rey aquí. Los demás
+   también pueden, pero Astro nació para eso.
+5. **¿Trabajas en equipo?** Si el equipo ya sabe React, no les pidas
+   que aprendan Vue. Y viceversa.
+
+<Aclaracion pregunta="¿Y si me arrepiento de la elección?">
+  Migrar de framework es costoso pero no imposible. La clave es que
+  los conceptos son transferibles: componentes, props, estado, efectos
+  secundarios... Si aprendes uno bien, los demás te resultarán más
+  fáciles.
+
+  No paralices tu proyecto 2 semanas "eligiendo el framework perfecto".
+  Elige uno que cumpla, empieza a construir, y si realmente necesitas
+  cambiar, lo harás con más experiencia.
+</Aclaracion>
+
+## Caso práctico
+
+<CasoPractico titulo="El equipo que perdió 3 días debatiendo">
+  Un equipo de 4 personas pasó 3 días discutiendo qué framework usar.
+  Cada uno defendía el suyo. Al final, el profesor les dijo: "Tienen
+  8 semanas para entregar. ¿3 días de debate o 3 días de código?"
+
+  Decidieron hacer una prueba rápida: cada uno hizo una lista de tareas
+  simple con su framework favorito en 2 horas. Resultado:
+  - React: funcional, algo verboso
+  - Vue: funcional, más conciso
+  - Svelte: funcional, el más corto
+
+  Todos funcionaban. Eligi Vue por su documentación clara y su curva
+  suave. En 2 horas estaban codando de verdad.
+
+  **Lección**: la mejor forma de decidir es probar, no debatir. Haz
+  un prototipo rápido y compara.
+</CasoPractico>
+
+## Mi recomendación para un proyecto DAW
+
+Si no sabes nada y tienes 8 semanas: **Vue**. Curva suave, documentación
+clara, resulta suficiente para un proyecto DAW. Si ya sabes React:
+quédate con React. Si tu proyecto es principalmente contenido estático
+con algo de interactividad: **Astro** con componentes Vue o React.
+
+No hay respuesta mala. Hay respuestas más o menos adecuadas para tu
+situación.
+
+## Resumen en 3 frases
+
+1. React es el más potente y con más trabajo disponible, pero tiene
+   la curva más alta. Vue es el más accesible y documentado.
+2. Svelte es el más eficiente en código y rendimiento, pero tiene
+   menos ecosistema. Astro es ideal para contenido estático.
+3. No elijas por popularidad: elige por tu nivel, tu proyecto y tu
+   equipo. Y si no estás seguro, prueba 2 horas con cada uno.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **JSX** | Sintaxis de React que mezcla HTML dentro de JavaScript |
+| **Virtual DOM** | Réplica virtual del DOM que React/Vue usan para optimizar actualizaciones |
+| **Svelte** | Framework que compila a JavaScript vanilla sin Virtual DOM |
+| **Astro Islands** | Componentes interactivos dentro de una página mayormente estática |
+| **SSG** | Static Site Generation: generar HTML en tiempo de build |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework) · **Anterior:** [01 · Cuándo necesitas un framework](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/01-cuando-necesitas-un-framework) · **Siguiente:** [03 · Componentes: la pieza fundamental](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/03-componentes-la-pieza-fundamental)

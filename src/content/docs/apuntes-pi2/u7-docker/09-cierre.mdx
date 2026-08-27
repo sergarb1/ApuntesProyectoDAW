@@ -1,0 +1,337 @@
+---
+title: "09 — Cierre: consolida lo aprendido"
+description: "Pon en práctica todo lo de la unidad: retos, dilemas, un laboratorio con trampa y un adiós hacia U8."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📦 **U7 · Preparar el despliegue** → 09 · Cierre
+
+> En este punto no aprendemos nada nuevo: lo convertimos todo en práctica. Y,
+> como siempre, algo no va a funcionar. 😈
+
+Has aprendido por qué "en mi máquina funciona" es peligroso, qué son
+los contenedores y por qué resuelven el problema de los entornos, cómo
+escribir un Dockerfile optimizado, cómo coordinar servicios con Docker
+Compose, cómo gestionar variables de entorno, cómo desplegar en la
+nube, cómo documentar el proceso y cómo comprobar todo con una checklist.
+Ahora toca **usarlo**.
+
+## Sé el Proyecto
+
+Ponte en la piel del proyecto de PI1 de tu equipo. El equipo tiene que
+decidir cómo afrontar el despliegue en PI2. ¿Qué enfoque eliges?
+
+- **Opción A — "El improvisador"**: "Ya lo desplegamos al final.
+  Por ahora, todo funciona en localhost. No perdamos tiempo con
+  Docker y despliegue."
+- **Opción B — "El metódico"**: "Desde el primer sprint, configuramos
+  variables de entorno, escribimos un Dockerfile y desplegamos en
+  una plataforma gratuita. Cada push se despliega automáticamente."
+- **Opción C — "El copiador"**: "Busco un tutorial de despliegue en
+  YouTube, sigo los pasos y lo adapto. Si funciona, perfecto. Si no,
+  ya veré."
+
+<details>
+<summary>...Respuestas...</summary>
+
+**La opción B.** Es la única que equilibra calidad y eficiencia. La A
+es arriesgada: improvisar el despliegue en la última semana implica
+errores de configuración, variables faltantes y estrés innecesario. La C
+depende de la calidad del tutorial y no garantiza que entiendas lo que
+haces. La B invierte un poco de tiempo al principio para ahorrar mucho
+después. Y demuestra al tribunal que entiendes el ciclo de vida de una
+aplicación real.
+
+</details>
+
+## Dilema de equipo
+
+Dos miembros del equipo discuten cuánto invertir en preparar el
+despliegue. ¿Quién tiene razón... o en qué punto se juntan?
+
+<Comparativa
+  dialogos={[
+    { quien: "Ana — 'Primero la funcionalidad'", texto: "Si no tenemos las funcionalidades hechas, ¿qué sentido tiene que esté desplegado? Primero código que funcione, luego lo demás." },
+    { quien: "Pablo — 'Primero el despliegue'", texto: "Si al final descubrimos que no funciona fuera de localhost, ¿de qué sirve que las funcionalidades funcionen en local? El tribunal no usará nuestro portátil." },
+  ]}
+  titulo="¿Funcionalidad o despliegue?"
+/>
+
+<details>
+<summary>...Respuestas...</summary>
+
+**Pablo tiene razón en que el tribunal necesita ver la app funcionando,
+pero Ana tiene razón en que sin funcionalidad no hay producto.** Haz las
+dos cosas en paralelo: configura el despliegue básico en el primer
+sprint (Docker, variables de entorno, plataforma gratuita) y ve
+desplegando funcionalidades a medida que las terminas. El equilibrio
+es 80% código / 20% infraestructura, con despliegue continuo.
+
+</details>
+
+## ¿Quién Soy?
+
+Ocho conceptos de la unidad se presentan enigmáticamente. ¿Adivinas
+quién es quién?
+
+1. "Soy la instrucción de un Dockerfile que define la imagen base sobre
+   la que se construye todo. Sin mí, Docker no sabe qué sistema operativo
+   usar."
+2. "Soy el archivo YAML que coordina varios contenedores para que se
+   arranquen juntos y se comuniquen entre sí."
+3. "Soy el valor que se define fuera del código y se lee en tiempo de
+   ejecución. Si me hardcodeas, mi aplicación solo funcionará en tu
+   máquina."
+4. "Soy la instrucción que crea un usuario no-root dentro del contenedor.
+   Sin mí, la aplicación se ejecuta como root, lo cual es un riesgo
+   de seguridad."
+5. "Soy el archivo que excluye archivos de la imagen Docker. Sin mí,
+   node_modules y .git se copian a la imagen y la inflan."
+6. "Soy el almacén de datos que sobrevive a la eliminación de
+   contenedores. Sin mí, la base de datos se pierde cada vez que
+   ejecuto docker-compose down."
+7. "Soy la plataforma gratuita que despliega frontend con un push a
+   Git. Vercel y Netlify también lo son."
+8. "Soy el archivo que documenta cómo instalar y ejecutar el proyecto.
+   Sin mí, quien clone el repositorio no sabrá qué hacer."
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **FROM** (punto 03). 2. **docker-compose.yml** (punto 04). 3. **Variable
+   de entorno** (punto 05). 4. **USER** (punto 03). 5. **.dockerignore**
+   (punto 03). 6. **Volumen** (punto 04). 7. **Plataforma de despliegue
+   gratuito** (punto 06). 8. **README** (punto 07).
+
+</details>
+
+## Laboratorio de Tortura
+
+**Duración estimada: 30-40 minutos.** Objetivo: detectar los problemas
+de una implementación de despliegue que *parece* correcta... y no lo es.
+
+**Contexto.** Un equipo tiene esta configuración para su proyecto:
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=localhost
+      - DB_PORT=3306
+      - DB_NAME=mi_app
+      - DB_USER=root
+      - DB_PASSWORD=root123
+    depends_on:
+      - database
+
+  database:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root123
+      - MYSQL_DATABASE=mi_app
+```
+
+```dockerfile
+# Dockerfile del backend
+FROM node:20
+WORKDIR /app
+COPY . .
+RUN npm install
+EXPOSE 3000
+CMD ["node", "server.js"]
+```
+
+```javascript
+// server.js (fragmento)
+const DB_HOST = process.env.DB_HOST || "localhost";
+const DB_PASSWORD = process.env.DB_PASSWORD || "root123";
+```
+
+```gitignore
+# .gitignore
+node_modules
+```
+
+**Instrucciones.** Detecta **mínimo 7 problemas** de configuración,
+seguridad o despliegue. Después, descubre el **fallo intencionado**.
+
+<details>
+<summary>Pista 1</summary>
+
+Revisa el punto 04 (Docker Compose): ¿cómo se comunica el backend con
+la base de datos? ¿`localhost` funciona dentro de un contenedor?
+
+</details>
+
+<details>
+<summary>Pista 2</summary>
+
+Revisa el punto 03 (Dockerfile): ¿qué archivos se copian al contenedor?
+¿Se copia `node_modules`? ¿Se usa `.dockerignore`?
+
+</details>
+
+<details>
+<summary>Pista 3</summary>
+
+Revisa el punto 05 (variables de entorno): ¿la contraseña de la base
+de datos está hardcodeada en el YAML y en el código JavaScript?
+¿Está `.env` en `.gitignore`?
+
+</details>
+
+<details>
+<summary>Pista 4 (casi la respuesta)</summary>
+
+El fallo intencionado es que **DB_HOST=localhost** en el backend. Dentro
+del contenedor, `localhost` se refiere al contenedor mismo, no al
+servicio `database`. El backend nunca podrá conectarse a la base de
+datos. Debería ser `DB_HOST=database` (el nombre del servicio en
+Docker Compose).
+
+</details>
+
+<details>
+<summary>...Solución completa...</summary>
+
+**Problemas detectados:**
+
+1. **DB_HOST=localhost** — dentro del contenedor, localhost es el
+   contenedor mismo, no el servicio database. Debe ser `DB_HOST=database`.
+2. **Contraseña hardcodeada** — `DB_PASSWORD=root123` aparece en el
+   YAML y en el código. Debe estar en `.env` y referenciarse con
+   `${DB_PASSWORD}`.
+3. **Copia de node_modules** — el Dockerfile hace `COPY . .` antes de
+   `npm install`. Si existe `.dockerignore`, excluye `node_modules`.
+   Si no, se copian las dependencias de la máquina local.
+4. **Sin .dockerignore** — el `.gitignore` no es lo mismo que un
+   `.dockerignore`. Necesitas uno propio que excluya `node_modules`,
+   `.git`, `.env`, etc.
+5. **Imagen base completa** — `FROM node:20` pesa ~900 MB. Debería ser
+   `FROM node:20-alpine` (~180 MB).
+6. **Sin usuario no-root** — la aplicación se ejecuta como root dentro
+   del contenedor. Riesgo de seguridad.
+7. **Sin multi-stage build** — la imagen incluye código fuente, tests,
+   docs y todo lo innecesario.
+8. **Sin persistencia de datos** — no hay volúmenes definidos para MySQL.
+   Si ejecutas `docker-compose down`, la base de datos se pierde.
+9. **Puertos expuestos innecesariamente** — el puerto 3306 de MySQL está
+   mapeado al host. No es necesario para la comunicación entre servicios.
+
+**Fallo intencionado:** DB_HOST=localhost. El backend nunca se conecta
+a la base de datos porque `localhost` dentro del contenedor es él
+mismo, no el servicio database.
+
+</details>
+
+## Atrévete a Pensar
+
+Preguntas abiertas. Piensa primero, mira la solución después.
+
+1. Si solo tienes 2 horas para preparar el despliegue, ¿qué haces
+   primero?
+2. ¿Cómo convences a un compañero de que Docker merece la pena?
+3. ¿Qué pasaría si el tribunal te pregunta "¿y si esta aplicación
+   fuera real, cómo la desplegarías en producción?"?
+
+<details>
+<summary>...Sugerencias de respuesta...</summary>
+
+1. Dockerfile + docker-compose.yml + desplegar en Vercel/Render. Son
+   las 3 cosas que más impacto tienen con menos esfuerzo.
+2. Con datos: un `docker-compose up` arranca todo en 30 segundos.
+   Sin Docker, necesitarías instalar MySQL, configurar puertos,
+   copiar variables... y hope que funcione en otra máquina.
+3. Con arquitectura real: containers en Kubernetes o ECS, CI/CD con
+   GitHub Actions, monitoreo con Datadog o similar, escalado automático.
+   Aunque sea teórico, demuestra que entiendes el panorama completo.
+
+</details>
+
+## Entrevista de trabajo
+
+Te acaban de contratar como "devops junior". Estas son las preguntas
+que te harán en la entrevista:
+
+1. **"Explícame qué es un contenedor Docker como si yo fuera tu abuela."**
+2. **"¿Por qué no se usa localhost dentro de Docker Compose?"**
+3. **"¿Qué haces si tu aplicación funciona en local pero falla en
+   producción?"**
+
+<details>
+<summary>...Modelos de respuesta...</summary>
+
+1. "Es como una caja de mudanza. Metes tu aplicación con todo lo que
+   necesita (programas, configuración, datos) y la caja funciona igual
+   en cualquier ordenador. Como llevar tu casa en una caja."
+2. "Porque cada contenedor es como un ordenador diferente. localhost
+   se refiere al contenedor actual, no a los demás. Los contenedores
+   se comunican entre sí usando el nombre del servicio, como si fueran
+   compañeros de piso que se llaman por su nombre."
+3. "Primero compruebo las variables de entorno: ¿están configuradas
+   correctamente? Luego compruebo los logs del servidor. Después,
+   reproduzco el problema en Docker. Normalmente es una diferencia
+   de entorno: versión, ruta, variable no definida."
+
+</details>
+
+## Preguntas Tontas
+
+> **Pregunta** — "¿Y si mi proyecto es tan pequeño que no necesita
+> Docker ni despliegue?"
+> **Respuesta** — Si tiene más de un archivo y alguien besides tú
+> lo va a usar, necesita al menos un README con instrucciones. No es
+> cuestión de tamaño, es cuestión de profesionalidad.
+
+> **Pregunta** — "¿Qué pasa si el tribunal no se fija en el despliegue?"
+> **Respuesta** — Puede que no, pero puede que sí. Y lo más importante:
+> un proyecto desplegado demuestra que sabes llevarlo al mundo real.
+> Es la diferencia entre un prototipo y un producto.
+
+> **Pregunta** — "¿Docker es complicado?"
+> **Respuesta** — Lo básico no. Un Dockerfile son 10 líneas. Un
+   docker-compose.yml son 30. Lo complicado es lo avanzado (redes,
+   orquestación, escalado), pero para un proyecto DAW no lo necesitas.
+
+## Post-Créditos
+
+El proyecto de Sergio funciona en Docker. El docker-compose.yml arranca
+frontend, backend y base de datos con un solo comando. Las variables
+de entorno están en un archivo `.env`. El README explica todo paso a
+paso. La app está desplegada en Vercel y accesible desde internet.
+
+Suena el teléfono. Es su compañero de equipo:
+
+"He probado a clonar el repositorio en el portátil del instituto.
+He ejecutado `docker-compose up` y en 30 segundos todo ha arrancado.
+No he tenido que instalar nada. Ni siquiera Node.js."
+
+Sergio sonríe. Eso era exactamente lo que querían conseguir. La
+aplicación funciona en todas partes. No solo en su máquina.
+
+**PRÓXIMAMENTE EN PI2 U8:** Publicar, mantener y actualizar tu
+aplicación con CI/CD para que cada push a Git sea un despliegue
+automático. 🚀
+
+---
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u7-docker) · **Anterior:** [08 · Checklist de despliegue](/ApuntesProyectoDAW/apuntes-pi2/u7-docker/08-checklist-de-despliegue) · **Siguiente:** [**PI2 U8 · Publicar y mantener**](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd)

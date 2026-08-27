@@ -1,0 +1,241 @@
+---
+title: "02 — Definir la API"
+description: "Principios REST, métodos HTTP, códigos de estado y cómo diseñar endpoints que tengan sentido."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🔗 **U3 · Integrar sistemas** → 02 · Definir la API
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  El equipo de Laura diseñó su API sin pensar demasiado: cada endpoint
+  tenía un nombre distinto, algunos devolvían 200 para todo, y la
+  estructura de los datos variaba entre endpoints. Cuando el frontend
+  intentó conectarse, cada endpoint era una sorpresa distinta.
+
+  Este capítulo es la guía para diseñar una API que tenga sentido:
+  coherente, predecible y fácil de usar.
+</StoryIntro>
+
+## La idea en una frase
+
+> Una buena API es como un buen menú de restaurante: predecible, coherente
+> y sin sorpresas. Si el plato 1 se llama "Ensalada", el plato 2 no debería
+> llamarse "Verdes picados con vinagreta".
+
+## Qué es REST
+
+REST (Representational State Transfer) es un estilo arquitectónico, no un
+protocolo. Define principios para diseñar APIs web:
+
+| Principio | Significado práctico |
+|-----------|----------------------|
+| **Recursos identificados por URLs** | Cada cosa tiene su URL: `/api/usuarios`, `/api/productos` |
+| **Métodos HTTP indican la acción** | GET = leer, POST = crear, PUT = actualizar, DELETE = borrar |
+| **Sin estado** | Cada petición contiene toda la información necesaria |
+| **Formato uniforme** | Todo se comunica en JSON (normalmente) |
+
+### Recursos: las cosas que tu API maneja
+
+Piensa en tus datos como **recursos** (sustantivos, no verbos):
+
+| Mal (verbos) | Bien (recursos) |
+|--------------|-----------------|
+| `/getUsuarios` | `GET /api/usuarios` |
+| `/crearUsuario` | `POST /api/usuarios` |
+| `/borrarUsuario?id=5` | `DELETE /api/usuarios/5` |
+| `/modificarNombre` | `PUT /api/usuarios/5` |
+
+Los verbos están en el método HTTP, no en la URL.
+
+## Métodos HTTP
+
+Cada método tiene un significado preciso:
+
+| Método | Acción | Ejemplo | Código típico |
+|--------|--------|---------|---------------|
+| **GET** | Leer datos | `GET /api/usuarios` | 200 |
+| **POST** | Crear recurso | `POST /api/usuarios` | 201 |
+| **PUT** | Actualizar completo | `PUT /api/usuarios/5` | 200 |
+| **PATCH** | Actualizar parcial | `PATCH /api/usuarios/5` | 200 |
+| **DELETE** | Borrar recurso | `DELETE /api/usuarios/5` | 204 |
+
+### GET: leer datos
+
+```javascript
+// Petición
+GET /api/usuarios
+GET /api/usuarios/5
+GET /api/usuarios?email=ana@email.com
+
+// Respuesta típica (200)
+{
+  "data": [
+    { "id": 1, "nombre": "Ana", "email": "ana@email.com" }
+  ],
+  "total": 1
+}
+```
+
+### POST: crear recurso
+
+```javascript
+// Petición
+POST /api/usuarios
+Content-Type: application/json
+
+{
+  "nombre": "Luis",
+  "email": "luis@email.com"
+}
+
+// Respuesta típica (201)
+{
+  "id": 2,
+  "nombre": "Luis",
+  "email": "luis@email.com"
+}
+```
+
+### PUT: actualizar recurso
+
+```javascript
+// Petición
+PUT /api/usuarios/5
+Content-Type: application/json
+
+{
+  "nombre": "Luis Modificado",
+  "email": "luis@email.com"
+}
+
+// Respuesta típica (200)
+{
+  "id": 5,
+  "nombre": "Luis Modificado",
+  "email": "luis@email.com"
+}
+```
+
+### DELETE: borrar recurso
+
+```javascript
+// Petición
+DELETE /api/usuarios/5
+
+// Respuesta típica (204)
+// Sin contenido
+```
+
+<Comparativa
+  dialogos={[
+    { quien: "API desordenada", texto: "/getUser, /createUser, /deleteUser?id=5, /updateUserName?id=5. Cada endpoint es un mundo. El frontend no sabe qué esperar." },
+    { quien: "API REST coherente", texto: "GET /api/usuarios, POST /api/usuarios, DELETE /api/usuarios/5, PATCH /api/usuarios/5. Todo sigue el mismo patrón. El frontend sabe cómo usar cada endpoint sin leer documentación." },
+  ]}
+  titulo="Coherencia vs caos"
+/>
+
+## Códigos de estado HTTP
+
+Los códigos le dicen al frontend qué pasó:
+
+| Código | Significado | Cuándo usarlo |
+|--------|-------------|---------------|
+| **200** | OK | La petición fue exitosa |
+| **201** | Created | Se creó un recurso nuevo |
+| **204** | No Content | Se eliminó (sin cuerpo de respuesta) |
+| **400** | Bad Request | Datos inválidos del cliente |
+| **401** | Unauthorized | No autenticado (falta token) |
+| **403** | Forbidden | Autenticado pero sin permisos |
+| **404** | Not Found | El recurso no existe |
+| **409** | Conflict | Conflicto (email duplicado, etc.) |
+| **422** | Unprocessable | Datos correctos pero no se pueden procesar |
+| **500** | Internal Error | Error del servidor (no del cliente) |
+
+### Errores que debes evitar
+
+| Error | Código correcto | Por qué |
+|-------|-----------------|---------|
+| Devolver 200 cuando hay error | 400, 404, 500 | El frontend no detecta el fallo |
+| Devolver 200 para todo | Variar según caso | Pierde significado |
+| Usar 418 (I'm a teapot) | Cualquier código real | No es un código válido para APIs |
+| No devolver cuerpo en errores | Siempre devolver `error` y `mensaje` | El frontend no puede mostrar info útil |
+
+## Diseñar endpoints que tengan sentido
+
+### Reglas prácticas
+
+1. **URLs en minúsculas**: `/api/usuarios`, NO `/api/Usuarios`
+2. **Guiones para multi-palabra**: `/api/puntos-de-venta`, NO `/api/puntosDeVenta`
+3. **IDs al final**: `/api/usuarios/5`, NO `/api/usuarios?id=5`
+4. **Versión de API**: `/api/v1/usuarios` (para poder evolucionar)
+5. **Paginación**: `/api/usuarios?page=1&limit=20`
+
+### Ejemplo completo de una API de tareas
+
+```
+GET    /api/v1/tareas              → Lista de tareas (paginada)
+GET    /api/v1/tareas/42           → Una tarea específica
+POST   /api/v1/tareas              → Crear tarea
+PUT    /api/v1/tareas/42           → Actualizar tarea completa
+PATCH  /api/v1/tareas/42           → Actualizar campos parciales
+DELETE /api/v1/tareas/42           → Borrar tarea
+GET    /api/v1/tareas/42/comentarios → Comentarios de una tarea
+POST   /api/v1/tareas/42/comentarios → Añadir comentario a una tarea
+```
+
+<Aclaracion pregunta="¿Cuándo uso PUT y cuándo PATCH?">
+  **PUT** reemplaza el recurso completo: envías todos los campos. **PATCH**
+  actualiza solo los campos que cambian. Ejemplo:
+
+  - PUT `/api/usuarios/5` con `{ nombre, email, telefono }` → actualiza todo
+  - PATCH `/api/usuarios/5` con `{ nombre }` → actualiza solo el nombre
+
+  En la práctica, muchos proyectos usan PUT para ambos casos. Si tu equipo
+  es pequeño, PUT para todo es suficiente.
+</Aclaracion>
+
+## Caso práctico
+
+<CasoPractico titulo="La API que el tribunal entendió en 2 minutos">
+  Un equipo documentó su API con una tabla clara en el README:
+
+  ```
+  Método  | Endpoint               | Descripción
+  --------|------------------------|---------------------------
+  GET     | /api/v1/productos      | Lista productos
+  POST    | /api/v1/productos      | Crea producto
+  GET     | /api/v1/productos/:id  | Detalle de producto
+  PUT     | /api/v1/productos/:id  | Actualiza producto
+  DELETE  | /api/v1/productos/:id  | Borra producto
+  ```
+
+  El tribunal probó los endpoints con Postman durante la presentación.
+  Todo funcionó como esperaban. La API era predecible: sabían qué hacer
+  con cada endpoint sin haber leído documentación extensa.
+
+  **Lección**: una API bien diseñada se explica sola.
+</CasoPractico>
+
+## Resumen en 3 frases
+
+1. REST es un estilo que usa **recursos** (URLs) y **métodos HTTP** (GET, POST,
+   PUT, DELETE) para comunicar frontend y backend.
+2. Los **códigos de estado** (200, 201, 400, 404, 500) le dicen al frontend
+   qué pasó con la petición.
+3. Diseña tu API como un menú: **coherente, predecible y sin sorpresas**.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **REST** | Estilo arquitectónico para APIs basado en recursos y métodos HTTP |
+| **Endpoint** | URL + método que representa una operación sobre un recurso |
+| **Código de estado** | Número que indica el resultado de una petición HTTP |
+| **Recurso** | Cada "cosa" que tu API maneja (usuarios, productos, etc.) |
+| **Paginación** | Dividir resultados grandes en páginas (page, limit) |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest) · **Anterior:** [01 · Comunicación entre partes](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/01-comunicacion-entre-partes) · **Siguiente:** [03 · Contrato antes de codificar](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/03-contrato-antes-de-codificar)

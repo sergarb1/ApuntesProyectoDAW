@@ -1,13 +1,13 @@
 ---
-title: 🚀 U8. Publicar y mantener
-description: Cómo poner tu aplicación en producción y mantenerla actualizada con CI/CD
+title: "\U0001F680 U8. Publicar y mantener"
+description: "Cómo poner tu aplicación en producción y mantenerla actualizada con CI/CD"
 ---
 
 import StoryIntro from '../../../components/StoryIntro.astro';
 import Aclaracion from '../../../components/Aclaracion.astro';
 import CasoPractico from '../../../components/CasoPractico.astro';
 
-<StoryIntro icono="🎬" titulo="El día que la aplicación salió al mundo">
+<StoryIntro icono="\U0001F3AC" titulo="El día que la aplicación salió al mundo">
   "Ya está. Hemos terminado", dijo el equipo. Pero el profesor preguntó:
   "¿Y dónde puedo verla funcionando?".
 
@@ -23,121 +23,66 @@ import CasoPractico from '../../../components/CasoPractico.astro';
   de la última semana.
 </StoryIntro>
 
-## ¿Por qué desplegar?
+## Mapa de la unidad
 
-Un proyecto que solo funciona en localhost está **incompleto**.
-Desplegarlo demuestra que:
+<div class="card-grid small">
 
-- La aplicación funciona fuera de tu entorno controlado
-- Sabes configurar un servidor
-- Entiendes el ciclo de vida de una aplicación web
-- El tribunal puede probarlo sin instalar nada
+<div class="card">
 
-## Opciones de despliegue gratuito
+[**01 · Por qué desplegar**](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd/01-por-que-desplegar)
+Un proyecto que solo funciona en localhost está incompleto. Por qué desplegar demuestra conocimiento real.
 
-| Plataforma | Ideal para | HTTPS |
-|-----------|-----------|-------|
-| **Vercel** | Frontend (React, Vue, Astro) | ✅ |
-| **Netlify** | Frontend estático | ✅ |
-| **Render** | Backend + BD gratuita (limitado) | ✅ |
-| **Railway** | Backend + BD | ✅ |
-| **GitHub Pages** | Sitios estáticos | ✅ |
-| **Firebase** | Apps con backend ligero | ✅ |
-| **PythonAnywhere** | Backend Python | ✅ |
+</div>
 
-Elige la que mejor se adapte a tu stack. La mayoría tiene planes
-gratuitos suficientes para un proyecto DAW.
+<div class="card">
 
-<Aclaracion pregunta="¿Y si el despliegue cuesta dinero?">
-  Casi todas las plataformas tienen plan gratuito. Si tu proyecto
-  es pequeño, no deberías pagar nada.
+[**02 · Opciones de despliegue**](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd/02-opciones-de-despliegue)
+Plataformas gratuitas comparadas: Vercel, Netlify, Render, Railway, GitHub Pages, Firebase y más.
 
-  Eso sí, los planes gratuitos tienen limitaciones:
-  - El servidor se "duerme" si no se usa (tarda unos segundos al arrancar)
-  - Almacenamiento limitado
-  - Ancho de banda limitado
+</div>
 
-  Para una presentación, son suficientes. Si necesitas más, muchas
-  plataformas tienen créditos gratuitos para estudiantes (GitHub Student Pack).
-</Aclaracion>
+<div class="card">
 
-## CI/CD: que se despliegue solo
+[**03 · CI/CD: la definición**](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd/03-ci-cd-la-definicion)
+Qué es Integración Continua y Despliegue Continuo, por qué elimina el deploy manual.
 
-CI/CD significa **Integración Continua / Despliegue Continuo**.
-En cristiano: cada vez que subes código al repositorio, los tests
-se ejecutan automáticamente y, si todo va bien, la aplicación se
-despliega sola.
+</div>
 
-### Lo mínimo que deberías tener
+<div class="card">
 
-Un flujo CI/CD básico con GitHub Actions:
+[**04 · GitHub Actions**](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd/04-github-actions)
+Configura tu primer workflow con YAML: test, build y deploy automático.
 
-```yaml
-# .github/workflows/deploy.yml
-name: Deploy
-on:
-  push:
-    branches: [main]
-jobs:
-  test-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - run: npm install
-      - run: npm test          # tests automáticos
-      - run: npm run build     # construir
-      - run: npm run deploy    # desplegar
-```
+</div>
 
-Con esto, cada vez que haces `git push` a `main`, el proyecto se prueba
-y se despliega automáticamente. Sin intervención manual.
+<div class="card">
 
-### Ventajas de CI/CD
+[**05 · Configurar el proyecto**](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd/05-configurar-el-proyecto)
+Scripts de build, dependencias y ajustes para que tu app esté lista para producción.
 
-- **Olvídate de desplegar manualmente**: un `git push` lo hace todo
-- **Los tests se ejecutan siempre**: si algo falla, no se despliega
-- **El tribunal ve la última versión**: siempre que haces un push
-- **Menos errores humanos**: no olvidas un paso del despliegue
+</div>
 
-<CasoPractico titulo="El despliegue que impresionó al tribunal">
+<div class="card">
 
-  Un equipo configuró CI/CD desde el principio. Cada vez que hacían
-  un push a `main`, el proyecto se desplegaba automáticamente en Render.
+[**06 · Desplegar en producción**](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd/06-desplegar-en-produccion)
+Pasos reales del despliegue, errores comunes y cómo depurarlos.
 
-  El día de la presentación:
-  1. Abrieron la URL en el navegador del tribunal
-  2. La aplicación funcionaba
-  3. El profesor pidió ver el código
-  4. Enseñaron el repositorio con el GitHub Actions configurado
-  5. El profesor hizo un cambio menor en una página, hicieron push,
-     y en 2 minutos el cambio estaba visible en producción
+</div>
 
-  El tribunal quedó impresionado. No solo habían hecho una aplicación,
-  habían montado un **proceso de desarrollo profesional**.
+<div class="card">
 
-  **Lección**: CI/CD no es solo para empresas. Es una práctica que
-  demuestra que entiendes cómo funciona el desarrollo de software real.
-  Y en un proyecto DAW, marca la diferencia.
-</CasoPractico>
+[**07 · Mantenimiento post-despliegue**](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd/07-mantenimiento-post-despliegue)
+Monitoreo, logs y actualizaciones: el cuidado básico después de lanzar.
 
-## Mantenimiento post-despliegue
+</div>
 
-Una vez desplegada, la aplicación necesita mantenimiento mínimo:
+<div class="card">
 
-1. **Monitoreo básico**: ¿está funcionando? ¿responde? (herramientas: UptimeRobot)
-2. **Logs**: ¿hay errores? revísalos periódicamente
-3. **Actualizaciones**: las dependencias se quedan obsoletas, actualiza lo crítico
+[**08 · Checklist de CI/CD**](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd/08-checklist-de-ci-cd)
+Lista completa para comprobar que tu despliegue está preparado para el tribunal.
 
-Para un proyecto DAW, el mantenimiento se reduce a "comprobar que funciona
-antes de la presentación". Pero saber que existe es parte de la formación.
+</div>
 
-## Checklist para tu despliegue
+</div>
 
-- [ ] He elegido una plataforma de despliegue gratuita
-- [ ] He configurado HTTPS
-- [ ] Las variables de entorno están configuradas en la plataforma
-- [ ] He probado la aplicación desplegada (no solo en local)
-- [ ] Tengo CI/CD configurado (GitHub Actions u otro)
-- [ ] Los tests se ejecutan automáticamente antes de desplegar
-- [ ] La URL de la aplicación está en la memoria del proyecto
-- [ ] He probado la app desplegada desde otro dispositivo
+**09 · Cierre** → [Consolida lo aprendido con retos y laboratorio](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd/09-cierre)

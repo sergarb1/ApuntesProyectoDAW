@@ -1,0 +1,227 @@
+---
+title: "07 — Feedback y errores visibles"
+description: "Cada acción tiene respuesta. Cada error se ve y se entiende. Sin feedback, el usuario no sabe si ha pasado algo ⚠️"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U5 · Construir la interfaz** → 07 · Feedback y errores
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Carla hizo clic en "Guardar". Nada pasó. ¿Se guardó? ¿Falló? ¿Tarda?
+  Esperó 5 segundos, hizo clic otra vez. Ahora hay dos tareas duplicadas.
+
+  El **feedback** es la respuesta de la interfaz a cada acción del usuario.
+  Sin él, el usuario está en la oscuridad. Con él, el usuario confía en la
+  aplicación. Este capítulo cubre: estados de carga, confirmaciones, errores
+  inline, validación y mensajes humanos.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> Si el usuario hace algo y la interfaz no responde, el usuario piensa que
+> está rota. Responde **siempre**, **rápido** y **en lenguaje humano**.
+
+Es como llamar a una puerta. Si nadie contesta, no sabes si están dentro,
+si no te oyen, o si no quieren abrir. Si alguien dice "¡Voy!", ya sabes:
+esperas. Tu interfaz debe decir "¡Voy!" en cada clic, envío, carga, error.
+
+## ⏳ Tipos de feedback (y cuándo usar cada uno)
+
+| Situación | Feedback visual | Tiempo objetivo |
+|---|---|---|
+| **Clic en botón** | Estado `:active` (hundido), `:focus-visible` (anillo) | &lt; 100 ms |
+| **Acción rápida** (toggle, like) | Cambio visual inmediato (color, icono) | &lt; 200 ms |
+| **Envío formulario** | Botón `disabled` + spinner + "Guardando..." | Inmediato |
+| **Carga de datos** | Skeleton / spinner en la zona que carga | &lt; 1 s (skeleton), &gt; 1 s (spinner) |
+| **Navegación** | Transición / indicador de progreso (top bar) | Inmediato |
+| **Éxito** | Toast / banner verde "Guardado correctamente" | 2-3 s auto-dismiss |
+| **Error** | Inline (junto al campo) o Toast rojo + acción | Persistente hasta actuar |
+
+## 🔴 Estados de botón: la tabla de la verdad
+
+```css
+/* Base */
+.btn { transition: all 150ms ease; }
+
+/* Hover (ratón) */
+.btn:hover { filter: brightness(1.1); }
+
+/* Focus (teclado) - OBLIGATORIO para accesibilidad */
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.5); /* anillo primario */
+}
+
+/* Active (clic/presionado) */
+.btn:active { transform: scale(0.98); }
+
+/* Disabled (cargando/deshabilitado) */
+.btn:disabled,
+.btn[aria-busy="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+```
+
+**Nunca** quites el `:focus-visible` sin poner alternativa visible. Es la única
+forma de que un usuario de teclado sepa dónde está.
+
+## ⚠️ Errores: inline > alert > toast
+
+```
+┌────────────────────────────────────────────────────────────┐
+│  ✅ MEJOR: Error inline (junto al campo)                   │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │ Email                                    [✏️]       │  │
+│  │ ┌────────────────────────────────────────────────┐   │  │
+│  │ │ usuario@ejemplo.com                          │   │  │
+│  │ └────────────────────────────────────────────────┘   │  │
+│  │ ❌ Introduce un email válido (falta @)        ← AQUÍ  │  │
+│  └──────────────────────────────────────────────────────┘  │
+├────────────────────────────────────────────────────────────┤
+│  ⚠️ ACEPTABLE: Toast / Banner superior (errores globales)  │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │ ❌ No se pudo guardar. Inténtalo de nuevo.  [×]      │  │
+│  └──────────────────────────────────────────────────────┘  │
+├────────────────────────────────────────────────────────────┤
+│  ❌ EVITAR: alert() / confirm() nativos                    │
+│  • Bloquean el hilo principal                              │
+│  • No se pueden estilizar                                  │
+│  • Feos y no accesibles en móvil                           │
+└────────────────────────────────────────────────────────────┘
+```
+
+### Mensajes de error: la fórmula humana
+
+```
+❌ "Error 422: Unprocessable Entity"
+✅ "El email ya está registrado. ¿Quieres iniciar sesión?"
+
+❌ "Validation failed: title.required"
+✅ "El título es obligatorio. Añade al menos 3 caracteres."
+
+❌ "Network error"
+✅ "Sin conexión. Revisa tu internet y vuelve a intentarlo."
+```
+
+**Regla:** **Qué pasó** + **Por qué** (si se sabe) + **Qué puede hacer el usuario**.
+
+## ✅ Validación: HTML5 + JS progresivo
+
+```html
+<!-- HTML5 hace lo básico (required, type, pattern, min/max) -->
+<form novalidate>  <!-- novalidate = nosotros controlamos cuándo validar -->
+  <div class="field">
+    <label for="email">Email *</label>
+    <input type="email" id="email" name="email" required
+           aria-describedby="email-hint email-error"
+           autocomplete="email">
+    <span id="email-hint" class="hint">Tu email de contacto</span>
+    <span id="email-error" class="error" aria-live="polite"></span>
+  </div>
+  <button type="submit">Guardar</button>
+</form>
+```
+
+```js
+// JS: validación al enviar + limpieza al escribir
+const form = document.querySelector('form[novalidate]');
+form.addEventListener('submit', e => {
+  const errors = [];
+  form.querySelectorAll('[required]').forEach(input => {
+    if (!input.value.trim()) {
+      errors.push({ input, msg: 'Este campo es obligatorio' });
+    } else if (input.type === 'email' && !input.validity.valid) {
+      errors.push({ input, msg: 'Email no válido' });
+    }
+  });
+  if (errors.length) {
+    e.preventDefault();
+    errors.forEach(({ input, msg }) => showError(input, msg));
+    errors[0].input.focus(); // foco al primer error
+  }
+});
+
+function showError(input, msg) {
+  const errorEl = document.getElementById(`${input.id}-error`);
+  if (errorEl) errorEl.textContent = msg;
+  input.setAttribute('aria-invalid', 'true');
+}
+
+form.querySelectorAll('input').forEach(input => {
+  input.addEventListener('input', () => {
+    const errorEl = document.getElementById(`${input.id}-error`);
+    if (errorEl) errorEl.textContent = '';
+    input.removeAttribute('aria-invalid');
+  });
+});
+```
+
+## 🧩 Caso práctico: el formulario que callaba
+
+<CasoPractico titulo="Antes y después del feedback">
+
+  **Antes (la versión de Carla):**
+  - Botón "Guardar" sin estado loading.
+  - `alert("Error")` genérico si falla el servidor.
+  - Sin validación en cliente.
+  - Usuario hace clic 3 veces → 3 peticiones → 3 tareas duplicadas.
+
+  **Después:**
+  - Botón: `disabled` + spinner + "Guardando..." al enviar.
+  - Validación HTML5 + JS: email, required, longitud.
+  - Errores inline junto a cada campo (aria-live="polite").
+  - Éxito: toast verde "Tarea creada" + redirección a lista.
+  - Error red: toast "No se pudo guardar. Inténtalo de nuevo" + botón
+    "Reintentar" que reenvía el formulario.
+
+  **Resultado:** cero duplicados, usuarios que entienden qué pasa,
+  profesor que ve una interfaz profesional.
+
+</CasoPractico>
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** Un usuario hace clic en "Eliminar" y la interfaz no cambia
+durante 2 segundos. ¿Qué principio de feedback se rompe?
+A) Respuesta inmediata · B) Lenguaje humano · C) Error inline · D) Toast
+   de éxito.
+
+**Pregunta 2.** ¿Por qué `alert()` es mala opción para errores en 2025?
+A) No funciona en móvil · B) Bloquea el hilo, no se estiliza, feo, no
+   accesible · C) Solo sirve para confirmaciones · D) Requiere HTTPS.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **A**. &lt; 200 ms para feedback visual. 2 segundas es eternidad. 2. **B**.
+   `alert()` es reliquia de 1995: bloqueante, feo, inaccesible.
+
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. Feedback = confianza. Cada clic, envío, carga, error debe tener respuesta
+   visual inmediata (&lt; 200 ms) y en lenguaje humano.
+2. Estados de botón: hover, focus-visible (teclado), active, disabled/loading.
+   Nunca quites focus sin alternativa.
+3. Errores: **inline** (junto al campo) > toast/banner > `alert()`. Fórmula:
+   qué pasó + por qué + qué hacer. Validación: HTML5 base + JS progresivo.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Feedback** | Respuesta visual de la interfaz a una acción del usuario |
+| **Estado loading** | Indicador visual mientras una acción asíncrona está en curso |
+| **Error inline** | Mensaje de error junto al campo que lo provocó |
+| **aria-live="polite"** | Anuncia cambios de texto a lectores de pantalla sin interrumpir |
+| **Toast / Snackbar** | Notificación temporal no modal (esquina, auto-dismiss) |
+| **Skeleton** | Placeholder animado que anticipa la forma del contenido que carga |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico) · **Anterior:** [06 · Consistencia visual](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/06-consistencia-visual) · **Siguiente:** [08 · Lo que el tribunal mira](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/08-lo-que-el-tribunal-mira)

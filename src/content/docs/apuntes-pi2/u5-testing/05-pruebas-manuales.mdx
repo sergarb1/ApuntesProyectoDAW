@@ -1,0 +1,244 @@
+---
+title: "05 — Pruebas manuales"
+description: "La red de seguridad antes de cada entrega: navegador limpio, flujo principal, casos borde y múltiples dispositivos."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** ✅ **U5 · Asegurar la calidad** → 05 · Pruebas manuales
+
+<StoryIntro icono="🎬" titulo="La app perfecta... en el portátil del desarrollador">
+  El equipo de EventApp tenía 45 tests automatizados que pasaban todos.
+  Estaban seguros de que su aplicación funcionaba perfectamente.
+
+  El día de la entrega, el profesor abrió la app en su portátil. El
+  primer problema: el formulario de registro no se veía en la pantalla
+  del proyector. El botón de "Crear evento" estaba debajo de un banner
+  que solo se veía en pantallas anchas. Y al intentar registrarse con
+  un email con caracteres especiales, la app petaba sin mensaje de error.
+
+  Los 45 tests automatizados no habían detectado ninguno de estos
+  problemas. Los tests automatizados no ven pantallas ni comprueban
+  si un botón es visible.
+
+  Las pruebas manuales son la red de seguridad que los tests
+  automatizados no pueden sustituir.
+</StoryIntro>
+
+## La idea en una frase
+
+> Los tests automatizados verifican que el código es correcto. Las
+> pruebas manuales verifican que la experiencia es buena.
+
+## Por qué los tests automatizados no bastan
+
+Los tests automatizados comprueban resultados concretos: "esta función
+devuelve 5", "esta API devuelve 201". Pero no pueden comprobar:
+
+- ¿El botón se ve en la pantalla?
+- ¿El color del texto tiene suficiente contraste?
+- ¿El formulario es fácil de rellenar?
+- ¿El usuario sabe qué hacer después de ver la pantalla?
+
+Esas preguntas solo las responde una persona mirando la pantalla.
+
+## Protocolo de pruebas manuales
+
+### 1. Navegador limpio
+
+Abre la aplicación en un navegador **sin datos de sesión**:
+
+- Usa modo incógnito o privado
+- Borra cookies y caché antes de empezar
+- No uses el usuario que ya tienes guardado
+
+**¿Por qué?** Porque si tienes la sesión iniciada, no estás
+probando el flujo real de un usuario que llega por primera vez.
+
+### 2. Flujo principal
+
+Recorre el camino que sigue el usuario para completar la tarea
+principal de tu aplicación:
+
+1. Abre la app (¿carga bien?)
+2. Navega hasta la funcionalidad principal
+3. Completa una tarea real (crea un registro, busca algo, edita)
+4. Comprueba la confirmación
+5. Cierra la sesión
+
+**¿Qué buscar?** Errores, pantalla en blanco, botones que no
+responden, mensajes confusos.
+
+### 3. Casos borde
+
+Prueba situaciones que un usuario podría encontrar:
+
+- Campos vacíos (¿qué pasa si no relleno nada?)
+- Texto muy largo (¿qué pasa si pongo 500 caracteres?)
+- Caracteres especiales (ñ, á, é, @, #, &lt;)
+- Fechas pasadas o futuras extremas
+- Navegación atrás/adelante
+- Doble clic rápido en un botón
+
+### 4. Otro dispositivo
+
+Si tienes acceso, prueba en:
+
+- Un móvil (¿se ve bien la interfaz?)
+- Una tablet (¿se adapta el diseño?)
+- Un navegador distinto (Chrome, Firefox, Safari, Edge)
+
+### 5. Sin conexión (si aplica)
+
+Si tu app promete funcionar offline:
+
+- Desconecta el WiFi
+- Intenta usar la app
+- Comprueba si muestra un mensaje claro
+
+<Comparativa
+  dialogos={[
+    { quien: "Solo tests automatizados", texto: "Todos pasan. La app funciona correctamente." },
+    { quien: "Tests + manual", texto: "Los tests pasan. Pero al probar a mano descubro que el botón de guardar no se ve en móvil." },
+  ]}
+  titulo="Lo que los tests no ven"
+/>
+
+## Checklist de prueba manual
+
+### Antes de empezar
+
+- [ ] Navegador en modo incógnito
+- [ ] Cookies y caché borradas
+- [ ] URL de la app correcta
+
+### Flujo principal
+
+- [ ] La app carga sin errores
+- [ ] Puedo completar la tarea principal
+- [ ] Los mensajes de error son comprensibles
+- [ ] La confirmación aparece después de la acción
+
+### Casos borde
+
+- [ ] Campos vacíos muestran error claro
+- [ ] Texto largo no rompe el diseño
+- [ ] Caracteres especiales se manejan bien
+- [ ] Navegación atrás/adelante funciona
+
+### Dispositivos
+
+- [ ] Funciona en Chrome
+- [ ] Funciona en Firefox (u otro navegador)
+- [ ] Funciona en un móvil
+- [ ] Funciona en otro dispositivo si está disponible
+
+### Conexión
+
+- [ ] Sin conexión: mensaje claro o funcionalidad offline
+- [ ] Conexión lenta: la app no se cuelga
+
+<Aclaracion pregunta="¿Cuánto tiempo debo dedicar a pruebas manuales?">
+  Como mínimo, **30 minutos antes de cada entrega**. Distribúyelos así:
+
+  - 5 minutos: navegador limpio y preparación
+  - 10 minutos: flujo principal completo
+  - 10 minutos: casos borde
+  - 5 minutos: otro dispositivo/navegador
+
+  Si es la entrega final, dedica una hora entera. No es tiempo perdido:
+  es lo que separa un 7 de un 9.
+</Aclaracion>
+
+## Caso práctico
+
+<CasoPractico titulo="El profesor que encontró el bug en 30 segundos">
+
+  Un equipo entregó su proyecto con 60 tests automatizados que pasaban
+  todos. Estaban orgullosos. El profesor abrió la app, intentó registrar
+  un usuario nuevo y... el formulario no tenía labels. Solo placeholders.
+
+  "¿Dónde pongo el nombre?". El equipo: "Ahí, donde pone 'Nombre'".
+  El profesor: "Eso es un placeholder, no un label. Un lector de pantalla
+  no lo ve."
+
+  No era un bug funcional. La app funcionaba correctamente. Pero la
+  accesibilidad era pésima. Ningún test automatizado detecta la
+  ausencia de labels porque eso no hace que el código falle.
+
+  El equipo tuvo que añadir 15 minutos de desarrollo para corregir
+  lo que una prueba manual de 2 minutos habría revelado.
+
+  **Lección**: los tests automatizados verifican que el código funciona.
+  Las pruebas manuales verifican que la app es usable.
+</CasoPractico>
+
+## Pruebas exploratorias
+
+Además del protocolo estructurado, hay un tipo de prueba llamada
+**exploratoria**: sin guion predefinido, simplemente usa la app como
+un usuario real lo haría.
+
+### Reglas de la exploración
+
+- **No pienses como programador**: piensa como usuario
+- **Haz cosas inesperadas**: clics raros, combinaciones de teclas
+- **Observa tu reacción**: ¿te frustras? ¿te confundes? ¿te ríes?
+- **Toma notas**: cada cosa rara que descubras es un posible bug
+
+### Ejemplo de exploración
+
+1. Abre la app y mira la primera pantalla. ¿Entiendes qué hacer?
+2. Intenta hacer algo que **no** deberías poder hacer
+3. Navega a pantalla y vuelve atrás. ¿Conservas tu estado?
+4. Cambia el tamaño de la ventana. ¿Se rompe algo?
+5. Prueba con la lectura del navegador activada
+
+## Mini-chequeo
+
+**Pregunta 1.** ¿Por qué debes usar modo incógnito para pruebas manuales?
+
+A) Para que la app vaya más rápido
+B) Para simular un usuario nuevo sin datos de sesión
+C) Para que el navegador no guarde contraseñas
+
+**Pregunta 2.** ¿Cuál de estos problemas detecta una prueba manual pero no un test automatizado?
+
+A) Una función que devuelve un valor incorrecto
+B) Un botón que no se ve en la pantalla del móvil
+C) Una API que devuelve 500 en vez de 200
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. El modo incógnito simula un usuario nuevo sin cookies ni
+   sesiones guardadas, que es el escenario real que debes probar.
+2. **B**. Un test automatizado puede verificar que una función devuelve
+   un valor correcto, pero no puede comprobar si un botón se ve en
+   pantalla. Solo una persona puede juzgar eso.
+
+</details>
+
+## Resumen en 3 frases
+
+1. Los tests automatizados verifican que el código es correcto; las
+   pruebas manuales verifican que la experiencia es buena.
+2. El protocolo: navegador limpio, flujo principal, casos borde,
+   otro dispositivo, sin conexión.
+3. Dedica al menos 30 minutos a pruebas manuales antes de cada entrega.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Prueba manual** | Persona probando la app haciendo clic y navegando |
+| **Modo incógnito** | Navegador sin datos de sesión ni caché |
+| **Caso borde** | Situación extrema que un usuario podría encontrar |
+| **Prueba exploratoria** | Uso de la app sin guion predefinido |
+
+---
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u5-testing) · **Anterior:** [04 · Tests en tu flujo](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/04-tests-en-tu-flujo) · **Siguiente:** [06 · Herramientas de testing](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/06-herramientas-de-testing)

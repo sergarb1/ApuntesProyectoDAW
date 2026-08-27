@@ -1,0 +1,139 @@
+---
+title: "03 — Reparto de tareas claro y equilibrado"
+description: "Matriz RACI simple, tareas técnicas y no técnicas, y cómo evitar que una persona cargue con todo ⚖️"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U7 · Trabajar en equipo** → 03 · Reparto de tareas claro y equilibrado
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Tenéis herramientas y reuniones. Ahora falta lo que de verdad decide si
+  el equipo funciona: **quién hace qué**. El error clásico es "yo hago
+  frontend, tú backend, tú base de datos" y ya. Eso ignora la
+  documentación, los tests, el despliegue, la presentación, las actas...
+  y acaba con una persona haciendo lo que a nadie le gusta (o nadie
+  haciéndolo). Este capítulo te da un método simple para repartir con
+  cabeza.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> Repartir tareas no es "tú frontend, tú backend". Es listar **todo** lo
+> que hay que hacer (técnico y no técnico), asignar responsable y
+> revisor, y que la carga se vea equilibrada en el tablero.
+
+## 📋 Primero: lista TODO lo que hay que hacer
+
+Antes de asignar, sacad del tablero o del planning **todas** las tareas
+del proyecto, no solo las de código. Una lista típica:
+
+| Categoría | Ejemplos de tareas |
+|---|---|
+| **Frontend** | Pantallas, componentes, estilos, responsive, accesibilidad |
+| **Backend** | API, autenticación, lógica de negocio, validaciones |
+| **Base de datos** | Modelo, migraciones, seeds, índices, backups |
+| **Tests** | Unitarios, integración, E2E, CI |
+| **DevOps / Despliegue** | Docker, CI/CD, variables de entorno, dominio, SSL |
+| **Documentación** | README, arquitectura, API docs, manual de usuario, actas |
+| **Gestión** | Planning, daily, retro, tablero, issues, revisar PRs |
+| **Presentación / Defensa** | Slides, vídeo, demo, ensayo, ficha técnica |
+
+> ⚠️ Si no está en la lista, no existe. Y si no existe, nadie lo hace
+> (o lo hace uno solo a última hora).
+
+## 🎯 Matriz RACI simplificada
+
+Para cada tarea, decidid **una** persona responsable (R) y **una**
+revisora (A - Accountable). Opcional: Consultados (C) e Informados (I).
+En equipos de 3-4, R y A suelen bastar.
+
+```
+TAREA                    | R (hace) | A (revisa/aprueba) | C (consulta) | I (informa)
+-------------------------|----------|--------------------|--------------|------------
+Diseño BD                | Lucas    | Javi               | Marta        | Equipo
+API productos            | Javi     | Lucas              | Marta        | Equipo
+Pantalla listado         | Marta    | Javi               | Lucas        | Equipo
+Tests E2E                | Lucas    | Marta              | Javi         | Equipo
+Despliegue (Docker/CI)   | Javi     | Lucas              | Marta        | Equipo
+README + docs            | Marta    | Javi               | Lucas        | Equipo
+Presentación defensa     | Equipo   | Profesor           | -            | -
+```
+
+**Reglas de la matriz:**
+- **Una R por tarea** (nadie "comparte" la responsabilidad: si falla,
+  no se sabe quién responde).
+- **R ≠ A** (quien hace no revisa su propio trabajo: code review).
+- **Carga visible**: al final, cada persona debe tener un número
+  similar de Rs y As. Si alguien tiene 8 Rs y otro 2, **repartid de
+  nuevo**.
+
+## 🔄 Tareas técnicas vs no técnicas: que no caigan siempre en la misma persona
+
+El patrón tóxico: "los de frontend/back hacen lo técnico; la
+documentación/presentación/tests/despliegue 'se la come' alguien".
+Soluciones:
+
+1. **Rotad** las tareas no técnicas cada sprint/semana.
+2. **Incluidlas en la definición de "Hecho"**: una tarea no está
+   hecha sin tests, sin doc, sin pasar CI.
+3. **Hacedlas visibles en el tablero**: tarjetas propias para
+   "Escribir README", "Configurar CI", "Preparar slides semana 3".
+
+<Aclaracion pregunta="¿Y si alguien no sabe hacer lo que le toca?">
+  Esa es la mejor noticia: **aprenderá**. El proyecto intermodular es
+  para aprender, no para demostrar lo que ya sabéis.
+  - La persona con la R (responsable) **investiga, prueba, pregunta**.
+  - La persona con la A (revisora) **acompaña, revisa, valida**.
+  - Si de verdad es bloqueante, se pide ayuda al equipo o al profesor
+  en la daily/planning.
+  Lo que no vale es "no sé, así que no lo hago" y que otro lo haga en
+  silencio. Eso no es reparto: es esconder la deuda.
+</Aclaracion>
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** En la matriz RACI, ¿por qué R y A deben ser personas
+distintas?
+A) Para que haya más reuniones · B) Para que quien hace no revise su
+   propio trabajo (code review) · C) Para complicar el tablero.
+
+**Pregunta 2.** Al final del reparto, ¿qué señal indica que está
+equilibrado?
+A) Todos tienen el mismo número de tareas · B) Cada uno tiene Rs y As
+   en proporción similar y el tablero lo refleja · C) El que más sabe
+   tiene más tareas.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. El code review (punto 07) requiere ojos distintos a los que
+   escribieron el código.
+2. **B**. No es "misma cantidad" (las tareas tienen tamaños distintos),
+   sino carga visible y comparable.
+
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. Listad **todas** las tareas (técnicas + no técnicas) antes de
+   asignar: lo que no se lista, no se hace.
+2. Usad RACI simple: una R (hace) y una A (revisa) por tarea, R ≠ A,
+   carga visible y equilibrada.
+3. Rotad las tareas no técnicas (docs, tests, despliegue, presentación)
+   para que no recaigan siempre en la misma persona.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **RACI** | Matriz de responsabilidades: Responsable, Accountable, Consultado, Informado |
+| **R (Responsable)** | Quien ejecuta la tarea |
+| **A (Accountable)** | Quien aprueba/revisa la tarea (code review, validación) |
+| **Definición de Hecho** | Lista de criterios que debe cumplir una tarea para considerarse terminada |
+| **Rotación** | Cambiar asignaciones periódicamente para repartir carga y aprendizaje |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u7-git) · **Anterior:** [02 · Herramientas de comunicación y reuniones](/ApuntesProyectoDAW/apuntes-pi1/u7-git/02-herramientas-y-reuniones) · **Siguiente:** [04 · Flujo Git: main, dev, feature](/ApuntesProyectoDAW/apuntes-pi1/u7-git/04-flujo-git-main-dev-feature)

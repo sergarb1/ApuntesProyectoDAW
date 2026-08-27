@@ -1,0 +1,230 @@
+---
+title: "05 — Implementación mobile-first"
+description: "Estructura HTML semántica, estilos con framework CSS y JavaScript progresivo. Diseña para móvil primero, expande después 📱"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U5 · Construir la interfaz** → 05 · Implementación mobile-first
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Tienes el prototipo validado. Ahora toca **traducirlo a código**. El orden
+  importa: HTML semántico → CSS (con framework) → JavaScript progresivo. Y
+  la regla de oro: **mobile-first**. Diseña para la pantalla más pequeña
+  primero; expandir a escritorio es añadir. Hacerlo al revés es quitar, y
+  quitar duele.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> Mobile-first no es "hacer que se vea en móvil": es **empezar por el móvil**
+> porque es el caso más restrictivo. Lo que cabe en 375px, cabe en todo.
+
+Es como hacer la maleta para un viaje. Si empiezas por la mochila pequeña
+(móvil), metes lo esencial. Si luego tienes una maleta grande (escritorio),
+añades extras. Si empiezas por la maleta grande, al pasar a la mochila tienes
+que sacar cosas a la fuerza... y siempre sobra algo importante.
+
+## 🧱 Paso 1: HTML semántico (el esqueleto)
+
+Antes de estilos, **estructura**. El HTML semántico:
+- Mejora accesibilidad (lectores de pantalla entienden la página).
+- Mejora SEO (Google entiende tu contenido).
+- Facilita el CSS (selectores claros, menos clases).
+- Obliga a pensar en jerarquía, no en apariencia.
+
+```html
+<!-- ❌ Divitis: todo son divs -->
+<div class="header">
+  <div class="logo">Mi App</div>
+  <div class="nav"><a href="#">Tareas</a></div>
+</div>
+
+<!-- ✅ Semántico: cada cosa tiene su etiqueta -->
+<header class="header">
+  <h1 class="logo">Mi App</h1>
+  <nav class="nav"><a href="/tareas">Tareas</a></nav>
+</header>
+
+<main class="main">
+  <section class="task-list" aria-label="Lista de tareas">
+    <header>
+      <h2>Mis tareas</h2>
+      <a href="/tareas/nueva" class="btn btn--primary">+ Nueva</a>
+    </header>
+    <ul class="task-list__items">
+      <li class="task">
+        <label><input type="checkbox"> Comprar leche</label>
+        <a href="/tareas/1/editar" class="btn btn--ghost">✏️</a>
+      </li>
+    </ul>
+  </section>
+</main>
+
+<footer class="footer"><small>© 2025 Mi App</small></footer>
+```
+
+**Regla:** si hay una etiqueta HTML que describe tu contenido, úsala.
+`<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<aside>`,
+`<footer>`, `<ul>/<ol>/<li>`, `<button>`, `<label>`, `<form>`.
+
+## 🎨 Paso 2: CSS con framework (la piel)
+
+No escribas CSS desde cero para lo básico. Usa un **framework CSS**:
+- **Tailwind CSS** — utilidades atómicas, muy popular, configuración en JS.
+- **Bootstrap 5** — componentes listos, clases semánticas, maduro.
+- **Bulma** — solo CSS, sintaxis limpia, ligero.
+- **Pico.css** — sin clases, solo HTML semántico, minimalista.
+
+**Para tu proyecto:** elige **uno** y úsalo en todo el proyecto. Mezclar
+frameworks crea inconsistencias y kilos de CSS muerto.
+
+```html
+<!-- Ejemplo con clases tipo Bootstrap/Tailwind -->
+<button class="btn btn--primary btn--lg w-100 md:w-auto">
+  Crear tarea
+</button>
+
+<div class="card p-4 md:p-6 shadow-sm">
+  <h3 class="text-lg font-semibold mb-2">Detalle</h3>
+  <p class="text-gray-600">Contenido...</p>
+</div>
+```
+
+### Mobile-first en la práctica
+
+```css
+/* Base = móvil (sin media query) */
+.task-list__items { display: flex; flex-direction: column; gap: 0.5rem; }
+.btn { padding: 0.75rem 1rem; font-size: 1rem; } /* touch-friendly */
+
+/* Tablet (≥ 768px) */
+@media (min-width: 768px) {
+  .task-list__items { flex-direction: row; flex-wrap: wrap; }
+  .btn { padding: 0.5rem 1rem; }
+}
+
+/* Desktop (≥ 1024px) */
+@media (min-width: 1024px) {
+  .container { max-width: 960px; margin: 0 auto; }
+}
+```
+
+Los frameworks ya traen breakpoints estándar (`sm`, `md`, `lg`, `xl`). Úsalos.
+
+## ⚙️ Paso 3: JavaScript progresivo (el cerebro)
+
+JavaScript **mejora** la experiencia, no la crea. La página debe funcionar
+(sin JS) para lo esencial: navegar, enviar formularios, leer contenido.
+JS añade: validación instantánea, confirmaciones, carga parcial, atajos.
+
+```js
+// ✅ Mejora progresiva: el formulario funciona sin JS
+// JS solo añade validación en cliente antes de enviar
+document.querySelectorAll('form[data-validate]').forEach(form => {
+  form.addEventListener('submit', e => {
+    if (!form.checkValidity()) {
+      e.preventDefault();
+      form.reportValidity(); // UI nativa del navegador
+    }
+  });
+});
+
+// ✅ Mejora: confirmación antes de borrar (no rompe si falla)
+document.querySelectorAll('[data-confirm]').forEach(el => {
+  el.addEventListener('click', e => {
+    if (!confirm(el.dataset.confirm)) e.preventDefault();
+  });
+});
+```
+
+**No hagas:** SPA completa sin SSR si no la necesitas, depender de JS para
+renderizar contenido, romper el botón "Atrás" del navegador.
+
+## 🧩 Caso práctico: de prototipo a código
+
+<CasoPractico titulo="Implementar la lista de tareas mobile-first">
+
+  **Prototipo (Figma):**
+  - Móvil: lista apilada, botón "+" flotante (FAB), swipe para editar/borrar.
+  - Escritorio: tabla con columnas, botones en fila, hover en filas.
+
+  **HTML móvil primero:**
+  ```html
+  <ul class="task-list">
+    <li class="task">
+      <label class="task__check">
+        <input type="checkbox" name="done">
+        <span class="task__title">Comprar leche</span>
+      </label>
+      <div class="task__actions">
+        <a href="/tareas/1/editar" class="btn btn--ghost">Editar</a>
+        <button class="btn btn--danger btn--icon" data-confirm="¿Borrar?">🗑️</button>
+      </div>
+    </li>
+  </ul>
+  <a href="/tareas/nueva" class="fab" aria-label="Nueva tarea">+</a>
+  ```
+
+  **CSS (Tailwind-like):**
+  ```css
+  .task { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem; }
+  .task__check { flex: 1; display: flex; align-items: center; gap: 0.5rem; }
+  .fab { position: fixed; bottom: 1.5rem; right: 1.5rem; width: 48px; height: 48px; }
+  @media (min-width: 768px) {
+    .task { padding: 0.75rem 1.5rem; }
+    .fab { display: none; } /* En escritorio usamos botón en cabecera */
+  }
+  ```
+
+  **Resultado:** mismo HTML, CSS que se adapta. El JS solo añade el
+  `data-confirm` y validación de formularios.
+
+</CasoPractico>
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** ¿Por qué mobile-first es más fácil que desktop-first?
+A) Móvil tiene menos píxeles · B) Añadir espacio/escapar es más fácil que
+   quitar/reorganizar · C) Los frameworks solo funcionan en móvil · D) Google
+   penaliza desktop-first.
+
+**Pregunta 2.** Tu formulario de login envía datos al servidor. ¿Dónde va
+la validación obligatoria?
+A) Solo en JavaScript (cliente) · B) Solo en el servidor · C) En el
+   servidor (obligatoria) + JavaScript (mejora UX) · D) En HTML5 (required)
+   y ya está.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Empezar por lo restrictivo (móvil) fuerza priorizar. Expandir es
+   añadir; reducir es romper. 2. **C**. El servidor es la única validación
+   segura; el cliente mejora UX (instantánea, sin red).
+
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. Implementa en orden: HTML semántico → CSS con framework → JS progresivo.
+   Cada capa funciona sin la siguiente.
+2. Mobile-first: escribe CSS base para &lt;375px, usa media queries `min-width`
+   para añadir en tablet/desktop. Los frameworks ya traen breakpoints.
+3. JavaScript es mejora progresiva: la página debe funcionar (navegar,
+   enviar formularios) sin JS. JS añade validación instantánea, confirmaciones,
+   UX.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **HTML semántico** | Etiquetas que describen el significado del contenido |
+| **Framework CSS** | Librería de estilos predefinidos (Tailwind, Bootstrap, Pico...) |
+| **Mobile-first** | Diseñar primero para pantalla pequeña, expandir con media queries |
+| **Breakpoint** | Ancho de pantalla donde cambia el layout (ej. 768px, 1024px) |
+| **Mejora progresiva** | JS que añade UX sin romper la funcionalidad base |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico) · **Anterior:** [04 · Prototipo interactivo](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/04-prototipo-interactivo) · **Siguiente:** [06 · Consistencia visual](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/06-consistencia-visual)

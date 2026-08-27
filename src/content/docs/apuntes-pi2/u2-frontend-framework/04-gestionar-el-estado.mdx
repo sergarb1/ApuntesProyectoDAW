@@ -1,0 +1,255 @@
+---
+title: "04 — Gestionar el estado"
+description: "Dónde vive la información que cambia, cómo fluye entre componentes, cuándo usar stores y cuándo no complicarse."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🖥️ **U2 · Mejorar el frontend** → 04 · Gestionar el estado
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Sergio tiene componentes bien diseñados, pero hay un problema: los
+  datos no se mueven bien. Un componente tiene la lista de productos,
+  otro necesita filtrarla, otro necesita mostrar el carrito. Cada uno
+  tiene su copia de los datos y cuando se actualiza uno, los demás
+  no se entera.
+
+  Este capítulo es sobre el estado: dónde vive, cómo fluye y cuándo
+  necesitas algo más que props.
+</StoryIntro>
+
+## La idea en una frase
+
+> El estado es la memoria de tu interfaz. Si cada componente tiene su
+> propia memoria, nada se coordina. Si un solo componente tiene toda
+> la memoria, nadie se mueve. La clave está en dónde pones esa memoria.
+
+## ¿Qué es el estado?
+
+El estado son los datos que cambian en la interfaz y que afectan a
+lo que se ve. El texto de un campo de formulario, si un menú está
+abierto o cerrado, la lista de productos en el carrito, si el usuario
+está logueado.
+
+No confundas estado con datos estáticos. El contenido de un párrafo
+que nunca cambia no es estado. El número de artículos en el carrito
+sí lo es.
+
+## El flujo del estado
+
+La regla fundamental: **el estado vive lo más arriba posible y fluye
+hacia abajo**.
+
+```
+App (estado: usuario, carrito)
+├── Navbar (recibe usuario)
+│   ├── Logo
+│   └── UserMenu (recibe usuario)
+├── ProductList (recibe carrito)
+│   └── ProductCard (recibe un producto)
+└── CartSidebar (recibe carrito)
+```
+
+El estado de `usuario` está en `App`. Se lo pasa a `Navbar` y a
+`UserMenu` como props. El estado de `carrito` también está en `App`.
+Se lo pasa a `ProductList` y a `CartSidebar`.
+
+Si `ProductCard` necesita modificar el carrito, no tiene el estado.
+Llama a una función que `App` le pasa como prop:
+
+```jsx
+function App() {
+  const [carrito, setCarrito] = useState([]);
+
+  function agregarAlCarrito(producto) {
+    setCarrito([...carrito, producto]);
+  }
+
+  return (
+    <ProductList
+      onAgregar={agregarAlCarrito}
+    />
+  );
+}
+```
+
+<Comparativa
+  dialogos={[
+    { quien: "Estado bien ubicado", texto: "El carrito está en App. ProductList le pide que agregue items. CartSidebar muestra los items. Cuando algo cambia, todos se actualizan automáticamente. Un solo origen de verdad." },
+    { quien: "Estado fragmentado", texto: "Cada componente tiene su copia del carrito. ProductList agrega un item, pero CartSidebar no se entera porque tiene su propia copia. El usuario ve inconsistencias. Nadie sabe cuál es la versión correcta." },
+  ]}
+  titulo="Un solo origen vs fragmentación"
+/>
+
+## Props drilling: el problema
+
+Cuando el estado está muy arriba y un componente muy abajo lo
+necesita, tienes que pasarlo por muchos componentes intermedios.
+Esto se llama **props drilling**:
+
+```
+App (tiene el usuario)
+└── Layout
+    └── Sidebar
+        └── UserPanel
+            └── Avatar (necesita el usuario)
+```
+
+`App` pasa `usuario` a `Layout`, que se lo pasa a `Sidebar`, que se
+lo pasa a `UserPanel`, que se lo pasa a `Avatar`. Ni `Layout` ni
+`Sidebar` usan `usuario`: solo lo transportan.
+
+Esto funciona con pocos niveles, pero se vuelve inmantenible con
+muchos.
+
+## ¿Cuándo usar un store?
+
+Un store es un estado centralizado que cualquier componente puede
+leer sin necesidad de props drilling. No lo necesitas siempre. Úsalo
+cuando:
+
+- **Varios componentes necesitan los mismos datos** y están en
+  ramas distintas del árbol
+- **El prop passing es profundo** (3+ niveles de componentes
+  intermedios)
+- **El estado se complica** (múltiples actualizaciones, reglas de
+  negocio)
+
+| Framework | Store recomendado |
+|-----------|-------------------|
+| React | useState + Context, o Zustand/Zustand |
+| Vue | Pinia (oficial) |
+| Svelte | Svelte stores (built-in) |
+| Astro | Depende del framework UI que uses |
+
+### Ejemplo con Zustand (React)
+
+```javascript
+import { create } from 'zustand';
+
+const useCarritoStore = create((set) => ({
+  items: [],
+  agregar: (item) => set((state) => ({
+    items: [...state.items, item]
+  })),
+  eliminar: (id) => set((state) => ({
+    items: state.items.filter(i => i.id !== id)
+  })),
+}));
+
+// Cualquier componente puede usarlo
+function ProductCard({ producto }) {
+  const agregar = useCarritoStore(state => state.agregar);
+  return <button onClick={() => agregar(producto)}>Añadir</button>;
+}
+```
+
+### Ejemplo con Pinia (Vue)
+
+```javascript
+import { defineStore } from 'pinia';
+
+export const useCarritoStore = defineStore('carrito', {
+  state: () => ({ items: [] }),
+  actions: {
+    agregar(item) { this.items.push(item); },
+    eliminar(id) { this.items = this.items.filter(i => i.id !== id); },
+  }
+});
+```
+
+<Aclaracion pregunta="¿Necesito un store para todo?">
+  No. Un store para cada variable sería over-engineering. Usa un store
+  solo cuando:
+
+  - El estado se comparte entre componentes que no son padre-hijo
+  - Necesitas persistir el estado (guardar en localStorage)
+  - La lógica de actualización es compleja
+
+  Para estado local de un componente (si un modal está abierto, el
+  texto de un input), usa `useState` (React) o `ref`/`reactive` (Vue).
+  No todo necesita un store.
+</Aclaracion>
+
+## Estado local vs global
+
+| Tipo | Ejemplo | Dónde vive |
+|------|---------|------------|
+| **Local** | Texto de un input, modal abierto | En el componente |
+| **Compartido padre-hijo** | Lista de productos filtrada | En el padre común |
+| **Global** | Usuario logueado, carrito, tema | En un store |
+
+La regla: empieza con el nivel más bajo posible. Si local funciona,
+no subas. Si necesitas compartir, sube al padre. Si el padre se
+complica, usa un store.
+
+## Caso práctico
+
+<CasoPractico titulo="El carrito que no se actualizaba">
+  Un equipo tenía un componente `ProductCard` que añadía productos
+  al carrito. Pero el componente `CartBadge` (que mostraba el número
+  de artículos) no se actualizaba.
+
+  Causa: `ProductCard` tenía su propio estado local `carritoLocal`.
+  Cuando añadía un producto, actualizaba su propio estado, pero
+  `CartBadge` no tenía acceso a él.
+
+  Solución: mover el estado del carrito a `App` (el componente padre
+  común) y pasarlo como prop a ambos componentes. Ahora cuando
+  `ProductCard` llama a `agregarAlCarrito`, el estado de `App` cambia,
+  y `CartBadge` se re-renderiza automáticamente.
+
+  **Lección**: si dos componentes necesitan los mismos datos, el estado
+  debe estar en su componente padre común. Si no hay padre común
+  cercano, usa un store.
+</CasoPractico>
+
+## Mini-chequeo
+
+**Pregunta 1.** Un componente `Sidebar` necesita el usuario logueado.
+El usuario está en `App`. Entre `App` y `Sidebar` hay 3 componentes
+intermedios que no usan el usuario. ¿Qué haces?
+A) Pasas el usuario por props a los 3 componentes · B) Usas un store
+para el usuario · C) Guardas el usuario en localStorage y lo lees
+directamente
+
+**Pregunta 2.** Un componente necesita el texto de un input que el
+usuario escribe. ¿Dónde pones el estado?
+A) En un store global · B) En el componente mismo · C) En el
+componente padre
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Con 3 niveles de prop passing, un store es más limpio. El
+   localStorage no reaccia a cambios en la interfaz.
+2. **B**. El texto de un input es estado local. Solo el componente
+   que renderiza el input necesita saberlo.
+
+</details>
+
+## Resumen en 3 frases
+
+1. El estado vive lo más arriba posible y fluye hacia abajo por props.
+   Si dos componentes necesitan lo mismo, el estado está en el padre
+   común.
+2. No uses un store para todo: empieza con estado local, sube al
+   padre si hace falta, y solo usa store cuando la complejidad lo
+   justifica.
+3. El props drilling con 3+ niveles es señal de que necesitas un
+   store. Con 1-2 niveles, props normales bastan.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Estado** | Datos que cambian en la interfaz y afectan a lo que se ve |
+| **Props drilling** | Pasar props por componentes intermedios que no las usan |
+| **Store** | Estado centralizado accesible desde cualquier componente |
+| **useState** | Hook de React para crear estado local |
+| **Pinia** | Store oficial de Vue, sucesor de Vuex |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework) · **Anterior:** [03 · Componentes: la pieza fundamental](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/03-componentes-la-pieza-fundamental) · **Siguiente:** [05 · Rendimiento y optimización](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/05-rendimiento-y-optimizacion)

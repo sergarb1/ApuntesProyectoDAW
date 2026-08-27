@@ -1,0 +1,161 @@
+---
+title: "05 — El alcance: lo que haces y lo que no"
+description: "Definir el alcance es dibujar la frontera de tu proyecto. Y lo que excluyes también te define 🧱"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U1 · Definir el proyecto** → 05 · El alcance
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Ana ya tiene las cinco preguntas respondidas y objetivos SMART escritos.
+  Pero sigue con un nudo: le da miedo **dejar cosas fuera**. "¿Y si el
+  profesor piensa que mi proyecto es pobre?"
+
+  Este capítulo es el antídoto: el alcance no se define para quedar pobre,
+  sino para quedar **entero**. Una frontera clara es lo que separa a un
+  proyecto que termina de uno que se desangra.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> El alcance es la frontera de tu proyecto: lo que haces, lo que harías si
+> pudieras, y lo que no harás jamás. Y lo que excluyes también te define.
+
+Es como decorar una habitación. Si te empeñas en amueblar también la cocina,
+el jardín y el garaje, acabas con tres muebles sin terminar y ninguna
+habitación habitable. El alcance es la decisión consciente de qué habitación
+amueblas bien.
+
+## 🧱 El alcance es una frontera, no un techo
+
+Un error clásico es no definir los límites. Sin frontera, cada idea nueva que
+surge se cuela en tu calendario y tu proyecto crece sin control: es lo que
+llamamos **scope creep** (crecimiento descontrolado del alcance).
+
+```
+SIN FRONTERA                      CON FRONTERA
+┌──────────────────────┐          ┌──────────────────────┐
+│ idea ─► idea ─► idea │          │ │ IDEAS FUTURAS │    │
+│ ─► idea ─► idea      │          │ ┌──────────────────┐ │
+│ proyecto infinito     │          │ │  ALCANCE CERRADO │ │
+└──────────────────────┘          │ │  lo que hacemos  │ │
+                                  │ └──────────────────┘ │
+                                  └──────────────────────┘
+```
+
+La frontera no limita tu ambición: limita tu **deriva**. Dentro de la
+frontera, todo es tuyo y medible.
+
+## 📋 La tabla de funcionalidades
+
+Para delimitar el alcance, usa una tabla con tres columnas: funcionalidad,
+prioridad y tiempo estimado. Es la columna vertebral de tu planificación.
+
+| Funcionalidad | Prioridad | Tiempo estimado |
+|--------------|-----------|-----------------|
+| Registro e inicio de sesión | MVP | 1 semana |
+| CRUD de tareas | MVP | 2 semanas |
+| Sistema de etiquetas | MVP | 3 días |
+| Notificaciones push | Deseable | 2 semanas |
+| IA que recomienda tareas | Fuera de alcance | — |
+
+Tres prioridades, tres destinos:
+
+- **MVP**: entra en el proyecto sí o sí. Es el corazón (punto 02).
+- **Deseable**: entra si sobra tiempo, y nada más.
+- **Fuera de alcance**: no entra. Escribirlo aquí es un acto de higiene
+  mental, no de derrota.
+
+Con esta tabla, "empezar a codificar" deja de ser un salto al vacío: es
+ejecutar una lista ordenada con fechas estimadas.
+
+## 🚫 Por qué lo que excluyes también te define
+
+Excluir no es perder: es **elegir**. Cuando dices que tu app NO va a tener
+chat, estás decidiendo que la energía del chat se gasta en que el registro
+funcione perfectamente. Cada "fuera de alcance" es un compromiso con lo que
+sí prometiste.
+
+Además, lo excluido no desaparece: se guarda en tu lista de "ideas futuras".
+A mitad de curso, cuando a tu compañero se le ocurra algo brillante, sabrás
+exactamente qué hacer con ello (mirar la tabla, no añadirlo a la brava).
+
+<Aclaracion pregunta="¿Qué hago si el profesor me dice que mi proyecto es demasiado simple?">
+  Si el profesor lo dice, pregúntale exactamente qué le falta. Normalmente no
+  es cuestión de añadir más funcionalidades, sino de **profundizar** en las
+  que ya tienes: mejor documentación, testing, calidad de código, despliegue
+  real, interfaz cuidada.
+
+  Un proyecto pequeño pero excelente vale más que uno grande y mediocre.
+</Aclaracion>
+
+<CasoPractico titulo="Dos proyectos, dos enfoques">
+
+  **Caso A — El ambicioso**
+  Un equipo decidió hacer una plataforma de cursos online con foros, vídeos,
+  chat en vivo, certificados y recomendaciones personalizadas. A mitad de
+  curso se dieron cuenta de que no tenían ni el login bien hecho. En la
+  presentación mostraron un formulario de registro que fallaba y un reproductor
+  de vídeo que no cargaba.
+
+  **Resultado**: Suspenso. Demasiado alcance, cero ejecución.
+
+  **Caso B — El enfocado**
+  Otro equipo hizo una aplicación para que los vecinos de una comunidad
+  gestionen incidencias (una gotera, una luz fundida). Solo tenía: registro,
+  crear incidencia, listar incidencias, cambiar estado. Todo funcionaba. La
+  interfaz era limpia, el código estaba testeado, la memoria documentada.
+
+  **Resultado**: Notable. Poco alcance, pero todo hecho bien.
+
+  La moraleja: **no es lo que prometes, es lo que entregas.**
+</CasoPractico>
+
+El caso A no fracasó por falta de talento: fracasó por **frontera ausente**.
+El caso B ganó porque su tabla de alcance cabía en una servilleta... y la
+cumplió entera.
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** En la tabla de alcance, una funcionalidad "Deseable" significa
+que:
+A) se implementa en la primera semana · B) entra solo si sobra tiempo · C) se
+borra para siempre.
+
+**Pregunta 2.** A mitad de curso, tu compañero propone añadir un chat. Con
+una tabla de alcance bien hecha, tú:
+A) lo añades de inmediato para que no se enfade · B) lo apuntas en "ideas
+futuras" y revisáis si es MVP, deseable o fuera · C) lo ignoras sin más.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Lo deseable espera a que el MVP esté cerrado. Si entra en la
+   semana 1, deja de ser deseable.
+2. **B**. La tabla de alcance es tu herramienta para decidir con cabeza, no
+   un muro. El chat se evalúa con la misma lógica que el resto.
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. El alcance es la frontera de tu proyecto: MVP, deseable y fuera de alcance.
+2. Lo que excluyes también te define: cada "fuera" es energía invertida en lo
+   que sí prometiste.
+3. Un proyecto pequeño pero excelente vale más que uno grande y mediocre.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Alcance** | La frontera de lo que el proyecto incluye |
+| **Scope creep** | Crecimiento descontrolado del alcance, idea tras idea |
+| **MVP** | Lo prioritario: entra sí o sí |
+| **Deseable** | Lo que entra solo si sobra tiempo |
+| **Fuera de alcance** | Lo decidido que NO se hace |
+| **Ideas futuras** | Lista donde aparcar lo que no entra, sin perderlo |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u1-fundamentos-programacion) · **Anterior:** [04 · Objetivos SMART](/ApuntesProyectoDAW/apuntes-pi1/u1-fundamentos-programacion/04-objetivos-smart) · **Siguiente:** [06 · Usuario y público objetivo](/ApuntesProyectoDAW/apuntes-pi1/u1-fundamentos-programacion/06-usuario-y-publico-objetivo)

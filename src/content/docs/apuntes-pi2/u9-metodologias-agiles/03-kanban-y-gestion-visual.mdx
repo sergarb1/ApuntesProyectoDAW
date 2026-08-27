@@ -1,0 +1,174 @@
+---
+title: "03 — Kanban y gestión visual"
+description: "Tableros Kanban, límites WIP y visualización del trabajo: herramientas para que todo el equipo sepa dónde está el proyecto."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🔁 **U9 · Gestionar el proyecto** → 03 · Kanban y gestión visual
+
+Kanban es una forma de organizar el trabajo que nació en Toyota
+en los años 50. Su idea principal es simple: **visualiza todo el
+trabajo en un tablero** para que todo el mundo sepa qué está
+pasando.
+
+## El tablero Kanban básico
+
+Un tablero Kanban tiene columnas que representan los estados
+del trabajo. El más básico:
+
+```
+| Por hacer        | En progreso      | Hecho            |
+|------------------|------------------|------------------|
+| Login con Google | Dashboard        | Registro usuarios|
+| API de pagos     | Sistema de emails| Landing page     |
+| Tests de integr. |                  | Diseño UI/UX     |
+```
+
+Cada tarjeta representa una tarea. Las tarjetas se mueven de
+izquierda a derecha a medida que se completan.
+
+## Por qué funciona
+
+Kanban funciona porque resuelve tres problemas comunes:
+
+1. **Sobrecarga**: si tienes 20 tareas "en progreso", no estás
+  progresando en ninguna
+2. **Falta de visibilidad**: si no ves el tablero, no sabes
+  qué bloqueos tiene el equipo
+3. **Despriorización**: si todo es urgente, nada es urgente
+
+## Los límites WIP
+
+WIP significa "Work In Progress" (trabajo en progreso). Un
+límite WIP es el número máximo de tarjetas que puede haber
+en una columna.
+
+Ejemplo:
+
+```
+| Por hacer (sin límite) | En progreso (WIP: 2) | Hecho (sin límite) |
+|------------------------|----------------------|--------------------|
+| Login con Google        | Dashboard            | Registro usuarios  |
+| API de pagos           | Sistema de emails    | Landing page       |
+| Tests de integr.       |                      | Diseño UI/UX       |
+```
+
+Si el límite de "En progreso" es 2, no puedes mover una tercera
+tarjeta a esa columna hasta que una de las dos actuales pase a
+"Hecho". Esto **fuerza** a terminar antes de empezar algo nuevo.
+
+### ¿Por qué los límites WIP son importantes?
+
+Sin límites WIP, el equipo tiende a empezar 5 cosas a la vez
+y no terminar ninguna. Los límites WIP obligan a **enfocarse**.
+
+En PI2, un límite WIP de 2-3 por miembro es razonable. Si cada
+uno tiene 2 tareas en progreso y 5 pendientes, algo falla en
+la planificación.
+
+## Kanban en la práctica
+
+### Herramientas para PI2
+
+- **GitHub Projects**: la más fácil si ya usáis GitHub. Tablero
+  Kanban integrado en vuestro repositorio.
+- **Trello**: visual, sencillo, perfecto para equipos pequeños.
+- **Notion**: flexible, combina tablero con documentación.
+- **Físico**: notas adhesivas en una pizarra. No subestimes lo
+  físico: es visual, inmediato y no requiere conexión.
+
+### Cómo configurar un tablero en GitHub Projects
+
+1. Ve a tu repositorio → pestaña "Projects"
+2. Crea un proyecto nuevo → selecciona "Board"
+3. Crea las columnas: "Por hacer", "En progreso", "Revisión", "Hecho"
+4. Añade tarjetas para cada tarea
+5. Asigna miembros del equipo a cada tarjeta
+
+### Etiquetas útiles
+
+- **Bug** (rojo): algo que falla
+- **Feature** (verde): algo nuevo que implementar
+- **Documentation** (azul): tareas de documentación
+- **Blocked** (naranja): algo está bloqueado, necesita ayuda
+- **Priority** (morado): tarea de alta prioridad
+
+## Flujo de trabajo Kanban
+
+El flujo básico es:
+
+1. **Tarea en el backlog**: la tarea está definida pero no empezada
+2. **Tarea en "Por hacer"**: está priorizada y lista para empezar
+3. **Tarea en "En progreso"**: alguien está trabajando en ella
+4. **Tarea en "Revisión"**: el trabajo está terminado pero necesita
+  revisión de otro miembro
+5. **Tarea en "Hecho"**: completada y verificada
+
+La columna "Revisión" es clave. En PI2, si solo una persona
+revisa su propio trabajo, los bugs se escapan. La revisión
+cruzada (otro miembro revisa tu código) es una de las prácticas
+más efectivas.
+
+<Aclaracion pregunta="¿Kanban es incompatible con Scrum?">
+  No. Son complementarios. Puedes usar un tablero Kanban para
+  gestionar un sprint Scrum. La diferencia es que Scrum tiene
+  sprints fijos y Kanban es continuo. En PI2, lo más probable
+  es que mezcles ambos: sprints de una semana con un tablero
+  Kanban para gestionar las tareas.
+</Aclaracion>
+
+## Métricas básicas de Kanban
+
+Kanban no solo es visual: también es medible. Dos métricas
+útiles para PI2:
+
+### Lead time
+Tiempo desde que se crea una tarea hasta que se completa.
+Si el lead time promedio es 3 días y una tarea lleva 7, hay
+un bloqueo.
+
+### Throughput
+Número de tareas completadas por semana. Si el throughput
+baja de un sprint a otro, algo está pasando.
+
+No necesitas mediciones complejas. Con mirar el tablero y
+contar cuántas tarjetas pasan a "Hecho" cada semana, es
+suficiente.
+
+<CasoPractico titulo="El tablero que salvó un proyecto">
+
+  Un equipo de 4 miembros llevaba 3 semanas sin entregar
+  nada. Cada uno trabajaba en lo suyo, no se comunicaban,
+  y el proyecto avanzaba a trompones.
+
+  Montaron un tablero Kanban en GitHub Projects con límite
+  WIP de 2 por persona. Al tercer día, vieron el problema:
+  tres miembros tenían 4 tareas "en progreso" cada uno.
+  Estaban empezando sin terminar.
+
+  Con los límites WIP, se obligaron a terminar antes de
+  empezar. En una semana entregaron más que en las tres
+  anteriores.
+
+  **Lección**: el tablero no es decoración. Es una herramienta
+  de decisión. Si algo está "en progreso", estás eligiendo
+  no hacer otras cosas. Hazlo consciente.
+</CasoPractico>
+
+## Errores comunes con Kanban
+
+- **Tablero abandonado**: si nadie mueve las tarjetas, el tablero
+  es papel mojado. Actualizadlo cada día.
+- **Demasiadas columnas**: 3-5 columnas es suficiente. Más que
+  eso complica sin aportar.
+- **Sin límites WIP**: sin límites, Kanban es solo un listado bonito.
+- **Ignorar las tarjetas bloqueadas**: si una tarjeta lleva días
+  en "En progreso" sin moverse, sacadla a la daily.
+
+---
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u9-metodologias-agiles) · **Anterior:** [02 · Scrum en la práctica](/ApuntesProyectoDAW/apuntes-pi2/u9-metodologias-agiles/02-scrum-en-la-practica) · **Siguiente:** [04 · Estimación y planificación](/ApuntesProyectoDAW/apuntes-pi2/u9-metodologias-agiles/04-estimacion-y-planificacion)

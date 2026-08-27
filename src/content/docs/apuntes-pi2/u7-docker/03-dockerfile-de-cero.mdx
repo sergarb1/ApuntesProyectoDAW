@@ -1,0 +1,339 @@
+---
+title: "03 — Dockerfile desde cero"
+description: "Cómo escribir un Dockerfile paso a paso, mejores prácticas y cómo optimizar la imagen con multi-stage builds."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📦 **U7 · Preparar el despliegue** → 03 · Dockerfile desde cero
+
+<StoryIntro icono="🎬" titulo="El Dockerfile que pesaba 2 GB">
+  El equipo creó su primer Dockerfile. Lo probaron y funcionó.
+  Pero cuando intentaron subir la imagen al registro, tardó 20 minutos
+  y pesaba 2,3 GB.
+
+  El problema: habían copiado todo el proyecto (incluyendo node_modules,
+  archivos de test, documentación) y la imagen base era la versión
+  completa de Node.js con todo incluido.
+
+  Un Dockerfile no es solo "que funcione". Es "que funcione bien".
+</StoryIntro>
+
+## La idea en una frase
+
+> Un Dockerfile es la receta de cocina de tu aplicación. Cada instrucción
+> añade una capa. Menos capas, imagen más ligera.
+
+## Estructura básica de un Dockerfile
+
+```dockerfile
+# 1. Imagen base
+FROM node:20-alpine
+
+# 2. Directorio de trabajo
+WORKDIR /app
+
+# 3. Copiar dependencias primero (para caché)
+COPY package*.json ./
+
+# 4. Instalar dependencias
+RUN npm install --production
+
+# 5. Copiar el código de la aplicación
+COPY . .
+
+# 6. Exponer el puerto
+EXPOSE 3000
+
+# 7. Comando de inicio
+CMD ["node", "app.js"]
+```
+
+Cada línea tiene un propósito. Vamos a verlas una por una.
+
+## Las instrucciones paso a paso
+
+### FROM — la imagen base
+
+Toda imagen se construye sobre otra. `FROM` define cuál.
+
+```dockerfile
+FROM node:20          # Node 20 completa (~900 MB)
+FROM node:20-alpine   # Node 20 ligera (~180 MB)
+FROM node:20-slim     # Node 20 slim (~250 MB)
+```
+
+**Regla**: usa `alpine` siempre que puedas. Es más ligera y segura.
+Solo usa la versión completa si necesitas compilar dependencias nativas.
+
+### WORKDIR — dónde trabajar
+
+Define el directorio dentro del contenedor donde se ejecutará todo.
+Si no existe, lo crea.
+
+```dockerfile
+WORKDIR /app
+```
+
+A partir de aquí, todas las rutas son relativas a `/app`.
+
+### COPY — copiar archivos
+
+```dockerfile
+COPY package*.json ./    # Copia package.json y package-lock.json
+COPY . .                 # Copia todo el proyecto
+```
+
+**Truco de caché**: copia `package*.json` primero y ejecuta `npm install`
+antes de copiar el resto del código. Así, si solo cambia código pero
+no dependencias, Docker reutiliza la capa de instalación.
+
+### RUN — ejecutar comandos
+
+```dockerfile
+RUN npm install --production    # Instalar solo dependencias de producción
+RUN npm run build               # Construir el proyecto
+```
+
+Cada `RUN` crea una nueva capa en la imagen. Combina comandos cuando
+puedas para reducir capas.
+
+### EXPOSE — documentar puertos
+
+```dockerfile
+EXPOSE 3000
+```
+
+No abre el puerto. Solo documenta que la aplicación usa ese puerto.
+El puerto real se abre con `-p` al ejecutar el contenedor.
+
+### CMD — comando de inicio
+
+```dockerfile
+CMD ["node", "app.js"]
+```
+
+Es lo que se ejecuta cuando arranca el contenedor. Usa la forma de
+array (exec form), no la forma de shell.
+
+<Comparativa
+  dialogos={[
+    { quien: "CMD (exec form) — correcto", texto: 'CMD ["node", "app.js"]. Node es PID 1. Recibe señales de terminación correctamente.' },
+    { quien: "CMD (shell form) — problemático", texto: 'CMD node app.js. Shell es PID 1, Node es hijo. No recibe señales de terminación. Docker no puede parar limpiamente.' },
+  ]}
+  titulo="Dos formas de CMD"
+/>
+
+## Ejemplo: backend Node.js
+
+```dockerfile
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --production
+COPY . .
+EXPOSE 3000
+ENV NODE_ENV=production
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+CMD ["node", "server.js"]
+```
+
+## Ejemplo: frontend estático con multi-stage
+
+```dockerfile
+# Fase de construcción
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# Fase de producción (solo nginx)
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+La imagen final no tiene Node.js, ni node_modules, ni código fuente.
+Solo el HTML/CSS/JS estático y nginx.
+
+## Multi-stage builds: por qué importan
+
+Sin multi-stage:
+
+```
+node:20-alpine + node_modules + código fuente = ~400 MB
+```
+
+Con multi-stage:
+
+```
+nginx:alpine + archivos estáticos = ~25 MB
+```
+
+La diferencia es enorme. Una imagen más ligera:
+- Se sube más rápido al registro
+- Arranca más rápido
+- Ocupa menos espacio en el servidor
+- Tiene menos superficie de ataque
+
+<details>
+<summary>Multi-stage para backend (ejemplo avanzado)</summary>
+
+```dockerfile
+# Fase 1: construcción
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# Fase 2: producción
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --production
+COPY --from=builder /app/dist ./dist
+EXPOSE 3000
+CMD ["node", "dist/server.js"]
+```
+
+El resultado: una imagen con solo las dependencias de producción y
+el código compilado. Sin herramientas de desarrollo, sin tests, sin
+código fuente.
+
+</details>
+
+## El archivo .dockerignore
+
+Al igual que `.gitignore` evita que Git suba archivos innecesarios,
+`.dockerignore` evita que Docker los copíe a la imagen.
+
+```
+node_modules
+npm-debug.log
+.git
+.env
+.env.*
+dist
+build
+coverage
+*.md
+docker-compose.yml
+Dockerfile
+.dockerignore
+```
+
+**Por qué importa**: si copias `node_modules` a la imagen, estás
+copiando dependencias de tu máquina (que pueden ser de otra plataforma)
+en vez de instalarlas dentro del contenedor.
+
+## Errores comunes
+
+### Copiar node_modules
+
+```dockerfile
+# ❌ MAL: copia las dependencias de tu máquina
+COPY . .
+RUN npm install
+
+# ✅ BIEN: instala dentro del contenedor
+COPY package*.json ./
+RUN npm install
+COPY . .
+```
+
+### No usar .dockerignore
+
+Sin `.dockerignore`, Docker copia todo: `.git`, `node_modules`, `.env`,
+tests, documentación. La imagen se infla innecesariamente.
+
+### Imagen base pesada
+
+```dockerfile
+# ❌ MAL: imagen completa (~900 MB)
+FROM node:20
+
+# ✅ BIEN: variante alpine (~180 MB)
+FROM node:20-alpine
+```
+
+### Usuario root
+
+Por defecto, los contenedores ejecutan como root. Si alguien explota
+tu aplicación dentro del contenedor, tiene acceso root.
+
+```dockerfile
+# ✅ Crear usuario no-root
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+```
+
+<CasoPractico titulo="De 2,3 GB a 45 MB con un multi-stage">
+
+  Un equipo tenía una aplicación React con Spring Boot. La imagen
+  original pesaba 2,3 GB: incluía JDK, Maven, node_modules, código
+  fuente y tests.
+
+  Refactorizaron con multi-stage: una fase construía el frontend (Node),
+  otra el backend (Maven), y la imagen final solo copiaba los artefactos
+  compilados sobre una base ligera de Java.
+
+  Resultado: 45 MB. El 98% de reducción. Arrancaba en 3 segundos
+  en vez de 30.
+
+  **Lección**: un multi-stage build es la optimización más importante
+  que puedes hacer en tu Dockerfile.
+</CasoPractico>
+
+## Mini-chequeo
+
+**Pregunta 1.** ¿Por qué se copia `package*.json` antes que el resto del código?
+A) Porque es más grande · B) Para aprovechar la caché de Docker: si las
+dependencias no cambian, reutiliza la capa de instalación · C) Porque
+así se instalan más rápido
+
+**Pregunta 2.** ¿Qué es un multi-stage build?
+A) Un Dockerfile que ejecuta la aplicación en varios pasos · B) Un
+Dockerfile que usa varias fases para construir una imagen más ligera ·
+C) Un Dockerfile que necesita varios contenedores
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Docker cachea cada capa. Si `package*.json` no cambia, la
+   capa de `npm install` se reutiliza. Solo se re-ejecuta cuando las
+   dependencias cambian.
+2. **B**. Un multi-stage build tiene varias fases. La primera construye,
+   la segunda produce la imagen final sin herramientas de desarrollo.
+   Reduce drásticamente el tamaño de la imagen.
+
+</details>
+
+## Resumen en 3 frases
+
+1. Un Dockerfile es la receta de tu imagen: FROM, WORKDIR, COPY, RUN,
+   EXPOSE, CMD son las instrucciones básicas.
+2. Usa `alpine` como base, copia `package*.json` primero para caché,
+   y crea un usuario no-root por seguridad.
+3. Los multi-stage builds reducen el tamaño de la imagen drásticamente:
+   de GB a MB.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Dockerfile** | Archivo de texto con instrucciones para construir una imagen |
+| **Capa (layer)** | Cada instrucción del Dockerfile crea una capa cacheable |
+| **Multi-stage build** | Dockerfile con varias fases para reducir la imagen final |
+| **.dockerignore** | Archivo que excluye archivos de la imagen (como .gitignore) |
+| **Alpine** | Variante ligera de Linux para contenedores (~5 MB) |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u7-docker) · **Anterior:** [02 · Contenedores: la solución](/ApuntesProyectoDAW/apuntes-pi2/u7-docker/02-contenedores-la-solucion) · **Siguiente:** [04 · Docker Compose](/ApuntesProyectoDAW/apuntes-pi2/u7-docker/04-docker-compose)

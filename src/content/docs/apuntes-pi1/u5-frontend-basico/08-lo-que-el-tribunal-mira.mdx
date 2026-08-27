@@ -1,0 +1,218 @@
+---
+title: "08 — Lo que el tribunal mira en tu interfaz"
+description: "Checklist real de defensa: consistencia, claridad, feedback, responsive, accesibilidad. Prepara tu interfaz para el examen 👁️"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U5 · Construir la interfaz** → 08 · Lo que el tribunal mira
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Llegas a la defensa. El tribunal abre tu aplicación. En 30 segundos ya
+  han formado opinión: "esta interfaz está cuidada" o "esto es un caos".
+  No leen tu código todavía. Juzgan lo que ven.
+
+  Este capítulo es la **checklista real** que usan los tribunales (y los
+  profesores en validaciones). Si tu interfaz pasa esta lista, la parte
+  visual de tu defensa va viento en popa. Si falla, da igual lo bien que
+  esté el backend: la primera impresión ya la has perdido.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> El tribunal no ve tu clean code: ve pantallas. Prepara cada pantalla para
+> que pase el "test de los 30 segundos".
+
+Es como una entrevista de trabajo. Tu CV (el código) importa, pero si
+llegas con la camisa arrugada, los zapatos rotos y sin saludar (la interfaz),
+el entrevistador ya ha decidido antes de leer tu experiencia.
+
+## ✅ La checklist del tribunal (5 pilares)
+
+### 1. Consistencia — "Todo encaja"
+
+- [ ] **Botones**: misma forma, mismo tamaño, mismos colores, mismos estados
+  (hover, focus, active, disabled) en TODA la app.
+- [ ] **Inputs**: mismo padding, mismo borde, mismo radio, mismo error inline.
+- [ ] **Tarjetas/Contenedores**: misma sombra, mismo padding, mismo radio.
+- [ ] **Tipografía**: máx. 2 fuentes, escala de tamaños consistente (h1-h6,
+  body, small).
+- [ ] **Espaciado**: todo viene de la escala (4px/8px). No hay "magia".
+- [ ] **Iconos**: mismo estilo (outline vs fill), mismo tamaño (20px/24px),
+  misma librería.
+
+**Pregunta del tribunal:** *"¿Por qué este botón es redondo y este cuadrado?"*
+**Respuesta buena:** *"Es el mismo componente Button con variante primary/secondary."*
+**Respuesta mala:** *"Este lo hice yo, este lo hizo mi compañero."*
+
+### 2. Claridad — "Sé qué hace cada cosa"
+
+- [ ] **Jerarquía visual clara**: una acción principal por pantalla (destacada),
+  secundarias visibles pero no competidoras.
+- [ ] **Labels visibles** en TODOS los inputs (no solo placeholder).
+- [ ] **Títulos de pantalla** descriptivos (no "Dashboard", sí "Mis tareas").
+- [ ] **Navegación obvia**: breadcrumb en pantallas profundas, botón "Volver"
+  donde tiene sentido.
+- [ ] **Estados vacíos** con acción: "No hay tareas. [Crear la primera]".
+- [ ] **Loading states**: skeleton o spinner en cada carga asíncrona.
+
+**Pregunta del tribunal:** *"Si entro aquí por primera vez, ¿sé qué hacer?"*
+**Prueba:** Pásale el móvil a un compañero sin explicar nada.
+
+### 3. Feedback — "Pasa algo cuando hago clic"
+
+- [ ] **Botones**: hover, focus-visible (teclado), active, disabled/loading.
+- [ ] **Formularios**: validación inline (HTML5 + JS), errores junto al campo.
+- [ ] **Acciones destructivas**: confirmación (modal/toast) antes de borrar.
+- [ ] **Éxito**: toast/banner verde auto-dismiss (2-3 s) o redirección clara.
+- [ ] **Errores globales**: toast rojo con mensaje humano + acción (reintentar).
+- [ ] **Navegación**: indicador visual si la carga tarda (> 300 ms).
+
+**Pregunta del tribunal:** *"Hago clic aquí y no pasa nada. ¿Está roto?"*
+
+### 4. Responsive — "Se ve bien en mi móvil"
+
+- [ ] **Breakpoint móvil (&lt; 576px / 375px)**: todo usable, sin scroll horizontal.
+- [ ] **Touch targets**: mín. 44×44px (botones, enlaces, inputs).
+- [ ] **Texto legible**: mín. 16px en inputs (evita zoom en iOS), contraste.
+- [ ] **Navegación móvil**: menú hamburguesa / bottom nav / drawer funcionando.
+- [ ] **Tablas**: scroll horizontal o vista tarjeta en móvil.
+- [ ] **Formularios**: campos apilados, botones a ancho completo (w-100).
+- [ ] **Probado en dispositivo real** (no solo DevTools device toolbar).
+
+**Pregunta del tribunal:** *"¿Puedo usar esto en el tren con una mano?"*
+
+### 5. Accesibilidad mínima — "La puede usar cualquiera"
+
+- [ ] **Contraste AA**: texto 4.5:1, texto grande 3:1, elementos UI 3:1.
+  (Herramienta: [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/))
+- [ ] **Navegación por teclado**: Tab, Shift+Tab, Enter, Escape funcionan en TODO.
+- [ ] **Focus visible**: anillo/claro en TODOS los elementos interactivos.
+- [ ] **Semántica HTML**: landmarks (header, nav, main, footer), headings
+  jerárquicos (h1 → h2 → h3), labels en inputs.
+- [ ] **Alt text**: imágenes informativas tienen `alt` descriptivo; decorativas
+  `alt=""`.
+- [ ] **Idioma**: `<html lang="es">` y cambios de idioma marcados.
+
+**Pregunta del tribunal:** *"¿Un usuario ciego podría registrar una tarea?"*
+
+---
+
+## 📋 Checklist completa para tu entrega
+
+Imprime esto y mújalo una semana antes de la defensa:
+
+```
+INTERFAZ - CHECKLIST PRE-DEFENSA
+════════════════════════════════
+CONSISTENCIA
+☐ Botones unificados (componente único, variantes claras)
+☐ Inputs unificados (estados, errores, hints)
+☐ Tarjetas/contenedores unificados
+☐ Tipografía: 2 fuentes max, escala respetada
+☐ Espaciado: solo valores de la escala (4/8px)
+☐ Iconos: misma librería, mismo estilo, mismo tamaño
+
+CLARIDAD
+☐ 1 acción principal por pantalla (destacada)
+☐ Labels visibles en TODOS los inputs
+☐ Títulos de pantalla descriptivos
+☐ Breadcrumb / "Volver" en pantallas profundas
+☐ Estados vacíos con CTA (llamada a la acción)
+☐ Loading states (skeleton/spinner) en cargas async
+
+FEEDBACK
+☐ Botones: hover, focus-visible, active, disabled/loading
+☐ Validación inline (HTML5 + JS) con aria-live
+☐ Confirmación en acciones destructivas
+☐ Toast éxito (verde, auto-dismiss) y error (rojo, acción)
+☐ Indicador de carga si navega > 300ms
+
+RESPONSIVE
+☐ Probado en 375px (móvil real) sin scroll horizontal
+☐ Touch targets ≥ 44×44px
+☐ Texto ≥ 16px en inputs (no zoom iOS)
+☐ Navegación móvil funcional (hamburguesa/drawer)
+☐ Tablas → scroll horizontal o tarjetas en móvil
+☐ Formularios: campos apilados, botones w-100
+
+ACCESIBILIDAD MÍNIMA
+☐ Contraste AA verificado (WebAIM)
+☐ Navegación 100% por teclado (Tab/Enter/Esc)
+☐ Focus visible en TODOS los interactivos
+☐ HTML semántico: landmarks + headings jerárquicos
+☐ Labels en inputs + alt en imágenes
+☐ lang="es" en <html>
+```
+
+---
+
+<Aclaracion pregunta="¿Y si no se me da bien el diseño visual?">
+  No necesitas ser diseñador gráfico. Basta con seguir principios básicos
+  y usar herramientas que te ayuden:
+
+  - Usa un **framework CSS** (Bootstrap, Tailwind, Pico) — te da componentes
+    bonitos y consistentes por defecto.
+  - Sigue una **paleta de colores** coherente (coolors.co te ayuda a
+    generar una accesible).
+  - Elige una **tipografía** legible y úsala en todo el proyecto
+    (Inter, Roboto, System UI son apuestas seguras).
+  - Usa **espaciado generoso** y sistemático (escala de 4px u 8px).
+    Lo que está muy junto parece amontonado; lo que respira, guía.
+  - Coge **inspiración** de aplicaciones que te gusten y analiza por qué
+    funcionan (espaciado, jerarquía, color).
+  - Si aún así dudas, pregúntale a un compañero: *"¿esto se entiende?"*.
+    El feedback de otros usuarios es la mejor herramienta de diseño.
+
+  Y recuerda: **consistencia > creatividad**. Una interfaz coherente y
+  sencilla gana a una "original" pero caótica. El tribunal valora que
+  sepas usar bien un sistema, no que inventes uno nuevo.
+</Aclaracion>
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** En la defensa, el tribunal hace clic en un botón "Eliminar"
+y no pasa nada durante 3 segundos. ¿Qué falla?
+A) Consistencia · B) Claridad · C) Feedback · D) Responsive.
+
+**Pregunta 2.** Tu tabla de usuarios se ve perfecta en escritorio, pero en
+móvil hay scroll horizontal en toda la página. ¿Qué falla?
+A) Consistencia · B) Claridad · C) Feedback · D) Responsive.
+
+**Pregunta 3.** El focus en tus botones es invisible (quitaste outline y no
+pusiste box-shadow). ¿Qué falla?
+A) Consistencia · B) Claridad · C) Feedback · D) Accesibilidad.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **C**. Feedback: la acción no tiene respuesta visual. 2. **D**. Responsive:
+   scroll horizontal en página = fallo crítico móvil. 3. **D**. Accesibilidad:
+   sin focus visible, usuario de teclado está ciego.
+
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. El tribunal juzga tu interfaz en 30 segundos: consistencia, claridad,
+   feedback, responsive y accesibilidad mínima son los 5 pilares.
+2. Usa un framework CSS y componentes únicos: la consistencia se logra
+   reutilizando, no inventando cada pantalla.
+3. Prueba en móvil real, navega solo con teclado, valida contraste con
+   WebAIM. Si pasa tu checklist, la defensa visual va bien.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Test de los 30 segundos** | Tiempo que tarda un tribunal en formarse opinión visual |
+| **Touch target** | Área táctil mínima (44×44px) para elementos interactivos en móvil |
+| **Contraste AA** | Ratio 4.5:1 (texto normal) / 3:1 (texto grande/UI) según WCAG |
+| **Focus visible** | Indicador visual claro del elemento con foco de teclado |
+| **Landmarks** | Etiquetas HTML semánticas (header, nav, main, footer, aside) |
+| **Skeleton** | Placeholder animado que anticipa la estructura del contenido |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico) · **Anterior:** [07 · Feedback y errores](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/07-feedback-y-errores-visibles) · **Siguiente:** [09 · Cierre](/ApuntesProyectoDAW/apuntes-pi1/u5-frontend-basico/09-cierre)

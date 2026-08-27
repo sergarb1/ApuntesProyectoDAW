@@ -1,11 +1,13 @@
 ---
-title: 🛡️ U6. Proteger la aplicación
-description: Cómo evitar los problemas de seguridad más comunes en aplicaciones web
+title: "🛡️ U6 — Proteger la aplicación"
+description: "Cómo evitar los problemas de seguridad más comunes en aplicaciones web: inyección SQL, contraseñas, validación y buenas prácticas."
 ---
 
 import StoryIntro from '../../../components/StoryIntro.astro';
 import Aclaracion from '../../../components/Aclaracion.astro';
 import CasoPractico from '../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🛡️ **U6 · Proteger la aplicación** → Índice
 
 <StoryIntro icono="🎬" titulo="El día que alguien borró la base de datos">
   "Se me ocurrió probar a poner `'; DROP TABLE usuarios; --` en el campo
@@ -22,122 +24,58 @@ import CasoPractico from '../../../components/CasoPractico.astro';
   de **cualquier error** que pueda exponer o destruir tus datos.
 </StoryIntro>
 
-## Seguridad no es opcional
+## Mapa de la unidad
 
-Tu aplicación web almacena datos de usuarios: nombres, correos, contraseñas.
-Aunque sea un proyecto de clase, esos datos merecen protección.
+La unidad se divide en **8 puntos** más un cierre. Cada punto construye
+sobre el anterior:
 
-Además, el tribunal valora que tu aplicación sea **segura por diseño**,
-no que "no tenga errores de seguridad porque no la ha visto nadie".
+| # | Punto | Idea clave |
+|---|-------|------------|
+| 01 | Seguridad no es opcional | Por qué importa incluso en proyectos de clase |
+| 02 | Inyección SQL | El ataque más clásico y cómo evitarlo con parámetros |
+| 03 | Contraseñas seguras | Hashing, bcrypt y por qué nunca en texto plano |
+| 04 | Validación de datos | Confiar solo en el servidor, nunca en el cliente |
+| 05 | Variables de entorno | Secretos fuera del código, en `.env` |
+| 06 | Autenticación y autorización | Quién eres y qué puedes hacer |
+| 07 | HTTPS y CIFRADO | Proteger la comunicación entre cliente y servidor |
+| 08 | Checklist de seguridad | Todo lo que debes verificar antes de entregar |
+| 09 | Cierre | Consolidar lo aprendido con retos y laboratorio |
 
-## Los 4 problemas más comunes (y cómo evitarlos)
+## Objetivos de aprendizaje
 
-### 1. Inyección SQL
+Al terminar esta unidad serás capaz de:
 
-**El problema**: el usuario escribe código SQL en un campo de texto y
-la base de datos lo ejecuta.
+- **Identificar** los cuatro problemas de seguridad más comunes en web
+- **Prevenir** inyecciones SQL usando consultas parametrizadas
+- **Almacenar** contraseñas de forma segura con bcrypt y salt
+- **Validar** todos los datos de entrada en el servidor
+- **Gestionar** secretos con variables de entorno, nunca hardcodeados
+- **Implementar** autenticación básica con JWT y control de roles
+- **Desplegar** con HTTPS y configurar CORS correctamente
+- **Aplicar** una checklist completa de seguridad antes de entregar
 
-```sql
--- Si haces: SELECT * FROM usuarios WHERE email = ' + input + '
--- Y el usuario escribe: ' OR '1'='1
--- La consulta se convierte en:
-SELECT * FROM usuarios WHERE email = '' OR '1'='1'  -- ¡devuelve todos los usuarios!
-```
+## Competencias que desarrollarás
 
-**Solución**: usa consultas parametrizadas, nunca concatenes strings.
+| Competencia | Cómo se trabaja |
+|-------------|-----------------|
+| **Pensamiento crítico** | Evaluar riesgos y decidir qué proteger primero |
+| **Resolución de problemas** | Detectar vulnerabilidades y aplicar soluciones |
+| **Responsabilidad** | Proteger datos de usuarios como si fueran tuyos |
+| **Comunicación técnica** | Documentar decisiones de seguridad para el equipo |
+| **Autonomía** | Saber que tu aplicación resiste ataques básicos |
 
-```javascript
-// ❌ MAL
-db.query("SELECT * FROM usuarios WHERE email = '" + email + "'");
+## Navegación
 
-// ✅ BIEN
-db.execute("SELECT * FROM usuarios WHERE email = ?", [email]);
-```
+- **[01 · Seguridad no es opcional](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad/01-seguridad-no-es-opcional)** — Empieza aquí
+- **[02 · Inyección SQL](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad/02-inyeccion-sql)** — El ataque más peligroso
+- **[03 · Contraseñas seguras](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad/03-contraseñas-seguras)** — Nunca en texto plano
+- **[04 · Validación de datos](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad/04-validacion-de-datos)** — El servidor manda
+- **[05 · Variables de entorno](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad/05-variables-de-entorno)** — Secretos fuera del código
+- **[06 · Autenticación y autorización](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad/06-autenticacion-y-autorizacion)** — Quién eres y qué puedes
+- **[07 · HTTPS y CIFRADO](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad/07-https-y-cors)** — Comunicación segura
+- **[08 · Checklist de seguridad](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad/08-checklist-de-seguridad)** — Antes de entregar
+- **[09 · Cierre](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad/09-cierre)** — Consolida lo aprendido
 
-### 2. Contraseñas en texto plano
+---
 
-**El problema**: guardas la contraseña tal como la escribe el usuario.
-Si alguien accede a la base de datos, tiene todas las contraseñas.
-
-**Solución**: guarda siempre el **hash** de la contraseña, nunca la original.
-
-```javascript
-// ❌ MAL
-usuario.password = req.body.password;
-
-// ✅ BIEN
-const bcrypt = require('bcrypt');
-usuario.password_hash = await bcrypt.hash(req.body.password, 10);
-```
-
-### 3. Exposición de datos sensibles
-
-**El problema**: devuelves datos que no deberías (contraseñas, datos internos).
-
-```javascript
-// ❌ MAL: devuelves la contraseña (aunque sea hash)
-res.json(usuario);
-
-// ✅ BIEN: filtras lo que devuelves
-res.json({ id: usuario.id, nombre: usuario.nombre, email: usuario.email });
-```
-
-### 4. Falta de validación
-
-**El problema**: confías en que el cliente siempre envía datos correctos.
-
-**Solución**: valida **siempre** en el servidor. La validación del frontend
-es para mejorar la experiencia, no para proteger los datos.
-
-<Aclaracion pregunta="¿Necesito HTTPS para un proyecto de clase?">
-  Sí. Si tu aplicación tiene formularios de login o registro, los datos
-  viajan por la red. Sin HTTPS, cualquiera en la misma red wifi puede
-  ver las contraseñas.
-
-  Plataformas como Vercel, Netlify, o Render ofrecen HTTPS gratis.
-  Si desplegáis en GitHub Pages, también lo tiene.
-
-  No hay excusa para no usarlo.
-</Aclaracion>
-
-## Buenas prácticas diarias
-
-Además de lo anterior, incorpora estos hábitos:
-
-1. **Variables de entorno**: nunca hardcodees claves, tokens o URLs
-2. **Principio de mínimo privilegio**: el usuario solo accede a lo que necesita
-3. **Validación en servidor**: el frontend miente, el backend protege
-4. **Logs sin datos sensibles**: no registres contraseñas ni tokens en los logs
-5. **Dependencias actualizadas**: `npm audit` o `mvn dependency-check` periódicamente
-
-<CasoPractico titulo="El proyecto que filtró datos sin querer">
-
-  Un equipo desarrolló una API para una tienda online. En el endpoint
-  `/api/usuarios/:id` devolvían el objeto completo del usuario, incluyendo
-  `password_hash` y `token_recuperacion`.
-
-  Durante el desarrollo no pasó nada porque solo ellos lo usaban.
-  Pero en la presentación, el profesor pidió ver la respuesta de la API
-  y, usando el inspector del navegador, vio que en la respuesta aparecía
-  el hash de la contraseña.
-
-  No era un fallo crítico (el hash no se puede revertir), pero demostraba
-  que no habían pensado en qué datos exponer. El profesor les preguntó:
-  "¿Y si esto fuera un proyecto real? ¿Qué pasaría?".
-
-  No suspendieron, pero perdieron puntos en el apartado de seguridad.
-
-  **Lección**: revisa qué datos devuelve cada endpoint de tu API.
-  Si no es necesario que el cliente lo vea, no lo devuelvas.
-</CasoPractico>
-
-## Checklist para la seguridad
-
-- [ ] Todas las consultas a BD usan parámetros, no concatenación
-- [ ] Las contraseñas se guardan con hash (bcrypt)
-- [ ] Los datos sensibles no se devuelven en las respuestas de la API
-- [ ] El backend valida todos los datos de entrada
-- [ ] Los secrets están en variables de entorno
-- [ ] Uso HTTPS en el despliegue
-- [ ] Los roles y permisos están implementados (al menos lo básico)
-- [ ] No hay archivos de configuración con claves en el repositorio
+📚 [Volver al índice de PI2](/ApuntesProyectoDAW/apuntes-pi2) · **Anterior:** [U5 · Asegurar la calidad](/ApuntesProyectoDAW/apuntes-pi2/u5-testing) · **Siguiente:** [01 · Seguridad no es opcional](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad/01-seguridad-no-es-opcional)

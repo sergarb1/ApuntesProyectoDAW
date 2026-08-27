@@ -1,0 +1,191 @@
+---
+title: "08 — Checklist de usabilidad"
+description: "Lista completa para comprobar que tu interfaz cumple con los estándares de usabilidad, accesibilidad y experiencia de usuario antes de presentar."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 👤 **U4 · Diseñar para el usuario** → 08 · Checklist de usabilidad
+
+<StoryIntro icono="🎬" titulo="La lista que te salva la vida el día de la presentación">
+  Llevas semanas programando, probando, corrigendo. Tu app funciona,
+  se ve bien, tiene todas las funcionalidades. Pero el día de la
+  presentación, el tribunal te pregunta: "¿Lo habéis probado con
+  usuarios externos?". Y tú... no sabes qué responder.
+
+  Esta checklist es tu seguro. Recórrela antes de entregar. Cada punto
+  es algo que el tribunal puede preguntar o comprobar.
+</StoryIntro>
+
+## La idea en una frase
+
+> Una checklist no es burocracia. Es la diferencia entre "se nos olvidó
+> algo" y "todo está comprobado".
+
+## Checklist completa
+
+### Testing con usuarios
+
+- [ ] He probado la app con **al menos 2 personas externas** al equipo
+- [ ] Prepare tareas específicas antes de la prueba
+- [ ] Observé sin ayudar mientras la persona usaba la app
+- [ ] Anoté los problemas que afectaron a más de 1 persona
+- [ ] Corregí los problemas detectados antes de la presentación
+
+### Botones y navegación
+
+- [ ] Los botones de acción principal son **visibles y grandes** (mínimo 44px)
+- [ ] Los botones y enlaces **se distinguen claramente** entre sí
+- [ ] El menú de navegación es **consistente** en todas las pantallas
+- [ ] Sé volver atrás desde cualquier pantalla
+- [ ] El usuario sabe **en todo momento dónde está** (breadcrumb o menú activo)
+
+### Formularios y errores
+
+- [ ] Los errores se muestran **cerca del campo** correspondiente
+- [ ] Cada campo tiene un **label** visible (no solo placeholder)
+- [ ] La validación es **en tiempo real** (no solo al enviar)
+- [ ] Hay **confirmación antes de acciones destructivas** (borrar, eliminar)
+- [ ] Los mensajes de error **explican qué pasó y qué hacer**
+
+### Accesibilidad
+
+- [ ] El **contraste** es suficiente (herramienta: WebAIM Contrast Checker)
+- [ ] Las imágenes tienen **texto alternativo** (alt)
+- [ ] La app se puede usar **solo con teclado** (Tab, Enter, Escape)
+- [ ] El **tamaño de texto** se puede aumentar al 200% sin romper el layout
+- [ ] Los elementos interactivos tienen **foco visible** al navegar con teclado
+
+### Diseño responsive
+
+- [ ] La app se ve bien en **pantallas de móvil** (menos de 768px)
+- [ ] No hay **scroll horizontal** en ninguna pantalla
+- [ ] Los botones y campos son **suficientemente grandes** para pulsar con el dedo
+- [ ] Las tablas en móvil se convierten en **cards** o tienen scroll
+
+### Mensajes y microcopy
+
+- [ ] Los mensajes de error son **claros y útiles** (no "Error 500")
+- [ ] Los estados vacíos **explican qué pasa y qué hacer**
+- [ ] El onboarding es **breve y accionable** (no un tutorial de 10 pasos)
+- [ ] Las confirmaciones de éxito son **visibles** ("Guardado correctamente")
+
+### Carga y rendimiento
+
+- [ ] Los tiempos de carga tienen **indicador visual** (spinner, barra)
+- [ ] Las imágenes están **optimizadas** (WebP, compresión)
+- [ ] La app carga en menos de **3 segundos** en conexión normal
+
+<Aclaracion pregunta="¿Cuántos puntos debo cumplir para sacar buena nota?">
+  Todos. La checklist no es opcional. Cada punto que no cumplas es algo
+  que el tribunal puede detectar y preguntar. No necesitas ser perfecto,
+  pero sí necesitas haber **pensado en cada aspecto**.
+
+  Si algún punto te resulta difícil, no lo saltés. Pregunta al profesor
+  o busca alternativas. La mayoría de los puntos son sencillos de
+  implementar si piensas en ellos desde el principio.
+</Aclaracion>
+
+## Cómo usar esta checklist
+
+### Antes de empezar a programar
+
+Revisa la checklist y piensa en cada punto mientras diseñas. Si ya
+piensas en accesibilidad, responsive y testing desde el principio,
+no tendrás que rehacer nada después.
+
+### Durante el desarrollo
+
+Cada vez que termines una pantalla, recorre la checklist. Si algo
+falla, arréglalo ahora. Es mucho más fácil corregir sobre la marcha
+que al final.
+
+### Antes de la presentación
+
+Recorre la checklist completa como último paso. Si todo está marcado,
+tu interfaz está lista. Si falta algo, tienes tiempo de corregir.
+
+<Comparativa
+  dialogos={[
+    { who: "Equipo sin checklist", texto: "El día de la presentación, el tribunal nos preguntó por accesibilidad. No habíamos pensado en eso. Nos quedamos en blanco." },
+    { who: "Equipo con checklist", texto: "Recorrimos la checklist una semana antes. Detectamos 4 puntos que faltaban. Los corregimos a tiempo. El tribunal preguntó por accesibilidad y pudimos demostrar que la habíamos implementado." },
+  ]}
+  titulo="La diferencia entre preparados y improvisados"
+/>
+
+## Caso práctico
+
+<CasoPractico titulo="La checklist que cambió la nota final">
+
+  Un equipo de 3 personas desarrolló una aplicación de AppointmentManager.
+  Una semana antes de la presentación, recorrieron esta checklist.
+
+  **Resultado del checklist:**
+  - 3 puntos de testing con usuarios: **faltaban** (no habían probado
+    con nadie externo)
+  - 2 puntos de accesibilidad: **fallaban** (contraste bajo, sin alt
+    en imágenes)
+  - 1 punto de responsive: **fallaba** (formulario se salía en móvil)
+  - 2 puntos de mensajes: **fallaban** (errores genéricos, sin estados
+    vacíos)
+
+  **Acciones correctivas (5 días):**
+  1. Invitaron a 3 compañeros para testing, detectaron 5 problemas
+  2. Subieron el contraste y añadieron alt a 12 imágenes
+  3. Añadieron media query para formulario en móvil
+  4. Reescribieron 8 mensajes de error y añadieron 3 estados vacíos
+
+  **Resultado en la presentación:** el tribunal compositó la
+  accesibilidad, los mensajes de error y la responsive. Todo estaba
+  preparado. La nota subió un punto entero.
+
+  **Lección**: una checklist de 30 minutos puede ser la diferencia
+  entre un 7 y un 9.
+</CasoPractico>
+
+## Mini-chequeo
+
+**Pregunta 1.** ¿Cuándo debes usar la checklist?
+A) Solo el día antes de la presentación · B) Durante todo el desarrollo,
+repasándola periódicamente · C) Solo si el tribunal la pide
+
+**Pregunta 2.** ¿Qué haces si un punto de la checklist te parece
+difícil de implementar?
+A) Lo saltas, no es importante · B) Preguntas al profesor o buscas
+alternativas, pero no lo ignoras · C) Eliminas ese punto de la checklist
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. La checklist se usa durante todo el desarrollo. Si piensas
+   en ella desde el principio, los puntos son fáciles de cumplir.
+   Si la dejas para el final, todo es más difícil.
+2. **B**. Cada punto existe por una razón. Si uno es difícil, no lo
+   ignores: busca cómo resolverlo. Normalmente hay alternativas más
+   sencillas de lo que parece.
+
+</details>
+
+## Resumen en 3 frases
+
+1. La checklist de usabilidad cubre testing, botones, formularios,
+   accesibilidad, responsive, mensajes y rendimiento.
+2. Recórrela durante el desarrollo, no solo al final. Es más fácil
+   corregir sobre la marcha que rehacer todo.
+3. Cada punto que falta es algo que el tribunal puede detectar.
+   Una checklist completa te da confianza el día de la presentación.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Checklist** | Lista de verificación para asegurar que no falta nada |
+| **Usabilidad** | Capacidad de tu app de ser usada eficazmente por el usuario |
+| **Accesibilidad** | Capacidad de ser usada por personas con distintas capacidades |
+| **Responsive** | Capacidad de adaptarse a diferentes tamaños de pantalla |
+| **Microcopy** | Textos cortos de la interfaz que guían al usuario |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u4-ui-ux) · **Anterior:** [07 · Microcopy y mensajes](/ApuntesProyectoDAW/apuntes-pi2/u4-ui-ux/07-microcopy-y-mensajes) · **Siguiente:** [09 · Cierre](/ApuntesProyectoDAW/apuntes-pi2/u4-ui-ux/09-cierre)

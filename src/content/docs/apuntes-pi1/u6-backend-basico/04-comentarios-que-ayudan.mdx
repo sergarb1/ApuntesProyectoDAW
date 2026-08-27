@@ -1,0 +1,155 @@
+---
+title: "04 — Comentarios que ayudan"
+description: "Comenta el porqué, no el qué. Tu yo del futuro (y tus compañeros) te lo agradecerán 💬"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U6 · Implementar la lógica** → 04 · Comentarios que ayudan
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Sergio abre un archivo de hace tres semanas. Ve:
+  `// suma 1 a i` · `// bucle for` · `// if usuario existe`.
+  No entiende **por qué** ese código existe, ni qué decisión de negocio hay
+  detrás. Tiene que releer todo el contexto para cambiar una línea sin romper
+  nada.
+
+  Este capítulo es corto pero crítico: **escribe comentarios para humanos, no
+  para compiladores**.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> El código dice **qué** hace. El comentario dice **por qué** se hace así. Si el
+> comentario repite lo que el código ya dice, es ruido. Si explica la decisión,
+> es documentación viva.
+
+## ❌ Qué NO comentar (ruido)
+
+```javascript
+// ❌ Mal: ya sé que esto suma
+let total = a + b;
+
+// ❌ Mal: el nombre de la variable ya lo dice
+const usuario = await Usuario.findById(id);
+
+// ❌ Mal: el bucle es obvio
+for (let i = 0; i < productos.length; i++) { ... }
+
+// ❌ Mal: "TODO: arreglar esto" sin contexto ni fecha
+// TODO: fix this
+```
+
+Estos comentarios **ensucian** el código. Ocupan espacio visual y no aportan
+nada que no se vea leyendo la línea de abajo.
+
+## ✅ Qué SÍ comentar (señal)
+
+```javascript
+// ✅ Bien: explica POR QUÉ esta operación (regla de negocio)
+// Sumamos IVA (21%) al precio base porque la ley obliga a mostrar
+// precio final con impuestos en e-commerce español
+let precioFinal = precioBase * 1.21;
+
+// ✅ Bien: explica una decisión NO obvia
+// Usamos findOne + lean() en vez de findById porque necesitamos
+// solo 3 campos y evitar la hidratación completa del documento
+// (mejora rendimiento en listados un 40%)
+const producto = await Producto.findOne({ _id: id }).lean();
+
+// ✅ Bien: advierte de un efecto lateral
+// CUIDADO: esta función borra la caché de Redis. No la llames
+// dentro de bucles ni en peticiones GET frecuentes.
+await invalidateProductCache(productoId);
+
+// ✅ Bien: referencia a decisión externa (ticket, reunión, norma)
+// Ref: JIRA-342 / Reunión 12/03 con cliente
+// El campo 'referencia' es obligatorio solo para facturas (tipo=F),
+// no para albaranes (tipo=A). Validación condicional.
+if (tipo === 'F' && !referencia) throw new Error('Referencia obligatoria en facturas');
+```
+
+## 🎯 La regla del "porqué"
+
+Antes de escribir un comentario, pregúntate:
+
+> **¿Este comentario explica una decisión, una regla de negocio, una
+> limitación, un efecto lateral o una referencia externa que NO se ve en el
+> código?**
+
+- **Sí** → escríbelo.
+- **No** → bórralo o mejora el nombre de la variable/función para que sea
+  autoexplicativo.
+
+## 📝 Tipos de comentarios útiles
+
+| Tipo | Cuándo usarlo | Ejemplo |
+|---|---|---|
+| **Regla de negocio** | Lógica que viene de requisitos, no de técnica | `// Descuento máx 15% según política comercial` |
+| **Decisión técnica no obvia** | Elegiste X sobre Y por rendimiento/mantenibilidad | `// Usamos Map no Object: claves pueden ser objetos` |
+| **Efecto lateral / Peligro** | La función modifica estado global, caché, BD, archivos | `// MODIFICA: limpia caché de usuario` |
+| **Referencia externa** | Ticket, norma, reunión, doc de arquitectura | `// Ref: RFC-7807 / ADR-03` |
+| **Workaround temporal** | Parche con fecha de caducidad | `// HACK: Chrome bug #12345 - quitar antes v2.0` |
+
+## ¿Y los JSDoc / TSDoc para documentar funciones?
+
+<Aclaracion pregunta="¿Y los JSDoc / TSDoc para documentar funciones?">
+
+  Esos **sí valen la pena** en funciones públicas de `services/`, `utils/` y
+  `models/` que usan otras personas. Pero incluso ahí: el `@description`
+  debe explicar **qué hace la función como caja negra**, no línea por línea.
+  Ejemplo bueno:
+  ```js
+  /**
+   * Calcula el precio final aplicando IVA y descuentos según reglas vigentes.
+   * @param {number} base - Precio sin impuestos
+   * @param {string} tipoCliente - 'standard' | 'premium' | 'vip'
+   * @returns {number} Precio final redondeado a 2 decimales
+   */
+  ```
+  Eso es un contrato. Lo otro (`// suma 1`) es ruido.
+
+</Aclaracion>
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** ¿Cuál de estos comentarios SÍ aporta valor?
+A) `// incrementa contador` · B) `// Usamos Set para evitar duplicados en O(1)`
+C) `// variable para guardar el nombre`.
+
+**Pregunta 2.** Un comentario `// TODO: mejorar esto` sin más contexto:
+A) Está bien, avisa de que hay deuda técnica · B) Es ruido: no dice qué, cuándo
+ni quién · C) Sirve para que el linter no se queje.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Explica una decisión técnica no obvia (Set vs Array por rendimiento).
+2. **B**. Un TODO sin qué, cuándo, quién ni referencia a ticket es basura.
+   Formato útil: `// TODO(fecha, autor, ticket): qué y por qué`.
+
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. **El código dice el qué; el comentario dice el porqué.** Si el comentario
+   repite el código, sobra.
+2. Comenta: reglas de negocio, decisiones no obvias, efectos laterales,
+   referencias externas, workarounds con fecha.
+3. Mejora nombres de variables/funciones antes de comentar "qué hace". Un buen
+   nombre vale más que cien comentarios de "qué".
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Ruido** | Comentario que repite lo obvio del código |
+| **Señal** | Comentario que explica contexto, decisión o regla no visible en el código |
+| **Efecto lateral** | Cambio de estado fuera de la función (BD, caché, variable global, archivo) |
+| **Workaround / HACK** | Solución temporal fea que hay que quitar; documentar cuándo y por qué |
+| **Autoexplicativo** | Código cuyos nombres de variables/funciones revelan la intención sin comentarios |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u6-backend-basico) · **Anterior:** [03 · Estructura de carpetas](/ApuntesProyectoDAW/apuntes-pi1/u6-backend-basico/03-estructura-de-carpetas) · **Siguiente:** [05 · Refactorizar desde el principio](/ApuntesProyectoDAW/apuntes-pi1/u6-backend-basico/05-refactorizar-desde-el-principio)

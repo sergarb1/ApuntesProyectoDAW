@@ -1,0 +1,220 @@
+---
+title: "06 — Prototipado rápido"
+description: "Wireframes, Figma y por qué debes diseñar antes de programar. El prototipado ahorra semanas de desarrollo equivocado."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 👤 **U4 · Diseñar para el usuario** → 06 · Prototipado rápido
+
+<StoryIntro icono="🎬" titulo="El equipo que programó tres veces lo mismo">
+  Un equipo empezó a programar la interfaz de su aplicación directamente.
+  "Para qué hacer bocetos, ya sabemos cómo queremos que se vea".
+
+  Dos días después, el diseñador del grupo dijo "esto debería tener
+  una barra lateral". Otro dijo "no, el menú debería ser horizontal".
+  Tercero dijo "los formularios deberían ser paso a paso".
+
+  Cada opinión significaba reescribir código. Después de una semana,
+  habían reescrito la misma pantalla cuatro veces. Y el código estaba
+  lleno de cambios a medias y estilos contradictorios.
+
+  Si hubieran dibujado primero, habrían debates en papel (barato) en
+  vez de en código (caro).
+</StoryIntro>
+
+## La idea en una frase
+
+> Dibujar antes de programar es como hacer un plano antes de construir.
+> No necesitas ser artista, necesitas pensar antes de escribir código.
+
+## Qué es un prototipo
+
+Un prototipo es una **representación simplificada** de tu aplicación.
+No funciona, no tiene datos reales, no se puede clickear (a menos que
+hagas un prototipo interactivo). Pero muestra cómo se ve y cómo se
+organiza la información.
+
+### Tipos de prototipos
+
+| Tipo | Fidelidad | Cuándo usarlo |
+|------|-----------|---------------|
+| **Boceto en papel** | Muy baja | Al principio, para explorar ideas rápidamente |
+| **Wireframe** | Baja | Para definir la estructura sin distractores visuales |
+| **Mockup** | Media | Para mostrar colores, tipografía y estilo visual |
+| **Prototipo interactivo** | Alta | Para probar flujos con usuarios antes de programar |
+
+## Wireframes: la herramienta más infravalorada
+
+Un wireframe es un esquema en blanco y negro que muestra la estructura
+de una pantalla: dónde va el menú, dónde el contenido, dónde los
+botones. Sin colores, sin imágenes, sin distractores.
+
+### Por qué son útiles
+
+- **Foco en la estructura**: sin colores ni tipografía, ves si la
+  organización tiene sentido
+- **Rápidos de hacer**: un wireframe de una pantalla tarda 5 minutos,
+  una pantalla en código tarda 2 horas
+- **Fáciles de cambiar**: si el menú no está bien, lo mueves en 10
+  segundos. En código, eso son 30 minutos
+- **Baratos de debatir**: discutir sobre un boceto cuesta 0. Discutir
+  sobre código reescrito cuesta horas
+
+### Cómo hacer un wireframe
+
+No necesitas herramientas especiales. Necesitas:
+
+1. **Papel y bolígrafo** (o un editor de texto simple)
+2. **Rectángulos** para representar bloques de contenido
+3. **Líneas** para texto
+4. **X** para imágenes
+5. **Etiquetas** simples: "Menú", "Contenido", "Botón"
+
+```
++-----------------------------------+
+| Logo    Inicio  Perfil  Buscar    |
++-----------------------------------+
+|                                   |
+|   [ Imagen principal ]            |
+|                                   |
+|   Título de la Appointment        |
+|   Descripción breve               |
+|                                   |
+|   [ Reservar ]  [ Compartir ]     |
+|                                   |
++-----------------------------------+
+| Footer: © 2026                    |
++-----------------------------------+
+```
+
+## Figma: la herramienta gratuita
+
+**Figma** es la herramienta más usada para diseñar interfaces. Es
+gratuita para proyectos personales y funciona en el navegador (no
+necesitas instalar nada).
+
+### Qué puedes hacer con Figma
+
+- **Wireframes** rápidos con formas y texto
+- **Mockups** con colores, tipografía e imágenes
+- **Prototipos interactivos** con transiciones entre pantallas
+- **Componentes reutilizables** (botones, formularios, cards)
+- **Colaboración en tiempo real** con el resto del equipo
+
+### Flujo de trabajo recomendado
+
+1. **Boceto en papel** (5 min): idea rápida de la estructura
+2. **Wireframe en Figma** (30 min): definir la estructura formal
+3. **Mockup en Figma** (1 hora): añadir estilo visual
+4. **Prototipo interactivo** (1 hora): conectar pantallas con flujos
+5. **Testing con usuarios** (30 min): probar el prototipo antes de
+   programar
+
+<Comparativa
+  dialogos={[
+    { who: "Equipo sin prototipado", texto: "Empezamos a programar directamente. Llevamos 2 semanas y la interfaz sigue sin gustarnos. Hemos reescrito el formulario 3 veces." },
+    { who: "Equipo con prototipado", texto: "Dedicamos 2 días a Figma. Ahora cada pantalla está definida. Programamos en 1 semana lo que al otro equipo le lleva 3." },
+  ]}
+  titulo="El coste de no prototipar"
+/>
+
+<Aclaracion pregunta="¿Y si no sé usar Figma?">
+  No hace falta. Un wireframe en papel es igual de válido al principio.
+  Figma es una herramienta, no un requisito. Lo importante es
+  **pensar la interfaz antes de programarla**, sea con papel, con
+  Figma o con lo que tengas a mano.
+
+  Dicho esto, Figma es gratuito y hay miles de tutoriales. Si tu
+  equipo va a diseñar interfaces, merece la pena dedicar una hora
+  a aprender lo básico.
+</Aclaracion>
+
+## El prototipado en el contexto del proyecto
+
+En PI1, probablemente hiciste la interfaz directamente. En PI2, el
+tribunal espera un nivel más alto. Prototipar antes de programar
+demuestra que:
+
+- **Piensas antes de construir**: no escribes código a ciegas
+- **Validas con usuarios**: el prototipo se puede probar sin código
+- **Documentas decisiones**: el prototipo es una referencia visual
+- **Ahorras tiempo**: detectar un problema en prototipo cuesta minutos,
+  en código cuesta horas
+
+## Caso práctico
+
+<CasoPractico titulo="De prototipo a producto en 3 pasos">
+
+  Un equipo de 3 personas desarrolló una aplicación de AppointmentManager.
+  Antes de tocar código, siguieron este flujo:
+
+  **Paso 1 — Bocetos (1 tarde):**
+  Cada miembro dibujó 3 pantallas en papel: inicio, Appointment de
+  detalles, formulario de reserva. Compararon las 9 pantallas y
+  eligieron la mejor versión de cada una.
+
+  **Paso 2 — Figma (2 días):**
+  Crearon wireframes de las 6 pantallas principales en Figma. Luego
+  añadieron colores, tipografía e imágenes. Conectaron las pantallas
+  con transiciones para crear un prototipo interactivo.
+
+  **Paso 3 — Testing con prototipo (1 tarde):**
+  3 personas probaron el prototipo en Figma (sin código). Detectaron:
+  - El botón de "nueva Appointment" no era visible enough
+  - El formulario de reserva tenía 8 campos (muchos)
+  - No había forma de ver las appointments pasadas
+
+  **Resultado:** corrigieron todo en Figma antes de escribir una
+  línea de código. Programaron en 10 días lo que les habría llevado
+  3 semanas sin prototipado.
+
+  **Lección**: invertir 2 días en prototipado te ahorra semanas de
+  reescritura de código.
+</CasoPractico>
+
+## Mini-chequeo
+
+**Pregunta 1.** ¿Qué es un wireframe?
+A) Una imagen bonita con colores y tipografía · B) Un esquema en blanco
+y negro que muestra la estructura de una pantalla · C) Un prototipo
+interactivo con transiciones
+
+**Pregunta 2.** ¿Por qué prototipar antes de programar?
+A) Porque el tribunal lo pide · B) Porque es más barato detectar
+problemas en un prototipo que en código · C) Porque Figma es gratis
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Un wireframe es un esquema estructural sin elementos visuales.
+   Muestra dónde va cada cosa, no cómo se ve.
+2. **B**. Cambiar un wireframe cuesta minutos. Cambiar código cuesta
+   horas. Prototipar es la forma más barata de detectar problemas de
+   diseño.
+
+</details>
+
+## Resumen en 3 frases
+
+1. Un prototipo es una representación simplificada de tu app que se
+   puede hacer en papel, en Figma o en cualquier herramienta.
+2. Wireframes rápidos antes de programar te ahorran semanas de
+   reescritura de código.
+3. Figma es gratuito, potente y el estándar de la industria para
+   diseñar interfaces.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Wireframe** | Esquema estructural en blanco y negro de una pantalla |
+| **Mockup** | Diseño visual con colores, tipografía e imágenes |
+| **Prototipo interactivo** | Mockup conectado con transiciones que simula navegación |
+| **Figma** | Herramienta gratuita de diseño de interfaces en el navegador |
+| **Prototipado** | Proceso de crear prototipos antes de programar |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u4-ui-ux) · **Anterior:** [05 · Testing con usuarios](/ApuntesProyectoDAW/apuntes-pi2/u4-ui-ux/05-testing-con-usuarios) · **Siguiente:** [07 · Microcopy y mensajes](/ApuntesProyectoDAW/apuntes-pi2/u4-ui-ux/07-microcopy-y-mensajes)

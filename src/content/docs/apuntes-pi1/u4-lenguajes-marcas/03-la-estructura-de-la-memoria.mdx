@@ -1,0 +1,160 @@
+---
+title: "03 — La estructura de la memoria"
+description: "La memoria no se inventa: sigue una estructura que el tribunal ya conoce. Sección a sección, con cuánto darle a cada una 🧱"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U4 · Documentar y comunicar** → 03 · La estructura de la memoria
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Ya sabes qué hay que documentar y por qué. Ahora toca la pregunta práctica:
+  ¿cómo se organiza una memoria para que se lea sola?
+
+  Este capítulo te da la estructura que usa todo el mundo, y por qué esa
+  estructura funciona. No la inventas: la sigues. Y eso es una ventaja,
+  porque el tribunal ya sabe dónde buscar cada cosa.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> No inventes la rueda. Sigue una estructura conocida: el tribunal ya sabe
+> dónde buscar la arquitectura, dónde las pruebas y dónde las conclusiones.
+> Tu trabajo es llenar bien cada caja, no rediseñar las cajas.
+
+Es como el orden de una casa: hay habitaciones que se esperan (cocina, baño,
+dormitorios) y eso hace cómoda la visita. Si en vez de baño pones un
+laboratorio, el visitante se pierde. La memoria tiene habitaciones esperadas:
+que el tribunal las encuentre donde espera es señal de orden.
+
+## 🧱 El esqueleto de la memoria
+
+Sigue esta estructura recomendada. Empieza por ella y no te desvíes: es la
+que el tribunal conoce y la que te obliga a contar todo tu proceso.
+
+```
+MEMORIA DEL PROYECTO — ESQUELETO
+────────────────────────────────
+1. Introducción      → el qué y el porqué
+2. Análisis          → requisitos, usuarios, alternativas
+3. Diseño            → arquitectura, diagramas, decisiones
+4. Implementación    → tecnologías, funcionalidades, capturas
+5. Pruebas           → qué has probado y cómo
+6. Conclusiones      → aprendido, dificultades, trabajo futuro
+```
+
+| Sección | Qué poner | Extensión |
+|---|---|---|
+| **Introducción** | Contexto, problema que resuelve, objetivo | 1-2 páginas |
+| **Análisis** | Requisitos, usuarios, estudio de alternativas | 2-3 páginas |
+| **Diseño** | Arquitectura, diagramas, decisiones técnicas | 3-4 páginas |
+| **Implementación** | Tecnologías, funcionalidades, capturas | 3-4 páginas |
+| **Pruebas** | Qué has probado y cómo | 1-2 páginas |
+| **Conclusiones** | Qué has aprendido, dificultades, trabajo futuro | 1 página |
+
+Fíjate en el reparto: el corazón está en Análisis, Diseño e Implementación.
+La memoria no es una portada bonita con un código pegado: es un relato de
+cómo tomaste decisiones.
+
+## 📖 Sección a sección
+
+### Introducción (1-2 páginas)
+
+Contexto, problema que resuelve y objetivo. Es el "ascensor" de tu memoria:
+quien lea solo esto debería saber de qué va tu proyecto. Aquí conectas con
+el trabajo de U1: problema claro, usuario y objetivo definido.
+
+### Análisis (2-3 páginas)
+
+Requisitos, usuarios y estudio de alternativas. Explica qué necesita el
+usuario, quién es, y qué opciones barajaste antes de decidir. Si descartaste
+una tecnología, este es el sitio para contarlo y justificarlo.
+
+### Diseño (3-4 páginas)
+
+Arquitectura, diagramas y decisiones técnicas. Es la sección donde dibujas:
+arquitectura de la aplicación, estructura de datos, pantallas. Aquí viven
+los diagramas que aprendiste en U2 y U3.
+
+### Implementación (3-4 páginas)
+
+Tecnologías, funcionalidades y capturas. Muestra lo construido: cada
+funcionalidad importante con su captura y una breve explicación. No copies
+el código entero: solo los fragmentos que aporten (lo verás en el punto 04).
+
+### Pruebas (1-2 páginas)
+
+Qué has probado y cómo. No hace falta un tratado: una tabla de casos
+probados, qué esperabas y qué pasó. El tribunal valora que hayas probado,
+aunque no todo sea perfecto.
+
+### Conclusiones (1 página)
+
+Qué has aprendido, dificultades y trabajo futuro. Es tu momento de
+autoevaluación sincera: qué fue difícil, qué cambiarías y qué harías si
+tuvieras más tiempo. Es también tu defensa honesta.
+
+## 🔍 La memoria es un viaje, no un informe
+
+Cada sección conecta con la anterior: la introducción plantea el problema,
+el análisis lo aterriza en requisitos, el diseño lo convierte en plano, la
+implementación lo construye, las pruebas lo verifican y las conclusiones lo
+evalúan.
+
+```
+Problema → Requisitos → Plano → Construcción → Verificación → Evaluación
+   ↑           ↑          ↑          ↑              ↑              ↑
+Intro     Análisis    Diseño   Implementación    Pruebas      Conclusiones
+```
+
+Si una sección no conecta con la siguiente, algo falla: o la memoria está
+mal repartida o el proceso lo estuvo. Usa esta cadena para revisar tu memoria
+antes de entregarla.
+
+<Aclaracion pregunta="¿Y si mi sección de Análisis queda en una sola página?">
+  No pasa nada: las extensiones son orientativas, no un examen. Una sección
+  corta y con contenido vale más que una larga con relleno (lo verás en el
+  punto 04). Si te queda corta de verdad, revisa si has contado el estudio
+  de alternativas: casi siempre es lo que falta.
+</Aclaracion>
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** La sección donde viven los diagramas de arquitectura es:
+A) Introducción · B) Diseño · C) Pruebas.
+
+**Pregunta 2.** ¿Dónde se cuenta qué tecnología descartaste y por qué?
+A) En el Análisis, como estudio de alternativas · B) En las Conclusiones,
+solo si no funcionó · C) En ninguna parte, no interesa.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. El Diseño es arquitectura, diagramas y decisiones técnicas.
+2. **A**. El estudio de alternativas (qué barajaste y por qué lo descartaste)
+   vive en el Análisis y demuestra que decidiste con cabeza.
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. La memoria sigue un esqueleto conocido: Introducción, Análisis, Diseño,
+   Implementación, Pruebas y Conclusiones.
+2. Cada sección tiene su contenido y su tamaño orientativo; el corazón está
+   en Análisis, Diseño e Implementación.
+3. Las secciones forman una cadena (problema → verificación): si una no
+   conecta con la siguiente, algo falla.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Estructura recomendada** | Las secciones que toda memoria debe seguir, en ese orden |
+| **Análisis** | Requisitos, usuarios y estudio de alternativas |
+| **Diseño** | Arquitectura, diagramas y decisiones técnicas |
+| **Implementación** | Tecnologías, funcionalidades y capturas de lo construido |
+| **Estudio de alternativas** | Qué opciones barajaste y por qué descartaste las demás |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas) · **Anterior:** [02 · Qué documentar en PI1](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/02-que-documentar-en-pi1) · **Siguiente:** [04 · Reglas de oro de la memoria](/ApuntesProyectoDAW/apuntes-pi1/u4-lenguajes-marcas/04-reglas-de-oro-de-la-memoria)

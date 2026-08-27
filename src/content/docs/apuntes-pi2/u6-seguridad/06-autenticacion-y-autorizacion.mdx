@@ -1,0 +1,283 @@
+---
+title: "06 — Autenticación y autorización"
+description: "Quién eres (autenticación) y qué puedes hacer (autorización): JWT, sesiones, roles y mínimo privilegio."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🛡️ **U6 · Proteger la aplicación** → 06 · Autenticación y autorización
+
+<StoryIntro icono="🎬" titulo="El usuario que se hacía pasar por admin">
+  Un equipo tenía una aplicación de gestión de tareas. Cualquier
+  usuario podía enviar una petición con `rol: "admin"` en el body
+  y la aplicación lo aceptaba. No había verificación del servidor.
+
+  Un compañero descubrió que podía borrar tareas de otros usuarios
+  simplemente cambiando su rol en el inspector del navegador.
+</StoryIntro>
+
+## La idea en una frase
+
+> Autenticación es saber quién eres. Autorización es saber qué puedes
+> hacer. Las dos cosas deben vivir en el servidor, nunca en el cliente.
+
+## Autenticación: quién eres
+
+La **autenticación** verifica la identidad del usuario. Es el proceso
+de "¿quién eres tú?".
+
+### Métodos comunes de autenticación
+
+| Método | Cómo funciona | Ventaja |
+|--------|---------------|---------|
+| **Correo + contraseña** | El usuario demuestra quién es con credenciales | Simple, universal |
+| **OAuth (Google, GitHub)** | Un tercero verifica la identidad | No gestionas contraseñas |
+| **Token (JWT)** | El servidor emite un token firmado | Sin estado, escalable |
+| **Sesión (cookie)** | El servidor guarda estado en una cookie | Simple, seguro |
+
+### JWT: el más usado en APIs
+
+**JWT (JSON Web Token)** es un token firmado que contiene datos del
+usuario. El cliente lo envía en cada petición y el servidor lo verifica.
+
+#### Estructura de un JWT
+
+```
+eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbCI6InVzdWFyaW8ifQ.firma
+```
+
+Tiene tres partes separadas por puntos:
+1. **Header**: algoritmo de firma (HS256)
+2. **Payload**: datos del usuario (id, rol, expiración)
+3. **Firma**: verificación de que no ha sido modificado
+
+#### Cómo funciona el flujo
+
+```
+1. Login: usuario envía email + contraseña
+2. Servidor verifica credenciales
+3. Servidor genera JWT con datos del usuario
+4. Cliente guarda el JWT (localStorage o cookie)
+5. Cada petición incluye el JWT en el header
+6. Servidor verifica el JWT y procesa la petición
+```
+
+#### Ejemplo en Node.js
+
+```javascript
+const jwt = require('jsonwebtoken');
+
+// Generar token después del login
+function generarToken(usuario) {
+  return jwt.sign(
+    { id: usuario.id, rol: usuario.rol },
+    process.env.JWT_SECRET,
+    { expiresIn: '24h' }
+  );
+}
+
+// Middleware para verificar token
+function verificarToken(req, res, next) {
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ error: 'Token requerido' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.usuario = decoded;
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: 'Token inválido' });
+  }
+}
+
+// Uso en rutas
+app.get('/api/perfil', verificarToken, (req, res) => {
+  res.json({ id: req.usuario.id, rol: req.usuario.rol });
+});
+```
+
+## Autorización: qué puedes hacer
+
+La **autorización** determina qué acciones puede realizar un usuario
+autenticado. Es el proceso de "¿qué te está permitido?".
+
+### Principio de mínimo privilegio
+
+Cada usuario solo debe tener los permisos necesarios para hacer su
+trabajo. Ni más, ni menos.
+
+| Rol | Puede hacer | No puede hacer |
+|-----|-------------|----------------|
+| **Usuario** | Ver su perfil, crear contenido | Borrar contenido de otros |
+| **Editor** | Crear y editar contenido | Borrar usuarios |
+| **Admin** | Gestionar usuarios y contenido | (casi todo) |
+
+### Ejemplo de control de acceso
+
+```javascript
+// Middleware de autorización por rol
+function requireRole(rolesPermitidos) {
+  return (req, res, next) => {
+    if (!rolesPermitidos.includes(req.usuario.rol)) {
+      return res.status(403).json({ error: 'No tienes permiso' });
+    }
+    next();
+  };
+}
+
+// Solo admin puede borrar usuarios
+app.delete('/api/usuarios/:id',
+  verificarToken,
+  requireRole(['admin']),
+  (req, res) => {
+    // Borrar usuario
+  }
+);
+
+// Admin y editor pueden crear contenido
+app.post('/api/posts',
+  verificarToken,
+  requireRole(['admin', 'editor']),
+  (req, res) => {
+    // Crear post
+  }
+);
+```
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin roles (peligroso)", texto: "Cualquier usuario autenticado puede hacer cualquier cosa. Si alguien se registra, tiene acceso total." },
+    { quien: "Con roles (seguro)", texto: "Cada usuario tiene un rol específico. Un usuario normal solo ve lo suyo. Un admin gestiona todo. Nadie tiene más de lo necesario." },
+  ]}
+  titulo="Con y sin control de roles"
+/>
+
+## Autenticación vs. Autorización
+
+| Concepto | Pregunta | Ejemplo |
+|----------|----------|---------|
+| **Autenticación** | ¿Quién eres? | Login con email y contraseña |
+| **Autorización** | ¿Qué puedes hacer? | Solo el admin puede borrar usuarios |
+
+Las dos van juntas: primero te autenticas (demuestras quién eres),
+luego se verifica qué puedes hacer (autorización).
+
+### Error común: olvidar la autorización
+
+```javascript
+// ❌ MAL — Solo autentica, no autoriza
+app.delete('/api/usuarios/:id', verificarToken, (req, res) => {
+  // Cualquier usuario autenticado puede borrar usuarios
+  db.delete(req.params.id);
+  res.json({ ok: true });
+});
+
+// ✅ BIEN — Autentica Y autoriza
+app.delete('/api/usuarios/:id',
+  verificarToken,
+  requireRole(['admin']),
+  (req, res) => {
+    db.delete(req.params.id);
+    res.json({ ok: true });
+  }
+);
+```
+
+## Sesiones vs. JWT
+
+| Aspecto | Sesiones (cookie) | JWT |
+|---------|-------------------|-----|
+| **Almacenamiento** | Servidor | Cliente |
+| **Escalabilidad** | Difícil (estado en servidor) | Fácil (sin estado) |
+| **Revocación** | Fácil (borrar sesión) | Difícil (hasta que expire) |
+| **Complejidad** | Baja | Media |
+| **Uso típico** | Apps con backend propio | APIs, microservicios |
+
+Para un proyecto de clase, JWT es suficiente. Si tuvieras una app
+de producción con requisitos de seguridad estrictos, considerarías
+sesiones o un servicio de autenticación gestionado (Auth0, Clerk).
+
+## Caso práctico
+
+<CasoPractico titulo="La API que no verificaba el rol en el backend">
+
+  Un equipo implementó autenticación con JWT. El login funcionaba,
+  el token se generaba bien, y cada petición lo enviaba en el header.
+
+  Pero en las rutas de administración, solo verificaban que el token
+  fuera válido. No comprobaban el rol.
+
+  Un compañero decidió "probar la seguridad". Modificó el payload del
+  JWT (que estaba codificado en base64, no cifrado) para cambiar su
+  rol de "usuario" a "admin". La firma no coincidía, pero el servidor
+  no la verificaba correctamente.
+
+  Con un token "falso" pero aceptado, accedió a la panel de
+  administración y vio datos de todos los usuarios.
+
+  **Lección**: verifica tanto la existencia del token como el rol
+  del usuario en cada ruta que requiera permisos especiales.
+
+</CasoPractico>
+
+<Aclaracion pregunta="¿Debo almacenar el JWT en localStorage o en cookie?">
+  Cada opción tiene trade-offs:
+
+  - **localStorage**: más fácil de implementar, vulnerable a XSS
+  - **cookie (httpOnly)**: más seguro contra XSS, vulnerable a CSRF
+
+  Para un proyecto de clase, localStorage es suficiente. En producción,
+  usa cookies httpOnly con HTTPS. La diferencia de seguridad no es
+  crítica para un proyecto académico, pero es bueno que sepas que
+  existen ambas opciones.
+</Aclaracion>
+
+## Mini-chequeo
+
+**Pregunta 1.** ¿Cuál es la diferencia entre autenticación y autorización?
+A) No hay diferencia · B) Autenticación es quién eres, autorización es
+qué puedes hacer · C) Autenticación es login, autorización es logout
+
+**Pregunta 2.** ¿Por qué el principio de mínimo privilegio importa?
+A) Porque hace la app más rápida · B) Porque si un usuario es
+comprometido, el daño está limitado a sus permisos · C) Porque el
+tribunal lo pide
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Autenticación verifica identidad (¿quién eres?). Autorización
+   determina permisos (¿qué puedes hacer?). Las dos van juntas pero
+   son conceptos distintos.
+2. **B**. Si un usuario con permisos limitados es comprometido, el
+   atacante solo puede hacer lo que ese usuario podía. Si tuviera
+   permisos de admin, el daño sería total.
+
+</details>
+
+## Resumen en 3 frases
+
+1. Autenticación es saber quién eres (login). Autorización es saber
+   qué puedes hacer (roles y permisos).
+2. JWT es el método más usado en APIs: un token firmado que el cliente
+   envía en cada petición.
+3. Aplica el principio de mínimo privilegio: cada usuario solo debe
+   tener los permisos estrictamente necesarios.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Autenticación** | Verificar la identidad del usuario |
+| **Autorización** | Determinar qué acciones puede realizar |
+| **JWT** | Token firmado con datos del usuario, válido por tiempo limitado |
+| **Mínimo privilegio** | Cada usuario solo tiene los permisos que necesita |
+| **Middleware** | Función que se ejecuta antes del handler de una ruta |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad) · **Anterior:** [05 · Variables de entorno](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad/05-variables-de-entorno) · **Siguiente:** [07 · HTTPS y CIFRADO](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad/07-https-y-cors)

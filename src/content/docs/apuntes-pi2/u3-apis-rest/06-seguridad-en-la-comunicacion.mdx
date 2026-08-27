@@ -1,0 +1,276 @@
+---
+title: "06 — Seguridad en la comunicación"
+description: "CORS, autenticación por tokens, HTTPS y protección de claves API. Cómo evitar que tu API sea un campo abierto."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🔗 **U3 · Integrar sistemas** → 06 · Seguridad en la comunicación
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  El equipo de Pablo tenía una API que funcionaba perfectamente... hasta
+  que un compañero descubrió que podía hacer peticiones desde cualquier
+  sitio web y la API respondía sin problemas. No había autenticación,
+  no había CORS, no había nada.
+
+  "Es que es una API interna", dijo Pablo. "Solo la usamos nosotros."
+  Pero "nosotros" incluía a cualquiera que supiera la URL. Y la URL
+  estaba en el código del frontend, visible para cualquiera.
+
+  Este capítulo es sobre cómo proteger tu API sin hacerla inutilizable.
+</StoryIntro>
+
+## La idea en una frase
+
+> Seguridad no es complicar las cosas: es asegurarte de que solo quien
+> debe acceder, accede. Y que quien no debe, recibe un 403 educado.
+
+## CORS: quién puede llamar a tu API
+
+CORS (Cross-Origin Resource Sharing) controla qué dominios pueden hacer
+peticiones a tu API. Sin CORS, cualquier web podría llamar a tu API.
+
+### El problema
+
+```
+Tu frontend: https://midominio.com
+Tu API:      https://api.midominio.com
+
+El navegador bloquea la petición porque son "orígenes" distintos.
+```
+
+### La solución
+
+```javascript
+const cors = require('cors');
+
+// Permitir solo tu frontend
+app.use(cors({
+  origin: 'https://midominio.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// En desarrollo, permitir todo (¡nunca en producción!)
+app.use(cors({ origin: '*' }));
+```
+
+### Configuración recomendada
+
+| Entorno | Origin | Methods |
+|---------|--------|---------|
+| Desarrollo | `*` (todo) | Todos |
+| Producción | Solo tu dominio | Solo los que uses |
+| API pública | Varios dominios | GET (solo lectura) |
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin CORS", texto: "Cualquier web puede llamar a tu API. Un script malicioso puede robar datos, crear usuarios o borrar todo. Tu API es un campo abierto." },
+    { quien: "Con CORS", texto: "Solo tu frontend puede llamar a tu API. Si alguien intenta desde otro dominio, el navegador bloquea la petición. Tu API está protegida." },
+  ]}
+  titulo="Campo abierto vs fortaleza"
+/>
+
+## Autenticación por tokens
+
+### El problema de las sesiones
+
+Las sesiones tradicionales guardan el estado en el servidor. En APIs
+modernas, esto no escala bien porque cada petición necesita acceder
+al almacenamiento de sesiones.
+
+### JWT (JSON Web Token)
+
+JWT es el estándar para autenticación en APIs. El token contiene
+información del usuario y se verifica sin consultar el servidor:
+
+```
+Estructura de un JWT:
+eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjQyLCJyb2wiOiJ1c3VhcmlvIn0.firma
+    ↓                    ↓                                    ↓
+  Header              Payload                              Firma
+(algoritmo)      (datos del usuario)               (verificación)
+```
+
+### Flujo de autenticación
+
+```
+1. Usuario hace login con email/password
+2. Backend verifica credenciales
+3. Backend genera JWT con datos del usuario
+4. Backend devuelve el JWT al frontend
+5. Frontend guarda el JWT (localStorage o cookie)
+6. Frontend envía el JWT en cada petición:
+   Authorization: Bearer eyJhbGciOi...
+7. Backend verifica el JWT y procesa la petición
+```
+
+### Implementación básica
+
+```javascript
+const jwt = require('jsonwebtoken');
+
+// Generar token al hacer login
+app.post('/api/login', async (req, res) => {
+  const usuario = await verificarCredenciales(req.body);
+  if (!usuario) {
+    return res.status(401).json({
+      error: 'credenciales_invalidas',
+      mensaje: 'Email o contraseña incorrectos',
+      codigo: 401
+    });
+  }
+
+  const token = jwt.sign(
+    { userId: usuario.id, rol: usuario.rol },
+    process.env.JWT_SECRET,
+    { expiresIn: '24h' }
+  );
+
+  res.json({ token, usuario: { id: usuario.id, nombre: usuario.nombre } });
+});
+
+// Middleware para proteger rutas
+function authMiddleware(req, res, next) {
+  const token = req.headers.authorization?.replace('Bearer ', '');
+  if (!token) {
+    return res.status(401).json({
+      error: 'token_requerido',
+      mensaje: 'Debes iniciar sesión',
+      codigo: 401
+    });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.usuario = decoded;
+    next();
+  } catch (err) {
+    res.status(401).json({
+      error: 'token_invalido',
+      mensaje: 'La sesión ha expirado',
+      codigo: 401
+    });
+  }
+}
+
+// Usar el middleware en rutas protegidas
+app.get('/api/usuarios', authMiddleware, async (req, res) => {
+  const usuarios = await db.usuarios.findAll();
+  res.json(usuarios);
+});
+```
+
+### Dónde guardar el JWT en el frontend
+
+| Método | Ventaja | Riesgo |
+|--------|---------|--------|
+| **localStorage** | Fácil de usar | Vulnerable a XSS |
+| **Cookie httpOnly** | Más seguro | Más complejo de implementar |
+| **Memory** | Seguro contra XSS | Se pierde al recargar |
+
+Para proyectos DAW, `localStorage` es suficiente. Para producción real,
+usa cookies httpOnly.
+
+## HTTPS: cifrar la comunicación
+
+HTTPS cifra los datos entre el navegador y el servidor. Sin HTTPS,
+alguien en la misma red puede leer las peticiones.
+
+### Por qué es obligatorio
+
+- Los tokens JWT viajan en las cabeceras. Sin HTTPS, cualquiera los ve.
+- Las contraseñas viajan en las peticiones de login. Sin HTTPS, cualquiera las ve.
+- Los navegadores muestran "No seguro" sin HTTPS.
+
+### Cómo obtener HTTPS
+
+| Opción | Coste | Dificultad |
+|--------|-------|------------|
+| **Let's Encrypt** | Gratis | Baja (certificado automático) |
+| **Cloudflare** | Gratis (plan básico) | Muy baja |
+| **Proveedor cloud** | Incluido | Baja |
+
+En GitHub Pages, HTTPS está habilitado por defecto. En Vercel y Netlify,
+también.
+
+## Protección de claves API
+
+### Reglas de oro
+
+1. **Nunca** expongas claves API en el frontend
+2. **Nunca** subas claves a GitHub (usa `.gitignore`)
+3. **Usa** variables de entorno para todas las claves
+4. **Rotación**: cambia las claves periódicamente
+5. **Limita** los permisos de cada clave (principio de mínimo privilegio)
+
+### Ejemplo: clave expuesta (MAL)
+
+```html
+<!-- ¡NUNCA hagas esto! -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB我的APIKEY"></script>
+```
+
+### Ejemplo: clave protegida (BIEN)
+
+```javascript
+// Backend: la clave vive en el servidor
+const mapsUrl = `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_KEY}`;
+
+// Frontend: recibe la URL ya construida
+app.get('/api/config/maps', authMiddleware, (req, res) => {
+  res.json({ url: mapsUrl });
+});
+```
+
+<Aclaracion pregunta="¿Y si necesito una clave API en el frontend?">
+  Algunas APIs (como Google Maps) requieren la clave en el frontend. En
+  ese caso:
+
+  1. Restringe la clave al dominio de tu frontend en la consola del proveedor
+  2. Limita los permisos (solo lectura, solo mapas)
+  3. Usa variables de entorno del frontend (VITE\_ para Vite)
+  4. Monitorea el uso para detectar abusos
+
+  Pero recuerda: si la clave está en el frontend, **cualquiera puede verla**.
+  La seguridad debe venir del lado del servidor.
+</Aclaracion>
+
+## Caso práctico
+
+<CasoPractico titulo="La API que se abrió al mundo">
+  Un equipo tenía una API de gestión de eventos. La subieron a GitHub
+  con la URL de la API hardcodeada en el frontend. Un estudiante de otro
+  grupo descubrió que podía crear eventos desde la consola del navegador.
+
+  El profesor les preguntó: "¿Dónde está la autenticación?" No la tenían.
+  Añadieron JWT en una tarde, pero el daño a la confianza del tribunal
+  ya estaba hecho.
+
+  **Lección**: la seguridad no es opcional. Añadirla después es peor
+  que hacerla desde el principio.
+</CasoPractico>
+
+## Resumen en 3 frases
+
+1. **CORS** controla qué dominios pueden llamar a tu API: en producción,
+   solo tu frontend.
+2. **JWT** es el estándar para autenticación en APIs: el frontend envía
+   el token en cada petición, el backend lo verifica.
+3. **HTTPS** es obligatorio: cifra la comunicación y evita que terceros
+   lean tokens, contraseñas o datos sensibles.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **CORS** | Control de acceso cross-origin para APIs |
+| **JWT** | JSON Web Token: formato estándar para autenticación |
+| **HTTPS** | HTTP cifrado con certificado SSL/TLS |
+| **Token** | Cadena de texto que identifica al usuario autenticado |
+| **Privilegio mínimo** | Cada clave/servicio solo tiene los permisos que necesita |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest) · **Anterior:** [05 · Integrar servicios externos](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/05-integrar-servicios-externos) · **Siguiente:** [07 · Herramientas de desarrollo](/ApuntesProyectoDAW/apuntes-pi2/u3-apis-rest/07-herramientas-de-desarrollo)

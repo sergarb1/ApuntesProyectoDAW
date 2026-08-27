@@ -1,6 +1,6 @@
 ---
-title: 📋 U8. Planificar y organizarse
-description: Cómo estimar tiempos, priorizar tareas y no perder el rumbo del proyecto
+title: "U8 — Planificar y organizarse"
+description: "Cómo estimar tiempos, priorizar tareas, usar Kanban y SCRUM ligero, y no perder el rumbo del proyecto"
 ---
 
 import StoryIntro from '../../../components/StoryIntro.astro';
@@ -22,130 +22,72 @@ import CasoPractico from '../../../components/CasoPractico.astro';
   Y al final suele ser demasiado tarde.
 </StoryIntro>
 
-## Por qué planificar (aunque te dé pereza)
+> 🗺️ **El mapa del viaje:** 🚪 Bienvenida → 🧭 U1 → 🏗️ U2 → 🗄️ U3 → 📄 U4 → 🎨 U5 → ⚙️ U6 → 🌐 U7 → 📋 **AQUÍ ESTÁS (U8)** → 🔧 PI2 U1 → 🖥️ U2 → 🔗 U3 → 👤 U4 → ✅ U5 → 🛡️ U6 → 📦 U7 → 🚀 U8 → 🔁 U9
+>
+> [████████████████████░] 8/17 · PI1 · Última unidad — ¡cierre del PI1!
 
-Planificar no es hacer documentos bonitos. Es **responder estas preguntas**
-en cada momento:
+Este es el octavo y **último capítulo del PI1**. Has definido el
+proyecto, modelado los datos, diseñado la interfaz, elegido la
+arquitectura, preparado el entorno y aprendido a trabajar en equipo con
+Git. Ahora toca la pieza que decide si el proyecto llega a tiempo o se
+desmorona en el último mes: **cómo planificar, estimar y organizarse
+sin morir en el intento**.
 
-- ¿Qué tengo que hacer esta semana?
-- ¿Cuánto tiempo me llevará?
-- ¿Qué hago si me retraso?
-- ¿Estoy avanzando al ritmo correcto?
+## 🎯 Objetivo de la unidad
 
-Sin planificación, avanzas a ciegas. Con planificación, sabes si vas bien,
-si necesitas acelerar, o si tienes que recortar funcionalidades.
+Al terminar esta unidad sabrás:
 
-## Métodos para organizarte
+- 📋 Entender por qué planificar importa aunque te dé pereza.
+- 📊 Usar un tablero Kanban (Trello, GitHub Projects) para visualizar el trabajo.
+- 🔄 Aplicar SCRUM ligero adaptado a equipos de 2-3 personas.
+- ⏱️ Estimar tareas realistamente: desglose, multiplicador y sesgo del optimismo.
+- 🎯 Priorizar con MVP, MoSCoW y la matriz impacto/esfuerzo.
+- ⚡ Recuperar el tiempo perdido con pasos concretos.
+- 🛠️ Conocer herramientas de seguimiento (GitHub Projects, Trello, Notion, pizarra física).
+- ✅ Tener un checklist de planificación completo para tu proyecto.
 
-### Kanban (el más visual)
+## 🗺️ Mapa de la unidad
 
-Un tablero con columnas: **Por hacer → En proceso → Hecho**.
+| Punto | Qué aprenderás | Nivel |
+|---|---|---|
+| [01 · Por qué planificar (aunque te dé pereza)](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/01-por-que-planificar-aunque-te-de-pereza) | Qué es planificar, por qué importa, mitos y analogías | 🟢 Básico |
+| [02 · Kanban (el más visual)](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/02-kanban-el-mas-visual) | Tablero, columnas, tarjetas, herramientas, límites WIP | 🟢 Básico |
+| [03 · SCRUM sin burocracia](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/03-scrum-sin-burocracia) | Sprint, daily, planning, retrospectiva para equipos pequeños | 🟡 Esencial |
+| [04 · Cómo estimar bien](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/04-como-estimar-bien) | Desglose, multiplicador por 2, sesgo del optimismo | 🟡 Esencial |
+| [05 · Priorizar lo que importa](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/05-priorizar-lo-que-importa) | MVP vs deseable, matriz impacto/esfuerzo, MoSCoW | 🟡 Esencial |
+| [06 · Cómo recuperar el tiempo perdido](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/06-como-recuperar-el-tiempo) | 5 pasos: priorizar, recortar, simplificar, pedir ayuda, no engañarse | 🟡 Esencial |
+| [07 · Herramientas de seguimiento](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/07-herramientas-de-seguimiento) | GitHub Projects, Trello, Notion, pizarra física | 🟢 Básico |
+| [08 · Checklist de planificación](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/08-checklist-de-planificacion) | Checklist completo que combina todo | 🔴 Crítico |
+| [09 · Cierre: consolida lo aprendido](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/09-cierre) | Retos, dilemas, laboratorio, entrevista, post-créditos PI2 | 🟣 Desafío |
 
-Cada tarea es una tarjeta que se mueve de izquierda a derecha.
+## 📖 Qué encontrarás en el cierre (09)
 
-| Por hacer | En proceso | Hecho |
-|-----------|------------|-------|
-| CRUD usuarios | Login (Javi) | Diseño BD |
-| Pantalla inicio | Perfil (Marta) | Prototipo |
-| Tests | — | — |
+El punto 09 no es teoría nueva: es el **gimnasio** de la unidad.
 
-**Herramientas**: Trello, GitHub Projects, Notion, un pizarra física.
+- ⭐ **Sé el Proyecto** — te pones en la piel de un tablero Kanban y decides prioridades.
+- 🔥 **Dilema de equipo** — dos posturas frente a un retraso real: ¿cómo reaccionas?
+- 🕵️ **¿Quién Soy?** — adivinanzas sobre los conceptos clave de la unidad.
+- ⚡ **Laboratorio de Tortura** — un sprint con un fallo intencionado que tendrás que diagnosticar.
+- 🧠 **Atrévete a Pensar** — preguntas abiertas para ir más allá de la teoría.
+- 💬 **Entrevista de trabajo** — explícale a un entrevistador cómo planificas un proyecto.
+- 🤷 **Preguntas Tontas** — las dudas que nadie se atreve a preguntar en voz alta.
+- 🎬 **Post-Créditos** — la escena que enlaza con PI2.
 
-### SCRUM adaptado a 2-3 personas
+## ✅ Competencias cubiertas
 
-No necesitas un Scrum Master ni sprints de 2 semanas perfectos. Pero sí:
+| Competencia | Descripción | Dónde se cubre |
+|---|---|---|
+| CG2 | Capacidad de organización y planificación del trabajo | ✅ Puntos 1-8 |
+| CG4 | Trabajo en equipo y colaboración efectiva | ✅ Puntos 2-3, 6 |
+| CE3 | Implementar una aplicación web funcional (MVP) | ✅ Puntos 4-5 |
 
-1. **Sprint**: bloque de 1-2 semanas con objetivos concretos
-2. **Reunión de planificación**: qué vamos a hacer este sprint
-3. **Reunión diaria** (15 min): qué hice ayer, qué haré hoy, bloqueos
-4. **Revisión**: al final del sprint, qué se consiguió
+## 🚪 ¿Por dónde empiezo?
 
-<Aclaracion pregunta="¿No es demasiado para un proyecto de clase?">
-  Para un proyecto de clase pequeño, igual sí. Pero para un proyecto
-  intermodular que dura meses y en equipo, la planificación ligera
-  es **necesaria**.
+- **¿Nunca has planificado nada?** Empieza por el [punto 01 · Por qué planificar](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/01-por-que-planificar-aunque-te-de-pereza) y sigue el orden: está pensado para principiantes.
+- **¿Ya usáis Trello o GitHub Projects pero sin rigor?** Vete directo al [punto 02 · Kanban](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/02-kanban-el-mas-visual) y al [punto 07 · Herramientas de seguimiento](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/07-herramientas-de-seguimiento).
+- **¿Vas justo de tiempo?** Lee el [punto 05 · Priorizar lo que importa](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/05-priorizar-lo-que-importa), el [punto 06 · Recuperar el tiempo](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/06-como-recuperar-el-tiempo) y haz el [cierre](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/09-cierre). Con eso ya tienes lo esencial.
+- **¿Tu equipo discute sobre quién hace qué?** No te pierdas el [punto 03 · SCRUM sin burocracia](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/03-scrum-sin-burocracia) y el [punto 08 · Checklist](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/08-checklist-de-planificacion).
 
-  No hace falta ceremonies formales. Basta con:
-  - Un tablero Kanban (Trello, GitHub Projects)
-  - Reuniones de 10-15 minutos, 2 veces por semana
-  - Objetivos claros para cada semana
+**📍 Primer punto:** [01 · Por qué planificar (aunque te dé pereza)](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias/01-por-que-planificar-aunque-te-de-pereza)
 
-  La planificación no es burocracia. Es un **mapa** para no perderte.
-</Aclaracion>
-
-## Cómo estimar bien
-
-Estimar es difícil porque siempre tendemos al optimismo.
-"Esto lo hago en 2 días" → en realidad son 5.
-
-### Técnica: desglose y multiplica
-
-1. Divide la tarea en subtareas de máximo 4 horas
-2. Estima cada subtarea
-3. Multiplica el total por **2** (para cubrir imprevistos)
-
-**Ejemplo**: "Hacer pantalla de registro"
-
-| Subtarea | Estimación |
-|----------|-----------|
-| Maquetar HTML | 2h |
-| Estilos CSS | 1h |
-| Validación JS | 2h |
-| Conectar con API | 2h |
-| Probar | 1h |
-| **Total** | **8h → 16h (2 días)** |
-
-El multiplicador por 2 no es pesimismo. Es experiencia. Los imprevistos,
-las dudas, los "y si...", las interrupciones ocurren siempre.
-
-<Comparativa
-  dialogos={[
-    { quien: "Sin planificar", texto: "Voy haciendo tareas según me apetece o según surgen. Al final del mes, no sé si estoy a tiempo. Me estreso y termino haciendo mal las cosas." },
-    { quien: "Con planificación ligera", texto: "Cada semana sé lo que tengo que hacer. Si me retraso, lo veo a tiempo y puedo ajustar. Al final del proyecto, sé que entregaré lo planeado." },
-  ]}
-  titulo="¿Planificar o ir sobre la marcha?"
-/>
-
-## Cómo recuperar el tiempo perdido
-
-Si te das cuenta de que no llegas (y te darás cuenta si planificas):
-
-1. **Prioriza**: haz solo lo que realmente importa para el MVP
-2. **Recorta**: lo que no sea imprescindible, fuera
-3. **Simplifica**: una funcionalidad simple que funciona > una compleja a medias
-4. **Pide ayuda**: al profesor o a compañeros
-5. **No te engañes**: si ves que no llegas, actúa, no esperes
-
-<CasoPractico titulo="El proyecto que se salvó por un tablero Kanban">
-
-  Un equipo de tres empezó usando solo un grupo de WhatsApp para organizarse.
-  "Hoy hago esto", "mañana haré lo otro". Sin prioridades claras, sin fechas.
-
-  A mitad de curso, un profesor les recomendó usar **GitHub Projects**.
-  Se tomaron una tarde para:
-  - Listar todas las tareas pendientes
-  - Priorizarlas (imprescindible / deseable / futuro)
-  - Asignar responsables
-  - Poner fechas límite
-
-  Lo que descubrieron les sorprendió: tenían el doble de tareas de las
-  que pensaban y la mitad del tiempo para hacerlas. Recortaron funcionalidades,
-  reordenaron prioridades, y se centraron en lo importante.
-
-  **Resultado**: entregaron a tiempo, con un proyecto completo y funcional.
-  No sobraron lujos, pero no faltó lo esencial.
-
-  **Lección**: ver el trabajo reflejado en un tablero no estresa. Libera.
-  Porque lo que no está escrito no existe, y lo que no está planificado
-  no se hace.
-</CasoPractico>
-
-## Checklist para tu planificación
-
-- [ ] Tengo un tablero con todas las tareas del proyecto
-- [ ] Cada tarea tiene responsable y fecha estimada
-- [ ] Tengo las funcionalidades priorizadas (MVP vs deseable)
-- [ ] Sé lo que tengo que hacer esta semana
-- [ ] Hago reuniones de equipo al menos cada 3-4 días
-- [ ] Si veo que me retraso, ajusto el plan inmediatamente
-- [ ] Cada sprint entrego algo funcional, no "código a medias"
+**⏭️ Al acabar la unidad, continúa en [PI2 U1 · Arquitectura web](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web).**

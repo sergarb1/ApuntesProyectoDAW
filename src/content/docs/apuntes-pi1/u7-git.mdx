@@ -1,10 +1,11 @@
 ---
-title: 👥 U7. Trabajar en equipo
-description: Cómo organizar el trabajo en grupo, usar git sin morir en el intento y mantener la comunicación
+title: "U7 — Trabajar en equipo"
+description: "Cómo organizarse, comunicarse y usar Git en grupo sin que el merge sea el momento más terrorífico del curso 👥"
 ---
 
 import StoryIntro from '../../../components/StoryIntro.astro';
 import Aclaracion from '../../../components/Aclaracion.astro';
+import Comparativa from '../../../components/Comparativa.astro';
 import CasoPractico from '../../../components/CasoPractico.astro';
 
 <StoryIntro icono="🎬" titulo="El día que git dijo 'conflict' y el grupo se rompió">
@@ -22,138 +23,76 @@ import CasoPractico from '../../../components/CasoPractico.astro';
 
   El merge fue un infierno. Pasaron un fin de semana entero arreglando
   conflictos. Aprendieron que **trabajar en equipo no es repartirse tareas
-  y no hablar**. Es comunicarse constantemente.
+  y no hablar**. Es comunicarse constantemente, acordar reglas antes de
+  empezar y usar Git como herramienta de coordinación, no como trámite
+  final.
 </StoryIntro>
 
-## El equipo empieza antes que el código
+> 🗺️ **El mapa del viaje:** 🚪 Bienvenida → 🧭 U1 → 🏗️ U2 → 🗄️ U3 → 📄 U4 → 🎨 U5 → ⚙️ U6 → 🌐 AQUÍ ESTÁS (U7) → 📋 U8 → 🔧 PI2 U1 → 🖥️ U2 → 🔗 U3 → 👤 U4 → ✅ U5 → 🛡️ U6 → 📦 U7 → 🚀 U8 → 🔁 U9
+>
+> [███████████░░░░░░░░] 7/17 · PI1 · Cómo afrontar el proyecto
 
-Antes de escribir una línea, el equipo debe acordar:
+Este es el séptimo capítulo de un libro de **diecisiete capítulos**. Hasta
+aquí has definido tu proyecto, diseñado la solución, modelado los datos,
+planificado la interfaz, elegido la arquitectura y preparado el entorno.
+Ahora toca la parte que decide si el proyecto llega a puerto o se hunde en
+el último mes: **cómo trabajar en equipo sin que el proceso se convierta en
+el mayor obstáculo**.
 
-### Reglas básicas
+## 🎯 Objetivo de la unidad
 
-1. **Herramientas de comunicación**: un grupo de WhatsApp o Discord es mínimo. Pero
-   las decisiones importantes no se toman por chat, se hablan.
-2. **Reparto de tareas**: quién hace qué. Que sea claro y equilibrado.
-3. **Reuniones periódicas**: aunque sean 10 minutos al día para actualizar el estado.
-4. **Toma de decisiones**: ¿cómo se decide algo si hay desacuerdo?
+Al terminar esta unidad sabrás:
 
-### Flujo de trabajo con git
+- 🤝 Establecer reglas de juego claras **antes** de escribir la primera línea.
+- 🛠️ Elegir y usar herramientas de comunicación y reuniones que sirvan, no que molesten.
+- ⚖️ Repartir tareas de forma equilibrada y visible para todo el equipo.
+- 🌿 Aplicar un flujo Git sencillo y robusto: `main`, `dev`, ramas `feature`.
+- ✨ Configurar y usar ESLint + Prettier para que el código de todos parezca de uno.
+- 📝 Escribir commits que cuenten qué ha pasado y por qué, no solo "cambios".
+- 👀 Hacer code review para aprender y detectar malentendidos a tiempo.
+- ⚔️ Resolver conflictos de código (Git) y de personas sin que el equipo explote.
 
-El flujo básico para un equipo pequeño:
+## 🗺️ Mapa de la unidad
 
-```
-main          → solo versiones estables y funcionales
-  └─ dev      → rama de desarrollo, donde se integra todo
-       ├─ feature/login   → cada funcionalidad en su rama
-       ├─ feature/productos
-       └─ feature/pedidos
-```
+| Punto | Qué aprenderás | Nivel |
+|---|---|---|
+| [01 · El equipo empieza antes que el código](/ApuntesProyectoDAW/apuntes-pi1/u7-git/01-el-equipo-antes-que-el-codigo) | Reglas básicas: comunicación, reparto, reuniones, decisiones | 🟢 Básico |
+| [02 · Herramientas de comunicación y reuniones](/ApuntesProyectoDAW/apuntes-pi1/u7-git/02-herramientas-y-reuniones) | Qué herramientas usar, tipos de reuniones, actas breves | 🟢 Básico |
+| [03 · Reparto de tareas claro y equilibrado](/ApuntesProyectoDAW/apuntes-pi1/u7-git/03-reparto-de-tareas) | Matriz RACI simple, tareas técnicas y no técnicas, equilibrio | 🟡 Esencial |
+| [04 · Flujo Git: main, dev, feature](/ApuntesProyectoDAW/apuntes-pi1/u7-git/04-flujo-git-main-dev-feature) | Diagrama ASCII, reglas de ramas, nomenclatura, merge | 🔴 Crítico |
+| [05 · Código limpio en equipo: estilo, lint, Prettier](/ApuntesProyectoDAW/apuntes-pi1/u7-git/05-codigo-limpio-en-equipo) | Estilo común, ESLint + Prettier, Husky, config compartida | 🟡 Esencial |
+| [06 · Commits que se entienden](/ApuntesProyectoDAW/apuntes-pi1/u7-git/06-commits-que-se-entienden) | Mensajes convencionales, estructura, atomicidad, ejemplos | 🟡 Esencial |
+| [07 · Code review: aprender y detectar malentendidos](/ApuntesProyectoDAW/apuntes-pi1/u7-git/07-code-review) | Propósito, checklist, feedback constructivo, PR template | 🟡 Esencial |
+| [08 · Conflictos: de código y de personas](/ApuntesProyectoDAW/apuntes-pi1/u7-git/08-conflictos-codigo-y-personas) | Resolver conflictos Git y personas, CasoPractico del equipo | 🔴 Crítico |
+| [09 · Cierre: consolida lo aprendido](/ApuntesProyectoDAW/apuntes-pi1/u7-git/09-cierre) | Retos, dilemas, laboratorio, entrevista, post-créditos U8 | 🟣 Desafío |
 
-**Reglas**:
-- Nunca commits directamente a `main`
-- Cada funcionalidad nueva → rama nueva desde `dev`
-- Antes de mergear: code review por otro miembro del equipo
-- Merge a `dev` → probar → merge a `main`
+## 📖 Qué encontrarás en el cierre (09)
 
-<Aclaracion pregunta="¿Y si somos dos y no necesitamos tanto flujo?">
-  Aunque seáis dos, el flujo de ramas os protege. Trabajar directamente
-  sobre `main` es la receta para el desastre: "es que iba a arreglar una
-  cosa y se me borró todo".
+El punto 09 no es teoría nueva: es el **gimnasio** de la unidad.
 
-  Para equipos de 2-3 personas, basta con:
-  - `main` (lo que funciona)
-  - Una rama por persona o por funcionalidad
-  - Commits pequeños con mensajes descriptivos
-  - Comunicación diaria de "esto estoy haciendo, esto voy a hacer"
-</Aclaracion>
+- ⭐ **Sé el Proyecto** — te pones en la piel de un repositorio y eliges la estrategia de ramas.
+- 🔥 **Dilema de equipo** — dos posturas frente a un conflicto real: ¿cómo se resuelve?
+- 🕵️ **¿Quién Soy?** — adivinanzas sobre los conceptos clave de la unidad.
+- ⚡ **Laboratorio de Tortura** — un flujo Git roto con un fallo intencionado que tendrás que diagnosticar.
+- 🧠 **Atrévete a Pensar** — preguntas abiertas para ir más allá de la teoría.
+- 💬 **Entrevista de trabajo** — explícale a un entrevistador por qué tu flujo Git funciona.
+- 🤷 **Preguntas Tontas** — las dudas que nadie se atreve a preguntar en voz alta.
+- 🎬 **Post-Créditos** — la escena que enlaza con U8.
 
-## Código limpio en equipo
+## ✅ Competencias cubiertas
 
-### Estilo común
-Acordad un estilo de código al principio:
-- ¿Tabulaciones o espacios?
-- ¿Punto y coma o no?
-- ¿Comillas simples o dobles?
-- ¿Nombres en español o inglés?
+| Competencia | Descripción | Dónde se cubre |
+|---|---|---|
+| CG4 | Capacidad de trabajo en equipo y comunicación efectiva | ✅ Puntos 1-3, 7-8 |
+| CE4 | Uso de herramientas de control de versiones y trabajo colaborativo | ✅ Puntos 4-8 |
 
-Usad herramientas como **ESLint** o **Prettier** para que el código
-de todos tenga el mismo formato automáticamente.
+## 🚪 ¿Por dónde empiezo?
 
-### Code review
+- **¿Nunca has trabajado en equipo con Git?** Empieza por el [punto 01 · El equipo empieza antes que el código](/ApuntesProyectoDAW/apuntes-pi1/u7-git/01-el-equipo-antes-que-el-codigo) y lee en orden: toda la unidad está pensada para nivel de entrada cero.
+- **¿Ya usáis Git pero os saltáis las reglas?** Vete directo al [punto 04 · Flujo Git: main, dev, feature](/ApuntesProyectoDAW/apuntes-pi1/u7-git/04-flujo-git-main-dev-feature) y al [punto 06 · Commits que se entienden](/ApuntesProyectoDAW/apuntes-pi1/u7-git/06-commits-que-se-entienden): ahí se juega el 80% de los dolores de cabeza.
+- **¿Vas justo de tiempo?** Lee el [punto 04 · Flujo Git](/ApuntesProyectoDAW/apuntes-pi1/u7-git/04-flujo-git-main-dev-feature), el [punto 06 · Commits](/ApuntesProyectoDAW/apuntes-pi1/u7-git/06-commits-que-se-entienden) y haz el [cierre](/ApuntesProyectoDAW/apuntes-pi1/u7-git/09-cierre). Con eso ya tienes lo esencial.
+- **¿Tu equipo tiene tensiones?** No te pierdas el [punto 08 · Conflictos: de código y de personas](/ApuntesProyectoDAW/apuntes-pi1/u7-git/08-conflictos-codigo-y-personas) y el [Caso Práctico del equipo que aprendió a ser equipo](/ApuntesProyectoDAW/apuntes-pi1/u7-git/08-conflictos-codigo-y-personas).
 
-Revisad el código de los demás antes de mergear. No es para "cazar
-errores", es para:
-- Aprender cómo trabaja tu compañero
-- Detectar malos entendidos ("ah, yo pensaba que esta función hacía otra cosa")
-- Mejorar la calidad entre todos
+**📍 Primer punto:** [01 · El equipo empieza antes que el código](/ApuntesProyectoDAW/apuntes-pi1/u7-git/01-el-equipo-antes-que-el-codigo)
 
-### Commits que se entienden
-
-```bash
-# ❌ Mal
-git commit -m "cambios"
-
-# ✅ Bien
-git commit -m "Añadir validación de email en formulario de registro"
-```
-
-Un buen mensaje de commit explica **qué cambia y por qué**.
-
-<CasoPractico titulo="El equipo que aprendió a ser equipo">
-
-  Tres estudiantes empezaron el proyecto con entusiasmo. Cada uno se llevó
-  una parte a casa. Dos semanas después:
-  - Persona A había hecho el login y el registro
-  - Persona B había hecho la gestión de productos
-  - Persona C se había desconectado y no respondía
-
-  En la reunión con el profesor, Persona A y B explicaron la situación.
-  El profesor les sugirió: "repartid las tareas de Persona C entre los dos,
-  pero también haced que él se responsabilice de algo concreto y medible".
-
-  Se sentaron, hablaron claro, y rediseñaron el reparto:
-  - Persona A: frontend completo (que ya había mostrado interés)
-  - Persona B: backend completo
-  - Persona C: documentación + tests + despliegue (responsabilidades claras)
-
-  A partir de ahí, se reunían 15 minutos cada día (por Discord) para
-  actualizar el progreso. No funcionó perfecto, pero funcionó.
-
-  **Lección**: un equipo no es "cada uno a su bola". Es comunicación
-  constante, reparto claro de responsabilidades, y saber reaccionar
-  cuando alguien se queda atrás.
-</CasoPractico>
-
-## Conflictos (de código y de personas)
-
-### Conflictos en git
-
-Los conflictos ocurren cuando dos personas modifican la misma parte.
-No pasa nada. Así se resuelven:
-
-1. `git pull` la rama destino
-2. Busca los marcadores `<<<<<<<`, `=======`, `>>>>>>>`
-3. Decide qué versión conservar (o una combinación)
-4. Borra los marcadores
-5. Commit
-
-Con práctica, resolver conflictos lleva segundos.
-
-### Conflictos entre personas
-
-Si alguien no trabaja, si hay diferencias de criterio, si la comunicación
-falla:
-
-1. **Habladlo en persona** (no por chat). Cada uno explica su punto de vista.
-2. **Buscad un acuerdo** o una solución intermedia.
-3. Si no hay acuerdo, **tercera persona** (el profesor, un mediador).
-
-## Checklist para tu equipo
-
-- [ ] Hemos acordado herramientas de comunicación
-- [ ] Tenemos un repositorio compartido con ramas
-- [ ] Cada uno sabe qué tiene que hacer esta semana
-- [ ] Nos reunimos al menos 2 veces por semana
-- [ ] Hacemos code review antes de mergear
-- [ ] Los commits son descriptivos y pequeños
-- [ ] Tenemos un plan si alguien se queda atrás
+**⏭️ Al acabar la unidad, continúa en [U8 · Planificar y organizarse](/ApuntesProyectoDAW/apuntes-pi1/u8-metodologias).**

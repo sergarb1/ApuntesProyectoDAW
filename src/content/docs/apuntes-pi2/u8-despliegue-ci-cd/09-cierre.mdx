@@ -1,0 +1,316 @@
+---
+title: "09 — Cierre: consolida lo aprendido"
+description: "Pon en práctica todo lo de la unidad: retos, dilemas, un laboratorio con trampa y un adiós hacia U9."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🚀 **U8 · Publicar y mantener** → 09 · Cierre
+
+> En este punto no aprendemos nada nuevo: lo convertimos todo en práctica. Y,
+> como siempre, algo no va a funcionar. 😈
+
+Has aprendido por qué desplegar es importante, qué plataformas gratuitas
+existen, qué es CI/CD, cómo configurar GitHub Actions, cómo preparar
+el proyecto, cómo desplegar en producción, cómo mantener la app y cómo
+comprobar todo con una checklist. Ahora toca **usarlo**.
+
+## Sé el Proyecto
+
+Ponte en la piel del equipo de tu proyecto. Tienen que decidir cómo
+afrontar el despliegue en PI2. ¿Qué enfoque eliges?
+
+- **Opción A — "El improvisador"**: "Ya lo desplegamos al final.
+  Por ahora, todo funciona en localhost. No perdamos tiempo con
+  CI/CD y despliegue."
+- **Opción B — "El metódico"**: "Desde el primer sprint, configuramos
+  variables de entorno, desplegamos en Render y activamos GitHub
+  Actions. Cada push se despliega automáticamente."
+- **Opción C — "El copiador"**: "Busco un tutorial de despliegue en
+  YouTube, sigo los pasos y lo adapto. Si funciona, perfecto. Si no,
+  ya veré."
+
+<details>
+<summary>...Respuestas...</summary>
+
+**La opción B.** Es la única que equilibra calidad y eficiencia. La A
+es arriesgada: improvisar el despliegue en la última semana implica
+errores de configuración, variables faltantes y estrés innecesario. La C
+depende de la calidad del tutorial y no garantiza que entiendas lo que
+haces. La B invierte un poco de tiempo al principio para ahorrar mucho
+después. Y demuestra al tribunal que entiendes el ciclo de vida de una
+aplicación real.
+
+</details>
+
+## Dilema de equipo
+
+Dos miembros del equipo discuten cuánto invertir en CI/CD. ¿Quién tiene
+razón... o en qué punto se juntan?
+
+<Comparativa
+  dialogos={[
+    { quien: "Ana — 'CI/CD es perder el tiempo'", texto: "Somos 4 personas y tenemos 2 meses. Cada hora que invertimos en CI/CD es una hora que no invertimos en funcionalidades. El tribunal valora más que la app funcione que cómo la desplieguemos." },
+    { quien: "Pablo — 'CI/CD es invertir tiempo'", texto: "Si no tenemos CI/CD, el día de la presentación tendremos que desplegar manualmente. Si algo falla, no habrá tiempo de corregir. CI/CD nos da seguridad." },
+  ]}
+  titulo="¿Funcionalidad o despliegue?"
+/>
+
+<details>
+<summary>...Respuestas...</summary>
+
+**Pablo tiene razón en que CI/CD da seguridad, pero Ana tiene razón en
+que las funcionalidades son el producto.** Haz las dos cosas en paralelo:
+configura CI/CD básico en el primer sprint (10 minutos con GitHub Actions)
+y ve desarrollando funcionalidades. CI/CD no es un proyecto paralelo, es
+una práctica que se integra en el desarrollo diario.
+
+</details>
+
+## ¿Quién Soy?
+
+Ocho conceptos de la unidad se presentan enigmáticamente. ¿Adivinas
+quién es quién?
+
+1. "Soy la práctica de ejecutar tests automáticamente cada vez que se
+   sube código al repositorio. Sin mí, los bugs llegan a producción."
+2. "Soy el archivo YAML que define los pasos de automatización en
+   GitHub. Sin mí, no hay CI/CD."
+3. "Soy la plataforma gratuita que despliega frontend con cada push a
+   Git. Vercel y Netlify también lo son."
+4. "Soy la herramienta que monitoriza tu app y te avisa si cae.
+   UptimeRobot es un ejemplo de mí."
+5. "Soy la práctica de desplegar automáticamente si los tests pasan.
+   Sin intervención humana."
+6. "Soy la variable que define el puerto en producción. Sin mí, la app
+   no escucha en la dirección correcta."
+7. "Soy el archivo que excluye archivos del repositorio. Sin mí,
+   node_modules y .env se suben al repositorio."
+8. "Soy la lista que comprueba que todo está preparado antes de la
+   presentación. Cada punto que falta es algo que el tribunal puede
+   detectar."
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **CI (Integración Continua)** (punto 03). 2. **Workflow de GitHub
+   Actions** (punto 04). 3. **Plataforma de despliegue gratuito**
+   (punto 02). 4. **Monitoreo** (punto 07). 5. **CD (Despliegue
+   Continuo)** (punto 03). 6. **PORT** (punto 06). 7. **.gitignore**
+   (punto 05). 8. **Checklist** (punto 08).
+
+</details>
+
+## Laboratorio de Tortura
+
+**Duración estimada: 30-40 minutos.** Objetivo: detectar los problemas
+de una configuración de CI/CD que *parece* correcta... y no lo es.
+
+**Contexto.** Un equipo tiene esta configuración para su proyecto:
+
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install
+      - run: npm test
+      - run: npm run build
+      - uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+```
+
+```json
+// package.json
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "express": "^4.18.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "vitest": "^1.0.0",
+    "bcrypt": "^5.1.0"
+  }
+}
+```
+
+```javascript
+// server.js (fragmento)
+const PORT = process.env.PORT || 3000;
+const DB_HOST = process.env.DB_HOST || "localhost";
+app.listen(PORT);
+```
+
+**Instrucciones.** Detecta **mínimo 6 problemas** de configuración,
+seguridad o despliegue. Después, descubre el **fallo intencionado**.
+
+<details>
+<summary>Pista 1</summary>
+
+Revisa el package.json: ¿dónde está bcrypt? ¿Es una dependencia de
+producción o de desarrollo?
+
+</details>
+
+<details>
+<summary>Pista 2</summary>
+
+Revisa el workflow de GitHub Actions: ¿falta algo? ¿Qué pasa si los
+tests fallan?
+
+</details>
+
+<details>
+<summary>Pista 3</summary>
+
+Revisa server.js: ¿la app escucha en 0.0.0.0 o solo en localhost?
+¿Qué pasa en producción?
+
+</details>
+
+<details>
+<summary>Pista 4 (casi la respuesta)</summary>
+
+El fallo intencionado es que **bcrypt está en devDependencies**.
+En producción, `npm install --production` no instala devDependencies.
+La app fallará al arrancar porque bcrypt no estará disponible.
+
+</details>
+
+<details>
+<summary>...Solución completa...</summary>
+
+**Problemas detectados:**
+
+1. **bcrypt en devDependencies** — es una dependencia de producción
+   (se usa en runtime). Debe estar en `dependencies`.
+2. **app.listen(PORT) sin '0.0.0.0'** — en producción, la app solo
+   escucha en localhost y no recibe conexiones externas. Debe ser
+   `app.listen(PORT, '0.0.0.0')`.
+3. **Sin node-version en el workflow** — GitHub Actions usa la versión
+   de Node que tenga por defecto. Puede no ser compatible con tu app.
+   Añade `actions/setup-node@v4` con `node-version: '20'`.
+4. **Sin manejo de errores en el workflow** — si `npm test` falla, el
+   workflow se detiene. Pero si no hay tests, también falla. Usa
+   `npm test || true` o asegúrate de que hay tests.
+5. **Secrets potencialmente vacíos** — si VERCEL_TOKEN no está
+   configurado, el deploy falla silenciosamente. Comprueba que los
+   secrets existen antes de usarlos.
+6. **DB_HOST=localhost en producción** — la variable de entorno no
+   está definida en la plataforma, así que usa "localhost". Pero
+   en Render/Vercel no hay base de datos local. Debe apuntar a
+   una BD remota.
+
+**Fallo intencionado:** bcrypt en devDependencies. La app funciona
+en local (npm install instala todo), pero en producción falla porque
+bcrypt no se instala.
+
+</details>
+
+## Atrévete a Pensar
+
+Preguntas abiertas. Piensa primero, mira la solución después.
+
+1. Si solo tienes 1 hora para configurar CI/CD, ¿qué haces?
+2. ¿Cómo convences a un compañero de que CI/CD merece la pena?
+3. ¿Qué pasaría si el tribunal te pregunta "¿y si esta aplicación
+   fuera real, cómo la desplegarías en producción?"?
+
+<details>
+<summary>...Sugerencias de respuesta...</summary>
+
+1. Workflow mínimo: checkout, setup-node, npm install, npm test,
+   npm run build. Son 15 líneas de YAML. Luego conectas la plataforma
+   y listo.
+2. Con datos: "Ayer el deploy manual falló y perdimos 2 horas.
+   Con CI/CD, cada push se prueba y despliega solo. En 2 minutos."
+3. Con arquitectura real: containers en Kubernetes, CI/CD con
+   GitHub Actions, monitoreo con Datadog, escalado automático.
+   Aunque sea teórico, demuestra que entiendes el panorama completo.
+
+</details>
+
+## Entrevista de trabajo
+
+Te acaban de contratar como "devops junior". Estas son las preguntas
+que te harán en la entrevista:
+
+1. **"Explícame qué es CI/CD como si yo fuera tu abuela."**
+2. **"¿Por qué no se usa localhost en producción?"**
+3. **"¿Qué haces si tu aplicación funciona en local pero falla en
+   producción?"**
+
+<details>
+<summary>...Modelos de respuesta...</summary>
+
+1. "Es como tener un robot que revisa tu tarea cada vez que la entregas.
+   Si está bien, la publica automáticamente. Si tiene errores, te avisa
+   y no la publica. Así siempre entregas trabajo correcto."
+2. "Porque localhost es tu ordenador. En producción, la app está en un
+   servidor diferente. localhost se refiere al servidor, no a tu
+   máquina. La app necesita escuchar en todas las direcciones."
+3. "Primero compruebo los logs del servidor: qué error da. Luego
+   comparo variables de entorno: ¿están todas definidas? Después,
+   reproduzco el problema en Docker. Normalmente es una diferencia
+   de entorno: versión, ruta, variable no definida."
+
+</details>
+
+## Preguntas Tontas
+
+> **Pregunta** — "¿Y si mi proyecto es tan pequeño que no necesita
+> CI/CD?"
+> **Respuesta** — Si tiene tests y se despliega, necesita CI/CD. Un
+> workflow básico son 15 líneas de YAML. No es cuestión de tamaño,
+> es cuestión de no hacer las cosas a mano cuando puedes automatizarlas.
+
+> **Pregunta** — "¿Qué pasa si el tribunal no se fija en el despliegue?"
+> **Respuesta** — Puede que no, pero puede que sí. Y lo más importante:
+> un proyecto desplegado con CI/CD demuestra que sabes llevarlo al mundo
+> real. Es la diferencia entre un prototipo y un producto.
+
+> **Pregunta** — "¿GitHub Actions es complicado?"
+> **Respuesta** — Lo básico no. Un workflow son 15 líneas. Lo
+> complicado es lo avanzado (matrices, caches, workflows dependientes),
+> pero para un proyecto DAW no lo necesitas.
+
+## Post-Créditos
+
+El proyecto de Sergio funciona en producción. GitHub Actions ejecuta
+tests y despliega con cada push. Render aloja el backend con una
+base de datos PostgreSQL gratuita. UptimeRobot monitoriza la URL
+24 horas al día.
+
+Suena el teléfono. Es su compañero de equipo:
+
+"He probado a hacer push a `main`. En 2 minutos, la nueva versión
+estaba en producción. Sin hacer nada más. Sin scripts, sin errores,
+sin estrés."
+
+Sergio sonríe. Eso era exactamente lo que querían conseguir. La
+aplicación no solo funciona. Se mantiene sola.
+
+**PRÓXIMAMENTE EN PI2 U9:** Metodologías ágiles: Scrum, Kanban,
+sprints y cómo organizar el equipo para que el proyecto no sea
+un caos. 📋
+
+---
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd) · **Anterior:** [08 · Checklist de CI/CD](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd/08-checklist-de-ci-cd) · **Siguiente:** [**PI2 U9 · Metodologías ágiles**](/ApuntesProyectoDAW/apuntes-pi2/u9-metodologias-agiles)

@@ -1,0 +1,157 @@
+---
+title: "04 — Flujo Git: main, dev, feature"
+description: "El diagrama de ramas que evita el merge infernal: main estable, dev de integración, features aisladas 🌿"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U7 · Trabajar en equipo** → 04 · Flujo Git: main, dev, feature
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Marta, Javi y Lucas ya tienen reglas, herramientas y reparto. Les
+  falta lo que convirtió su merge en infierno: **un flujo Git acordado**.
+  Este capítulo es el "plano de fontanería" del código: por dónde fluyen
+  los cambios, dónde se integran, qué se protege. Si lo seguís, el merge
+  final es un trámite, no un fin de semana de café.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> `main` solo tiene versiones que funcionan. `dev` integra lo que va
+> funcionando. Cada feature en su rama, code review antes de mergear a
+> `dev`. El merge a `main` solo pasa cuando `dev` está probado.
+
+## 🌿 El flujo (diagrama ASCII)
+
+```
+main          → solo versiones estables y funcionales (etiquetadas v1.0, v1.1...)
+  └─ dev      → rama de desarrollo, donde se integra todo
+       ├─ feature/login       → cada funcionalidad en su rama
+       ├─ feature/productos
+       ├─ feature/pedidos
+       └─ feature/perfil-usuario
+```
+
+**Reglas de oro:**
+
+1. **Nunca commits directamente a `main`**. `main` está protegida
+   (branch protection): solo entra vía PR aprobado y CI verde.
+2. **Cada funcionalidad nueva → rama nueva desde `dev`**.
+   Nomenclatura: `feature/nombre-corto`, `fix/bug-descripcion`,
+   `refactor/que-se-mejora`, `docs/que-se-documenta`.
+3. **Antes de mergear a `dev`: code review obligatorio** por otro
+   miembro (punto 07). PR con descripción, tests pasan, sin conflictos.
+4. **Merge a `dev` → probar en conjunto → merge a `main`** cuando la
+   versión está lista para entregar/enseñar.
+
+## 🔧 Comandos del día a día
+
+```bash
+# 1. Empezar feature (desde dev actualizado)
+git checkout dev
+git pull origin dev
+git checkout -b feature/login
+
+# 2. Trabajar, commits pequeños y descriptivos (punto 06)
+git add .
+git commit -m "feat: añadir validación de email en login"
+
+# 3. Antes de subir: actualizar dev y resolver conflictos si hay
+git fetch origin
+git rebase origin/dev   # o merge, pero rebase limpia historial
+
+# 4. Subir y abrir PR
+git push origin feature/login
+# Abrir PR en GitHub: base=dev, descripción, revisor asignado
+
+# 5. Tras review aprobado + CI verde: merge (squash o merge commit)
+# 6. Borrar rama feature (local y remoto)
+git checkout dev
+git pull origin dev
+git branch -d feature/login
+git push origin --delete feature/login
+```
+
+## 🏷️ Nomenclatura de ramas y commits
+
+| Tipo | Prefijo rama | Prefijo commit | Ejemplo |
+|---|---|---|---|
+| Nueva funcionalidad | `feature/` | `feat:` | `feat: añadir filtro por categoría` |
+| Corrección de bug | `fix/` | `fix:` | `fix: corregir validación email` |
+| Refactor (sin cambio funcional) | `refactor/` | `refactor:` | `refactor: extraer hook useAuth` |
+| Documentación | `docs/` | `docs:` | `docs: actualizar README instalación` |
+| Estilo / formato | `style/` | `style:` | `style: formatear con Prettier` |
+| Tests | `test/` | `test:` | `test: añadir tests unitarios auth` |
+| Config / CI / build | `chore/` | `chore:` | `chore: añadir script lint en package.json` |
+
+> 💡 Usad **Conventional Commits** (punto 06). Hace que el historial sea
+> legible y permite generar changelogs automáticos.
+
+## ⚙️ Protección de ramas (branch protection)
+
+En GitHub: Settings → Branches → Add rule:
+- **main**: Require PR review (1), Require status checks (CI), No force
+  push, No deletions.
+- **dev**: Require PR review (1), Require status checks (CI).
+
+Así nadie "rompe" `main` por accidente y `dev` siempre integra código
+revisado.
+
+<Aclaracion pregunta="¿Y si somos dos y no necesitamos tanto flujo?">
+  Aunque seáis dos, el flujo de ramas os protege. Trabajar directamente
+  sobre `main` es la receta para el desastre: "es que iba a arreglar una
+  cosa y se me borró todo".
+
+  Para equipos de 2-3 personas, basta con:
+  - `main` (lo que funciona, protegida)
+  - Una rama por persona o por funcionalidad (`feature/...`)
+  - Commits pequeños con mensajes descriptivos (punto 06)
+  - Comunicación diaria: "esto estoy haciendo, esto voy a hacer"
+  - Code review mutuo (obligatorio, aunque seáis dos)
+
+  La diferencia con equipos grandes: **menos ramas simultáneas**, pero
+  **las mismas reglas**. La disciplina escala; el caos no.
+</Aclaracion>
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** ¿De qué rama nace una nueva `feature/...`?
+A) `main` · B) `dev` · C) La rama del compañero.
+
+**Pregunta 2.** ¿Cuándo se mergea a `main`?
+A) Cada vez que hago commit · B) Cuando `dev` está probado y la versión
+   lista para entregar · C) El día de la entrega, todo de golpe.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. `dev` es la rama de integración; `main` solo recibe versiones
+   estables.
+2. **B**. `main` = versiones etiquetadas y funcionales. Mergear a `main`
+   a lo loco anula su propósito.
+
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. `main` = estable (protegida), `dev` = integración, `feature/*` = trabajo
+   aislado. Nunca commits directos a `main`.
+2. Flujo: feature → PR → code review + CI → merge a `dev` → test conjunto →
+   merge a `main` (etiquetado).
+3. Para equipos de 2-3: mismas reglas, menos ramas simultáneas. La
+   disciplina escala; el caos no.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **main** | Rama principal: solo versiones estables, etiquetadas, protegidas |
+| **dev** | Rama de desarrollo/integración: donde convergen las features |
+| **feature branch** | Rama temporal para una funcionalidad concreta |
+| **Branch protection** | Reglas de GitHub que impiden push directo, exigen PR + CI |
+| **Conventional Commits** | Estándar de mensajes: `tipo: descripción` (feat, fix, docs...) |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u7-git) · **Anterior:** [03 · Reparto de tareas claro y equilibrado](/ApuntesProyectoDAW/apuntes-pi1/u7-git/03-reparto-de-tareas) · **Siguiente:** [05 · Código limpio en equipo: estilo, lint, Prettier](/ApuntesProyectoDAW/apuntes-pi1/u7-git/05-codigo-limpio-en-equipo)

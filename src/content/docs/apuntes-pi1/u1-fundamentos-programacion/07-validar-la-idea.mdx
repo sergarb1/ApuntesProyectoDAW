@@ -1,0 +1,164 @@
+---
+title: "07 — Validar la idea a tiempo"
+description: "Validar no es comprobar que tenías razón: es corregir el rumbo antes de que sea tarde 🔁"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U1 · Definir el proyecto** → 07 · Validar la idea
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Ana lleva dos semanas desarrollando. Lleva el alcance escrito, los objetivos
+  SMART colgados en la pared... y un presentimiento raro de que la app se le
+  está yendo de las manos.
+
+  El profesor la cita para la revisión de la semana 3. Ana llega con la tabla
+  de funcionalidades. Y por primera vez, el rumbo de su proyecto cambia sin
+  que el mundo se acabe.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> Validar la idea no es comprobar que tenías razón: es corregir el rumbo
+> mientras la corrección todavía cuesta poco.
+
+Es como navegar. El viento sopla, las corrientes cambian, y el puerto está
+lejos. Si solo miras tu plan, llegas a donde no querías. Si miras la brújula
+de vez en cuando y ajustas unos grados, la diferencia al final es enorme. Tu
+brújula se llama **validación con el profesor**.
+
+## 🗓️ Validar con el profesor cada 2-3 semanas
+
+Del checklist de errores comunes del final de esta unidad, hay uno que se
+lleva la palma:
+
+> **No consultar con el profesor** — Cada 2-3 semanas, valida tu dirección.
+> Mejor corregir a tiempo.
+
+Una validación no es un examen: es un **control de rumbo** de 15-20 minutos.
+Llevas tu acta o tu tabla de alcance y respondes tres cosas:
+
+1. **Qué hice desde la última vez** (y con qué resultados).
+2. **Qué voy a hacer ahora** (las próximas 2-3 semanas).
+3. **Dónde dudo** (preguntas concretas, no generales).
+
+```
+SIN VALIDAR                        CON VALIDACIÓN
+Cada 2-3 semanas                   Cada 2-3 semanas
+  semana 3:  ✔ rumbo               semana 3:  ✔ rumbo + ajuste
+  semana 6:  ✘ desvío              semana 6:  ✔ rumbo + ajuste
+  semana 9:  ✘ desvío grande       semana 9:  ✔ rumbo
+  semana 12: ✘ reiniciar           semana 12: entregas
+```
+
+El desvío pequeño de la semana 3 se corrige en 20 minutos. El desvío grande
+de la semana 12 no se corrige ni con un mes.
+
+## 📏 Señales de que la idea es demasiado grande
+
+Tu idea es demasiado grande si notas alguno de estos síntomas:
+
+- El MVP no cabe en la mitad del tiempo disponible.
+- Cada funcionalidad "obligatoria" tira de otras cinco.
+- El profesor hace preguntas que no sabes responder sin "depende".
+- Has tenido que pedir dos prórrogas... y solo llevas un mes.
+- "Aprender" se ha convertido en "aprender tres tecnologías nuevas".
+
+Si la idea es demasiado grande, no se abandona: se **recorta con cabeza**.
+Vuelve a la tabla de alcance (punto 05) y decide qué "deseable" baja a
+"fuera", o qué funcionalidad se simplifica.
+
+## 🪄 Señales de que la idea es demasiado pequeña
+
+También existe el error contrario:
+
+- El MVP completo se termina en una semana... y quedan tres meses.
+- No hay nada que "aprender" para hacerlo: es copiar y pegar.
+- No genera una memoria, una defensa ni una demo interesante.
+
+Una idea demasiado pequeña se **amplía en profundidad**, no en anchura: mejor
+documentación, más testing, una interfaz cuidada, despliegue real, alguna
+funcionalidad de las deseables. Recuerda el consejo del [punto 05](/ApuntesProyectoDAW/apuntes-pi1/u1-fundamentos-programacion/05-el-alcance): normalmente no faltan funcionalidades, falta **profundizar** en las que tienes.
+
+## 🧭 Pivotar a tiempo
+
+**Pivotar** es cambiar de rumbo sin tirar el trabajo: conservas lo aprendido
+y lo que ya funciona, y cambias la dirección. No es rendirse: es adaptarse
+con información.
+
+```
+PIVOTAR NO ES...
+───────────────────────────────
+✘ Empezar de cero cada semana
+✘ Ignorar lo que ya hiciste
+✘ Cambiar de idea por aburrimiento
+✔ Es ajustar el problema, el usuario
+  o el alcance a la luz de lo que ves
+```
+
+Un buen momento para pivotar es precisamente la validación de la semana 3-4:
+todavía no has invertido mucho código y ya has aprendido suficiente de tu
+idea. Pivotar a tiempo es de las decisiones más valiosas (y difíciles) del
+proyecto.
+
+<CasoPractico titulo="Cuando pivotar salvó el trimestre">
+
+  Un equipo quería hacer una red de intercambio de apuntes entre estudiantes.
+  A la semana 4, en la validación, el profesor preguntó: "¿Y por qué iba a
+  subir mis apuntes gratis?" Ninguno supo responder. La idea no tenía un
+  problema claro detrás.
+
+  En lugar de seguir cavando, el equipo pivotó conservando lo construido:
+  el registro de usuarios servía igual, y de "intercambio de apuntes" pasaron
+  a "apuntes organizados por módulos con valoración de calidad", un problema
+  que sí dolía (encontrar apuntes buenos es un caos). Aprovecharon el código
+  del registro y solo cambiaron el corazón de la app.
+
+  **Resultado**: aprobaron. Y aprendieron que pivotar a la semana 4 cuesta
+  una tarde; pivotar a la semana 12 cuesta el curso.
+</CasoPractico>
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** Validar la idea con el profesor cada 2-3 semanas sirve para:
+A) que el profesor vea que trabajas · B) corregir el rumbo mientras cuesta
+poco · C) aprobar sin hacer nada.
+
+**Pregunta 2.** Tienes una idea cuyo MVP acabarías en una semana. Según este
+capítulo, lo mejor es:
+A) entregar y pasar tres meses sin hacer nada · B) ampliar en profundidad
+(testing, documentación, interfaz, alguna deseable) · C) cambiar de idea cada
+lunes.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Es un control de rumbo: desvíos pequeños se corrigen en 20 minutos
+   cuando se detectan a tiempo.
+2. **B**. Se amplía en profundidad, no en anchura. Y si hace falta, se
+   revisa con el profesor qué echa en falta.
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. Valida tu dirección con el profesor cada 2-3 semanas: corregir a tiempo
+   cuesta minutos, corregir al final cuesta el curso.
+2. Una idea demasiado grande se recorta con la tabla de alcance; una
+   demasiado pequeña se amplía en profundidad.
+3. Pivotar es conservar lo aprendido y cambiar el rumbo a la luz de la
+   información, no rendirse.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Validar** | Comprobar el rumbo del proyecto con el profesor |
+| **Control de rumbo** | Reunión corta: qué hice, qué haré, dónde dudo |
+| **Pivotar** | Cambiar de dirección conservando el trabajo útil |
+| **Idea sobredimensionada** | Demasiado grande para el tiempo disponible |
+| **Idea infradimensionada** | Tan pequeña que no da para un proyecto completo |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u1-fundamentos-programacion) · **Anterior:** [06 · Usuario y público objetivo](/ApuntesProyectoDAW/apuntes-pi1/u1-fundamentos-programacion/06-usuario-y-publico-objetivo) · **Siguiente:** [08 · El acta de definición del proyecto](/ApuntesProyectoDAW/apuntes-pi1/u1-fundamentos-programacion/08-el-acta-de-definicion)

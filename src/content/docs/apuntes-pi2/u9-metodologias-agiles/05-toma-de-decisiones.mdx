@@ -1,0 +1,186 @@
+---
+title: "05 — Toma de decisiones"
+description: "Decisiones difíciles en la recta final: trade-offs, priorización y cómo elegir cuando no puedes tenerlo todo."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🔁 **U9 · Gestionar el proyecto** → 05 · Toma de decisiones
+
+En la recta final de PI2 te enfrentarás a decisiones que en PI1
+no surgieron. No hay respuestas perfectas: solo hay mejores
+y peores compromisos. Aprender a decidir es tan importante como
+aprender a programar.
+
+## ¿Por qué son tan difíciles?
+
+Porque en PI2 las opciones no son "bueno vs. malo", sino
+"bueno vs. bueno". O "malo vs. malo". No puedes tener todo:
+tiempo limitado, energía limitada, capacidad limitada. Cada
+decisión implica un trade-off (compromiso).
+
+## Los tres dilemas clásicos de PI2
+
+### Dilema 1: ¿Recortamos funcionalidades o trabajamos fines de semana?
+
+<Comparativa
+  dialogos={[
+    { quien: "Ana — 'Trabajemos el finde'", texto: "Si no hacemos el módulo de pagos, el proyecto queda incompleto. Un fin de semana extra y lo sacamos." },
+    { quien: "Pablo — 'Recortemos features'", texto: "Si llegamos agotados al examen, peor. Mejor entregar menos funcionalidades bien hechas que muchas a medias." },
+  ]}
+  titulo="¿Funcionalidad o descanso?"
+/>
+
+**Siempre recorta funcionalidades.** Tu salud y tu cordura valen más
+que un par de features extra. El tribunal prefiere un proyecto
+completo con menos funcionalidades que uno lleno de bugs.
+
+Además, un equipo descansado rinde más en la presentación que
+uno agotado que no ha dormido en 3 días.
+
+### Dilema 2: ¿Refactorizamos o añadimos lo que falta?
+
+<Comparativa
+  dialogos={[
+    { quien: "Laura — 'Refactoricemos'", texto: "El código está lleno de arreglos parche. Si seguimos así, el proyecto colapsa en la última semana." },
+    { quien: "Marcos — 'Añadamos funcionalidades'", texto: "Si refactorizamos, no llegamos a tiempo. El tribunal evalúa funcionalidades, no código limpio." },
+  ]}
+  titulo="¿Calidad o cantidad?"
+/>
+
+**Refactoriza solo si el código actual te impide avanzar.** Si
+funciona y es mantenible, déjalo. Prioriza las funcionalidades
+que el tribunal va a evaluar.
+
+La excepción: si el código es tan malo que cada cambio rompe
+algo, refactorizar es la opción más rápida a largo plazo.
+
+### Dilema 3: ¿Presentamos el proyecto aunque no esté perfecto?
+
+<Comparativa
+  dialogos={[
+    { quien: "Sergio — 'Esperemos'", texto: "Si presentamos con bugs, el tribunal pensará que no sabemos programar." },
+    { quien: "Elena — 'Presentemos'", texto: "Un proyecto imperfecto vale más que un proyecto perfecto que no existe. Siempre." },
+  ]}
+  titulo="¿Perfección o entrega?"
+/>
+
+**Siempre presenta.** Un proyecto imperfecto pero presentado vale
+más que un proyecto perfecto pero no entregado. Y nunca sabes
+qué van a valorar del tribunal.
+
+## Framework de decisión: Value vs. Effort
+
+Ante cada decisión, evalúa dos dimensiones:
+
+- **Valor**: ¿cuánto impacto tiene en el proyecto final?
+- **Esfuerzo**: ¿cuánto tiempo y energía consume?
+
+### Matriz de decisión
+
+```
+Alto valor, bajo esfuerzo  → HACERLO AHORA (quick wins)
+Alto valor, alto esfuerzo  → PLANIFICARLO (necesita tiempo)
+Bajo valor, bajo esfuerzo  → HACERLO SI SOBRA TIEMPO (fill-ins)
+Bajo valor, alto esfuerzo  → NO HACERLO (descartar)
+```
+
+Aplicado a PI2: las funcionalidades core (las que el tribunal
+va a evaluar) son "alto valor". Los tests unitarios son "bajo
+esfuerzo, alto valor". El dark mode es "bajo valor, alto esfuerzo".
+
+## Priorización con MoSCoW
+
+Otra forma de priorizar es con la clasificación MoSCoW:
+
+- **Must have** (debe tener): sin esto, el proyecto no funciona.
+  Ejemplo: autenticación de usuarios, funcionalidad principal.
+- **Should have** (debería tener): importante pero no vital.
+  Ejemplo: tests unitarios, documentación de API.
+- **Could have** (podría tener): sería bonito, pero no esencial.
+  Ejemplo: dark mode, animaciones, internacionalización.
+- **Won't have** (no tendrá esta vez): no entra en este sprint/proyecto.
+  Ejemplo: chat en tiempo real, notificaciones push.
+
+En PI2, si tu "must have" son 5 funcionalidades, empieza por
+ahí. Si te sobra tiempo, sube a "should have". Nunca empieces
+por "could have".
+
+## Decisiones técnicas: Resistencia vs. Adopción
+
+No todas las decisiones son de funcionalidad. A veces la decisión
+es técnica:
+
+- ¿Usamos TypeScript o JavaScript?
+- ¿React o Vue?
+- ¿Firebase o backend propio?
+
+**Regla práctica**: si el equipo ya conoce una tecnología, usad
+esa. No es el momento de aprender algo nuevo. En PI2, la
+velocidad es más importante que la novedad.
+
+**Excepción**: si la tecnología actual os está frenando (por
+ejemplo, JavaScript puro para un proyecto complejo), podéis
+migrar parcialmente. Pero documentad la decisión y el porqué.
+
+<Aclaracion pregunta="¿Y si el equipo no se pone de acuerdo?">
+  Usad la regla de la mayoría simple: cada uno propone su opción,
+  se debaten 5 minutos, se vota. Si hay empate, el más experimentado
+  decide (o el profesor, si estáis bloqueados).
+
+  Lo peor que podéis hacer es no decidir y quedarse en un limbo
+  donde nadie sabe qué tecnología se usa. Una decisión imperfecta
+  ejecutada con convicción es mejor que una decisión perfecta que
+  nunca se tomó.
+</Aclaracion>
+
+## El efecto bikeshedding
+
+Bikeshedding es un sesgo cognitivo: dedicar más tiempo a decisiones
+triviales que a decisiones importantes. Ejemplo real:
+
+- 5 minutos decidiendo la arquitectura del proyecto (decisión
+  importante)
+- 45 minutos debatiendo el color de los botones (decisión trivial)
+
+**Regla**: si una decisión no afecta al funcionamiento del
+proyecto, decidid en 2 minutos y seguid adelante. El color de
+los botones se puede cambiar después. La arquitectura, no.
+
+<CasoPractico titulo="El equipo que se atascó en bikeshedding">
+
+  Un equipo dedicó una sesión completa (2 horas) a decidir si
+  usar Tailwind CSS o CSS puro. Discutieron, buscaron comparativas,
+  miraron tutoriales...
+
+  Al final, elegieron Tailwind. Pero habían perdido 2 horas que
+  podrían haber dedicado a programar la funcionalidad principal.
+
+  **Lo que hicieron después**: crearon una regla: "decisiones
+  técnicas menores se deciden en 10 minutos. Si no hay consenso,
+  se vota y se acata."
+
+  **Resultado**: ahorraron horas de discusión improductiva. Las
+  decisiones técnicas menores (framework CSS, nombre de variables,
+  formato de fechas) se resolvían rápido. Las mayores (arquitectura,
+  base de datos, autenticación) sí se debatían con calma.
+</CasoPractico>
+
+## Consejos para la recta final
+
+1. **No empezéis nada nuevo en la última semana**: terminad lo
+   que tenéis
+2. **Priorizad por el tribunal**: ¿qué van a evaluar? Eso es
+   lo primero
+3. **No os obsesionéis con la perfección**: "bueno y terminado"
+   es mejor que "perfecto a medias"
+4. **Documentad las decisiones**: por qué elegisteis X en vez de Y.
+   El tribunal lo valorará
+5. **Si no hay tiempo, cortad funcionalidades, no calidad**
+
+---
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u9-metodologias-agiles) · **Anterior:** [04 · Estimación y planificación](/ApuntesProyectoDAW/apuntes-pi2/u9-metodologias-agiles/04-estimacion-y-planificacion) · **Siguiente:** [06 · Comunicación en equipo](/ApuntesProyectoDAW/apuntes-pi2/u9-metodologias-agiles/06-comunicacion-en-equipo)

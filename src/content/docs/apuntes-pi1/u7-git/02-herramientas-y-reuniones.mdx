@@ -1,0 +1,159 @@
+---
+title: "02 — Herramientas de comunicación y reuniones"
+description: "Qué herramientas usar, cómo estructurar las reuniones para que no sean pérdida de tiempo y actas que sirvan 🛠️"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U7 · Trabajar en equipo** → 02 · Herramientas de comunicación y reuniones
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  El equipo ya tiene los cuatro acuerdos firmados. Ahora toca elegir las
+  herramientas y poner en marcha las reuniones. El peligro aquí es caer
+  en el "teatrillo": mil herramientas, reuniones eternas y actas que
+  nadie lee. Este capítulo te da el kit mínimo que funciona de verdad.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> La mejor herramienta es la que el equipo usa de verdad. La mejor
+> reunión es la que dura lo justo y deja decisiones claras. Menos
+> herramienta, más hábito.
+
+## 🛠️ Kit mínimo de herramientas
+
+No necesitas pagar ni instalar cosas raras. Con esto basta:
+
+| Qué necesitas | Opción recomendada (gratis) | Para qué |
+|---|---|---|
+| Chat rápido | **Discord** (voz + texto + hilos) o WhatsApp | Dudas rápidas, avisos, "voy a tocar X" |
+| Tablero visual | **GitHub Projects** (en el repo) o Trello | Ver tareas: Por hacer / En marcha / Revisión / Hecho |
+| Repo + issues | **GitHub** (ya lo tenéis) | Código, PRs, issues, wiki, Projects |
+| Documentos compartidos | **Notion**, Google Docs, o `docs/` en el repo | Actas, decisiones, arquitectura, guías |
+| Videollamada | Discord, Google Meet, Jitsi | Planning, retro, resolver bloqueos |
+
+> 💡 **Regla de oro**: una herramienta por propósito. Si usáis Discord
+> para chat **y** para tablero (con hilos o canales), perfecto. Si
+> tenéis Trello + GitHub Projects + Notion para lo mismo, nadie actualiza
+> nada.
+
+## 📅 Las tres reuniones que sí importan
+
+### 1. Daily (10-15 min, cada día de clase/trabajo)
+
+**Formato**: De pie, cronometrada, turno rápido por persona.
+- ¿Qué hice ayer?
+- ¿Qué hago hoy?
+- ¿Qué me bloquea? (se apunta para después, no se resuelve aquí)
+
+**No es**: informe al profesor, sesión de debugging, charla de café.
+
+### 2. Planning semanal (30-45 min, lunes o inicio de sprint)
+
+**Orden del día**:
+1. Revisar tablero: qué está "Hecho", qué "En marcha", qué bloqueado.
+2. Elegir 3-5 tareas para esta semana (máximo: lo que cabe de verdad).
+3. Asignar responsable + revisor por tarea.
+4. Detectar dependencias: "Yo necesito que Javi termine la API antes
+   de poder hacer la pantalla".
+
+**Salida**: tablero actualizado, responsables claros, bloqueos
+identificados.
+
+### 3. Retro quincenal (20 min, cada dos semanas)
+
+**Tres columnas** (en pizarra, Notion, Miro o GitHub Projects):
+- ✅ **Qué seguir haciendo** (funciona bien)
+- 🔄 **Qué mejorar** (molesta, frena, confunde)
+- 🆕 **Qué probar** (experimento para las dos próximas semanas)
+
+**Regla**: sin culpas ("tú no haces X"), solo hechos ("la daily se
+alarga 30 min porque resolvemos dudas ahí"). Cada mejora se asigna a
+alguien con fecha.
+
+<CasoPractico titulo="El tablero que nadie miraba">
+  Un equipo de 4 usaba GitHub Projects... solo la primera semana. Después
+  cada uno trabajaba en su rama y movía la tarjeta a "Hecho" el día de
+  la entrega. El tablero mentía: decía "todo verde" y el proyecto no
+  compilaba.
+
+  En la retro, alguien dijo: "El tablero no sirve si no refleja la
+  realidad". Acordaron:
+  - Mover la tarjeta a "En marcha" **al empezar** la tarea.
+  - Poner etiqueta "bloqueado" + comentario si hay impedimento.
+  - El revisor mueve a "Revisión" al hacer PR, no el autor.
+  - Weekly de 5 min el viernes: "¿El tablero refleja la realidad?".
+
+  A las dos semanas, el tablero era la única fuente de verdad. Cuando
+  el profesor pidió estado real, tardaron 30 segundos en enseñarlo.
+</CasoPractico>
+
+## 📝 Actas que se leen (y sirven)
+
+Una acta no es un acta notarial. Es una **nota de 5 líneas** que responde:
+- **Qué se decidió**
+- **Por qué** (una frase)
+- **Quién lo hace** y **para cuándo**
+- **Dónde está el rastro** (issue, PR, doc)
+
+Ejemplo:
+> **Acta Planning 2026-02-02**
+> - Decidido: usar Tailwind + DaisyUI (más rápido que CSS custom).
+> - Por qué: el equipo ya conoce Tailwind; DaisyUI da componentes listos.
+> - Quién: Marta configura hoy; Javi revisa mañana.
+> - Rastro: issue #12, PR #13.
+
+Se guarda en `docs/actas/` del repo o en Notion. **Una acta por
+reunión con decisiones**. Si no hay decisiones, no hay acta.
+
+<Aclaracion pregunta="¿Y si no tenemos tiempo para reuniones formales?">
+  La daily son 10 minutos de pie junto a las mesas. El planning 30 min
+  el lunes. La retro 20 min cada dos semanas. **Total: ~1 hora cada dos
+  semanas**. Si no tenéis 1 hora cada 14 días para coordinaros, no
+  tenéis equipo: tenéis gente trabajando en paralelo. Esa hora os ahorra
+  las 10 horas del merge infernal.
+</Aclaracion>
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** ¿Cuál es el propósito principal de la daily?
+A) Informar al profesor del avance · B) Sincronizar el equipo en 10 min
+   y detectar bloqueos · C) Resolver dudas técnicas en grupo.
+
+**Pregunta 2.** Una acta útil debe tener siempre:
+A) Firma de todos los asistentes · B) Qué, por qué, quién, cuándo,
+   dónde está el rastro · C) Transcripción literal de lo dicho.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. La daily es para el equipo, no para el profesor. Bloqueos se
+   apuntan y resuelven después.
+2. **B**. Una acta no es un acta notarial: es una nota de decisión
+   accionable.
+
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. Una herramienta por propósito: chat, tablero, repo, docs, llamada.
+   Más herramientas = menos uso real.
+2. Tres reuniones: daily (10 min, sync), planning (30-45 min, decide),
+   retro (20 min, mejora). Cada una con formato fijo.
+3. Actas de 5 líneas: qué, por qué, quién, cuándo, rastro. Sin
+   decisiones no hay acta.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Daily** | Reunión diaria de 10-15 min para sincronizar y detectar bloqueos |
+| **Planning** | Reunión semanal para elegir tareas, asignar y ver dependencias |
+| **Retro** | Reunión quincenal para mejorar el funcionamiento del equipo |
+| **Acta** | Nota breve de decisión: qué, por qué, quién, cuándo, rastro |
+| **Bloqueo** | Algo que impide avanzar y necesita ayuda de otro |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u7-git) · **Anterior:** [01 · El equipo empieza antes que el código](/ApuntesProyectoDAW/apuntes-pi1/u7-git/01-el-equipo-antes-que-el-codigo) · **Siguiente:** [03 · Reparto de tareas claro y equilibrado](/ApuntesProyectoDAW/apuntes-pi1/u7-git/03-reparto-de-tareas)

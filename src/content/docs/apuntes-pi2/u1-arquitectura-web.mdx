@@ -1,11 +1,10 @@
 ---
-title: 🔧 U1. Evolucionar la arquitectura
-description: Cómo mejorar la estructura de tu proyecto sin romperlo, pagar deuda técnica y tomar decisiones de diseño
+title: "U1 — Evolucionar la arquitectura"
+description: "Cómo mejorar la estructura de tu proyecto sin romperlo, pagar deuda técnica y tomar decisiones de diseño para PI2"
 ---
 
 import StoryIntro from '../../../components/StoryIntro.astro';
 import Aclaracion from '../../../components/Aclaracion.astro';
-import CasoPractico from '../../../components/CasoPractico.astro';
 
 <StoryIntro icono="🎬" titulo="El día que miraron el código de PI1 y lloraron">
   "¿Esto lo escribimos nosotros?".
@@ -20,115 +19,105 @@ import CasoPractico from '../../../components/CasoPractico.astro';
   que ni ellos mismos entendían.
 </StoryIntro>
 
-## La deuda técnica: qué es y por qué importa
+> 🗺️ **Estás en:** 🔧 **U1 · Evolucionar la arquitectura** → Índice
 
-La deuda técnica es como la deuda financiera: la contraes cuando tomas
-atajos para ir más rápido, pero **hay que pagarla con intereses**.
+PI2 empieza con una verdad incómoda: **el código de PI1 no es la base
+sólida que necesitas**. Pero no todo está perdido. Esta unidad te enseña
+a transformar ese desorden en algo manejable, sin romper lo que ya
+funciona. Es el momento de crecer como equipo técnico.
 
-Ejemplos de deuda técnica:
-- Copiar y pegar código en vez de crear una función reutilizable
-- No escribir tests "porque no hay tiempo"
-- Usar nombres de variables como `a`, `tmp`, `cosa`
-- Dejar comentarios como "TODO: arreglar esto"
+## Competencias que trabajas
 
-Al principio, la deuda no se nota. Pero cuando el proyecto crece,
-cada cambio cuesta más caro. Llega un punto en que es más rápido
-**rehacer** que **modificar**.
+| Competencia | Descripción |
+|------------|-------------|
+| **CG1** | Capacidad para evolucionar y mantener software existente |
+| **CE1** | Refactorizar y mejorar código existente |
+| **CE7** | Documentar la evolución del proyecto |
 
-### ¿Cuánta deuda tienes?
+## Objetivos de esta unidad
 
-| Señal | Gravedad |
-|-------|----------|
-| Archivos con más de 500 líneas | 🔴 Alta |
-| Funciones que hacen más de una cosa | 🟡 Media |
-| Sin tests | 🔴 Alta |
-| Variables mal nombradas | 🟢 Baja |
-| Código sin comentar (y no es obvio) | 🟡 Media |
-| Importaciones circulares | 🔴 Alta |
+Al terminar U1 sabrás:
 
-## Cómo refactorizar sin romperlo todo
+1. Identificar y clasificar la deuda técnica de tu proyecto
+2. Refactorizar código sin romper funcionalidad existente
+3. Tomar decisiones técnicas justificadas (framework, API, BD)
+4. Organizar el código en una estructura de carpetas modular
+5. Usar Git de forma profesional con branching y versionado
+6. Documentar la arquitectura para que otros la entiendan
+7. Priorizar dónde gastar tiempo en mejorar el código
+8. Aplicar un checklist completo antes de cada sprint
 
-### Paso 1: Identifica qué mejorar
+## Mapa de la unidad
 
-No intentes arreglar todo a la vez. Prioriza:
+<div class="card-grid small">
 
-1. Lo que más duele (cambiar una línea rompe todo)
-2. Lo que más usas (el código que tocas cada semana)
-3. Lo que más cuesta mantener (esa función que ya no sabes qué hace)
+<div class="card">
 
-### Paso 2: Prepara el terreno
+[**01 · El legado de PI1**](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/01-el-legado-de-pi1)
+Qué es la deuda técnica, por qué importa y cómo detectarla en tu proyecto.
 
-Antes de cambiar nada, asegúrate de que puedes volver atrás:
-- Commit del estado actual
-- Crea una rama nueva para la refactorización
-- Si es posible, escribe tests que verifiquen el comportamiento actual
+</div>
 
-### Paso 3: Cambia poco y prueba
+<div class="card">
 
-Refactoriza en pequeñas iteraciones:
-1. Extrae una función → prueba
-2. Renombra una variable → prueba
-3. Divide un archivo → prueba
+[**02 · Refactorizar sin romper**](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/02-refactorizar-sin-romper)
+Los 3 pasos para mejorar código existente: identificar, preparar, cambiar poco.
 
-No hagas todo a la vez o no sabrás qué rompió el cambio.
+</div>
 
-<Aclaracion pregunta="¿Merece la pena refactorizar o es mejor rehacer desde cero?">
-  Caso por caso:
+<div class="card">
 
-  - **Refactorizar**: cuando el código funciona, la estructura es decente
-    pero necesita mejoras. Es más seguro y rápido.
-  - **Rehacer**: cuando el código es tan malo que cuesta más entenderlo
-    que escribirlo de nuevo. Pero ojo, rehacer implica perder el tiempo
-    invertido. Solo hazlo si estás seguro de que no repites los mismos errores.
+[**03 · Decisiones técnicas en PI2**](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/03-decisiones-tecnicas-en-pi2)
+Framework vs HTML plano, API propia vs externo, SQL vs NoSQL. Cómo decidir.
 
-  Para un proyecto DAW, refactorizar suele ser la opción correcta.
+</div>
+
+<div class="card">
+
+[**04 · Estructura de carpetas modular**](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/04-estructura-de-carpetas-modular)
+Organizar el código por responsabilidades para que el proyecto no sea un desastre.
+
+</div>
+
+<div class="card">
+
+[**05 · Versionado y ramas**](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/05-versionado-y-ramas)
+Git flow, feature branches, merge vs rebase. Trabajar en equipo sin pisarse.
+
+</div>
+
+<div class="card">
+
+[**06 · Documentar la arquitectura**](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/06-documentar-la-arquitectura)
+README, diagramas y ADR: que alguien que no seas tú entienda tu proyecto.
+
+</div>
+
+<div class="card">
+
+[**07 · Deuda técnica en acción**](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/07-deuda-tecnica-en-accion)
+Ejemplos reales de cuándo pagar la deuda y cuándo no. Priorización inteligente.
+
+</div>
+
+<div class="card">
+
+[**08 · Checklist de arquitectura**](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/08-checklist-de-arquitectura)
+La lista completa que combina todo lo anterior. Un recurso para consultarte siempre.
+
+</div>
+
+</div>
+
+**09 · Cierre** → [Consolida lo aprendido con retos, laboratorio y entrevista](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/09-cierre)
+
+<Aclaracion pregunta="¿Por qué empezar PI2 por arquitectura y no por código?">
+  Porque PI2 es **evolucionar**. Si la base está mal, cada función nueva
+  amplifica el desorden. Una hora invirtiendo en estructura y decisiones
+  te ahorra diez horas de debugging después. La arquitectura no es
+  burocracia: es el plano que evita que la casa se caiga.
 </Aclaracion>
 
-## Decisiones técnicas en PI2
+---
 
-En PI2 tomarás decisiones que no te planteaste en PI1:
-
-### ¿Framework frontend o HTML plano?
-Si tu interfaz es compleja, un framework (React, Vue, Svelte) te ayudará.
-Si son 3 pantallas, quizá no lo necesites.
-
-### ¿API REST propia o usar un servicio externo?
-Una API propia te da control total. Un servicio externo (Firebase, Supabase)
-te ahorra trabajo pero te ata a ese proveedor.
-
-### ¿Base de datos relacional o NoSQL?
-Si tus datos tienen relaciones claras, SQL. Si son documentos flexibles,
-NoSQL. Para un proyecto DAW, SQL suele ser suficiente.
-
-No hay respuestas universales. La respuesta correcta es **la que mejor
-se adapte a tu proyecto concreto**.
-
-<CasoPractico titulo="El proyecto que refactorizó a tiempo">
-
-  Un equipo llegó a PI2 con un proyecto funcional pero desordenado.
-  En lugar de añadir funcionalidades nuevas, dedicaron las dos primeras
-  semanas a refactorizar:
-
-  1. Dividieron el monolito en módulos (usuarios, productos, pedidos)
-  2. Extrajeron la lógica de negocio de los controladores a servicios
-  3. Renombraron variables y funciones para que fueran legibles
-  4. Añadieron tests a las partes más críticas
-  5. Documentaron la arquitectura
-
-  Perdieron dos semanas de "avance" en nuevas funcionalidades.
-  Pero a partir de entonces, cada nueva funcionalidad les llevaba
-  la mitad de tiempo que antes. Terminaron PI2 con un proyecto
-  sólido, bien estructurado y fácil de mantener.
-
-  **Lección**: a veces la mejor manera de avanzar es parar, ordenar
-  la casa, y luego seguir. La deuda técnica no se paga sola.
-</CasoPractico>
-
-## Checklist para tu arquitectura
-
-- [ ] He identificado la deuda técnica que arrastro de PI1
-- [ ] Priorizo las refactorizaciones por impacto
-- [ ] Cada cambio va acompañado de tests
-- [ ] Tengo una estructura de carpetas coherente
-- [ ] Las decisiones técnicas están justificadas (no "porque sí")
-- [ ] El código es legible por alguien que no lo escribió
+📚 **Anterior:** [Volver al índice de PI2](/ApuntesProyectoDAW/apuntes-pi2/) · **Siguiente:** [01 · El legado de PI1](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/01-el-legado-de-pi1)

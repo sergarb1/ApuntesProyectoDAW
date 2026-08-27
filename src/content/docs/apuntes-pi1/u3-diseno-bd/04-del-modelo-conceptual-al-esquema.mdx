@@ -1,0 +1,169 @@
+---
+title: "04 — Del modelo conceptual al esquema"
+description: "Lápiz, papel y un dibujo: así se pasa de una idea a un modelo conceptual 📐"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U3 · Organizar los datos** → 04 · Del modelo conceptual al esquema
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Laura ya tiene sus entidades conectadas con relaciones 1 a N. Pero "Usuario
+  tiene muchas recetas" sigue siendo una frase en el aire. ¿Cómo se convierte
+  eso en algo que una base de datos pueda entender?
+
+  Este capítulo es el paso del boceto al plano. Dos movimientos: primero se
+  dibuja, después se definen los atributos. No necesitas ser experto en bases
+  de datos para hacer un buen diseño. Solo seguir los pasos en orden.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> Del modelo conceptual al esquema hay dos pasos: dibujar las entidades y sus
+> relaciones, y definir qué atributos guarda cada una. Nada más. Y nada menos.
+
+Es como construir una casa: antes de pedir ladrillos, dibujas el plano. El
+plano dice dónde está cada habitación (las entidades) y qué tiene cada una
+(los atributos). Ningún albañil serio empieza la obra sin plano; ningún
+proyecto de datos serio empieza sin esquema.
+
+## 📐 Paso 1: Dibuja las entidades y relaciones
+
+Con lápiz y papel o Draw.io, dibuja cada entidad como una caja y cada relación
+como una línea. No necesitas herramientas profesionales: el dibujo debe ser
+claro, no bonito. Así se vería el modelo conceptual de la app de recetas:
+
+```
+[Usuario] ───< tiene >─── [Receta]
+   │                          │
+   └──< deja >── [Comentario] ┘
+```
+
+Las flechas y los símbolos `< tiene >` son la manera de decir "un usuario tiene
+muchas recetas" sin gastar diez palabras. Cada caja es una entidad; cada línea
+es una relación 1 a N (la que descubriste en el punto 03).
+
+Un buen dibujo responde tres preguntas de un vistazo:
+
+- ¿Cuántas entidades tiene mi proyecto? (¿Cuántas cajas?)
+- ¿Qué entidades se conectan? (¿Qué líneas hay?)
+- ¿Quién es el lado "1" y quién el "N"? (¿Hacia dónde apunta la relación?)
+
+## 📋 Paso 2: Define los atributos clave
+
+Para cada entidad, decide qué datos guardar. Empieza por los imprescindibles
+y añade solo lo que realmente necesitas:
+
+| Entidad | Atributos |
+|---------|-----------|
+| Usuario | id, nombre, email, password_hash, fecha_registro |
+| Receta | id, titulo, ingredientes, instrucciones, usuario_id, fecha |
+| Comentario | id, texto, usuario_id, receta_id, fecha |
+
+Lee la tabla con atención y verás un patrón que se repite:
+
+- Toda entidad tiene `id`: su **número de carnet**, único e intransferible
+  (lo llamamos **clave primaria**).
+- Las entidades que dependen de otra incluyen el `id` del padre: `usuario_id`
+  en Receta, `usuario_id` y `receta_id` en Comentario. Son las **claves
+  foráneas** que apuntan a su "padre".
+
+No hace falta escribir todos los atributos del universo: **empieza por los
+imprescindibles**. "Fotos de la receta" puede esperar; "quién creó esta
+receta" no. Si dudas, usa el criterio del punto 01: ¿este atributo le
+pertenece a esta entidad? ¿Lo necesita mi MVP?
+
+## 💡 Qué no te puede faltar en el dibujo
+
+Cuando termines los dos pasos, repasa tu esquema con esta lista:
+
+- **Cada entidad tiene su `id`** (clave primaria).
+- **Cada relación 1 a N deja una clave foránea** en el lado "N" (Receta lleva
+  `usuario_id`).
+- **Los atributos son propios de su entidad**: no hay "nombre de usuario"
+  viviendo dentro de Receta.
+- **No hay campos calculados**: edad, totales... eso se calcula, no se guarda
+  (lo verás en el punto 07).
+
+```
+✓ [Usuario]  id, nombre, email, password_hash, fecha_registro
+✓ [Receta]   id, titulo, ingredientes, instrucciones, usuario_id, fecha
+✓ [Comentario] id, texto, usuario_id, receta_id, fecha
+   │
+   ▼
+  TODO CON id, TODO CON SU PADRE, NADA CALCULADO
+```
+
+<CasoPractico titulo="Dibujando el esquema de la app de recetas de Laura">
+
+  Laura coge un folio y dibuja sus tres cajas: Usuario, Receta y Comentario.
+  Añade la relación "Usuario tiene recetas" con una línea y la de "Receta
+  tiene comentarios" con otra. Después, debajo de cada caja, escribe los
+  atributos imprescindibles:
+
+  ```
+  Usuario:      id, nombre, email, password_hash, fecha_registro
+  Receta:       id, titulo, ingredientes, instrucciones, usuario_id, fecha
+  Comentario:   id, texto, usuario_id, receta_id, fecha
+  ```
+
+  Laura se da cuenta de algo: la relación "Usuario deja Valoraciones" no
+  entra en el dibujo porque todavía no ha decidido si las valoraciones son
+  imprescindibles para su MVP. Lo apunta al margen con una nota: "¿valoración
+  en deseable o fuera?". Decide dejarlas fuera por ahora. El folio queda
+  limpio, claro y con solo lo necesario. Eso es exactamente un buen esquema.
+</CasoPractico>
+
+Con este folio, Laura ya puede enseñarle a su compañero "qué se guarda y
+cómo se conecta" sin abrir el editor. En el punto 05 dará el último paso:
+convertir ese esquema en tablas reales.
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** ¿Cuáles son los dos pasos para pasar del modelo conceptual al
+esquema?
+A) Dibujar entidades/relaciones y definir atributos · B) Crear la base de
+datos y escribir las consultas · C) Elegir colores y tipografías.
+
+**Pregunta 2.** En la tabla de atributos, `receta_id` dentro de Comentario es:
+A) un capricho de Laura · B) una clave foránea que apunta a su receta · C) un
+dato calculado.
+
+**Pregunta 3.** ¿Cuál de estos atributos NO debería estar en el esquema de la
+app de recetas según este capítulo?
+A) titulo · B) usuario_id · C) una columna llamada "nº de comentarios que
+tiene esta receta" que se actualiza a mano.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **A**. Paso 1: dibujar entidades y relaciones; paso 2: definir atributos
+   clave. Nada de código todavía.
+2. **B**. Comentario pertenece a una receta, así que guarda su `id` como clave
+   foránea para recordar a su padre.
+3. **C**. El número de comentarios se puede calcular contando los Comentarios
+   de esa receta: no se guarda como campo manual. (El punto 07 lo aclara.)
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. Paso 1: dibuja las entidades como cajas y las relaciones 1 a N como líneas.
+2. Paso 2: define los atributos imprescindibles de cada entidad, empezando
+   siempre por su `id` (clave primaria).
+3. El lado "N" de cada relación guarda el `id` de su padre como clave
+   foránea; empieza solo con lo que tu MVP necesita.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Modelo conceptual** | Dibujo con cajas y líneas de entidades y relaciones |
+| **Esquema** | El modelo formalizado: entidades, atributos y relaciones |
+| **Clave primaria** | El `id` único e intransferible de cada entidad |
+| **Clave foránea** | El `id` del padre que guarda el lado "N" para no olvidar a quién pertenece |
+| **Atributo** | Dato que describe a una entidad |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd) · **Anterior:** [03 · Relaciones entre entidades](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/03-relaciones-entre-entidades) · **Siguiente:** [05 · Traduce a tablas](/ApuntesProyectoDAW/apuntes-pi1/u3-diseno-bd/05-traduce-a-tablas)

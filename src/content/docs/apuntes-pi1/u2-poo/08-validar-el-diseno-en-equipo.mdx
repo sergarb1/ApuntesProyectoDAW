@@ -1,0 +1,152 @@
+---
+title: "08 — Validar el diseño en equipo"
+description: "El diseño se decide juntos y se revisa antes de escribir código: la receta para que nadie construya por su lado 🤝"
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📓 **U2 · Diseñar la solución** → 08 · Validar el diseño en equipo
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Tienes el plano dibujado y las tecnologías elegidas con criterio. Pero hay un
+  último paso que decide si todo lo anterior sirve de algo: que **todo el
+  equipo** valide el diseño antes de escribir la primera línea.
+
+  Este capítulo te enseña a validar el diseño en equipo con un caso real que
+  duele solo de leerlo, y te deja el checklist para tu propio proyecto.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> Diseñar la solución juntos, antes de escribir código, habría evitado meses de
+> frustración. Una tarde dibujando la arquitectura habría ahorrado tres semanas
+> de trabajo inútil.
+
+Si dibujar el plano ya es barato, dibujarlo **en equipo** es además lo que
+evita que cada uno construya una casa distinta. El diseño individual es un
+punto de partida; el diseño validado en equipo es un compromiso.
+
+## 🤝 Por qué validar en equipo
+
+En un proyecto de equipo, cada persona construirá una parte. Si el diseño solo
+vive en la cabeza de uno:
+
+- Cada miembro lo interpreta a su manera: misma pantalla, formas distintas.
+- No hay acuerdo sobre cómo se comunican las partes: cada uno decide el suyo.
+- El que termina antes no puede avanzar: no sabe si su pieza encajará.
+- Los errores se descubren al unirlo todo... que es el peor momento posible.
+
+Validar en equipo significa sentarse juntos, mirar los diagramas y responder
+en voz alta las cuatro preguntas del punto 01: qué partes hay, cómo se
+comunican, qué responsabilidades tiene cada una y qué datos necesita. Si todos
+responden lo mismo, el diseño está validado. Si no, es el momento de discutirlo,
+no después.
+
+<CasoPractico titulo="El equipo que no diseñó nada">
+  Cuatro estudiantes decidieron hacer una app para alquilar apuntes entre
+  alumnos. Se repartieron el trabajo así:
+  - Persona A: pantalla de login
+  - Persona B: pantalla de subir apuntes
+  - Persona C: pantalla de buscar
+  - Persona D: base de datos
+
+  Empezaron a codificar el día 1. A las dos semanas, Persona A había hecho
+  el login en React. Persona B había hecho "subir apuntes" en HTML plano.
+  Persona C había hecho la búsqueda con PHP. Persona D había creado una
+  base de datos en MySQL pero sin conectarla a nada.
+
+  Cuando intentaron unirlo todo, nada funcionaba. Cada uno había usado
+  tecnologías distintas, estilos diferentes, y los datos no se comunicaban.
+
+  **Lección**: diseñar la solución juntos, **antes** de escribir código,
+  habría evitado meses de frustración. Una tarde dibujando la arquitectura
+  habría ahorrado tres semanas de trabajo inútil.
+
+  **Qué harían hoy**: dedicar 2 días a decidir stack común, definir
+  la estructura de carpetas, acordar cómo se comunican las partes, y
+  hacer un prototipo esqueleto antes de que cada uno trabaje por su lado.
+</CasoPractico>
+
+¿Ves cada error del caso? La Persona B ignoró las capas del punto 03 y habló
+directamente con la BD (que además no estaba conectada). Las tecnologías se
+eligieron sin el criterio del punto 07, y sin la validación del punto 08 el
+stack nunca se acordó. Todo lo que has aprendido en esta unidad, en un solo
+caso.
+
+## 🗓️ Cómo validar el diseño en equipo
+
+Validar no es "estar de acuerdo por estar". Sigue estos pasos en tu primera
+reunión de diseño:
+
+1. **Reunión de diseño** (2-3 días o una tarde): juntad las cuatro preguntas
+   del punto 01 y respondedlas todos.
+2. **Acordad el stack común**: las tecnologías del punto 07 se deciden entre
+   todos, no cada uno la suya. Sin stack común, los datos no se comunican.
+3. **Definid la estructura de carpetas**: dónde vive cada funcionalidad y cada
+   capa, para que todos sepan dónde crear cada archivo.
+4. **Acordad cómo se comunican las partes**: el acuerdo de comunicación del
+   punto 04, escrito y visible.
+5. **Haced un prototipo esqueleto**: la estructura montada con las piezas vacías,
+   para comprobar que todo encaja antes de llenarla de lógica.
+6. **Validación con el profesor**: enseñadle los diagramas antes de escribir
+   código. Un "esto no se entiende" a tiempo vale más que un "esto no funciona"
+   al final.
+
+## ✅ El checklist para tu proyecto
+
+Antes de escribir la primera línea de código, revisa esta lista. Si falta
+cualquier casilla, todavía no es el momento de programar:
+
+- [ ] He dividido el proyecto en 3-7 partes o módulos
+- [ ] Cada parte tiene una responsabilidad clara
+- [ ] He dibujado un diagrama de arquitectura
+- [ ] He elegido las tecnologías con criterio
+- [ ] El equipo (si existe) está de acuerdo con la estructura
+- [ ] He validado el diseño con el profesor
+
+Cada casilla es una tarde como mucho. Unas pocas tardes de plan son el precio
+de no repetir el espagueti de Pablo ni el caos del equipo de los apuntes.
+
+## 🧠 Mini-chequeo
+
+**Pregunta 1.** La gran lección del equipo que no diseñó nada es:
+A) que React es mala tecnología · B) que sin diseño común cada uno construye
+una casa distinta · C) que hay que programar más rápido.
+
+**Pregunta 2.** El "prototipo esqueleto" es:
+A) la estructura montada con las piezas vacías para comprobar que encajan · B)
+la primera versión completa · C) un dibujo de un dinosaurio.
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Cada miembro usó su tecnología y su estilo: no hubo stack común ni
+   acuerdo de comunicación. El problema no era ninguna tecnología en concreto,
+   era la ausencia de diseño en equipo.
+2. **A**. El esqueleto monta la estructura con las piezas vacías para verificar
+   que encajan antes de llenarlas de lógica. Las otras opciones no son eso.
+</details>
+
+## ✅ Resumen en 3 frases
+
+1. Validar el diseño en equipo antes de codificar evita que cada miembro
+   construya una casa distinta con tecnologías distintas.
+2. Se valida en una reunión de diseño: stack común, estructura de carpetas,
+   comunicación acordada, prototipo esqueleto y visto bueno del profesor.
+3. El checklist de seis casillas es tu puerta de entrada: sin él completo, no
+   se escribe la primera línea.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Validar el diseño** | Confirmar en equipo que el plano se entiende igual para todos |
+| **Stack común** | El conjunto de tecnologías acordado por todo el equipo |
+| **Estructura de carpetas** | El mapa de dónde vive cada parte del proyecto |
+| **Prototipo esqueleto** | La estructura montada con las piezas vacías |
+| **Checklist** | La lista de comprobaciones previas a programar |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi1/u2-poo) · **Anterior:** [07 · Decisiones técnicas con criterio](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/07-decisiones-tecnicas-con-criterio) · **Siguiente:** [09 · Cierre](/ApuntesProyectoDAW/apuntes-pi1/u2-poo/09-cierre)

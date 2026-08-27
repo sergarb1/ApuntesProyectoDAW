@@ -1,0 +1,337 @@
+---
+title: "07 — Documentar el proceso"
+description: "Cómo escribir un README claro, scripts de setup, onboarding de nuevos desarrolladores y por qué documentar es parte del proyecto."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📦 **U7 · Preparar el despliegue** → 07 · Documentar el proceso
+
+<StoryIntro icono="🎬" titulo="El README que nadie podía seguir">
+  El equipo tenía un README. Decía algo así:
+
+  "Clonar el repositorio. Instalar dependencias. Configurar la base
+  de datos. Arrancar el servidor."
+
+  Cuatro pasos. Pero cada paso tenía 5 sub-pasos que no estaban
+  documentados. ¿Qué versión de Node? ¿Cómo configurar la BD? ¿Qué
+  variables de entorno? ¿Qué puerto usar?
+
+  Un compañero de otra clase intentó seguir las instrucciones. Tardó
+  2 horas. El equipo tardó 10 minutos en arreglar lo que faltaba.
+
+  Un README malo es peor que no tener README.
+</StoryIntro>
+
+## La idea en una frase
+
+> Un buen README es como un mapa: quien lo sigue llega a destino
+> sin preguntar. Un mal README es como un laberinto sin salida.
+
+## Por qué documentar es parte del proyecto
+
+Documentar no es burocracia. Es parte del desarrollo profesional:
+
+- **El tribunal puede valorar** que tu proyecto sea comprensible
+- **Tu equipo** puede incorporar nuevos miembros sin perder tiempo
+- **Tú mismo** dentro de 3 meses no recordarás cómo se configura todo
+- **Cualquier persona** que clone tu repositorio debe poder arrancarlo
+
+Un proyecto sin documentación es un proyecto incompleto.
+
+## Estructura de un buen README
+
+```markdown
+# Nombre del Proyecto
+
+Descripción breve de qué hace la app.
+
+## Requisitos
+
+- Node.js 20.x
+- npm 10.x
+- Docker (opcional)
+- MySQL 8.0 (si no usas Docker)
+
+## Instalación rápida
+
+```bash
+git clone https://github.com/usuario/proyecto.git
+cd proyecto
+cp .env.example .env
+npm install
+npm run dev
+```
+
+## Configuración
+
+### Variables de entorno
+
+| Variable | Descripción | Ejemplo |
+|----------|-------------|---------|
+| DB_HOST | Host de la BD | localhost |
+| DB_PORT | Puerto de la BD | 3306 |
+| DB_NAME | Nombre de la BD | mi_app |
+| API_KEY | Clave de la API | sk-12345... |
+
+### Con Docker
+
+```bash
+docker-compose up --build
+```
+
+### Sin Docker
+
+1. Instalar MySQL y crear la base de datos
+2. Copiar `.env.example` a `.env` y rellenar valores
+3. Ejecutar `npm install`
+4. Ejecutar `npm run dev`
+
+## Estructura del proyecto
+
+```
+proyecto/
+├── src/           # Código fuente
+├── tests/         # Tests
+├── docs/          # Documentación
+├── docker-compose.yml
+├── .env.example
+└── README.md
+```
+
+## Despliegue
+
+[Instrucciones de despliegue]
+
+## Licencia
+
+[GPL, MIT, etc.]
+```
+
+## Los tres niveles de documentación
+
+### Nivel 1 — Mínimo (suficiente para un proyecto DAW)
+
+- README con instrucciones de instalación
+- `.env.example` con las variables necesarias
+- Estructura de carpetas documentada
+
+### Nivel 2 — Intermedio
+
+- Todo lo anterior, más:
+- Guía de desarrollo (cómo contribuir)
+- Changelog (qué cambia en cada versión)
+- API documentation (si hay backend)
+
+### Nivel 3 — Profesional
+
+- Todo lo anterior, más:
+- Architecture Decision Records (por qué se tomaron ciertas decisiones)
+- Contributing guidelines
+- Code of conduct
+- Issue templates
+
+<Comparativa
+  dialogos={[
+    { quien: "README malo", texto: "Instalar y ejecutar. Si no funciona, preguntar a Marcos." },
+    { quien: "README bueno", texto: "Requisitos: Node 20.11.0, npm 10.2.4. Instalación: 4 pasos con comandos. Variables: tabla con 5 variables. Docker: 1 comando. Troubleshooting: 3 problemas comunes." },
+  ]}
+  titulo="La diferencia entre un README útil y uno inútil"
+/>
+
+## Scripts de setup automatizado
+
+En vez de documentar pasos manuales, crea un script que los ejecute:
+
+```bash
+#!/bin/bash
+# setup.sh — script de instalación
+
+echo "Verificando dependencias..."
+
+# Verificar Node.js
+if ! command -v node &> /dev/null; then
+    echo "Error: Node.js no está instalado"
+    echo "Instala Node.js 20 desde https://nodejs.org"
+    exit 1
+fi
+
+# Verificar versión de Node
+NODE_VERSION=$(node -v | cut -d'v' -f2 | cut -d'.' -f1)
+if [ "$NODE_VERSION" -lt 20 ]; then
+    echo "Error: Se necesita Node.js 20 o superior"
+    echo "Versión actual: $(node -v)"
+    exit 1
+fi
+
+# Copiar .env.example si no existe .env
+if [ ! -f .env ]; then
+    echo "Copiando .env.example a .env..."
+    cp .env.example .env
+    echo "Por favor, edita .env con tus configuraciones"
+fi
+
+# Instalar dependencias
+echo "Instalando dependencias..."
+npm install
+
+# Verificar Docker
+if command -v docker &> /dev/null; then
+    echo "Docker detectado. ¿Quieres usar Docker? (s/n)"
+    read -r respuesta
+    if [ "$respuesta" = "s" ]; then
+        echo "Arrancando con Docker..."
+        docker-compose up --build
+    else
+        echo "Arrancando sin Docker..."
+        npm run dev
+    fi
+else
+    echo "Docker no detectado. Arrancando sin Docker..."
+    npm run dev
+fi
+```
+
+```bash
+# Para usarlo
+chmod +x setup.sh
+./setup.sh
+```
+
+<Aclaracion pregunta="¿Necesito un script de setup si tengo Docker?">
+  Sí. Docker simplifica mucho, pero no todo el mundo usa Docker. Algunas
+  personas prefieren instalar las dependencias directamente. Un script
+  de setup cubre ambos casos:
+
+  1. Si tienen Docker: `docker-compose up --build`
+  2. Si no tienen Docker: instala dependencias y arranca manualmente
+
+  El script detecta qué herramientas están disponibles y se adapta.
+</Aclaracion>
+
+## Onboarding de nuevos desarrolladores
+
+Si tu equipo crece o alguien nuevo se incorpora, el proceso de
+"ponerse al día" debería ser:
+
+### Antes (sin documentación)
+
+1. Preguntar a Marcos cómo se arranca
+2. Marcos no recuerda exactamente
+3. Probar cosas al azar
+4. Tardar 2 horas en tener el entorno funcionando
+
+### Después (con documentación)
+
+1. Leer el README (5 minutos)
+2. Ejecutar `./setup.sh` (2 minutos)
+3. Ya puede trabajar
+
+La documentación es una inversión que se amortiza rápidamente.
+
+## Documentación del despliegue
+
+El día de la presentación, necesitarás saber exactamente cómo se
+desplegó tu aplicación. Documenta:
+
+```markdown
+## Despliegue
+
+### Frontend
+- Plataforma: Vercel
+- URL: https://proyecto.vercel.app
+- Auto-deploy: sí, desde rama main
+
+### Backend
+- Plataforma: Render
+- URL: https://api-proyecto.onrender.com
+- Variables de entorno: configuradas en Render dashboard
+
+### Base de datos
+- Motor: PostgreSQL 15
+- Plataforma: Render (incluida con el backend)
+- Backup: automático diario
+
+### Dominio (si aplica)
+- Dominio: proyecto.com
+- DNS: configurado en Cloudflare
+```
+
+<Comparativa
+  dialogos={[
+    { quien: "Equipo sin documentación de despliegue", texto: "El día de la presentación, el profesor preguntó: '¿Cómo está desplegado?'. No supieron responder. No recordaban la URL, ni la plataforma, ni las variables de entorno." },
+    { quien: "Equipo con documentación", texto: "Tenían un archivo DEPLOY.md con todo: URLs, plataformas, variables, cómo hacer un redeploy. El profesor lo abrió y quedó impresionado." },
+  ]}
+  titulo="El día de la presentación"
+/>
+
+<CasoPractico titulo="El README que salvó la presentación">
+
+  Un equipo tenía un compañero que se incorporó 3 semanas antes de
+  la entrega. Los demás ya llevaban meses trabajando en el proyecto.
+
+  Sin documentación, el nuevo compañero habría tardado días en entender
+  el proyecto. Pero tenían un README excelente:
+
+  1. Requisitos exactos (Node 20, npm 10, Docker opcional)
+  2. Instalación en 4 comandos
+  3. Tabla de variables de entorno con descripciones
+  4. Estructura del proyecto documentada
+  5. Comandos útiles (dev, build, test, deploy)
+
+  El nuevo compañero tuvo el entorno funcionando en 20 minutos. Pudo
+  contribuir al proyecto desde el primer día.
+
+  **Lección**: el README no es solo para el tribunal. Es para tu equipo.
+  Y cuanto antes lo escribas, más te ahorra.
+</CasoPractico>
+
+## Mini-chequeo
+
+**Pregunta 1.** ¿Qué debe contener un mínimo README para un proyecto DAW?
+A) Solo el nombre del proyecto · B) Descripción, requisitos, instalación,
+  variables de entorno y estructura del proyecto · C) Todo el código
+  fuente explicado línea por línea
+
+**Pregunta 2.** ¿Por qué un script de setup es mejor que un README con
+pasos manuales?
+A) Porque es más largo · B) Porque ejecuta los pasos automáticamente,
+  reduciendo errores humanos y ahorrando tiempo · C) Porque no necesita
+  documentación adicional
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Un README mínimo incluye: qué es el proyecto, qué necesita
+   para funcionar, cómo instalarlo, cómo configurarlo y cómo ejecutarlo.
+2. **B**. Un script ejecuta los pasos exactos sin errores. El usuario
+   no tiene que leer ni interpretar instrucciones. Solo ejecuta un
+   comando.
+
+</details>
+
+## Resumen en 3 frases
+
+1. Un buen README es como un mapa: quien lo sigue llega a destino
+   sin preguntar. Incluye requisitos, instalación, configuración y
+   estructura.
+2. Los scripts de setup automatizan la instalación y reducen errores.
+   Un `setup.sh` puede detectar Docker y adaptarse.
+3. Documentar el despliegue (URLs, plataformas, variables) es tan
+   importante como documentar el código. El día de la presentación,
+   lo necesitarás.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **README** | Archivo principal de documentación de un repositorio |
+| **.env.example** | Plantilla de variables de entorno sin valores reales |
+| **Setup script** | Script que automatiza la instalación del proyecto |
+| **Onboarding** | Proceso de incorporación de un nuevo desarrollador |
+| **Changelog** | Registro de cambios entre versiones |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u7-docker) · **Anterior:** [06 · Desplegar en la nube](/ApuntesProyectoDAW/apuntes-pi2/u7-docker/06-desplegar-en-la-nube) · **Siguiente:** [08 · Checklist de despliegue](/ApuntesProyectoDAW/apuntes-pi2/u7-docker/08-checklist-de-despliegue)

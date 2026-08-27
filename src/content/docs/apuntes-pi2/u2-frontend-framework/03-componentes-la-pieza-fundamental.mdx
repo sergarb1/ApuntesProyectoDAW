@@ -1,0 +1,238 @@
+---
+title: "03 — Componentes: la pieza fundamental"
+description: "Qué es un componente, cómo se diseña bien, el principio de responsabilidad única y cómo reutilizar sin duplicar."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🖥️ **U2 · Mejorar el frontend** → 03 · Componentes: la pieza fundamental
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  Sergio migró su proyecto a un framework. Tiene componentes, pero no
+  sabe si los está haciendo bien. Un componente tiene 200 líneas. Otro
+  hace 5 cosas a la vez. Otro recibe 15 props y nadie sabe cuál es
+  cuál.
+
+  Los componentes son la unidad básica de cualquier framework. Si los
+  haces bien, todo fluye. Si los haces mal, el framework no te salva.
+  Este capítulo es sobre hacerlos bien.
+</StoryIntro>
+
+## La idea en una frase
+
+> Un componente es una pieza de LEGO: hace una cosa, encaja con otras,
+> y puedes reutilizarla donde quieras. Si tu componente hace 5 cosas,
+> no es LEGO, es un ladrillo de arcilla que moldeas cada vez.
+
+## ¿Qué es exactamente un componente?
+
+Un componente es una pieza reutilizable de la interfaz que encapsula
+HTML, CSS y lógica JavaScript en una unidad cohesiva. Un botón, una
+tarjeta de producto, un formulario de login, una barra de navegación.
+
+En código, un componente React se ve así:
+
+```jsx
+function Button({ label, onClick }) {
+  return (
+    <button className="btn" onClick={onClick}>
+      {label}
+    </button>
+  );
+}
+```
+
+En Vue:
+
+```html
+<template>
+  <button class="btn" @click="onClick">
+    {{ label }}
+  </button>
+</template>
+
+<script>
+export default {
+  props: ['label', 'onClick']
+}
+</script>
+```
+
+La idea es la misma: el componente recibe datos (props), y devuelve
+una parte de la interfaz.
+
+## El principio de responsabilidad única
+
+Un componente debe hacer **una sola cosa**. Si tu componente renderiza
+una lista Y valida un formulario Y hace una petición a la API, tiene
+3 responsabilidades. Debería ser 3 componentes.
+
+| Componente | Responsabilidad | Ejemplo |
+|------------|-----------------|---------|
+| `Button` | Renderizar un botón | `<Button label="Enviar" />` |
+| `InputField` | Renderizar un campo de texto | `<InputField placeholder="Email" />` |
+| `ProductCard` | Mostrar información de un producto | `<ProductCard product={item} />` |
+| `LoginForm` | Gestionar el formulario de login | `<LoginForm onSubmit={handleLogin} />` |
+
+### La regla del "una sola cosa"
+
+Pregúntate: ¿puedo describir qué hace mi componente en una frase
+sin usar "y"? Si necesitas "y", tu componente probablemente hace
+demasiadas cosas.
+
+- "Este componente muestra un botón" → bien
+- "Este componente muestra un botón y valida el formulario y envía
+  los datos" → mal, deberían ser 3 componentes
+
+<Comparativa
+  dialogos={[
+    { quien: "Componente cohesivo", texto: "Button solo renderiza un botón. Recibe label y onClick. No sabe quién lo llama ni qué pasa después de hacer click. Es predecible, testeable y reutilizable." },
+    { quien: "Componente acoplado", texto: "BotonMagico renderiza un botón, valida si el usuario está logueado, hace una petición a la API, muestra un toast de éxito, y actualiza el estado global. Hace todo, pero no puedes reutilizarlo sin copiar todo el contexto." },
+  ]}
+  titulo="Cohesión vs acoplamiento"
+/>
+
+## Props: la forma de comunicarse
+
+Las props son datos que un componente recibe de su padre. Son como
+los argumentos de una función: el componente define qué necesita,
+y el padre decide qué valor le da.
+
+```jsx
+// El componente定义 qué necesita
+function UserCard({ name, email, avatar }) {
+  return (
+    <div className="user-card">
+      <img src={avatar} alt={name} />
+      <h3>{name}</h3>
+      <p>{email}</p>
+    </div>
+  );
+}
+
+// El padre decide qué valor le da
+<UserCard
+  name="Ana García"
+  email="ana@ejemplo.com"
+  avatar="/img/ana.jpg"
+/>
+```
+
+### Reglas para las props
+
+1. **Van hacia abajo**: el padre pasa datos al hijo, nunca al revés
+2. **Son read-only**: el componente hijo no debe modificar sus props
+3. **Pocos y claros**: si un componente tiene más de 5-6 props, quizá
+   debería dividirse
+4. **Nombrar con intención**: `userName` es mejor que `name` si hay
+   ambigüedad, pero `name` basta en un componente simple
+
+## Reutilizar sin duplicar
+
+La reutilización es el superpoder de los componentes. Pero hay una
+trampa: copiar un componente y cambiarle un par de cosas no es
+reutilizar, es duplicar.
+
+**Reutilizar bien**:
+
+```jsx
+// Un solo componente, diferentes props
+<ProductCard product={producto1} />
+<ProductCard product={producto2} />
+<ProductCard product={producto3} />
+```
+
+**Duplicar mal**:
+
+```jsx
+// Tres componentes casi iguales
+<ProductCard1 product={producto1} />
+<ProductCard2 product={producto2} />
+<ProductCard3 product={producto3} />
+```
+
+Si necesitas variaciones, usa props opcionales o composición, no
+copia el componente.
+
+<Aclaracion pregunta="¿Cuándo un componente es demasiado grande?">
+  No hay un número mágico de líneas. Pero estas son señales de alarma:
+
+  - Más de 100-150 líneas → probablemente hace demasiadas cosas
+  - Más de 6 props → quizá debería dividirse en sub-componentes
+  - Más de 2-3 useEffect/useState → tiene demasiada lógica
+  - Necesitas un comentario que diga "esta parte hace X" → separa
+
+  La regla práctica: si no puedes entender un componente en 30
+  segundos, es demasiado complejo.
+</Aclaracion>
+
+## Caso práctico
+
+<CasoPractico titulo="Del HTML plano a los componentes">
+  En PI1, un equipo hizo su interfaz con HTML plano y jQuery. Cada
+  página era un archivo HTML independiente. El menú de navegación
+  estaba copiado en los 5 archivos. Cuando cambiaban un enlace, tenían
+  que actualizarlo en los 5 sitios.
+
+  En PI2 migraron a React. Crearon componentes:
+  - `Navbar` (una vez, se reutiliza en todas partes)
+  - `ProductCard` (se reutiliza para cada producto)
+  - `Button`, `Input`, `Modal` (componentes atómicos)
+
+  El resultado: menos código, cambios más rápidos, interfaz más
+  consistente. Lo que antes era mantenible con esfuerzo, ahora era
+  mantenible con facilidad.
+
+  **Lección**: un framework no es un capricho. Cuando tu interfaz
+  crece, es una necesidad. Pero no migres hasta que realmente lo
+  necesites.
+</CasoPractico>
+
+## Árbol de componentes
+
+Piensa en tu interfaz como un árbol. En la raíz está `App`. Cada rama
+es un componente que se divide en sub-componentes:
+
+```
+App
+├── Navbar
+│   ├── Logo
+│   └── NavLinks
+├── MainContent
+│   ├── SearchBar
+│   ├── ProductList
+│   │   └── ProductCard (× N)
+│   └── Sidebar
+│       └── FilterGroup
+└── Footer
+    ├── FooterLinks
+    └── Copyright
+```
+
+Cada nodo del árbol es un componente. Los datos fluyen de padre a
+hijo. Si dos componentes necesitan los mismos datos, el estado debe
+estar en su común más cercano.
+
+## Resumen en 3 frases
+
+1. Un componente hace una cosa, recibe datos por props y se reutiliza
+   donde haga falta. Si hace más de una cosa, divídelo.
+2. Las props van de padre a hijo y son read-only. Si necesitas pasar
+   datos hacia arriba, usa callbacks.
+3. Un buen componente es como una caja negra: sabes qué recibe y qué
+   devuelve, pero no te importa cómo funciona por dentro.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Componente** | Pieza reutilizable de la interfaz que encapsula HTML, CSS y JS |
+| **Props** | Datos que un componente recibe de su componente padre |
+| **Cohesión** | Grado en que un componente se centra en una sola responsabilidad |
+| **Acoplamiento** | Dependencia entre componentes; menor es mejor |
+| **Composición** | Combinar componentes pequeños para construir interfaces complejas |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework) · **Anterior:** [02 · Elegir el framework adecuado](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/02-elegir-el-framework-adecido) · **Siguiente:** [04 · Gestionar el estado](/ApuntesProyectoDAW/apuntes-pi2/u2-frontend-framework/04-gestionar-el-estado)

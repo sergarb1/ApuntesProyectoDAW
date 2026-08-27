@@ -1,0 +1,231 @@
+---
+title: "08 — Checklist de calidad"
+description: "Todo lo que necesitas verificar antes de entregar: una lista completa para que no se te pase nada."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** ✅ **U5 · Asegurar la calidad** → 08 · Checklist de calidad
+
+<StoryIntro icono="🎬" titulo="La entrega que olvidó lo obvio">
+  El equipo de GestorEventos tenía todo preparado: tests pasando,
+  documentación hecha, deployment funcionando. La entrega era mañana.
+
+  Lo que no comprobaron fue que el formulario de registro pedía un
+  email y un password... pero el backend esperaba nombre, email y
+  password. El frontend y el backend estaban desincronizados.
+
+  Un simple test de integración habría detectado el error. Pero más
+  que eso, una checklist de verificación lo habría pillado en 2
+  minutos: "¿El formulario de registro envía todos los campos que
+  el backend espera?".
+
+  Las checklists no son aburridas. Son la diferencia entre entregar
+  con confianza y entregar con miedo.
+</StoryIntro>
+
+## La idea en una frase
+
+> Una checklist no es burocracia. Es la garantía de que lo obvio no
+> se te olvida.
+
+## Checklist completa de calidad
+
+### Tests unitarios
+
+- [ ] Las funciones de cálculo tienen tests
+- [ ] Las validaciones de datos tienen tests
+- [ ] Las transformaciones de datos tienen tests
+- [ ] Los tests pasan al ejecutar `npm test`
+- [ ] Los tests son descriptivos (el nombre explica qué prueban)
+
+### Tests de integración
+
+- [ ] El flujo principal de usuario tiene un test de integración
+- [ ] La comunicación frontend-backend está testada
+- [ ] La integración con la base de datos está testada
+- [ ] Los tests de integración pasan sin errores
+
+### Pruebas manuales
+
+- [ ] La app se abre en navegador limpio (modo incógnito)
+- [ ] El flujo principal funciona de principio a fin
+- [ ] Los campos vacíos muestran errores claros
+- [ ] Los mensajes de error ayudan al usuario
+- [ ] Los textos largos no rompen el diseño
+- [ ] Los caracteres especiales se manejan bien
+
+### Navegadores y dispositivos
+
+- [ ] Funciona en Chrome
+- [ ] Funciona en Firefox (u otro navegador alternativo)
+- [ ] Funciona en un móvil (o al menos se ve razonable)
+- [ ] El diseño es responsive (se adapta a distintos tamaños)
+
+### Conexión
+
+- [ ] Con conexión: todo funciona correctamente
+- [ ] Sin conexión: la app muestra un mensaje claro (si aplica)
+- [ ] Conexión lenta: la app no se cuelga indefinidamente
+
+### Repositorio y despliegue
+
+- [ ] Los tests están en el repositorio
+- [ ] Los tests se ejecutan con un solo comando
+- [ ] El código desplegado es el mismo que tiene los tests pasando
+- [ ] No hay código sin testear en partes críticas
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin checklist", texto: "Creo que lo tengo todo. Espero que no se me olvide nada." },
+    { quien: "Con checklist", texto: "Tengo 25 puntos verificados. Sé exactamente lo que funciona y lo que no." },
+  ]}
+  titulo="La diferencia entre esperar y saber"
+/>
+
+## Cómo usar la checklist
+
+### Antes de cada commit
+
+Ejecuta la checklist de tests unitarios y de integración. Son los
+puntos rápidos que puedes verificar en 2 minutos.
+
+### Antes de cada entrega
+
+Ejecuta la checklist completa. Tómate 30-45 minutos para recorrer
+todos los puntos.
+
+### Para la entrega final
+
+Ejecuta la checklist dos veces: una el día anterior y otra el día
+de la entrega. Los cambios de última hora pueden romper cosas.
+
+## Checklist adicional para el tribunal
+
+El tribunal no solo comprueba que la app funcione. Comprueba que
+sea un proyecto profesional. Añade estos puntos:
+
+### Presentación
+
+- [ ] La app carga en menos de 5 segundos
+- [ ] No hay errores en la consola del navegador (F12)
+- [ ] Los formularios tienen labels (no solo placeholders)
+- [ ] Los botones tienen texto descriptivo
+
+### Datos de prueba
+
+- [ ] Hay datos de prueba realistas (no "test1", "prueba2")
+- [ ] Los datos de prueba no contienen información personal real
+- [ ] La app funciona con los datos de prueba (no solo vacía)
+
+### Documentación
+
+- [ ] El README explica cómo ejecutar la app
+- [ ] El README explica cómo ejecutar los tests
+- [ ] La documentación coincide con la versión actual
+
+<Aclaracion pregunta="¿La checklist no es demasiado larga?">
+  No. Cada punto es una verificación rápida. La checklist completa
+  no debería tomar más de 45 minutos. Y ese tiempo es una inversión:
+  detectar un problema en la checklist te ahorra un problema en la
+  presentación.
+
+  No necesitas verificar todo manualmente cada vez. Divide la checklist:
+  - **Rápida** (2 minutos): tests unitarios y de integración
+  - **Completa** (30 minutos): pruebas manuales y dispositivos
+  - **Final** (45 minutos): todo, incluyendo presentación y datos
+</Aclaracion>
+
+## Caso práctico
+
+<CasoPractico titulo="La checklist que salvó un punto">
+
+  Un equipo de 4 personas tenía la entrega al día siguiente. Eran las
+  9 de la noche y estaban seguros de que todo funcionaba.
+
+  Un miembro del equipo sacó la checklist. Punto por punto, fueron
+  verificando. Todo bien hasta el punto "Los formularios tienen labels".
+
+  El formulario de registro no tenía labels. Solo placeholders. Lo que
+  parecía un detalle menor era un problema de accesibilidad que el
+  tribunal habría detectado.
+
+  Corregirlo les llevó 10 minutos. Sin la checklist, lo habrían
+  entregado así y perdido puntos en accesibilidad.
+
+  **Lección**: la checklist no es un trámite. Es la última barrera
+  entre tu app y un error evitable.
+</CasoPractico>
+
+## Checklist imprimible
+
+Para que puedas tenerla a mano, aquí va la versión resumida:
+
+### Grupo 1: Tests (2 minutos)
+
+- [ ] Tests unitarios pasan
+- [ ] Tests de integración pasan
+- [ ] No hay tests pendientes o ignorados
+
+### Grupo 2: Manual (15 minutos)
+
+- [ ] App carga en navegador limpio
+- [ ] Flujo principal funciona
+- [ ] Errores son comprensibles
+- [ ] Responsive funciona
+- [ ] 2 navegadores distintos
+
+### Grupo 3: Entrega (10 minutos)
+
+- [ ] Consola del navegador sin errores
+- [ ] Datos de prueba realistas
+- [ ] README actualizado
+- [ ] Última versión desplegada
+
+## Mini-chequeo
+
+**Pregunta 1.** ¿Cuánto tiempo debería tomar la checklist completa?
+
+A) 5 minutos · B) 30-45 minutos · C) 2 horas
+
+**Pregunta 2.** ¿Cuándo deberías ejecutar la checklist completa?
+
+A) Solo al final del proyecto
+B) Antes de cada entrega
+C) Solo cuando el profesor lo pide
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. La checklist completa debería tomar entre 30 y 45 minutos.
+   Es un tiempo razonable para verificar todos los aspectos críticos
+   antes de una entrega.
+2. **B**. La checklist completa se ejecuta antes de cada entrega.
+   Para commits, ejecuta solo el grupo rápido de tests.
+
+</details>
+
+## Resumen en 3 frases
+
+1. Una checklist no es burocracia: es la garantía de que lo obvio
+   no se te olvida.
+2. Divide la checklist en grupos: rápido (tests, 2 min), manual
+   (15 min), entrega (10 min).
+3. Ejecútala antes de cada entrega. La inversión de 30 minutos te
+   ahorra un error en la presentación.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Checklist** | Lista de verificación que garantiza que nada se olvida |
+| **Responsive** | Diseño que se adapta a distintos tamaños de pantalla |
+| **Consola del navegador** | Herramienta F12 que muestra errores y advertencias |
+| **Datos de prueba** | Información ficticia que usa la app para demostrarse |
+
+---
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u5-testing) · **Anterior:** [07 · Testing en equipo](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/07-testing-en-equipo) · **Siguiente:** [09 · Cierre](/ApuntesProyectoDAW/apuntes-pi2/u5-testing/09-cierre)

@@ -1,0 +1,143 @@
+---
+title: "01 — La retrospectiva"
+description: "Aprende a convertir la experiencia en mejora: qué es una retrospectiva, cómo se hace y por qué no es un trámite."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🔁 **U9 · Gestionar el proyecto** → 01 · La retrospectiva
+
+Una retrospectiva es una reunión donde el equipo reflexiona sobre
+lo que ha funcionado y lo que no. Es la herramienta más poderosa
+para la mejora continua. No es opcional: es cómo aprendes de tu
+propia experiencia.
+
+## ¿Qué es exactamente?
+
+En términos simples, una retrospectiva es un espacio de tiempo
+donde el equipo se sienta y responde tres preguntas:
+
+1. **¿Qué salió bien?** — para repetirlo
+2. **¿Qué salió mal?** — para evitarlo
+3. **¿Qué haríamos diferente?** — para mejorar
+
+No es una reunión para culpar a nadie. Es una reunión para
+aprender. El objetivo es sacar conclusiones accionables, no
+quejarse.
+
+## Cómo se hace
+
+### Formato básico
+
+La retrospectiva más simple dura 30 minutos y sigue este flujo:
+
+1. **Preparación** (5 min): el facilitador explica el formato
+2. **Individual** (5 min): cada uno escribe sus respuestas en notas adhesivas
+3. **Discussion** (15 min): se agrupan las notas y se debaten
+4. **Acciones** (5 min): se eligen 2-3 mejoras concretas para el siguiente sprint
+
+### Reglas de oro
+
+- **Sin culpas**: se critican comportamientos, no personas
+- **Específico**: "Dejamos la documentación para el final" es mejor que "la documentación fue un desastre"
+- **Acción**: cada conclusión debe tener un responsable y una fecha
+- **Seguridad psicológica**: todos deben poder hablar sin miedo
+
+## Ejemplo práctico
+
+| Qué salió bien | Qué salió mal | Qué haríamos diferente |
+|----------------|---------------|----------------------|
+| Nos coordinamos bien al principio | Dejamos la documentación para el final | Documentar desde el día 1 |
+| El diseño fue sólido | Subestimamos los tiempos | Multiplicar estimaciones por 2 |
+| La interfaz quedó profesional | No hicimos suficientes tests | Escribir tests antes del código |
+
+## Tipos de retrospectiva
+
+No todas las retrospectivas son iguales. Según la fase del
+proyecto, puedes usar formatos diferentes:
+
+### Retrospectiva de sprint
+Al final de cada sprint (o cada semana en PI2). Corta, práctica,
+enfocada en el próximo sprint.
+
+### Retrospectiva de proyecto
+Al final del proyecto completo. Más profunda, mira el panorama
+entero. Es la que haces en PI2.
+
+### Retrospectiva de incidente
+Cuando algo ha salido muy mal (un despliegue fallido, un bug en
+producción). Enfocada en qué falló y cómo evitarlo.
+
+## La retrospectiva no es un trámite
+
+Si solo haces la retrospectiva porque el profesor la pidea,
+pierdes su valor. La retrospectiva es para **ti**. Para que en
+tu próximo proyecto no cometas los mismos errores.
+
+<Aclaracion pregunta="¿Y si mi proyecto ha ido mal? ¿Merece la pena hacer retrospectiva?">
+  **Más** si ha ido mal. Es donde más se aprende.
+
+  Un proyecto que ha ido mal pero del que sabes exactamente qué falló
+  y cómo evitarlo vale más que un proyecto perfecto del que no has
+  aprendido nada.
+
+  Los errores no son fracasos. Son datos para la próxima vez.
+</Aclaracion>
+
+## Errores comunes
+
+- **"No hay tiempo"**: si no tienes 30 minutos para mejorar, tienes
+  2 horas de más para el siguiente sprint
+- **"Todo fue bien"**: imposible. Si no encuentras nada que mejorar,
+  no estás mirando bien
+- **"Es culpa de X"**: la retrospectiva no es un juicio. Es un
+  laboratorio de mejora
+- **No hacer seguimiento**: de nada sirve identificar mejoras si
+  luego no las implementas
+
+<CasoPractico titulo="La retrospectiva que cambió la forma de trabajar">
+
+  Un equipo terminó PI1 con la sensación de que había ido regular.
+  No mal, pero tampoco bien. En la retrospectiva identificaron:
+
+  **Qué falló**:
+  - No se reunían con regularidad
+  - Cada uno iba por libre
+  - Dejaron la documentación para el final
+  - Un miembro hizo mucho menos que los demás
+
+  **Qué harían diferente en PI2**:
+  - Reuniones cada 3 días, 15 minutos, sin falta
+  - Tablero Kanban compartido (GitHub Projects)
+  - Documentar a la vez que programaban
+  - Reparto explícito de tareas desde el principio
+
+  En PI2 aplicaron todo. No fue perfecto, pero fue mejor. Mucho mejor.
+  Terminaron con un proyecto más sólido y un equipo más unido.
+
+  **Lección**: un proyecto no es solo el código. Es el equipo, la
+  organización, la comunicación. Y eso se entrena. La retrospectiva
+  es la herramienta para entrenarlo.
+</CasoPractico>
+
+## La fórmula STAR
+
+Para estructurar tus respuestas en una retrospectiva, usa la
+fórmula STAR:
+
+- **S**ituación: qué pasó
+- **T**ask: qué teníamos que hacer
+- **A**ction: qué hicimos
+- **R**esult: qué resultado obtuvimos
+
+Ejemplo: "En el sprint 2 (S), teníamos que entregar la pantalla
+de login (T). No nos reunimos y cada uno fue por libre (A). El
+login quedó incompleto y perdimos un día arreglando conflictos (R).
+La próxima vez nos reuniremos 15 minutos antes de empezar."
+
+---
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u9-metodologias-agiles) · **Anterior:** [09 · Cierre de U8 · Despliegue y CI/CD](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd/09-cierre) · **Siguiente:** [02 · Scrum en la práctica](/ApuntesProyectoDAW/apuntes-pi2/u9-metodologias-agiles/02-scrum-en-la-practica)

@@ -1,0 +1,293 @@
+---
+title: "03 — Contraseñas seguras"
+description: "Por qué nunca guardar contraseñas en texto plano, qué es hashing, y cómo usar bcrypt correctamente."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🛡️ **U6 · Proteger la aplicación** → 03 · Contraseñas seguras
+
+<StoryIntro icono="🎬" titulo="El equipo que devolvía el hash en la API">
+  Un equipo desarrolló una API para una tienda online. En el endpoint
+  `/api/usuarios/:id` devolvían el objeto completo del usuario, incluyendo
+  `password_hash` y `token_recuperacion`.
+
+  Durante el desarrollo no pasó nada porque solo ellos lo usaban.
+  Pero en la presentación, el profesor pidió ver la respuesta de la API
+  y, usando el inspector del navegador, vio que aparecía el hash.
+</StoryIntro>
+
+## La idea en una frase
+
+> Si guardas la contraseña tal como la escribe el usuario, no estás
+> haciendo login: estás guardando una bomba de relojería.
+
+## Por qué no se guardan contraseñas en texto plano
+
+Cuando un usuario se registra, la contraseña viaja desde el navegador
+hasta tu servidor. Si la guardas tal cual en la base de datos, cualquiera
+que acceda a esa base (un compañero curioso, un fallo en el servidor,
+un ataque) tiene **todas las contraseñas** de **todos los usuarios**.
+
+Y no solo eso: si tu app usa la misma contraseña en otros servicios
+(banco, correo, redes sociales), el daño se multiplica.
+
+### El error clásico
+
+```javascript
+// ❌ MAL — Guardar la contraseña tal cual
+const usuario = {
+  email: req.body.email,
+  password: req.body.password  // ¡Esto es texto plano!
+};
+await db.insert(usuario);
+```
+
+Si alguien consulta la tabla `usuarios`, ve las contraseñas escritas.
+No hay protección alguna.
+
+## Qué es el hashing
+
+El **hash** es una función que convierte un texto en una cadena
+de caracteres de longitud fija, de forma que:
+
+- Es **unidireccional**: no se puede revertir para obtener el original
+- Es **determinista**: el mismo input siempre produce el mismo output
+- Es **rápido de calcular**: verificar un hash es instantáneo
+
+### Analogía simple
+
+Imagina una licuadora. Puedes meter una fruta (contraseña) y obtener
+un batido (hash). Pero no puedes separar el batido para recuperar
+la fruta. Así funciona el hashing: puedes generar el hash, pero no
+puedes recuperar la contraseña original.
+
+### Comparación de algoritmos
+
+| Algoritmo | ¿Seguro? | ¿Recomendado? |
+|-----------|----------|----------------|
+| MD5 | No — se rompe en segundos | Nunca |
+| SHA-1 | No — se rompe en minutos | Nunca |
+| SHA-256 | Mejor, pero no para contraseñas | No |
+| **bcrypt** | Sí — lento a propósito | **Sí** |
+| **argon2** | Sí — el más moderno | **Sí** |
+
+¿Por qué no SHA-256 o SHA-512? Porque son **demasiado rápidos**.
+Un atacante con una GPU puede probar millones de contraseñas por
+segundo. bcrypt es **lento a propósito**: cada intento tarda unos
+milisegundos, lo que hace que un ataque de fuerza bruta sea inviable.
+
+## Cómo usar bcrypt
+
+### Instalación
+
+```bash
+npm install bcrypt
+```
+
+### Registro de usuario
+
+```javascript
+const bcrypt = require('bcrypt');
+
+// Generar hash de la contraseña
+const SALT_ROUNDS = 10;
+const hash = await bcrypt.hash(req.body.password, SALT_ROUNDS);
+
+// Guardar en la base de datos
+await db.insert({
+  email: req.body.email,
+  password_hash: hash  // ¡Nunca 'password'!
+});
+```
+
+El parámetro `SALT_ROUNDS` (10 es un buen valor por defecto) controla
+cuántas veces se aplica el algoritmo. Más rondas = más lento = más seguro.
+
+### Login de usuario
+
+```javascript
+// Buscar el usuario por email
+const usuario = await db.findOne({ email: req.body.email });
+
+if (!usuario) {
+  return res.status(401).json({ error: 'Credenciales incorrectas' });
+}
+
+// Comparar la contraseña introducida con el hash guardado
+const coincide = await bcrypt.compare(req.body.password, usuario.password_hash);
+
+if (!coincide) {
+  return res.status(401).json({ error: 'Credenciales incorrectas' });
+}
+
+// Login exitoso
+res.json({ token: generarToken(usuario) });
+```
+
+`bcrypt.compare` calcula el hash de la contraseña introducida y lo
+compara con el hash guardado. Si coinciden, la contraseña es correcta.
+Nunca descifras el hash: solo compruebas si coinciden.
+
+### Ejemplo en Java (Spring Boot)
+
+```java
+// Registro
+String hash = BCrypt.hashpw(password, BCrypt.gensalt(10));
+usuario.setPasswordHash(hash);
+
+// Login
+boolean coincide = BCrypt.checkpw(password, usuario.getPasswordHash());
+```
+
+<Comparativa
+  dialogos={[
+    { quien: "Texto plano (peligroso)", texto: "Guardo 'miContraseña123' directamente en la BD. Si alguien accede, la ve tal cual." },
+    { quien: "Hash con bcrypt (seguro)", texto: "Guardo '$2b$10$xK9...'. Si alguien accede, no puede revertirlo. Y cada hash es distinto aunque la contraseña sea la misma." },
+  ]}
+  titulo="Dos formas de guardar contraseñas"
+/>
+
+## El salt: por qué cada hash es distinto
+
+Un **salt** es una cadena aleatoria que se añade a la contraseña antes
+de hashearla. Así, dos usuarios con la contraseña "123456" tendrán
+hashes completamente diferentes.
+
+```javascript
+// Usuario 1: "123456" → hash: "$2b$10$xK9..."
+// Usuario 2: "123456" → hash: "$2b$10$qR2..."
+// ¡Distintos! Porque cada uno tiene su salt aleatorio
+```
+
+bcrypt genera el salt automáticamente. No necesitas gestionarlo
+tú mismo. Solo usa `bcrypt.hash()` y `bcrypt.compare()`.
+
+## Errores comunes
+
+### 1. Usar MD5 o SHA para contraseñas
+
+```javascript
+// ❌ MAL
+const crypto = require('crypto');
+const hash = crypto.createHash('md5').update(password).digest('hex');
+```
+
+MD5 se rompe en segundos con hardware moderno. Nunca lo uses para
+contraseñas.
+
+### 2. Guardar el hash y la contraseña
+
+```javascript
+// ❌ MAL — Guardas los dos
+await db.insert({
+  email: req.body.email,
+  password: req.body.password,     // ¡Texto plano!
+  password_hash: hash               // Y el hash
+});
+```
+
+Si guardas los dos, el hash no tiene sentido. Borra la contraseña
+original después de generar el hash.
+
+### 3. Usar bcrypt en el cliente
+
+```javascript
+// ❌ MAL — El hash se genera en el navegador
+const hash = await bcrypt.hash(password, 10);
+await fetch('/api/register', { body: JSON.stringify({ email, hash }) });
+```
+
+El hashing debe hacerse **siempre en el servidor**. Si lo haces en
+el cliente, un atacante puede enviar hashes directamente sin conocer
+la contraseña.
+
+### 4. Devolver el hash en la API
+
+```javascript
+// ❌ MAL
+res.json({ id: usuario.id, email: usuario.email, password_hash: usuario.password_hash });
+
+// ✅ BIEN
+res.json({ id: usuario.id, email: usuario.email });
+```
+
+El hash no debería salir nunca de la base de datos. No es un dato
+que el cliente necesite.
+
+## Caso práctico
+
+<CasoPractico titulo="El profesor que vio el hash en el inspector">
+
+  Un equipo desarrolló una API para una tienda online. En el endpoint
+  `/api/usuarios/:id` devolvían el objeto completo del usuario, incluyendo
+  `password_hash` y `token_recuperacion`.
+
+  Durante el desarrollo no pasó nada porque solo ellos lo usaban.
+  Pero en la presentación, el profesor pidió ver la respuesta de la API
+  y, usando el inspector del navegador, vio que en la respuesta aparecía
+  el hash de la contraseña.
+
+  No era un fallo crítico (el hash no se puede revertir), pero demostraba
+  que no habían pensado en qué datos exponer. El profesor les preguntó:
+  "¿Y si esto fuera un proyecto real? ¿Qué pasaría?".
+
+  No suspendieron, pero perdieron puntos en el apartado de seguridad.
+
+  **Lección**: revisa qué datos devuelve cada endpoint de tu API.
+  Si no es necesario que el cliente lo vea, no lo devuelvas.
+
+</CasoPractico>
+
+<Aclaracion pregunta="¿Y si un usuario pide ver su propia contraseña?">
+  No puedes mostrársela porque **tú tampoco la tienes**. Solo tienes
+  el hash. Puedes ofrecerle un sistema de "restablecer contraseña"
+  que le envíe un enlace por correo para crear una nueva.
+
+  Nunca, bajo ninguna circunstancia, guardes contraseñas en texto plano.
+</Aclaracion>
+
+## Mini-chequeo
+
+**Pregunta 1.** ¿Por qué bcrypt es mejor que SHA-256 para contraseñas?
+A) Porque es más rápido · B) Porque es lento a propósito, lo que hace
+inviable un ataque de fuerza bruta · C) Porque genera hashes más cortos
+
+**Pregunta 2.** ¿Dónde se debe generar el hash de la contraseña?
+A) En el navegador del usuario · B) En el servidor, durante el registro ·
+C) En la base de datos
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. SHA-256 es demasiado rápido: un atacante puede probar millones
+   de contraseñas por segundo. bcrypt es lento a propósito, lo que hace
+   cada intento costoso en tiempo.
+2. **B**. El hashing siempre se hace en el servidor. Si lo haces en el
+   navegador, un atacante puede enviar hashes directamente.
+
+</details>
+
+## Resumen en 3 frases
+
+1. Nunca guardes contraseñas en texto plano: usa bcrypt con al menos
+   10 rondas de salt.
+2. `bcrypt.compare` verifica sin revertir: comprueba si el hash de la
+   contraseña introducida coincide con el guardado.
+3. No devuelvas hashes ni otros datos sensibles en las respuestas de
+   tu API.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Hash** | Conversión unidireccional de texto a cadena fija |
+| **Salt** | Cadena aleatoria que se añade al hash para que cada uno sea único |
+| **bcrypt** | Algoritmo de hashing lento a propósito, ideal para contraseñas |
+| **Rondas (cost factor)** | Número de iteraciones del algoritmo; más = más lento y seguro |
+| **Fuerza bruta** | Ataque que prueba combinaciones una por una |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad) · **Anterior:** [02 · Inyección SQL](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad/02-inyeccion-sql) · **Siguiente:** [04 · Validación de datos](/ApuntesProyectoDAW/apuntes-pi2/u6-seguridad/04-validacion-de-datos)

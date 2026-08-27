@@ -1,0 +1,266 @@
+---
+title: "02 — Opciones de despliegue"
+description: "Plataformas gratuitas comparadas: Vercel, Netlify, Render, Railway, GitHub Pages y más. Cuándo usar cada una."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🚀 **U8 · Publicar y mantener** → 02 · Opciones de despliegue
+
+<StoryIntro icono="🎬" titulo="El Buffet de Despliegue">
+  El equipo abrió la documentación de Render. Luego la de Vercel.
+  Después la de Netlify. Cada una decía que era la mejor. Cada una
+  tenía un plan gratuito con letra pequeña.
+
+  "¿Cuál elegimos?", preguntó alguien.
+
+  Nadie sabía responder. Habían perdido dos horas leyendo
+  documentación sin llegar a una decisión.
+
+  A veces el problema no es técnico. Es que nadie te dice
+  cuál elegir y por qué.
+</StoryIntro>
+
+## La idea en una frase
+
+> No necesitas la mejor plataforma. Necesitas la que se adapte a tu
+> proyecto y que puedas configurar en menos de una hora.
+
+## El mapa de opciones
+
+Existen decenas de plataformas de despliegue. Las más relevantes
+para un proyecto DAW son:
+
+### Para frontend estático
+
+Estas plataformas son ideales si tu proyecto es HTML, CSS y JavaScript
+puro, o si usas un framework como Vue, React, Angular o Astro.
+
+**GitHub Pages**
+- **Ideal para**: sitios estáticos, portfolios, documentación
+- **HTTPS**: sí, automático
+- **Límite**: 1 GB por repositorio, 100 GB de transferencia al mes
+- **Ventaja**: integración directa con GitHub
+- **Desventaja**: no soporta backend
+
+**Netlify**
+- **Ideal para**: frontend estático, SPAs, JAMstack
+- **HTTPS**: sí, automático
+- **Límite**: 100 GB de transferencia al mes, 300 minutos de build
+- **Ventaja**: deploy automático con cada push a Git
+- **Desventaja**: plan gratuito limitado en builds
+
+**Vercel**
+- **Ideal para**: frontend con frameworks modernos (Next.js, Nuxt, Astro)
+- **HTTPS**: sí, automático
+- **Límite**: 100 GB de transferencia al mes
+- **Ventaja**: rendimiento excelente, Edge Functions
+- **Desventaja**: backend limitado en plan gratuito
+
+### Para backend y full-stack
+
+Si tu proyecto tiene un servidor Node.js, Python, Java o similar,
+necesitas estas plataformas.
+
+**Render**
+- **Ideal para**: backend + base de datos gratuita
+- **HTTPS**: sí, automático
+- **Límite**: 750 horas de uso al mes (se duerme tras 15 min sin uso)
+- **Ventaja**: base de datos PostgreSQL gratuita incluida
+- **Desventaja**: el servidor se duerme si no hay tráfico
+
+**Railway**
+- **Ideal para**: backend + base de datos, despliegue rápido
+- **HTTPS**: sí, automático
+- **Límite**: 500 horas de uso al mes en plan gratuito
+- **Ventaja**: muy fácil de configurar, soporta múltiples lenguajes
+- **Desventaja**: plan gratuito limitado en horas
+
+**PythonAnywhere**
+- **Ideal para**: backend Python (Django, Flask)
+- **HTTPS**: sí, en plan gratuito con subdominio
+- **Límite**: 1 CPU compartida, 512 MB de almacenamiento
+- **Ventaja**: gratuito para proyectos pequeños
+- **Desventaja**: solo Python, sin soporte para Node.js
+
+### Para apps con backend ligero
+
+**Firebase**
+- **Ideal para**: apps con autenticación, base de datos en tiempo real,
+  hosting estático
+- **HTTPS**: sí, automático
+- **Límite**: 1 GB de almacenamiento, 10 GB de transferencia al mes
+- **Ventaja**: integración con Google, base de datos NoSQL
+- **Desventaja**: bloqueo de proveedor (vendor lock-in)
+
+## Tabla comparativa
+
+| Plataforma | Ideal para | HTTPS | Backend | BD gratuita | Sleep |
+|-----------|-----------|-------|---------|-------------|-------|
+| **GitHub Pages** | Estáticos | ✅ | ❌ | ❌ | No |
+| **Netlify** | Frontend | ✅ | ❌ | ❌ | No |
+| **Vercel** | Frontend moderno | ✅ | Limitado | ❌ | No |
+| **Render** | Full-stack | ✅ | ✅ | ✅ PostgreSQL | Sí |
+| **Railway** | Full-stack | ✅ | ✅ | ✅ | Sí |
+| **PythonAnywhere** | Python | ✅ | ✅ | ❌ | No |
+| **Firebase** | Apps ligeras | ✅ | ✅ | ✅ Firestore | No |
+
+## ¿Cómo elegir?
+
+### Si tu proyecto es solo frontend
+
+Elige **GitHub Pages** (más sencillo) o **Vercel** (más potente).
+Ambos son gratuitos, tienen HTTPS y se despliegan con cada push a Git.
+
+### Si tu proyecto tiene backend
+
+Elige **Render** (tiene BD gratuita incluida) o **Railway** (más
+flexible). Ambos soportan Node.js, Python, Java y otros lenguajes.
+
+### Si tu proyecto usa Python
+
+Elige **PythonAnywhere** para algo sencillo o **Render** para algo
+más completo.
+
+### Si quieres lo más fácil posible
+
+Elige **Netlify** para frontend o **Render** para full-stack. Ambos
+tienen interfaz gráfica y no necesitas saber de servidores.
+
+<Comparativa
+  dialogos={[
+    { quien: "Equipo sin experiencia", texto: "Vamos a usar Render porque tiene base de datos gratuita y es fácil de configurar. No necesitamos saber de servidores." },
+    { quien: "Equipo con experiencia", texto: "Vercel para el frontend, Railway para el backend y Planetarium para la BD. Más componentes, pero más control." },
+  ]}
+  titulo="Dos enfoques, mismo resultado"
+/>
+
+## El plan gratuito: lo que nadie te dice
+
+Las plataformas gratuitas son suficientes para un proyecto DAW, pero
+tienen limitaciones que debes conocer:
+
+**El servidor se duerme**
+En Render y Railway, si nadie usa tu app durante 15-30 minutos, el
+servidor se apaga. Cuando alguien la visite, tarda 30-60 segundos
+en arrancar. No es un problema en una presentación, pero sí si
+esperas tráfico constante.
+
+**Límites de almacenamiento**
+La mayoría de planes gratuitos ofrecen entre 512 MB y 1 GB de
+almacenamiento. Para una app pequeña es suficiente. Para una app
+con muchos archivos multimedia, puede ser poco.
+
+**Ancho de banda limitado**
+GitHub Pages ofrece 100 GB al mes. Netlify lo mismo. Para un
+proyecto DAW es más que suficiente, pero no para una app con
+millones de usuarios.
+
+**Funciones avanzadas bloqueadas**
+Algunas funciones como dominios personalizados, redirects
+avanzados o variables de entorno múltiples pueden estar bloqueadas
+en planes gratuitos.
+
+<Aclaracion pregunta="¿Y si el despliegue cuesta dinero?">
+  Casi todas las plataformas tienen plan gratuito. Si tu proyecto
+  es pequeño, no deberías pagar nada.
+
+  Eso sí, los planes gratuitos tienen limitaciones:
+  - El servidor se "duerme" si no se usa (tarda unos segundos al arrancar)
+  - Almacenamiento limitado
+  - Ancho de banda limitado
+
+  Para una presentación, son suficientes. Si necesitas más, muchas
+  plataformas tienen créditos gratuitos para estudiantes (GitHub Student Pack).
+</Aclaracion>
+
+## El GitHub Student Pack
+
+Si eres estudiante, el **GitHub Student Pack** te da créditos
+gratuitos en múltiples plataformas:
+
+- $200 en DigitalOcean
+- $100 en Heroku
+- Dominio gratuito en .tech por un año
+- Mucho más
+
+Actívalo en [education.github.com](https://education.github.com).
+No cuesta nada y te da acceso a herramientas que de otra forma
+serían de pago.
+
+## El error de elegir por elegir
+
+El error más común es elegir una plataforma porque "la usa un
+tutorial de YouTube" sin comprobar si se adapta a tu proyecto.
+
+Antes de elegir, comprueba:
+
+1. ¿Soporta mi lenguaje/framework? (Node.js, Python, Java, etc.)
+2. ¿Tiene plan gratuito suficiente para mi proyecto?
+3. ¿Es fácil de configurar? (¿necesito saber de servidores?)
+4. ¿Se despliega con cada push a Git? (para CI/CD)
+5. ¿Tiene HTTPS automático?
+
+Si la respuesta a alguna es "no", busca otra plataforma.
+
+<CasoPractico titulo="El equipo que eligió mal y pagó de más">
+
+  Un equipo eligió AWS para desplegar su proyecto. Necesitaban:
+  una EC2, una RDS, un S3, un CloudFront. El primer mes les
+  costó 120 euros. El profesor les preguntó por qué no usaban
+  Render o Railway, que eran gratuitos.
+
+  No supieron responder. Habían seguido un tutorial de un
+  proyecto empresarial sin considerar que su proyecto DAW no
+  necesitaba tanta infraestructura.
+
+  **Lección**: elige la plataforma que se adapte a tu proyecto,
+  no la que se adapte a un proyecto de Amazon. Para un DAW,
+  las opciones gratuitas son más que suficientes.
+</CasoPractico>
+
+## Mini-chequeo
+
+**Pregunta 1.** ¿Cuál es la mejor plataforma de despliegue para un
+proyecto DAW con backend Node.js y base de datos?
+A) GitHub Pages · B) Render o Railway · C) AWS
+
+**Pregunta 2.** ¿Qué problema tienen los planes gratuitos de Render?
+A) No tienen HTTPS · B) El servidor se duerme si no hay tráfico ·
+C) No soportan Node.js
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Render y Railway ofrecen planes gratuitos con backend y base
+   de datos. GitHub Pages solo sirve para estáticos. AWS es excesivo
+   para un proyecto DAW.
+2. **B**. El servidor se apaga tras 15-30 minutos sin uso. Cuando
+   alguien lo visite, tarda unos segundos en arrancar. Es una
+   limitación del plan gratuito.
+
+</details>
+
+## Resumen en 3 frases
+
+1. Las principales opciones gratuitas son GitHub Pages (estáticos),
+   Vercel/Netlify (frontend) y Render/Railway (full-stack).
+2. Elige la plataforma según tu stack: si tienes backend, Render o
+   Railway; si solo frontend, GitHub Pages o Vercel.
+3. Los planes gratuitos tienen limitaciones (sleep, almacenamiento)
+   pero son suficientes para un proyecto DAW.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Desplegar** | Poner una aplicación en un servidor accessible por internet |
+| **Plan gratuito** | Nivel básico de una plataforma sin coste |
+| **Sleep** | Modo de ahorro que apaga el servidor tras inactividad |
+| **HTTPS** | Conexión segura con certificado SSL incluido |
+| **GitHub Student Pack** | Créditos gratuitos para estudiantes en múltiples plataformas |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd) · **Anterior:** [01 · Por qué desplegar](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd/01-por-que-desplegar) · **Siguiente:** [03 · CI/CD: la definición](/ApuntesProyectoDAW/apuntes-pi2/u8-despliegue-ci-cd/03-ci-cd-la-definicion)

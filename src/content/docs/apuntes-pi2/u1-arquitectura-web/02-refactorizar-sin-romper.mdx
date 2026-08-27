@@ -1,0 +1,178 @@
+---
+title: "02 — Refactorizar sin romper"
+description: "Los 3 pasos para mejorar código existente: identificar, preparar el terreno y cambiar poco. Sin romper nada."
+---
+
+import StoryIntro from '../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🔧 **U1 · Evolucionar la arquitectura** → 02 · Refactorizar sin romper
+
+<StoryIntro icono="📖" titulo="Contexto de este capítulo">
+  El equipo de Sergio identificó la deuda técnica de PI1. Ahora saben
+  qué está mal. Pero surge la pregunta: ¿se puede arreglar sin que se
+  rompa todo? La respuesta es sí, pero con un método. No se trata de
+  lanzarse a escribir código nuevo: se trata de mover piezas con cuidado,
+  como un cirujano, no como un elefante.
+
+  Este capítulo te da el método exacto.
+</StoryIntro>
+
+## La idea en una frase
+
+> Refactorizar es como reorganizar una cocina mientras cocinas: no puedes
+> vaciarla toda a la vez. Mueves un cajón, pruebas que la sartén sigue
+> estando, y luego mueves el siguiente.
+
+## Los 3 pasos de la refactorización
+
+### Paso 1: Identifica qué mejorar
+
+No intentes arreglar todo a la vez. Eso es la receta para no terminar
+nunca. Prioriza por impacto:
+
+1. **Lo que más duele** — cambiar una línea rompe tres cosas más. Eso
+   es acoplamiento excesivo.
+2. **Lo que más usas** — el código que tocas cada semana. Si es confuso,
+   pierdes tiempo todas las semanas.
+3. **Lo que más cuesta mantener** — esa función que ya no sabes qué hace
+   pero que "funciona".
+
+La clave es **no ser ambicioso**. Un refactor a la vez. Si al intentar
+arreglar algo descubres que depende de otro archivo, anótalo para
+después. No caigas en la trampa de "y esto también hay que arreglarlo".
+
+### Paso 2: Prepara el terreno
+
+Antes de cambiar una sola línea de código, asegúrate de que puedes
+volver atrás sin problemas:
+
+- **Commit del estado actual** — el código tal como está ahora. Si
+  algo sale mal, puedes volver a este punto.
+- **Crea una rama nueva** — `git checkout -b refactor/nombre-del-cambio`.
+  Así tu rama principal queda intacta.
+- **Escribe tests si es posible** — no tests perfectos, sino tests que
+  verifiquen el comportamiento actual. Si el test pasa antes y después
+  del cambio, no has roto nada.
+
+```
+git add .
+git commit -m "Estado actual antes de refactorizar X"
+git checkout -b refactor/separar-funcion-X
+```
+
+<Comparativa
+  dialogos={[
+    { quien: "Ana — Sin preparación", texto: "Empiezo a cambiar funciones directamente en main. Si se rompe, ya lo arreglaré. Es más rápido." },
+    { quien: "Pedro — Con preparación", texto: "Commiteo, creo rama, escribo un test rápido que verifique que la función devuelve lo que debe. Luego cambio." },
+  ]}
+  titulo="¿Qué es más rápido a largo plazo?"
+/>
+
+### Paso 3: Cambia poco y prueba
+
+Refactoriza en pequeñas iteraciones:
+
+1. **Extrae una función** de un bloque grande → prueba
+2. **Renombra una variable** confusa → prueba
+3. **Divide un archivo** en dos partes → prueba
+
+La regla: **un cambio, una prueba**. No hagas tres cosas a la vez o
+no sabrás qué rompió. Si el test falla, sabes exactamente qué cambio
+causó el problema.
+
+```
+Iteración 1: Extraer validarEmail() de procesarPedido() → probar
+Iteración 2: Renombrar "a" → "usuarioActual" → probar
+Iteración 3: Mover funcionalidad de BD a archivo db.js → probar
+Iteración 4: Eliminar función duplicada → probar
+```
+
+<Aclaracion pregunta="¿Merece la pena refactorizar o es mejor rehacer desde cero?">
+  Caso por caso:
+
+  - **Refactorizar**: cuando el código funciona, la estructura es decente
+    pero necesita mejoras. Es más seguro y rápido. Conservas lo que ya
+    funciona.
+  - **Rehacer**: cuando el código es tan malo que cuesta más entenderlo
+    que escribirlo de nuevo. Pero ojo, rehacer implica perder el tiempo
+    invertido. Solo hazlo si estás seguro de que no repites los mismos
+    errores.
+
+  Para un proyecto DAW, refactorizar suele ser la opción correcta. Rehacer
+  un proyecto completo es un riesgo enorme: puedes tardar más de lo que
+  pensabas y quedarte sin tiempo para las funcionalidades reales.
+</Aclaracion>
+
+## Errores comunes al refactorizar
+
+| Error | Por qué es peligroso |
+|-------|---------------------|
+| Cambiar todo a la vez | Si se rompe, no sabes qué causó el problema |
+| No commitear antes | Si algo sale mal, no puedes volver atrás |
+| Refactorizar sin tests | No tienes red de seguridad |
+| "Mejorar" el comportamiento | Refactorizar = misma funcionalidad, distinta estructura |
+| No comunicar al equipo | Tu compañero trabaja en el mismo código |
+
+<CasoPractico titulo="La refactorización que salvó un sprint">
+  Un equipo tenía un archivo de 800 líneas con toda la lógica de negocio.
+  Cada cambio llevaba horas porque había que entender todo el contexto.
+
+  Dedicaron 3 días a refactorizar:
+
+  1. Día 1: Identificaron las 4 responsabilidades mezcladas (usuarios,
+     productos, pedidos, notificaciones)
+  2. Día 2: Crearon 4 archivos separados con una función auxiliar en
+     cada uno, extrayendo bloques del archivo original
+  3. Día 3: Renombraron funciones y variables para que fueran legibles,
+     y borraron código muerto
+
+  El archivo de 800 líneas se convirtió en 4 archivos de ~200. Cada
+  cambio posterior les llevaba 20 minutos en vez de 2 horas.
+
+  **Lección**: la refactorización invierte tiempo que se devuelve
+  multiplicado.
+</CasoPractico>
+
+## Mini-chequeo
+
+**Pregunta 1.** Vas a refactorizar una función. ¿Qué haces primero?
+A) Empiezo a cambiar variables · B) Creo una rama y commiteo el estado
+actual · C) Pido permiso al profesor
+
+**Pregunta 2.** Refactorizas una función y el test falla. ¿Qué haces?
+A) Borro el test para que pase · B) Reviero el cambio y busco el error
+· C) Añado más código hasta que funcione
+
+<details>
+<summary>...Respuestas...</summary>
+
+1. **B**. Siempre prepara el terreno: commit + rama. Así tienes red
+   de seguridad.
+2. **B**. Un test que falla tras un refactor te está diciendo que has
+   roto algo. Revier, analiza, vuelve a intentar con cuidado.
+
+</details>
+
+## Resumen en 3 frases
+
+1. **Identifica** qué mejorar priorizando por impacto: lo que más duele,
+   lo que más usas, lo que más cuesta mantener.
+2. **Prepara** el terreno: commit del estado actual, rama nueva, tests
+   si es posible.
+3. **Cambia poco** y prueba tras cada cambio. Un cambio a la vez, nunca
+   todo junto.
+
+> 🐛 **Vocabulario rápido**
+
+| Término | Idea general |
+|---|---|
+| **Refactorizar** | Cambiar la estructura interna sin cambiar el comportamiento externo |
+| **Rama (branch)** | Línea de desarrollo paralela que permite experimentar sin afectar a main |
+| **Commit** | Guardado del estado del proyecto en un momento concreto |
+| **Red de seguridad** | Tests que verifican que el código sigue funcionando tras un cambio |
+| **Iteración** | Un ciclo completo: cambio → prueba → siguiente |
+
+📚 [Volver al índice de la unidad](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web) · **Anterior:** [01 · El legado de PI1](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/01-el-legado-de-pi1) · **Siguiente:** [03 · Decisiones técnicas en PI2](/ApuntesProyectoDAW/apuntes-pi2/u1-arquitectura-web/03-decisiones-tecnicas-en-pi2)
