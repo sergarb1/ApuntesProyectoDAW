@@ -14,9 +14,8 @@ Enfoque **project-facing**: no es contenido técnico (cómo programar), sino có
 
 ## Características
 
-- **Homepage** con portada, hero buttons y card grids (2 columnas en PC, 1 en móvil)
-- **Guía Didáctica** completa: plan docente, retos PI1 (5), sprints PI2 (7), evaluación, FAQ, ideas
-- **Apuntes PI1** (8 unidades) y **PI2** (9 unidades) con enfoque práctico
+- **Homepage** con portada, hero buttons y card grid por UDs (2 columnas en PC, 1 en móvil)
+- **Guía Didáctica** completa: plan docente, 16 Unidades Didácticas (7 PI1 + 9 PI2 con Testing), evaluación, FAQ, ideas
 - **Componentes propios**: StoryIntro, Aclaracion, Comparativa, CasoPractico
 - **Animaciones**: fadeInUp en cards, pulse en 404, transiciones suaves hover
 - **404 divertida** con emoji animado y navegación rápida
@@ -44,13 +43,17 @@ src/
 │   └── docs/                # Todas las páginas (.mdx)
 │       ├── index.mdx        # Homepage
 │       ├── 404.mdx          # Página 404
-│       ├── pi1/             # Guía PI1
-│       ├── pi2/             # Guía PI2
-│       ├── apuntes-pi1/     # Apuntes PI1 (ocultos del sidebar)
-│       └── apuntes-pi2/     # Apuntes PI2 (ocultos del sidebar)
+│       └── guia-didactica/  # Contenido principal
+│           ├── proyecto-1/  # PI1: 7 UDs
+│           ├── proyecto-2/  # PI2: 10 UDs
+│           └── ...          # Metodología, recursos, etc.
 ├── styles/custom.css        # Estilos globales y de componentes
 public/                      # Assets estáticos (imágenes, favicon)
 ```
+
+Cada UD se organiza así:
+- `uds/uX-Y-nombre.mdx` — landing de la unidad
+- `uds/uX-Y-nombre/NN-titulo.mdx` — secciones de la unidad (8-10 por UD)
 
 ## Despliegue
 

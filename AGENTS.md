@@ -9,10 +9,25 @@
 - **Enfoque**: Contenido project-facing (cómo afrontar el proyecto), no técnico
 
 ## Estructura del sidebar
-1. **Inicio** — Página principal con portada y card grid
-2. **Guía Didáctica** (visible) — Continuidad, PI1 (intro, competencias, 5 retos, evaluación), PI2 (intro, competencias, 7 sprints, entregables, evaluación), Metodología, Herramientas, Recursos, Profesores, Licencia, FAQ, Ideas
-3. **Apuntes PI1** (oculto) — 8 unidades + ruta de aprendizaje
-4. **Apuntes PI2** (oculto) — 9 unidades
+1. **Inicio** — Página principal con portada, hero buttons y card grid por UDs
+2. **Guía Didáctica** (visible) — Continuidad, Proyecto 1 (intro, competencias, 7 UDs), Proyecto 2 (intro, competencias, 10 UDs, entregables, evaluación), Metodología, Herramientas, Recursos, Licencia, FAQ, Ideas
+3. No existe grupo "Apuntes" ni sección "Profesores" (se eliminaron)
+
+## Contenido por UD (estructura de carpetas)
+Cada UD sigue el patrón:
+- **Landing**: `src/content/docs/guia-didactica/proyecto-X/uds/uX-Y-nombre.mdx` (en `uds/`, NO dentro de la carpeta)
+- **Secciones**: `src/content/docs/guia-didactica/proyecto-X/uds/uX-Y-nombre/NN-titulo.mdx` (8-10 secciones por UD)
+
+**Proyecto 1** (7 UDs): u1-1-mvp, u1-2-scrum-lite, u1-3-requisitos, u1-4-eleccion-tecnologias, u1-5-comunicacion, u1-6-documentacion, u1-7-propuesta
+
+**Proyecto 2** (10 UDs): u2-1-requisitos-avanzado, u2-2-scrum-avanzado, u2-3-git-avanzado, u2-4-testing, u2-5-patrones-diseno, u2-6-diagramas, u2-7-ia-copiloto, u2-8-despliegue, u2-9-monitorizacion, u2-10-propuesta-final
+
+## Navegación entre secciones (¡importante!)
+- Los enlaces entre secciones de una misma UD usan **`../NN-titulo`** (subir un nivel, luego sección)
+- El enlace "Volver al índice" usa **`../uX-Y-nombre`**
+- Los enlaces de la landing a sus secciones usan **`./NN-titulo`** (la landing está en `uds/`)
+- Los enlaces a la siguiente UD desde un cierre usan **`../../uX-Y-nombre`**
+- NO usar `./uX-Y-nombre/NN` desde la landing (duplica el segmento) ni `../../guia-didactica/...` (ruta incorrecta)
 
 ## Componentes propios
 - `StoryIntro.astro` — Bloque narrativo introductorio con icono, título y contenido. Props: `icono`, `titulo`, contenido slot.
@@ -25,7 +40,7 @@
 ## Convenios de código
 - **Sidebar**: grupos con `collapsed: true/false`; usar Starlight `link` o `items` anidados
 - **Contenido**: archivos `.mdx` en `src/content/docs/` con frontmatter `title` y `description`. No usar `.md` (todos convertidos a `.mdx`).
-- **Componentes**: import relativo desde `src/components/` (contar niveles `../..`)
+- **Componentes**: import desde `@components/` (alias configurado en `tsconfig.json`, evita "Relative Path Hell")
 - **Cards**: usar `<div class="card-title">` en vez de `###` heading dentro de `<a class="card-link">` para evitar que Starlight añada `sl-anchor-link` anidado (inválido: `<a><a>`).
 - **Imágenes**: en `public/` referenciadas con base `/ApuntesProyectoDAW/`
 - **Config**: `astro.config.mjs` para sidebar e integraciones; `src/content.config.ts` con `docsLoader` + `docsSchema`
@@ -34,10 +49,12 @@
 - **Favicon SVG**: `public/favicon.svg` (100x100, icono libro abierto)
 
 ## Reglas de import paths
-- `src/content/docs/*.mdx` → `../../components/`
-- `src/content/docs/pi1/*.mdx`, `pi2/*.mdx` → `../../../components/`
-- `src/content/docs/pi1/fases/*.mdx`, `pi2/fases/*.mdx` → `../../../../components/`
-- `src/content/docs/apuntes-pi1/*.mdx`, `apuntes-pi2/*.mdx` → `../../../components/`
+- Todos los `.mdx` en `src/content/docs/**` usan **`@components/`** (alias configurado en `tsconfig.json`):
+  ```json
+  "baseUrl": ".",
+  "paths": { "@components/*": ["src/components/*"] }
+  ```
+- NO usar imports relativos (`../../components/...`)
 
 ## Integraciones
 - `@astrojs/starlight` (sidebar, search, dark/light mode, pagination, TOC, pagefind)
@@ -46,7 +63,7 @@
 
 ## Comandos
 - `npm run dev` — servidor de desarrollo
-- `npm run build` — build estático en `dist/` (49 páginas, ~6s)
+- `npm run build` — build estático en `dist/` (186 páginas, ~35s)
 - `npm run preview` — preview del build
 
 ## CSS / diseño
@@ -67,8 +84,10 @@
 - `astro.config.mjs` — configuración principal
 - `src/content.config.ts` — loader Starlight
 - `src/content/docs/` — todas las páginas
-- `src/content/docs/index.mdx` — homepage con portada, hero buttons, card-grids
+- `src/content/docs/index.mdx` — homepage con portada, hero buttons, card-grids por UDs
 - `src/content/docs/404.mdx` — página 404 con emoji animado y navegación
+- `src/content/docs/guia-didactica/` — contenido principal (proyecto-1 y proyecto-2 con sus UDs)
+- `src/content/docs/guia-didactica/proyecto-X/uds/` — landings de UD (uX-Y-nombre.mdx) + carpetas con secciones
 - `src/components/` — componentes Astro (StoryIntro, Aclaracion, Comparativa, CasoPractico, Footer, Hero)
 - `src/styles/custom.css` — estilos globales y de componentes
 - `src/assets/logo.svg` — logo del header (libro abierto)
