@@ -559,3 +559,111 @@ details.aclaracion {
     grid-template-columns: 1fr;
   }
 }
+
+/* Navegación entre secciones (cuadros destacados) */
+.nav-unidad {
+  margin: 2rem 0;
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--sl-color-gray-4);
+  background: var(--sl-color-gray-6);
+}
+
+.nav-unidad-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.nav-unidad-links.nav-unidad-solo {
+  grid-template-columns: 1fr;
+}
+
+.nav-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.9rem 1.25rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--sl-color-gray-4);
+  background: white;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.nav-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  border-color: var(--sl-color-accent);
+  text-decoration: none;
+}
+
+.nav-box-prev {
+  text-align: left;
+}
+
+.nav-box-next {
+  text-align: right;
+  border-left: 4px solid var(--sl-color-accent);
+}
+
+.nav-box-prev {
+  border-right: 4px solid var(--sl-color-gray-4);
+}
+
+.nav-box-dir {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--sl-color-gray-3);
+  font-weight: 600;
+}
+
+.nav-box-next .nav-box-dir {
+  color: var(--sl-color-accent-high);
+}
+
+.nav-box-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--sl-color-gray-1);
+}
+
+.nav-unidad-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--sl-color-gray-2);
+  text-decoration: none;
+}
+
+.nav-unidad-volver:hover {
+  color: var(--sl-color-accent);
+  text-decoration: none;
+}
+
+[data-theme='dark'] .nav-box {
+  background: var(--sl-color-gray-6);
+}
+
+[data-theme='dark'] .nav-box:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme='dark'] .nav-box-title {
+  color: var(--sl-color-gray-1);
+}
+
+@media (max-width: 640px) {
+  .nav-unidad-links {
+    grid-template-columns: 1fr;
+  }
+  .nav-box-next {
+    text-align: left;
+    border-left: none;
+    border-right: 4px solid var(--sl-color-accent);
+  }
+}
