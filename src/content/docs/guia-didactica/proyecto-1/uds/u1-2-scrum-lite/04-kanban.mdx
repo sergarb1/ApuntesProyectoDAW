@@ -1,0 +1,231 @@
+---
+title: "04 — Tablero Kanban"
+description: "Cómo visualizar el trabajo con columnas y por qué el tablero es tu mejor amigo"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../../../components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 1.2 · SCRUM Lite** → 04 · Tablero Kanban
+
+<StoryIntro icono="📖" titulo="Si no puedes verlo, no puedes gestionarlo">
+  Un tablero Kanban es la herramienta más simple y más poderosa para
+  organizar el trabajo en equipo. Es un tablero con columnas donde mueves
+  tarjetas desde "por hacer" hasta "hecho". Si no tenéis un tablero,
+  estáis trabajando a ciegas.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un tablero Kanban visualiza TODO el trabajo del equipo en un solo lugar: lo que falta, lo que se está haciendo y lo que está terminado.**
+
+Si alguien pregunta "¿dónde estamos?", la respuesta está en el tablero.
+
+---
+
+## La estructura básica
+
+Un tablero Kanban tiene al menos 3 columnas:
+
+```
+| To Do          | In Progress    | Done           |
+|----------------|----------------|----------------|
+| Login          | CRUD tareas    | Estructura repo|
+| Filtros        |                | Portada app    |
+| Validación     |                |                |
+| Documentación  |                |                |
+```
+
+### Las 3 columnas esenciales
+
+| Columna | Significado | Regla |
+|---------|-------------|-------|
+| **To Do** | Tareas pendientes | No empieces una nueva si hay algo en In Progress |
+| **In Progress** | Tareas en las que alguien está trabajando ahora mismo | Máximo 1-2 tareas por persona |
+| **Done** | Tareas terminadas y verificadas | Solo se mueve aquí cuando OTRA persona lo confirma |
+
+### Columnas opcionales
+
+| Columna | Cuándo usarla |
+|---------|--------------|
+| **Blocked** | Cuando algo está atascado (dependencia, bug, duda) |
+| **In Review** | Cuando el código está listo pero falta que alguien lo revise |
+| **Testing** | Cuando la feature está implementada pero falta probarla |
+
+---
+
+## Las reglas de oro del tablero
+
+### Regla 1: WIP Limits (Work In Progress)
+
+**WIP = cuántas cosas puedes tener en "In Progress" a la vez.**
+
+| Equipo | WIP recomendado |
+|--------|-----------------|
+| 2 personas | 2-3 tareas máximo |
+| 3 personas | 3-4 tareas máximo |
+| 4 personas | 4-5 tareas máximo |
+
+**¿Por qué?** Porque si Ana tiene 5 tareas a medias, ninguna está terminada. Es mejor terminar 1 y empezar otra.
+
+### Regla 2: Nada entra en Done sin confirmación
+
+Una tarea no está "hecha" porque el programador diga que sí. Está hecha cuando:
+- Funciona correctamente
+- Al menos otra persona lo ha probado
+- No tiene errores conocidos
+
+### Regla 3: El tablero se actualiza cada día
+
+Si el tablero no se actualiza, no sirve de nada. Actualizadlo **en la daily** o **al final del día**.
+
+### Regla 4: Las tareas deben ser pequeñas
+
+Si una tarea tiene más de 2 días de trabajo, divídela en tareas más pequeñas. "Hacer el login" es demasiado grande. "Implementar el formulario de login" y "Conectar el login con el backend" son mejores.
+
+---
+
+## Cómo usar Trello
+
+**Trello** es la herramienta gratuita más popular para tableros Kanban.
+
+### Paso 1: Crear un tablero
+
+1. Ve a [trello.com](https://trello.com) y crea una cuenta gratuita
+2. Crea un tablero nuevo: "Proyecto Intermodular - Sprint 1"
+3. Crea las columnas: To Do, In Progress, Done
+
+### Paso 2: Crear tarjetas
+
+Cada tarjeta es una tarea. En la tarjeta pon:
+- **Título claro**: "Implementar formulario de login"
+- **Descripción**: Qué hay que hacer exactamente
+- **Responsable**: Asigna la tarjeta a alguien
+- **Etiqueta de color**: Por tipo (frontend=azul, backend=verde, docs=amarillo)
+- **Fecha límite**: Cuando tiene que estar
+
+### Paso 3: Mover tarjetas
+
+Cuando empiezas una tarea, la mueves a "In Progress". Cuando la terminas, a "Done".
+
+### Ejemplo de tablero Trello
+
+```
+To Do              | In Progress       | Done
+-------------------|-------------------|------------------
+Formulario login   | CRUD de tareas    | Estructura repo
+Filtros de búsqueda|                   | Configuración DB
+Manual de usuario  |                   | Portada app
+Exportar a PDF      |                   | README
+```
+
+---
+
+## Cómo usar GitHub Projects
+
+Si ya usáis GitHub para el código, **GitHub Projects** es una alternativa integrada.
+
+### Paso 1: Crear un proyecto
+
+1. Ve a tu repositorio en GitHub
+2. Pestaña "Projects" → "New project"
+3. Selecciona "Board" (tablero)
+4. Crea las columnas: To Do, In Progress, Done
+
+### Paso 2: Vincular Issues
+
+Cada Issue de GitHub puede ser una tarjeta del tablero. Cuando creas una Issue, puedes añadirla al tablero.
+
+### Paso 3: Usar etiquetas
+
+Crea etiquetas como en Trello:
+- `feature` (verde)
+- `bug` (rojo)
+- `docs` (amarillo)
+- `urgent` (naranja)
+
+---
+
+## Comparativa: Trello vs GitHub Projects
+
+<Comparativa
+  dialogos={[
+    { quien: "Trello", texto: "Fácil de usar, visual, funciona para cualquier tipo de proyecto. Sin integración directa con código. Gratis hasta 10 tableros." },
+    { quien: "GitHub Projects", texto: "Integrado con Issues, Pull Requests y código. Ideal si ya usáis GitHub. Un poco menos visual que Trello." },
+  ]}
+  titulo="¿Qué herramienta elegir?"
+/>
+
+| Aspecto | Trello | GitHub Projects |
+|---------|--------|-----------------|
+| **Facilidad** | Muy fácil | Fácil |
+| **Integración código** | No | Sí (Issues, PRs) |
+| **Precio** | Gratis (limitado) | Gratis |
+| **Mobile** | App muy buena | Web responsive |
+| **Automatización** | Power-Ups | Workflows |
+| **Recomendado para** | Cualquier proyecto | Si ya usáis GitHub |
+
+---
+
+## El tablero como herramienta de comunicación
+
+El tablero no es solo para vosotros. También sirve para:
+
+- **El profesor**: Puede ver el estado del proyecto en 30 segundos
+- **El tribunal**: Puede ver qué se hizo y qué no
+- **Vosotros mismos**: En 6 semanas no recordaréis qué hicisteis la semana 2
+
+### Tablero = transparencia
+
+Si el tablero muestra que "Login" lleva 3 semanas en "In Progress", hay un problema. El tablero **hace visible lo que de otro modo sería invisible**.
+
+---
+
+## Aclaración: "El tablero es solo para gestión"
+
+<Aclaracion icono="🤔" pregunta="¿El tablero es solo una lista de tareas?">
+No. El tablero es una **herramienta de comunicación**. Muestra el estado del proyecto de un vistazo. Si alguien pregunta "¿cómo vamos?", miráis el tablero y lo sabéis en 10 segundos.
+
+Un tablero desactualizado es peor que no tener tablero. Da una falsa sensación de control.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las 3 columnas básicas de un tablero Kanban?</summary>
+
+Respuesta: **To Do** (pendientes), **In Progress** (en progreso) y **Done** (terminado). Opcionalmente: Blocked, In Review, Testing.
+</details>
+
+<details>
+<summary>¿Qué es un WIP limit?</summary>
+
+Respuesta: El número máximo de tareas que puede tener una persona o el equipo en "In Progress" a la vez. Evita empezar muchas cosas sin terminar ninguna.
+</details>
+
+<details>
+<summary>¿Cuándo se mueve una tarjeta a "Done"?</summary>
+
+Respuesta: Cuando la feature está terminada, funciona correctamente y al menos otra persona lo ha confirmado. No cuando el programador dice "está listo".
+</details>
+
+<details>
+<summary>¿Qué herramienta es mejor: Trello o GitHub Projects?</summary>
+
+Respuesta: Ambas son buenas. **Trello** es más visual y fácil. **GitHub Projects** se integra mejor con el código. Si ya usáis GitHub, usa GitHub Projects. Si no, Trello.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Un tablero Kanban tiene 3 columnas: **To Do, In Progress, Done** y visualiza todo el trabajo del equipo.
+2. Usa **WIP limits** (máximo 1-2 tareas por persona) para evitar empezar muchas cosas sin terminar.
+3. El tablero es una **herramienta de comunicación**: actualízalo cada día y úsalo para responder "¿cómo vamos?".
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-2-scrum-lite) · Anterior: [03 — El Sprint](./03-sprint) · Siguiente: [05 — User Stories](./05-user-stories)

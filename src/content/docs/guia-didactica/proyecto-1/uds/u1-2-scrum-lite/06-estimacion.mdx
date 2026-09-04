@@ -1,0 +1,216 @@
+---
+title: "06 — Estimación"
+description: "Cómo estimar el esfuerzo sin experiencia previa"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../../../components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 1.2 · SCRUM Lite** → 06 · Estimación
+
+<StoryIntro icono="📖" titulo="Estimar no es adivinar, es pensar antes de empezar">
+  "¿Cuánto te cuesta esa feature?" es la pregunta más importante de un sprint.
+  Si no puedes estimar, no puedes planificar. Si no puedes planificar,
+  vas a trabajar a ciegas y seguramente no termines a tiempo.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Estimar es responder "cuánto esfuerzo cuesta" antes de empezar, para poder planificar y evitar sorpresas.**
+
+No necesitas ser exacto. Necesitas ser **realista**.
+
+---
+
+## ¿Por qué estimar?
+
+| Sin estimación | Con estimación |
+|----------------|----------------|
+| "¿Qué hacemos esta semana?" → "No sé, ya veremos" | "Esta semana hacemos login (2 días), CRUD (2 días) y testing (1 día)" |
+| "Llevamos 3 semanas y no sabemos cuánto queda" | "Llevamos 6 de 10 story points, vamos por buen camino" |
+| "El profe pregunta cuándo estará listo → "No sé" | "El viernes que viene tenemos el MVP funcionando" |
+
+---
+
+## Método 1: T-shirt sizes
+
+El método más simple. En vez de estimar en horas o días, usas tallas de camiseta:
+
+| Talla | Significado | Equivalencia aproximada |
+|-------|-------------|------------------------|
+| **XS** | Trivial | < 1 hora |
+| **S** | Pequeño | 1-2 horas |
+| **M** | Mediano | 4-8 horas (1 día) |
+| **L** | Grande | 2-3 días |
+| **XL** | Muy grande | > 3 días (¡dividir!) |
+
+### Ejemplo
+
+| Feature | Talla | Responsable |
+|---------|-------|-------------|
+| Añadir tarea | S | Ana |
+| Login básico | M | Pedro |
+| Filtros | S | Luis |
+| Exportar PDF | L | Ana |
+| Modo oscuro | M | Pedro |
+
+**Regla**: Si algo es **XL**, divídelo en 2-3 features más pequeñas. "Hacer el login completo" puede ser "Formulario de login" (M) + "Conectar con backend" (M) + "Recordar sesión" (S).
+
+---
+
+## Método 2: Story Points
+
+Los **story points** son una medida relativa de esfuerzo. No son horas ni días: son una comparación entre features.
+
+### La escala Fibonacci
+
+```
+1, 2, 3, 5, 8, 13, 21...
+```
+
+¿Por qué Fibonacci? Porque a medida que una feature es más grande, la incertidumbre crece. No tiene sentido distinguir entre "13" y "14": ambas son "bastante grande".
+
+### Cómo funcionan
+
+1. El equipo elige una feature como referencia (ej: "añadir tarea" = 2 points)
+2. Para cada feature nueva, se pregunta: "¿Es más grande, igual o más pequeña que la de referencia?"
+3. Se asigna el número más cercano
+
+| Feature | Referencia | Story Points |
+|---------|-----------|--------------|
+| Añadir tarea | Referencia | 2 |
+| Editar tarea | Un poco más que añadir | 3 |
+| Login | Más que editar | 5 |
+| CRUD completo | Mucho más | 8 |
+| Exportar PDF | Bastante complejo | 5 |
+
+### Ventaja de los story points
+
+No necesitas saber **cuánto tiempo** tarda cada feature. Solo necesitas saber **qué es más grande** que qué. Eso es más fácil de estimar, especialmente sin experiencia.
+
+---
+
+## Método 3: Planning Poker
+
+El **Planning Poker** es una técnica para que el equipo estime **de forma consensuada**.
+
+### Cómo funciona
+
+1. Cada persona tiene tarjetas con números (1, 2, 3, 5, 8, 13)
+2. Se presenta una feature
+3. Cada persona piensa cuánto cuesta
+4. Al mismo tiempo, todos muestran su tarjeta
+5. Si hay分歧 (ej: uno pone 3 y otro pone 8), se discute por qué
+6. Se repite hasta llegar a un consenso
+
+### Ejemplo de Planning Poker
+
+| Feature | Ana | Pedro | Luis | Consenso |
+|---------|-----|-------|------|----------|
+| Login | 5 | 5 | 8 | 5 (Luis ajusta) |
+| CRUD tareas | 3 | 3 | 3 | 3 (unanimidad) |
+| Filtros | 2 | 3 | 2 | 2 (Pedro ajusta) |
+
+### ¿Por qué funciona?
+
+- Obliga a que **todos piensen** antes de estimar
+- Detecta **malentendidos** ("¿Por qué crees que es 8? Yo creo que es 5")
+- Crea **consenso** sin imponer la opinión de uno
+
+---
+
+## Comparativa: los 3 métodos
+
+<Comparativa
+  dialogos={[
+    { quien: "T-shirt sizes", texto: "XS, S, M, L, XL. El más rápido y simple. Ideal para empezar. No da un número exacto pero es suficiente para planificar." },
+    { quien: "Story Points", texto: "1, 2, 3, 5, 8, 13. Más preciso que T-shirts pero requiere una referencia. Ideal cuando ya tienes un sprint hecho." },
+    { quien: "Planning Poker", texto: "El más preciso pero el más lento. Obliga a que todos participen. Ideal para features complejas donde hay分歧." },
+  ]}
+  titulo="¿Qué método usar?"
+/>
+
+---
+
+## La regla del "por 1.5"
+
+Si estimas en **horas** (que no es lo ideal pero es lo más intuitive), multiplica siempre por 1.5:
+
+| Estimación inicial | Realidad (×1.5) |
+|-------------------|-----------------|
+| 2 horas | 3 horas |
+| 1 día | 1.5 días |
+| 3 días | 4.5 días |
+
+**¿Por qué?** Porque siempre hay cosas que no preves:
+- Bugs que no esperabas
+- Integración con código existente
+- Dudas que requieren investigación
+- Interrupciones
+
+---
+
+## Aclaración: "Estimar es perder el tiempo"
+
+<Aclaracion icono="⚠️" pregunta="¿Para qué estimar si nunca se cumple?">
+Estimar no es dar un número exacto. Es **pensar en el esfuerzo** antes de empezar. Si no estimas, no puedes planificar. Si no puedes planificar, trabajas a ciegas y seguramente no termines a tiempo.
+
+Una estimación no tiene que ser perfecta. Tiene que ser **suficientemente buena** para poder tomar decisiones. "Entre 2 y 3 días" es mejor que "no sé".
+</Aclaracion>
+
+---
+
+## Ejercicio práctico
+
+Toma las 5 features de tu proyecto y estímalas con los 3 métodos:
+
+| Feature | T-shirt | Story Points | Horas (×1.5) |
+|---------|---------|-------------|-------------|
+| Feature 1 | | | |
+| Feature 2 | | | |
+| Feature 3 | | | |
+| Feature 4 | | | |
+| Feature 5 | | | |
+
+**Si consigues estimar las 5 en 5 minutos → has entendido la unidad.**
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son los 3 métodos de estimación?</summary>
+
+Respuesta: **T-shirt sizes** (XS-XL), **Story Points** (1-13 con Fibonacci) y **Planning Poker** (estimación consensuada en equipo).
+</details>
+
+<details>
+<summary>¿Por qué se usa la secuencia de Fibonacci para story points?</summary>
+
+Respuesta: Porque a medida que una feature es más grande, la incertidumbre crece. No tiene sentido distinguir entre "13" y "14" porque ambas son "bastante grande".
+</details>
+
+<details>
+<summary>¿Qué hacer si una feature es XL o > 13 points?</summary>
+
+Respuesta: **Dividirla** en features más pequeñas. Una feature que cuesta más de 3 días probablemente es demasiado grande para un sprint.
+</details>
+
+<details>
+<summary>¿Cuál es la regla del "por 1.5"?</summary>
+
+Respuesta: Si estimas en horas, multiplica siempre por 1.5 porque siempre hay imprevistos. "2 horas" reales son "3 horas" en la práctica.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Estimar es **pensar en el esfuerzo** antes de empezar, no dar un número exacto.
+2. Usa **T-shirt sizes** para empezar rápido y **Story Points** cuando tengas más experiencia.
+3. Si una feature es XL o > 13 points, **divídela** en partes más pequeñas.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-2-scrum-lite) · Anterior: [05 — User Stories](./05-user-stories) · Siguiente: [07 — Errores comunes](./07-errores-scrum)

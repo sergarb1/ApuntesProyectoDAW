@@ -1,0 +1,208 @@
+---
+title: "05 — User Stories"
+description: "Cómo escribir historias de usuario que tengan sentido para el equipo"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../../../components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 1.2 · SCRUM Lite** → 05 · User Stories
+
+<StoryIntro icono="📖" titulo="Las user stories convierten requisitos en lenguaje humano">
+  "Necesito un CRUD" no es un requisito. Es un和技术 jerga que no dice nada
+  sobre **para qué** sirve ni **quién** lo necesita. Las user stories
+  obligan a pensar en el **usuario** y en el **valor** que aporta cada feature.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Una user story describe una funcionalidad desde el punto de vista del usuario: quién la necesita, qué quiere hacer y por qué.**
+
+Si no puedes explicar para qué sirve una feature en una frase, no la entiendes lo suficiente.
+
+---
+
+## El formato clásico
+
+```
+Como [tipo de usuario]
+quiero [hacer algo]
+para [obtener un beneficio]
+```
+
+### Ejemplo: gestor de tareas
+
+| User Story | Valor |
+|------------|-------|
+| Como **alumno**, quiero **añadir tareas con fecha límite** para **no olvidarme de entregar trabajos** | Organización personal |
+| Como **profesor**, quiero **ver las tareas de mis alumnos** para **saber quién va retrasado** | Supervisión |
+| Como **alumno**, quiero **marcar tareas como hechas** para **ver mi progreso** | Motivación |
+
+### ¿Por qué este formato?
+
+El formato "Como... quiero... para que..." obliga a pensar en 3 cosas:
+
+1. **¿Quién lo necesita?** (no todos los usuarios son iguales)
+2. **¿Qué quiere hacer?** (la funcionalidad concreta)
+3. **¿Para qué?** (el valor real)
+
+---
+
+## Las 3 capas de una user story
+
+### INVEST
+
+Una buena user story debe ser:
+
+| Letra | Significado | Ejemplo |
+|-------|-------------|---------|
+| **I**ndependiente | No depende de otras stories para completarse | "Añadir tarea" no depende de "Editar tarea" |
+| **N**egotiable | Se puede discutir cómo implementarla | "Login" puede ser con email o con usuario |
+| **V**aluable | Aporta valor al usuario | "Exportar a PDF" sí, "cambiar color de fondo" probablemente no |
+| **E**stimable | Puedes estimar cuánto cuesta | Si no puedes estimarla, es demasiado grande |
+| **S**mall | Pequeña enough para terminarla en un sprint | Si dura más de 2 días, divídela |
+| **T**estable | Puedes verificar que funciona | "Funciona el login" se puede probar |
+
+---
+
+## Criterios de aceptación
+
+Las user stories necesitan **criterios de aceptación**: condiciones que deben cumplirse para considerar la story "terminada".
+
+### Formato
+
+```
+Criterio de aceptación:
+- Dado que [contexto]
+- Cuando [acción]
+- Entonces [resultado]
+```
+
+### Ejemplo: "Añadir tarea"
+
+```
+Criterios de aceptación:
+
+DADO que estoy en la pantalla de tareas
+CUANDO escribo el nombre de la tarea y pulso "Añadir"
+ENTONCES la tarea aparece en la lista
+
+DADO que añado una tarea sin nombre
+CUANDO pulso "Añadir"
+ENTONCES aparece un error: "El nombre es obligatorio"
+
+DADO que añado una tarea con fecha límite
+CUANDO la fecha es anterior a hoy
+ENTONCES aparece un warning: "La fecha es en el pasado"
+```
+
+### Por qué importan los criterios de aceptación
+
+Sin criterios de aceptación, cada persona interpreta la story de forma diferente:
+
+| Sin criterios | Con criterios |
+|---------------|---------------|
+| "Hacer el login" → Ana hace login con usuario, Pedro quiere login con email | "Login con email y contraseña" → todos saben exactamente qué hay que hacer |
+| "Funciona" → ¿para quién? ¿en qué navegador? | "Funciona en Chrome, Firefox y Safari" → claro y testeable |
+
+---
+
+## User stories vs requisitos técnicos
+
+| User Story | Requisito técnico |
+|------------|-------------------|
+| "Como alumno, quiero añadir tareas para organizarme" | "Implementar endpoint POST /tareas con validación" |
+| "Como profesor, quiero ver tareas de alumnos" | "Implementar endpoint GET /tareas?alumno=xxx" |
+| "Como alumno, quiero marcar tareas hechas" | "Implementar endpoint PATCH /tareas/:id/completar" |
+
+**Regla**: Primero las user stories, luego los requisitos técnicos. Las stories son el "qué" y el "por qué". Los requisitos técnicos son el "cómo".
+
+---
+
+## Comparativa: user story bien escrita vs mal escrita
+
+<Comparativa
+  dialogos={[
+    { quien: "Mal escrita", texto: "Como usuario, quiero un CRUD de tareas para gestionarlas. (¿Quién es el usuario? ¿Qué es 'gestionar'? ¿Para qué sirve?)" },
+    { quien: "Bien escrita", texto: "Como alumno, quiero añadir tareas con nombre y fecha límite para no olvidarme de entregar trabajos. (Claro, concreto, con valor)" },
+  ]}
+  titulo="La diferencia entre una buena y una mala user story"
+/>
+
+---
+
+## Ejemplos de user stories para tu proyecto
+
+### Gestor de tareas
+
+| # | User Story | Prioridad |
+|---|------------|-----------|
+| US01 | Como alumno, quiero crear tareas con nombre y fecha para organizarme | Must |
+| US02 | Como alumno, quiero marcar tareas como hechas para ver mi progreso | Must |
+| US03 | Como alumno, quiero filtrar tareas por fecha para ver las urgentes | Should |
+| US04 | Como alumno, quiero editar tareas para corregir errores | Should |
+| US05 | Como alumno, quiero eliminar tareas que ya no necesito | Could |
+| US06 | Como alumno, quiero exportar mis tareas a PDF para imprimirlas | Could |
+| US07 | Como alumno, quiero recibir notificaciones antes de la fecha límite | Won't |
+
+### Portal de notas
+
+| # | User Story | Prioridad |
+|---|------------|-----------|
+| US01 | Como alumno, quiero ver mis notas de cada asignatura | Must |
+| US02 | Como profesor, quiero introducir notas de mis alumnos | Must |
+| US03 | Como alumno, quiero ver la media de mis notas | Should |
+| US04 | Como profesor, quiero importar notas desde un CSV | Should |
+| US05 | Como alumno, quiero ver gráficos de mi evolución | Could |
+| US06 | Como padre, quiero ver las notas de mi hijo | Won't |
+
+---
+
+## Aclaración: "Las user stories son para empresas"
+
+<Aclaracion icono="🤔" pregunta="¿Las user stories solo sirven en empresas grandes?">
+No. Las user stories sirven en **cualquier proyecto** donde haya usuarios. En tu proyecto de FP, tus usuarios son profesores, alumnos o cualquier persona que use tu app.
+
+Si no defines user stories, defines requisitos técnicos que nadie entiende. Las user stories obligan a pensar en **para qué** sirve cada cosa, no solo en **cómo** se hace.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es el formato de una user story?</summary>
+
+Respuesta: **Como [tipo de usuario], quiero [hacer algo], para [obtener un beneficio]**. Ejemplo: "Como alumno, quiero crear tareas con fecha para organizarme."
+</details>
+
+<details>
+<summary>¿Qué son los criterios de aceptación?</summary>
+
+Respuesta: Condiciones que deben cumplirse para considerar la story terminada. Se escriben en formato "Dado/Cuando/Entonces". Ejemplo: "DADO que estoy en tareas, CUANDO pulso añadir, ENTONCES la tarea aparece en la lista."
+</details>
+
+<details>
+<summary>¿Cuál es la diferencia entre una user story y un requisito técnico?</summary>
+
+Respuesta: La user story describe **qué quiere el usuario y por qué**. El requisito técnico describe **cómo se implementa**. Primero las stories, luego los requisitos.
+</details>
+
+<details>
+<summary>¿Cuántas user stories debería tener tu proyecto?</summary>
+
+Respuesta: Entre 10 y 20. Más de 25 probablemente tienes demasiadas features. Menos de 8 puede que tu proyecto sea demasiado simple.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Las user stories describen funcionalidades desde el punto de vista del usuario: **"Como... quiero... para que..."**.
+2. Los **criterios de aceptación** definen cuándo una story está terminada (formato Dado/Cuando/Entonces).
+3. Primero las stories (el "qué"), luego los requisitos técnicos (el "cómo"). No al revés.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-2-scrum-lite) · Anterior: [04 — Tablero Kanban](./04-kanban) · Siguiente: [06 — Estimación](./06-estimacion)

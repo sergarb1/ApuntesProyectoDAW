@@ -1,0 +1,180 @@
+---
+title: "01 — ¿Qué es Ágil?"
+description: "Waterfall vs Agile, el Manifiesto Ágil y por qué importa para tus proyectos"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../../../components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 1.2 · SCRUM Lite** → 01 · ¿Qué es Ágil?
+
+<StoryIntro icono="📖" titulo="Antes de SCRUM, hay que entender por qué existe">
+  SCRUM no nació de la nada. Nació de un problema real: los proyectos de
+  software **fallaban constantemente** cuando se intentaban planificar todo
+  al principio. Esta unidad te explica qué cambió y por qué.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Metodología ágil = trabajar en ciclos cortos, entregar algo útil cada vez, y adaptarte cuando las cosas cambian.**
+
+No es "no planificar". Es planificar **menos, pero mejor**.
+
+---
+
+## Waterfall: el método "tradicional"
+
+El modelo **Waterfall** (cascada) es el método clásico de gestión de proyectos. Se llama así porque las fases caen como una cascada: una después de otra, sin volver atrás.
+
+### Las fases de Waterfall
+
+```
+1. Requisitos     → Recoger TODO lo que necesita el cliente
+2. Diseño         → Planificar la arquitectura completa
+3. Desarrollo     → Programar todo de una vez
+4. Testing        → Probar cuando ya está "todo hecho"
+5. Despliegue     → Entregar al usuario
+6. Mantenimiento  → Arreglar lo que se rompa
+```
+
+### ¿Por qué falla?
+
+| Problema | Ejemplo real |
+|----------|-------------|
+| **El cliente no sabe qué quiere al principio** | Pide "un gestor de tareas" pero cuando lo ve quiere "un gestor de tareas con calendario y notificaciones" |
+| **Los requisitos cambian** | En la semana 2 descubres que necesitas login, pero el diseño no lo contemplaba |
+| **El testing viene al final** | Cuando pruebas, encuentras bugs que requieren reescribir código de hace 3 semanas |
+| **No hay feedback temprano** | Entregas en la semana 8 algo que el cliente no quería desde la semana 3 |
+
+### La analogy del viaje
+
+Imagina que vas de Madrid a París:
+
+- **Waterfall**: Planificas cada paso, cada comida, cada museo. Si el día 3 llueve, tu plan se arruina.
+- **Ágil**: Tienes un mapa general, pero decides cada día según el tiempo y tus ganas. Si llueve, visitas un museo en vez de pasear.
+
+---
+
+## ¿Qué es el enfoque ágil?
+
+El enfoque **ágil** es un conjunto de metodologías que comparten una filosofía común:
+
+1. **Entregar valor frecuentemente** (no esperar al final)
+2. **Adaptarse al cambio** (los requisitos cambian, y eso está bien)
+3. **Trabajar en equipo** (el conocimiento se comparte)
+4. **Hablar con el usuario** (feedback continuo)
+
+### Los 4 valores del Manifiesto Ágil (2001)
+
+17 expertos en software se reunieron en Utah y firmaron el **Manifiesto Ágil**. Sus valores:
+
+| Valoramos más... | Que sobre... |
+|-------------------|-------------|
+| **Individuos e interacciones** | Procesos y herramientas |
+| **Software funcionando** | Documentación extensiva |
+| **Colaboración con el cliente** | Negociación de contratos |
+| **Respuesta al cambio** | Seguir un plan |
+
+> **Nota**: No dice que lo de la derecha no importe. Dice que lo de la **izquierda importa más**.
+
+### Los 12 principios (resumidos)
+
+1. Nuestra prioridad es **satisfacer al cliente** con entregas tempranas
+2. **Bienvenidos los cambios** de requisitos, incluso tarde en el desarrollo
+3. Entregar software funcionando **en semanas**, no en meses
+4. **Equipos auto-organizados** confían más que los jerárquicos
+5. La **comunicación cara a cara** es la más efectiva
+6. Software funcionando es la medida principal de progreso
+
+---
+
+## Comparativa: Waterfall vs Ágil
+
+<Comparativa
+  dialogos={[
+    { quien: "Waterfall", texto: "Planificas todo al principio (2 meses), construyes todo de golpe (3 meses), entregas al final. Si el cliente cambia de opinión, penas." },
+    { quien: "Ágil", texto: "Planificas poco (1 semana), construyes en ciclos de 2 semanas, entregas algo cada ciclo. Si el cliente cambia, te adaptas." },
+  ]}
+  titulo="Dos filosofías de trabajo"
+/>
+
+| Aspecto | Waterfall | Ágil |
+|---------|-----------|------|
+| **Planificación** | Todo al principio | Continua, iterativa |
+| **Entrega** | Una vez, al final | Cada 1-2 semanas |
+| **Cambios** | Son un problema | Son oportunidades |
+| **Feedback** | Al final | Continuo |
+| **Riesgo** | Se detecta tarde | Se detecta pronto |
+| **Documentación** | Muy extensa | La justa necesaria |
+
+---
+
+## ¿Por qué importa para ti?
+
+En Proyecto Intermodular tienes **poco tiempo** (unas 6 semanas). El enfoque ágil te sirve porque:
+
+1. **No pierdes tiempo** planificando cosas que no vas a hacer
+2. **Detectas problemas pronto** (en vez de descubrirlos la semana 5)
+3. **Terminas algo real** (no un plan perfecto que nunca se hizo)
+4. **Adaptas tu proyecto** si descubres que algo no funciona
+
+> **Dato real**: Según el CHAOS Report (Standish Group), los proyectos ágiles tienen un 42% de éxito frente al 14% de los proyectos Waterfall en pequeños equipos.
+
+---
+
+## El "mino" ágil en tu proyecto
+
+No necesitas ser una empresa para trabajar ágil. En tu proyecto:
+
+| Enfoque ágil | Cómo lo aplicas |
+|-------------|-----------------|
+| **Ciclos cortos** | Sprints de 1 semana |
+| **Entrega frecuente** | Cada semana tienes algo funcionando |
+| **Feedback** | Pides opinión a tu profe o compañeros |
+| **Adaptación** | Si algo no funciona, cambias el plan |
+| **Trabajo en equipo** | Repartís tareas, habláis cada día |
+
+---
+
+## Aclaración: "Ágil no es hacer rápido"
+
+<Aclaracion icono="⚠️" pregunta="¿Ágil significa ir deprisa y sin planificar?">
+No. Ágil significa **entregar valor frecuentemente** y **adaptarse al cambio**. Puedes trabajar con calma y ser ágil, siempre que entregues algo de valor cada poco tiempo.
+
+Lo contrario de ágil no es "lento", es **rígido**: un plan que no cambia aunque las circunstancias lo requieran.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es la diferencia principal entre Waterfall y Ágil?</summary>
+
+Respuesta: Waterfall planifica todo al principio y entrega al final. Ágil planifica poco, entrega en ciclos cortos y se adapta al cambio.
+</details>
+
+<details>
+<summary>¿Qué dice el Manifiesto Ágil sobre la documentación?</summary>
+
+Respuesta: Que valora más el **software funcionando** que la documentación extensiva. No dice que la documentación no importe, sino que el software es más importante.
+</details>
+
+<details>
+<summary>¿Por qué el enfoque ágil es mejor para proyectos pequeños?</summary>
+
+Respuesta: Porque detectas problemas pronto, te adaptas a los cambios y entragas algo real cada poco tiempo. En 6 semanas no puedes permitirte perder 2 planificando.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El enfoque ágil consiste en **trabajar en ciclos cortos**, entregar valor cada vez y adaptarse al cambio.
+2. El Manifiesto Ágil prioriza **personas sobre procesos**, software sobre documentación y colaboración sobre contratos.
+3. Para tu proyecto, ágil significa **sprints de 1 semana**, feedback frecuente y no aferrarte a un plan rígido.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-2-scrum-lite) · Siguiente: [02 — ¿Qué es SCRUM?](./02-que-es-scrum)

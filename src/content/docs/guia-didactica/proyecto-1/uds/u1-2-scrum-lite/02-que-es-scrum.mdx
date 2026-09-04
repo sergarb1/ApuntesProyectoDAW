@@ -1,0 +1,230 @@
+---
+title: "02 — ¿Qué es SCRUM?"
+description: "Roles, ceremonias y artefactos del framework SCRUM simplificado"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../../../components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 1.2 · SCRUM Lite** → 02 · ¿Qué es SCRUM?
+
+<StoryIntro icono="📖" titulo="SCRUM es un framework, no una religión">
+  SCRUM es la metodología ágil más popular del mundo. Pero en el ámbito
+  educativo se suele simplificar demasiado o se copia tal cual de las
+  empresas. Esta unidad te presenta **SCRUM Lite**: lo esencial para
+  tu proyecto, sin la burocracia innecesaria.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **SCRUM es un marco de trabajo que organiza el desarrollo en ciclos cortos (sprints), con roles claros y reuniones rápidas.**
+
+No es una metodología completa. Es un **framework** que puedes adaptar.
+
+---
+
+## Los 3 roles de SCRUM
+
+En un equipo SCRUM hay 3 roles. En un proyecto de FP, estos roles se simplifican:
+
+### 1. Product Owner (PO)
+
+**En la empresa**: Representa al cliente. Decide qué se hace y en qué orden.
+
+**En tu proyecto**: Es el que **define qué features son prioritarias**. Normalmente es el profesor o el propio equipo que decide qué va primero.
+
+| Responsabilidad | Ejemplo |
+|----------------|---------|
+| Definir el producto | "Nuestra app es un gestor de tareas para alumnos" |
+| Priorizar features | "El login es Must, el modo oscuro es Won't" |
+| Aceptar el trabajo | "Sí, esta feature está bien hecha" |
+
+### 2. Scrum Master (SM)
+
+**En la empresa**: Facilita el proceso. Quita impedimentos. Protege al equipo.
+
+**En tu proyecto**: Es el que se **asegura de que SCRUM se cumple**. En equipos de FP, este rol se rota o lo asume el que más organización tenga.
+
+| Responsabilidad | Ejemplo |
+|----------------|---------|
+| Facilitar reuniones | "La daily empieza a las 8:30, no a las 9" |
+| Quitar impedimentos | "No podéis deployar porque no hay servidor → busco alternativa" |
+| Proteger al equipo | "El profe pidió una feature extra → la metemos en el siguiente sprint" |
+
+### 3. Development Team (el equipo)
+
+**En la empresa**: 3-9 personas que desarrollan el producto.
+
+**En tu proyecto**: **Todos vosotros**. No hay subequipos. Cada uno aporta lo que puede.
+
+| Responsabilidad | Ejemplo |
+|----------------|---------|
+| Auto-organizarse | "Yo hago frontend, tú backend, ella testing" |
+| Estimar esfuerzo | "Esta feature me cuesta 2 días" |
+| Entregar al final del sprint | "El viernes tenemos la feature terminada" |
+
+---
+
+## Las 5 ceremonias (reuniones)
+
+SCRUM tiene 5 reuniones principales. En "SCRUM Lite" las simplificamos:
+
+### 1. Sprint Planning (Inicio del sprint)
+
+**¿Qué es?** Reunión donde el equipo decide **qué se va a hacer** en el sprint.
+
+**Duración**: 30-60 minutos.
+
+**Preguntas clave**:
+- ¿Qué podemos entregar este sprint?
+- ¿Quién hace qué?
+- ¿Qué puede salir mal?
+
+**En tu proyecto**: El lunes por la mañana, 30 minutos. Decidís las tareas de la semana.
+
+### 2. Daily Scrum (diaria)
+
+**¿Qué es?** Reunión diaria de 15 minutos donde cada uno dice 3 cosas.
+
+**Duración**: 15 minutos máximo.
+
+**Las 3 preguntas**:
+```
+1. ¿Qué hice ayer?
+2. ¿Qué haré hoy?
+3. ¿Qué me bloquea?
+```
+
+**En tu proyecto**: Cada mañana, 15 minutos. Si sois 4 personas, 4 minutos cada uno.
+
+### 3. Sprint Review (revisión)
+
+**¿Qué es?** Reunión al final del sprint donde se **muestra lo que se ha hecho**.
+
+**Duración**: 30-45 minutos.
+
+**En tu proyecto**: El viernes por la tarde. Mostráis lo que funciona al profe o al equipo.
+
+### 4. Sprint Retrospective (retrospectiva)
+
+**¿Qué es?** Reunión donde el equipo reflexiona sobre **cómo ha ido el sprint**.
+
+**Duración**: 30 minutos.
+
+**Preguntas clave**:
+- ¿Qué salió bien?
+- ¿Qué salió mal?
+- ¿Qué podemos mejorar?
+
+**En tu proyecto**: El viernes después de la review. 15 minutos hablando de qué mejorar.
+
+### 5. Backlog Refining (refinamiento)
+
+**¿Qué es?** Reunión para **preparar el siguiente sprint**: estimar features, aclarar dudas.
+
+**Duración**: 30-60 minutos.
+
+**En tu proyecto**: Miércoles o jueves. Miráis las features del sprint siguiente y las estimáis.
+
+---
+
+## Los 3 artefactos
+
+### 1. Product Backlog
+
+**¿Qué es?** La lista de **todas las features** que quieres en tu producto, ordenadas por prioridad.
+
+**En tu proyecto**: Un documento o tabla con todas tus features clasificadas (MoSCoW de la UD 1.1).
+
+### 2. Sprint Backlog
+
+**¿Qué es?** La lista de features que el equipo se **compromete a hacer** en este sprint.
+
+**En tu proyecto**: Las 3-5 tareas que os proponéis completar esta semana.
+
+### 3. Increment
+
+**¿Qué es?** El **resultado tangible** del sprint: software funcionando que se puede demostrar.
+
+**En tu proyecto**: Lo que podéis mostrar el viernes. Si no funciona, no hay increment.
+
+---
+
+## Comparativa: SCRUM formal vs SCRUM Lite
+
+<Comparativa
+  dialogos={[
+    { quien: "SCRUM formal (empresas)", texto: "3 roles definidos, 5 ceremonias, velocity tracking, burndown charts, sprint de 2 semanas, product backlog refinado, definition of done estricta." },
+    { quien: "SCRUM Lite (tu proyecto)", texto: "Roles rotativos, daily de 15 min, planning de 30 min, retrospectiva rápida, sprint de 1 semana, tablero Trello, y sentido común." },
+  ]}
+  titulo="¿Cuánto SCRUM necesitas?"
+/>
+
+---
+
+## Aclaración: "SCRUM no es para equipos pequeños"
+
+<Aclaracion icono="🤔" pregunta="¿SCRUM funciona solo para equipos grandes?">
+No. SCRUM funciona mejor en **equipos pequeños** (3-9 personas). En tu proyecto de FP sois 2-4 personas, que es el tamaño perfecto.
+
+Lo que no tiene sentido es copiar los procesos de una empresa de 200 personas. Por eso existe SCRUM Lite: adaptar los principios sin la burocracia.
+</Aclaracion>
+
+---
+
+## El ciclo de SCRUM en tu proyecto
+
+```
+Sprint Planning (lunes 30 min)
+    ↓
+Daily Scrum (cada día 15 min)
+    ↓
+Desarrollo (el grueso del tiempo)
+    ↓
+Sprint Review (viernes 30 min)
+    ↓
+Sprint Retrospective (viernes 15 min)
+    ↓
+Siguiente Sprint...
+```
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son los 3 roles de SCRUM?</summary>
+
+Respuesta: Product Owner (define qué se hace), Scrum Master (facilita el proceso) y Development Team (desarrolla el producto). En tu proyecto, estos roles se simplifican o se rotan.
+</details>
+
+<details>
+<summary>¿Cuáles son las 5 ceremonias de SCRUM?</summary>
+
+Respuesta: Sprint Planning, Daily Scrum, Sprint Review, Sprint Retrospective y Backlog Refining.
+</details>
+
+<details>
+<summary>¿Qué es un Sprint?</summary>
+
+Respuesta: Un período de tiempo (1-2 semanas) en el que el equipo trabaja en un conjunto de features y entrega algo funcionando al final.
+</details>
+
+<details>
+<summary>¿Qué es el Product Backlog?</summary>
+
+Respuesta: La lista de todas las features que quieres en tu producto, ordenadas por prioridad. Es la "lista de la compra" del proyecto.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. SCRUM organiza el trabajo en **sprints** (ciclos de 1-2 semanas) con roles claros y reuniones cortas.
+2. Los 3 roles son **Product Owner** (prioriza), **Scrum Master** (facilita) y **Development Team** (ejecuta).
+3. En tu proyecto, aplica SCRUM Lite: **planning de 30 min, daily de 15 min, review y retrospectiva al final del sprint**.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-2-scrum-lite) · Anterior: [01 — ¿Qué es Ágil?](./01-que-es-agil) · Siguiente: [03 — El Sprint](./03-sprint)

@@ -1,0 +1,259 @@
+---
+title: "03 — El Sprint"
+description: "Cómo funcionan los sprints y cómo ejecutarlos en tu proyecto"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../../../components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 1.2 · SCRUM Lite** → 03 · El Sprint
+
+<StoryIntro icono="📖" titulo="El sprint es el latido de SCRUM">
+  Un sprint es un período de tiempo fijo en el que el equipo se compromete
+  a entregar algo concreto. No es "trabajar deprisa". Es **trabajar enfocado**
+  durante un tiempo limitado, con un objetivo claro.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un sprint es una semana (o dos) donde el equipo se compromete a entregar algo que funciona, sin cambiar de opinión a mitad.**
+
+Si cambias de objetivo a mitad del sprint, no estás haciendo SCRUM.
+
+---
+
+## La anatomy de un sprint
+
+### Duración
+
+| Duración | Cuándo usarla |
+|----------|--------------|
+| **1 semana** | Proyectos de FP, equipos pequeños, alta incertidumbre |
+| **2 semanas** | Equipos más grandes, proyectos más estables |
+| **4 semanas** | Nunca en un proyecto de 6 semanas (solo 1.5 sprints) |
+
+**Recomendación para tu proyecto**: Sprints de **1 semana**. Con 6 semanas de proyecto, tienes 6 sprints. Es suficiente para entregar algo bien hecho.
+
+### El ciclo de un sprint de 1 semana
+
+```
+Lunes (30 min)    → Sprint Planning: ¿qué hacemos esta semana?
+Martes-Jueves     → Desarrollo: cada uno con su tarea
+Viernes (45 min)  → Review + Retrospectiva: ¿qué conseguimos? ¿qué mejoramos?
+```
+
+---
+
+## Sprint Planning: el lunes por la mañana
+
+El planning es la reunión más importante del sprint. Aquí se decide **qué se va a hacer** y **quién lo hace**.
+
+### Paso 1: Revisar el Product Backlog (10 min)
+
+Miráis la lista de features priorizadas y decidís cuáles entran en este sprint.
+
+**Regla clave**: No podéis comprometeros con más de lo que podéis hacer. Si tenéis 3 personas y cada una puede hacer 1 feature por semana, el sprint tiene como máximo 3 features.
+
+### Paso 2: Estimar esfuerzo (10 min)
+
+Para cada feature, decidís cuánto cuesta. No necesitáis Planning Poker formal: basta con preguntar "¿cuántos días crees que te lleva?" y multiplicar por 1.5 (porque siempre cuesta más de lo que crees).
+
+### Paso 3: Repartir trabajo (10 min)
+
+Cada persona elige o recibe una tarea. Idealmente, cada uno trabaja en **una sola feature** por sprint.
+
+### Plantilla de Sprint Planning
+
+| Feature | Responsable | Estimación | Estado |
+|---------|-------------|------------|--------|
+| Login con JWT | Ana | 2 días | Pendiente |
+| CRUD de tareas | Pedro | 3 días | Pendiente |
+| Filtro por prioridad | Luis | 1 día | Pendiente |
+
+---
+
+## Daily Scrum: los 15 minutos diarios
+
+La daily es la reunión más corta y más importante. Sirve para **alinear al equipo** y **detectar bloqueos**.
+
+### Las 3 preguntas (cada persona)
+
+```
+1. ¿Qué hice ayer?
+2. ¿Qué haré hoy?
+3. ¿Qué me bloquea?
+```
+
+### Ejemplo de daily
+
+| Persona | Ayer | Hoy | Bloqueo |
+|---------|------|-----|---------|
+| Ana | Empecé el login | Terminar el login | Ninguno |
+| Pedro | Diseñé la BD de tareas | Implementar CRUD | No sé cómo hacer el endpoint de borrar |
+| Luis | Estudié Trello | Empezar el filtro | Ninguno |
+
+**Nota**: Pedro tiene un bloqueo. El Scrum Master (o el equipo) debe ayudarle **después** de la daily, no durante.
+
+### Reglas de la daily
+
+1. **15 minutos máximo**. Cronometrad.
+2. **De pie** (o levantados si es por Discord/Teams)
+3. **No se resuelven dudas técnicas** aquí. Se apuntan y se hablan después.
+4. **Si no hay nada que decir**: "Todo va bien, sigo con lo mismo." 30 segundos.
+
+---
+
+## Desarrollo: el grueso del sprint
+
+El 80% del tiempo del sprint es **desarrollo real**. Aquí van algunos consejos:
+
+### Una persona, una tarea
+
+No assignéis 3 features a la misma persona. Si Ana tiene el login y el registro y el perfil, va a estar sobrecargada mientras Luis solo tiene el filtro.
+
+### Working Agreement
+
+Definid desde el primer sprint cómo trabajáis:
+
+| Aspecto | Decisión |
+|---------|----------|
+| **Horario de código** | 9:00 - 14:00 |
+| **Comunicación** | Discord canal #proyecto |
+| **Ramas** | feature/nombre-feature |
+| **Commits** | Mensajes descriptivos en inglés |
+| **Code review** | Al menos 1 persona revisa antes de mergear |
+
+### Definition of Done (DoD)
+
+¿Cuándo consideráis que una feature está "hecha"? Definid unos criterios:
+
+- [ ] El código compila sin errores
+- [ ] Funciona en el navegador del profesor
+- [ ] Tiene documentación básica
+- [ ] Otra persona lo ha probado
+- [ ] Está en la rama principal
+
+---
+
+## Sprint Review: el viernes por la tarde
+
+La review es donde **mostráis lo que habéis hecho**. No es una presentación bonita: es una demo.
+
+### Formato de la review
+
+1. **Cada persona muestra su feature** (5 minutos por persona)
+2. **El Product Owner (o profe) acepta o rechaza** la feature
+3. **Se actualiza el tablero Kanban**: las features hechas van a "Done"
+
+### Qué NO hacer en la review
+
+- No hacer una presentación de PowerPoint
+- No explicar el código línea por línea
+- No discutir por qué algo no funciona (eso es para la retrospectiva)
+
+---
+
+## Sprint Retrospective: qué mejorar
+
+La retrospectiva es donde el equipo reflexiona sobre **cómo ha funcionado** el sprint, no sobre qué features se hicieron.
+
+### Las 3 preguntas
+
+1. **¿Qué salió bien?** (para seguir haciéndolo)
+2. **¿Qué salió mal?** (para dejar de hacerlo)
+3. **¿Qué podemos mejorar?** (para empezar a hacerlo)
+
+### Ejemplo de retrospectiva
+
+| Categoría | Observación | Acción |
+|-----------|-------------|--------|
+| ✅ Bien | La daily nos ayudó a detectar el bloqueo de Pedro rápido | Seguir con la daily |
+| ❌ Mal | Pedro no pudo terminar el CRUD porque la API no estaba lista | El backend se termina ANTES de empezar el frontend |
+| 🔄 Mejorar | No sabemos cuánto queda del proyecto | Añadir un "burndown" sencillo en el tablero |
+
+### Retrospectiva 4Ls (alternativa)
+
+Si la de 3 preguntas se queda corta, usa el formato 4Ls:
+
+| Letra | Pregunta |
+|-------|----------|
+| **Liked** | ¿Qué nos gustó? |
+| **Learned** | ¿Qué aprendimos? |
+| **Lacked** | ¿Qué nos faltó? |
+| **Longed for** | ¿Qué echamos en falta? |
+
+---
+
+## Comparativa: sprint de 1 semana vs 2 semanas
+
+<Comparativa
+  dialogos={[
+    { quien: "Sprint de 1 semana", texto: "6 sprints en 6 semanas. Ciclos rápidos, feedback frecuente, pero menos tiempo por feature. Ideal para proyectos de FP." },
+    { quien: "Sprint de 2 semanas", texto: "3 sprints en 6 semanas. Más tiempo por feature, pero menos ciclos de feedback. Solo si las features son complejas." },
+  ]}
+  titulo="¿Cuánto dura un sprint?"
+/>
+
+---
+
+## Aclaración: "Un sprint no es una semana de trabajo normal"
+
+<Aclaracion icono="⚠️" pregunta="¿Un sprint es solo trabajar como siempre pero llamándolo sprint?">
+No. Un sprint tiene **objetivo, duración fija y entrega al final**. Si trabajas sin un objetivo claro, sin reuniones y sin mostrar lo que has hecho, no estás haciendo un sprint. Estás trabajando sin método.
+
+La diferencia entre "trabajar una semana" y "un sprint" es la **intención**: hay un plan, hay un compromiso y hay un resultado demostrable.
+</Aclaracion>
+
+---
+
+## Los sprints de tu proyecto (ejemplo)
+
+| Semana | Sprint | Objetivo | Features |
+|--------|--------|----------|----------|
+| 1 | Sprint 1 | Setup + MVP básico | Repo, estructura, primera feature |
+| 2 | Sprint 2 | Core funcional | CRUD principal, login básico |
+| 3 | Sprint 3 | Features secundarias | Filtros, validación, errores |
+| 4 | Sprint 4 | Pulir + testing | Bugs, UX, pruebas |
+| 5 | Sprint 5 | Documentación | README, manual, diagrams |
+| 6 | Sprint 6 | Preparar entrega | Presentación, deploy, último review |
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuánto dura un sprint recomendado para un proyecto de FP?</summary>
+
+Respuesta: **1 semana**. Con 6 semanas de proyecto, tienes 6 sprints. Es suficiente para entregar algo bien hecho y tener feedback frecuente.
+</details>
+
+<details>
+<summary>¿Qué se hace en el Sprint Planning?</summary>
+
+Respuesta: Se decide qué features entran en el sprint, quién hace qué y se estima el esfuerzo. Dura 30-60 minutos.
+</details>
+
+<details>
+<summary>¿Qué son las 3 preguntas de la daily?</summary>
+
+Respuesta: 1) ¿Qué hice ayer? 2) ¿Qué haré hoy? 3) ¿Qué me bloquea? Cada persona responde en 1-2 minutos. Total: 15 minutos.
+</details>
+
+<details>
+<summary>¿Cuál es la diferencia entre Review y Retrospectiva?</summary>
+
+Respuesta: La **Review** es para **mostrar lo que se ha hecho** (el "qué"). La **Retrospectiva** es para **mejorar cómo se trabaja** (el "cómo").
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Un sprint es un período de **1-2 semanas** con un objetivo claro y una entrega al final.
+2. Las ceremonias esenciales son: **planning** (lunes), **daily** (cada día) y **review + retrospectiva** (viernes).
+3. En tu proyecto, usa **sprints de 1 semana** para tener feedback rápido y terminar a tiempo.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-2-scrum-lite) · Anterior: [02 — ¿Qué es SCRUM?](./02-que-es-scrum) · Siguiente: [04 — Tablero Kanban](./04-kanban)
