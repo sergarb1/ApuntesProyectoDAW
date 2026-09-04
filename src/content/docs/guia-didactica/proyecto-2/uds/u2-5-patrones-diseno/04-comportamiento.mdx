@@ -1,0 +1,311 @@
+---
+title: "04 — Patrones de comportamiento"
+description: "Observer, Strategy y Command: cómo se comunican y distribuyen responsabilidades"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🏗️ **UD 2.5 · Patrones de Diseño** → 04 · Patrones de comportamiento
+
+<StoryIntro icono="🔄" titulo="Los patrones de comportamiento distribuyen el trabajo entre objetos">
+  Los patrones de comportamiento se enfocan en **cómo se comunican** los
+  objetos y cómo se distribuyen las responsabilidades. Son los que hacen
+  que tu código **reaccione** a cambios, **intercambie** algoritmos y
+  **encapsule** acciones.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Observer notifica cambios, Strategy intercambia algoritmos y Command encapsula acciones: los 3 hacen que tu código sea más flexible y desacoplado.**
+
+Cada uno resuelve un problema de comunicación diferente.
+
+---
+
+## Observer: notificar cambios a múltiples objetos
+
+### El problema
+
+Cuando algo cambia, necesitas **notificar** a múltiples objetos sin acoplarlos.
+
+### La solución
+
+```javascript
+// Observer en JavaScript
+
+class EventBus {
+  constructor() {
+    this.listeners = {};
+  }
+
+  on(event, callback) {
+    if (!this.listeners[event]) {
+      this.listeners[event] = [];
+    }
+    this.listeners[event].push(callback);
+  }
+
+  off(event, callback) {
+    if (!this.listeners[event]) return;
+    this.listeners[event] = this.listeners[event].filter(cb => cb !== callback);
+  }
+
+  emit(event, data) {
+    if (!this.listeners[event]) return;
+    this.listeners[event].forEach(cb => cb(data));
+  }
+}
+
+// Uso
+const bus = new EventBus();
+
+// Observador 1: actualiza la UI
+bus.on('taskCreated', (task) => {
+  document.getElementById('task-list').innerHTML += `<li>${task.name}</li>`;
+});
+
+// Observador 2: guarda en localStorage
+bus.on('taskCreated', (task) => {
+  const tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+  tasks.push(task);
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+});
+
+// Observador 3: muestra notificación
+bus.on('taskCreated', (task) => {
+  showNotification(`Tarea "${task.name}" creada`);
+});
+
+// Emitir evento (todos los observadores se activan)
+bus.emit('taskCreated', { name: 'Nueva tarea' });
+```
+
+### Cuándo usarlo
+
+| Caso | Ejemplo |
+|------|---------|
+| Eventos de UI | Click, cambio de formulario |
+| Notificaciones | Alertar a múltiples componentes |
+| Sincronización | Actualizar varias vistas con los mismos datos |
+
+---
+
+## Strategy: intercambiar algoritmos en tiempo de ejecución
+
+### El problema
+
+Tienes **múltiples algoritmos** para hacer lo mismo y quieres poder cambiar entre ellos.
+
+### La solución
+
+```javascript
+// Strategy en JavaScript
+
+// Estrategias de ordenación
+const sortStrategies = {
+  byName: (a, b) => a.name.localeCompare(b.name),
+  byDate: (a, b) => new Date(a.date) - new Date(b.date),
+  byPriority: (a, b) => a.priority - b.priority,
+};
+
+// Contexto que usa la estrategia
+class TaskList {
+  constructor(tasks) {
+    this.tasks = tasks;
+    this.sortStrategy = sortStrategies.byName; // por defecto
+  }
+
+  setSortStrategy(strategy) {
+    this.sortStrategy = strategy;
+  }
+
+  sort() {
+    return [...this.tasks].sort(this.sortStrategy);
+  }
+}
+
+// Uso
+const tasks = [
+  { name: 'B', date: '2024-01-02', priority: 2 },
+  { name: 'A', date: '2024-01-01', priority: 1 },
+  { name: 'C', date: '2024-01-03', priority: 3 },
+];
+
+const list = new TaskList(tasks);
+
+list.setSortStrategy(sortStrategies.byName);
+list.sort(); // [{name:'A'}, {name:'B'}, {name:'C'}]
+
+list.setSortStrategy(sortStrategies.byPriority);
+list.sort(); // [{priority:1}, {priority:2}, {priority:3}]
+```
+
+### Cuándo usarlo
+
+| Caso | Ejemplo |
+|------|---------|
+| Filtros de búsqueda | Por nombre, fecha, categoría |
+| Ordenación | Por fecha, nombre, prioridad |
+| Validación | Reglas diferentes según el tipo |
+
+---
+
+## Command: encapsular acciones como objetos
+
+### El problema
+
+Necesitas **desacoplar** quién ejecuta una acción de quién la solicita. Útil para deshacer/rehacer.
+
+### La solución
+
+```javascript
+// Command en JavaScript
+
+class Task {
+  constructor(name) {
+    this.name = name;
+    this.done = false;
+  }
+}
+
+// Comandos
+class CreateTaskCommand {
+  constructor(taskList, task) {
+    this.taskList = taskList;
+    this.task = task;
+  }
+
+  execute() {
+    this.taskList.push(this.task);
+  }
+
+  undo() {
+    const index = this.taskList.indexOf(this.task);
+    if (index > -1) this.taskList.splice(index, 1);
+  }
+}
+
+class CompleteTaskCommand {
+  constructor(task) {
+    this.task = task;
+  }
+
+  execute() {
+    this.task.done = true;
+  }
+
+  undo() {
+    this.task.done = false;
+  }
+}
+
+// Historial de comandos
+class CommandHistory {
+  constructor() {
+    this.history = [];
+  }
+
+  execute(command) {
+    command.execute();
+    this.history.push(command);
+  }
+
+  undo() {
+    const command = this.history.pop();
+    if (command) command.undo();
+  }
+}
+
+// Uso
+const tasks = [];
+const history = new CommandHistory();
+
+history.execute(new CreateTaskCommand(tasks, new Task('Login')));
+history.execute(new CreateTaskCommand(tasks, new Task('Dashboard')));
+
+tasks.length; // 2
+
+history.undo();
+tasks.length; // 1 (se eliminó 'Dashboard')
+```
+
+### Cuándo usarlo
+
+| Caso | Ejemplo |
+|------|---------|
+| Deshacer/rehacer | Editor de texto, dibujo |
+| Cola de acciones | Procesamiento asíncrono |
+| Transacciones | Guardar/deshacer cambios |
+
+---
+
+## Comparativa: los 3 de comportamiento
+
+<Comparativa
+  dialogos={[
+    { quien: "Observer", texto: "Cuando pasa algo, notifico a todos los que estén escuchando. No sé quiénes son, solo emito el evento." },
+    { quien: "Strategy", texto: "Tengo múltiples formas de hacer algo. Cambio la estrategia en tiempo de ejecución sin modificar el contexto." },
+    { quien: "Command", texto: "Encapsculo cada acción como un objeto. Puedo ejecutarla, deshacerla, guardarla en un historial." },
+  ]}
+  titulo="Cada uno distribuye la responsabilidad de una manera diferente"
+/>
+
+| Patrón | Problema | Solución |
+|--------|----------|---------|
+| **Observer** | "Necesito notificar a múltiples objetos" | Emitir eventos, suscribirse |
+| **Strategy** | "Necesito intercambiar algoritmos" | Inyectar la estrategia |
+| **Command** | "Necesito deshacer/rehacer acciones" | Encapsular como objetos |
+
+---
+
+## Aclaración: "¿Cuándo uso Observer y cuándo Strategy?"
+
+<Aclaracion icono="🤔" pregunta="¿No son similares Observer y Strategy?">
+No. La diferencia es clara:
+
+| Observer | Strategy |
+|----------|----------|
+| **Notifica** cambios a múltiples objetos | **Intercambia** algoritmos en un solo objeto |
+| Varios observadores escuchan | Un contexto usa una estrategia a la vez |
+| `bus.emit('evento')` | `list.setSortStrategy(byName)` |
+| 1:N (un emisor, muchos receptores) | 1:1 (un contexto, una estrategia) |
+
+**Observer** = "Cuando llegue un email, notifica a Gmail, Outlook y mi móvil."
+**Strategy** = "Quiero ordenar por nombre o por fecha. Cambio la estrategia."
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué hace Observer?</summary>
+
+**Notifica cambios** a múltiples objetos que estén escuchando. El emisor no sabe quiénes son los receptores: solo emite el evento.
+</details>
+
+<details>
+<summary>¿Qué hace Strategy?</summary>
+
+**Intercambia algoritmos** en tiempo de ejecución. El contexto usa una estrategia que puede cambiarse sin modificar el código del contexto.
+</details>
+
+<details>
+<summary>¿Qué hace Command?</summary>
+
+**Encapsula acciones como objetos** con execute() y undo(). Permite deshacer, rehacer y guardar historial de acciones.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **Observer** notifica cambios a múltiples objetos: emite eventos y los suscriptores reaccionan sin acoplarse al emisor.
+2. **Strategy** intercambia algoritmos en tiempo de ejecución: cambias la estrategia (ordenación, filtrado) sin modificar el contexto.
+3. **Command** encapsula acciones como objetos: cada acción tiene execute() y undo(), permitiendo deshacer y guardar historial.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-5-patrones-diseno) · Anterior: [03 — Patrones estructurales](../03-estructurales) · Siguiente: [05 — MVC](../05-mvc)

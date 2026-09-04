@@ -1,0 +1,149 @@
+---
+title: "01 — Qué hace bien y mal la IA"
+description: "Fortalezas y limitaciones reales de la IA en desarrollo de software"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🤖 **UD 2.7 · IA como Copiloto** → 01 · Qué hace bien y mal la IA
+
+<StoryIntro icono="📖" titulo="La IA no es mágica. Es una herramienta con límites.">
+  Antes de usar la IA en tu proyecto, necesitas entender **dónde brilla y
+  dónde falla**. Usarla sin conocer sus limitaciones es como conducir un
+  coche sin saber frenar: al principio vas rápido, pero al final chocas.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **La IA es excelente para tareas repetitivas y patrones conocidos, pero no entiende tu contexto ni tu negocio.**
+
+---
+
+## Qué hace BIEN la IA
+
+### 1. Generar código boilerplate
+
+La IA brilla cuando necesitas código repetitivo que siga un patrón:
+
+- Componentes CRUD (crear, leer, actualizar, borrar)
+- Formularios con validación
+- Endpoints de API con estructura estándar
+- Tests unitarios básicos
+
+### 2. Explicar código existente
+
+Puedes pegar código y pedir que te lo explique línea por línea. Es como tener un compañero que siempre tiene paciencia.
+
+### 3. Sugerir mejoras
+
+La IA detecta patrones subóptimos:
+- Código duplicado que podría ser una función
+- Variables mal nombradas
+- Posibles bugs por null checks faltantes
+
+### 4. Aprender新技术
+
+¿No sabes cómo usar un framework? La IA puede generar ejemplos básicos que te dan un punto de partida.
+
+### 5. Convertir entre lenguajes
+
+Tienes un snippet en Python y necesitas la versión en JavaScript. La IA lo hace en segundos.
+
+---
+
+## Qué hace MAL la IA
+
+### 1. Entender tu negocio
+
+La IA no sabe que en tu app de citas los usuarios son profesores jubilados, no jóvenes de 20 años. Generará código genérico, no adaptado a tu contexto.
+
+### 2. Arquitectura compleja
+
+La IA puede crear un componente, pero no puede diseñar la arquitectura completa de tu aplicación. Eso requiere comprensión del negocio y decisiones de diseño.
+
+### 3. Dependencias
+
+La IA inventa paquetes que no existen o usa versiones obsoletas. Siempre verifica que las dependencias que sugiere sean reales y actualizadas.
+
+### 4. Seguridad
+
+La IA genera código con vulnerabilidades comunes: SQL injection, XSS, secrets hardcodeados. **Nunca** confíes ciegamente en el código de seguridad que genere.
+
+### 5. Contexto largo
+
+Si tu archivo tiene 500 líneas y le pides que modifique la línea 47, puede "olvidar" el contexto de las primeras 100 líneas y generar algo que rompe lo existente.
+
+---
+
+## Comparativa: IA vs Desarrollador
+
+<Comparativa
+  dialogos={[
+    { who: "IA", texto: "Puedo generar un componente de login en 30 segundos con email, contraseña, validación y manejo de errores." },
+    { who: "Desarrollador", texto: "Puedo decidir si el login necesita OAuth, si la validación debe ser client-side o server-side, y si el error debe ser genérico o específico." },
+  ]}
+  titulo="Lo que cada uno hace mejor"
+/>
+
+| Tarea | IA | Desarrollador |
+|-------|-----|---------------|
+| Generar boilerplate | ✅ Rápido y correcto | 🐢 Lento pero personalizado |
+| Explicar código | ✅ Clara y patiente | ✅ Entiende el contexto |
+| Arquitectura | ❌ No entiende el negocio | ✅ Toma decisiones informadas |
+| Seguridad | ⚠️ Genera código vulnerable | ✅ Conoce los riesgos |
+| Testing | ✅ Genera tests básicos | ✅ Diseña estrategia de testing |
+| Debugging | ⚠️ A veces acierta | ✅ Entiende la causa raíz |
+
+---
+
+## La regla del 80/20
+
+La IA puede hacer el **80% del trabajo** en tiempo de un desarrollador junior. Pero ese último 20% — la comprensión del negocio, la seguridad, la arquitectura — es lo que separa un proyecto funcional de uno profesional.
+
+> **Consejo**: Usa la IA para el 80% repetitivo y dedica tu tiempo al 20% que requiere pensamiento humano.
+
+---
+
+## Aclaración: "¿La IA me va a quitar el trabajo?"
+
+<Aclaracion icono="🤔" pregunta="¿Debería preocuparme de que la IA reemplace a los desarrolladores?">
+No. La IA reemplazará tareas repetitivas, no el pensamiento. Un desarrollador que sabe usar la IA será más productivo que uno que no. Aprender a usarla bien es una ventaja competitiva, no una amenaza.
+
+**Piensa en ello así**: el calculador no eliminó a los contables, pero el contable que sabía usar un calculador era más rápido que el que no.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué tipo de código genera mejor la IA?</summary>
+
+Respuesta: Código boilerplate y repetitivo: componentes CRUD, formularios, tests básicos, snippets de lenguajes conocidos.
+</details>
+
+<details>
+<summary>¿Qué NO deberías delegar a la IA?</summary>
+
+Respuesta: Decisiones de arquitectura, diseño de seguridad, comprensión del negocio y decisiones de UX que requieren contexto del usuario real.
+</details>
+
+<details>
+<summary>¿Qué es la regla del 80/20?</summary>
+
+Respuesta: La IA hace el 80% del trabajo repetitivo, pero el 20% restante (seguridad, arquitectura, contexto) requiere un desarrollador humano.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. La IA es excelente para **código repetitivo, explicaciones y aprendizaje**, pero no entiende tu negocio ni tu contexto.
+2. **Nunca confíes ciegamente** en código de seguridad generado por IA: siempre revisa y valida.
+3. Usa la IA como acelerador, no como sustituto: **tú tomas las decisiones, ella ejecuta lo mecánico**.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-7-ia-copiloto) · Siguiente: [02 — Prompts efectivos](../02-prompts-efectivos)

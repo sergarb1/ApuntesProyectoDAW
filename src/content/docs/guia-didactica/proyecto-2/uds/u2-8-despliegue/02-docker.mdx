@@ -1,0 +1,383 @@
+---
+title: "02 — Docker"
+description: "Cómo empaquetar tu aplicación con Docker para que funcione en cualquier entorno"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** ☁️ **UD 2.8 · Despliegue** → 02 · Docker
+
+<StoryIntro icono="🐳" titulo="Docker resuelve el problema de 'en mi máquina funciona'">
+  "En mi máquina funciona" es la frase más peligrosa del desarrollo.
+  Docker la elimina: empaquetas tu aplicación con todo lo que necesita
+  para funcionar, y funciona igual en cualquier ordenador, servidor
+  o plataforma en el mundo.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Docker empaqueta tu app en un contenedor que funciona igual en todas partes: en tu máquina, en el servidor del profesor o en la nube.**
+
+---
+
+## Qué es Docker
+
+Docker es una herramienta que crea **contenedores**: cajas aisladas que contienen tu aplicación y todo lo que necesita para funcionar (sistema operativo, dependencias, configuración).
+
+### Imagen vs Contenedor
+
+| Concepto | Qué es | Ejemplo |
+|----------|--------|---------|
+| **Imagen** | La receta (plantilla) | `node:20-alpine` |
+| **Contenedor** | La ejecución de la receta | Un contenedor Node.js corriendo |
+
+---
+
+## Dockerfile: el corazón de Docker
+
+Un Dockerfile es un archivo de texto con instrucciones para construir la imagen.
+
+### Ejemplo: Dockerfile para una app Node.js
+
+```dockerfile
+# 1. Imagen base
+FROM node:20-alpine
+
+# 2. Directorio de trabajo
+WORKDIR /app
+
+# 3. Copiar dependencias
+COPY package*.json ./
+
+# 4. Instalar dependencias
+RUN npm ci --only=production
+
+# 5. Copiar código fuente
+COPY . .
+
+# 6. Exponer puerto
+EXPOSE 3000
+
+# 7. Comando de inicio
+CMD ["node", "src/server.js"]
+```
+
+### Línea por línea
+
+```dockerfile
+FROM node:20-alpine          # Usa Node.js 20 con Alpine Linux (ligero)
+WORKDIR /app                 # Crea la carpeta /app dentro del contenedor
+COPY package*.json ./        # Copia package.json y package-lock.json
+RUN npm ci --only=production # Instala solo dependencias de producción
+COPY . .                     # Copia todo el código fuente
+EXPOSE 3000                  # Documenta que el contenedor usa el puerto 3000
+CMD ["node", "src/server.js"] # Comando que se ejecuta al iniciar el contenedor
+```
+
+---
+
+## Docker Compose: multi-servicio
+
+Si tu app tiene frontend + backend + base de datos, usas docker-compose.yml:
+
+```yaml
+version: '3.8'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    ports:
+      - "4000:4000"
+    environment:
+      - DATABASE_URL=postgres://user:pass@db:5432/mydb
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=mydb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+```
+
+---
+
+## Comandos esenciales de Docker
+
+| Comando | Qué hace |
+|---------|----------|
+| `docker build -t mi-app .` | Construye la imagen desde el Dockerfile |
+| `docker run -p 3000:3000 mi-app` | Ejecuta un contenedor |
+| `docker ps` | Lista contenedores en ejecución |
+| `docker stop <id>` | Detiene un contenedor |
+| `docker-compose up -d` | Levanta todos los servicios |
+| `docker-compose down` | Detiene todos los servicios |
+| `docker logs <id>` | Muestra los logs del contenedor |
+
+---
+
+## Variables de entorno: configuración que cambia entre entornos
+
+Todo lo que cambia entre desarrollo, pruebas y producción (credenciales, URLs, puertos) debe ser una **variable de entorno**, nunca un valor fijo en el código.
+
+```javascript
+// ❌ MAL: hardcodeado
+const DB_URL = "mongodb://localhost:27017/mi_app";
+const API_KEY = "sk-1234567890abcdef";
+
+// ✅ BIEN: variables de entorno
+const DB_URL = process.env.DB_URL || "mongodb://localhost:27017/mi_app";
+const API_KEY = process.env.API_KEY;
+```
+
+### El archivo `.env` y `.env.example`
+
+En desarrollo se usa el archivo `.env`; en producción, las variables se configuran en la plataforma.
+
+```bash
+# .env (desarrollo local — NUNCA subir al repo)
+DB_HOST=localhost
+DB_PASSWORD=mipassword
+NODE_ENV=development
+PORT=3000
+```
+
+```bash
+# .env.example (sí se sube al repo — valores vacíos)
+DB_HOST=          # Host de la base de datos
+DB_PASSWORD=      # Contraseña (nunca valores reales)
+NODE_ENV=         # development o production
+PORT=             # Puerto del servidor
+```
+
+**Reglas de oro:**
+1. **Nunca subas `.env`** al repositorio. Añádelo a `.gitignore`.
+2. Crea **`.env.example`** con las variables sin valores reales, para que quien clone el repo sepa qué configurar.
+3. Usa **valores diferentes** para desarrollo y producción.
+4. No pongas **valores por defecto peligrosos** en los secrets: mejor fallar rápido si falta una variable que arrancar con configuración incompleta.
+
+```gitignore
+# .gitignore
+.env
+.env.*
+!.env.example
+```
+
+### En Docker Compose
+
+En Compose, las credenciales no van directamente en el YAML. Se referencian desde `.env`:
+
+```yaml
+backend:
+  environment:
+    - DB_HOST=${DB_HOST}
+    - DB_PASSWORD=${DB_PASSWORD}
+```
+
+> 🐛 **Vocabulario**: un **secret** es una variable de entorno sensible (credenciales, claves API). Un **.env.example** es la plantilla documentada de variables sin valores reales.
+
+---
+
+## Dockerfile en producción: endurecer la imagen
+
+Un Dockerfile no es solo "que funcione", es "que funcione bien". Cuatro reglas para producción:
+
+### 1. Usa una base ligera (alpine/slim)
+
+```dockerfile
+# ❌ MAL: imagen completa (~900 MB)
+FROM node:20
+
+# ✅ BIEN: variante alpine (~180 MB) o slim (~250 MB)
+FROM node:20-alpine
+```
+
+### 2. Usuario no-root
+
+Por defecto los contenedores ejecutan como root. Si alguien explota tu app dentro del contenedor, tiene acceso root.
+
+```dockerfile
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+```
+
+### 3. CMD en exec-form (array)
+
+```dockerfile
+# ✅ BIEN: exec-form. Node es PID 1 y recibe señales de terminación
+CMD ["node", "src/server.js"]
+
+# ❌ MAL: shell-form. El shell es PID 1; Docker no puede parar limpiamente
+CMD node src/server.js
+```
+
+### 4. Orden del COPY para aprovechar la caché
+
+Copia `package*.json` primero e instala dependencias antes de copiar el resto. Si solo cambia el código pero no las dependencias, Docker reutiliza la capa de instalación.
+
+```dockerfile
+# ✅ Copia dependencias primero → caché aprovechada
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+```
+
+### Errores comunes
+
+| Error | Problema |
+|-------|----------|
+| `COPY . .` + `npm install` | Copia dependencias de tu máquina. Instala dentro del contenedor |
+| Olvidar `.dockerignore` | `.git`, `node_modules`, `.env` se cuelan en la imagen y la inflan |
+| `FROM node:20` completo | Imagen pesada (~900 MB) e insegura |
+| Usuario root | Superficie de ataque si explotan tu app |
+| Sin multi-stage | La imagen final incluye código fuente, tests y tools de desarrollo |
+
+> **Regla de oro**: una imagen ligera sube más rápido al registro, arranca más rápido y tiene menos superficie de ataque.
+
+---
+
+
+
+## Multi-stage build: optimizar imágenes
+
+```dockerfile
+# Etapa 1: construir
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Etapa 2: producción (solo lo necesario)
+FROM node:20-alpine
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+EXPOSE 3000
+CMD ["node", "dist/server.js"]
+```
+
+**Ventaja**: La imagen final es mucho más ligera porque no incluye herramientas de desarrollo.
+
+---
+
+## Comparativa: sin Docker vs con Docker
+
+<Comparativa
+  dialogos={[
+    { who: "Sin Docker", texto: "'En mi máquina funciona' - el servidor tiene Node 18, yo tengo Node 20. El profesor tiene Windows, yo tengo Mac. El despliegue falla." },
+    { who: "Con Docker", texto: "El contenedor incluye Node 20, las dependencias exactas y la configuración. Funciona igual en cualquier máquina." },
+  ]}
+  titulo="El problema que Docker resuelve"
+/>
+
+---
+
+## .dockerignore
+
+Crea un archivo `.dockerignore` para excluir archivos innecesarios:
+
+```
+node_modules
+.git
+.env
+*.md
+.vscode
+coverage
+dist
+```
+
+**Por qué**: Estos archivos no deben estar en la imagen porque:
+- `node_modules` se instala con `npm ci`
+- `.git` ocupa mucho espacio
+- `.env` tiene secretos
+
+---
+
+## Aclaración: "¿Necesito Docker para mi proyecto?"
+
+<Aclaracion icono="🤔" pregunta="¿Siempre necesito Docker?">
+No. Docker es especialmente útil cuando:
+
+- Tu app tiene **múltiples servicios** (frontend + backend + BD)
+- La ejecutarás en un **servidor diferente** a tu máquina
+- Necesitas **reproducibilidad** exacta
+
+Para un proyecto estático (HTML/CSS/JS puro) que solo despliega en GitHub Pages, Docker es innecesario. Para un Full-Stack con backend y base de datos, es casi imprescindible.
+</Aclaracion>
+
+---
+
+## 📚 Más información sobre Docker
+
+Si quieres profundizar en Docker, tienes un curso completo gratuito en:
+
+👉 [**Curso de Introducción a Docker**](https://sergarb1.github.io/CursoIntroduccionADocker/) — Conceptos, comandos, Dockerfile, Docker Compose y buenas prácticas explicadas paso a paso.
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué es un Dockerfile?</summary>
+
+Respuesta: Un archivo de texto con instrucciones para construir una imagen Docker: imagen base, dependencias, código fuente, puerto y comando de inicio.
+</details>
+
+<details>
+<summary>¿Qué hace docker-compose.yml?</summary>
+
+Respuesta: Define y ejecuta múltiples contenedores a la vez: frontend, backend y base de datos con un solo comando.
+</details>
+
+<details>
+<summary>¿Qué es un multi-stage build?</summary>
+
+Respuesta: Una técnica para reducir el tamaño de la imagen Docker: una etapa construye el código y otra solo copia lo necesario para producción.
+</details>
+
+<details>
+<summary>¿Por qué se copia `package*.json` antes que el resto del código?</summary>
+
+Respuesta: Para aprovechar la caché de Docker. Si `package*.json` no cambia, la capa de instalación se reutiliza y `npm ci` no se vuelve a ejecutar.
+</details>
+
+<details>
+<summary>¿Por qué usar un usuario no-root en el Dockerfile?</summary>
+
+Respuesta: Por defecto los contenedores ejecutan como root. Si explotan tu aplicación dentro del contenedor, tendrían acceso root. Un usuario no-root reduce la superficie de ataque.
+</details>
+
+<details>
+<summary>¿Qué es `.env.example` y por qué se sube al repo?</summary>
+
+Respuesta: Es la plantilla de variables de entorno sin valores reales. Se sube para que quien clone el repositorio sepa qué variables configurar, sin exponer los secretos reales que viven en `.env` (que no se sube).
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Docker **empaqueta tu app en un contenedor** que funciona igual en cualquier entorno, eliminando "en mi máquina funciona".
+2. El **Dockerfile** define la imagen y **docker-compose.yml** orquesta múltiples servicios (frontend + backend + BD).
+3. Usa **multi-stage builds** para reducir el tamaño, **variables de entorno** para la configuración y **usuario no-root + alpine** para endurecer la imagen en producción.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-8-despliegue) · Anterior: [01 — Qué es el despliegue](../01-que-es-despliegue) · Siguiente: [03 — CI/CD](../03-ci-cd-despliegue)

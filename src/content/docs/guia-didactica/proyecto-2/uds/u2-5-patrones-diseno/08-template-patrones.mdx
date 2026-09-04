@@ -1,0 +1,182 @@
+---
+title: "08 — Template de selección de patrones"
+description: "Documento para documentar qué patrones usas y por qué"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 🏗️ **UD 2.5 · Patrones de Diseño** → 08 · Template de selección de patrones
+
+<StoryIntro icono="📋" titulo="Documenta tus decisiones de diseño para que el equipo las entienda">
+  Este template te ayuda a documentar **qué patrones usas** en tu proyecto,
+  **por qué** los elegiste y **dónde** los aplicas. Es la documentación
+  de arquitectura que el profesor espera ver y que tu equipo necesita.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Copia este template como `PATRONES.md` en tu repositorio y documenta qué patrones usas, por qué y dónde.**
+
+Sin documentación de diseño, nadie entiende tus decisiones.
+
+---
+
+## Template completo
+
+```markdown
+# Patrones de Diseño — [Nombre del proyecto]
+
+## Decisiones de arquitectura
+
+### Patrón principal: MVC
+
+| Capa | Responsabilidad | Archivos |
+|------|----------------|----------|
+| **Model** | Datos y estado | `src/models/`, `src/stores/` |
+| **View** | Interfaz de usuario | `src/components/`, `src/views/` |
+| **Controller** | Lógica de negocio | `src/controllers/`, `src/services/` |
+
+**Por qué MVC**: Separa datos de interfaz. Permite cambiar el diseño sin romper la lógica. Es el estándar en frameworks modernos.
+
+### Acceso a datos: Repository
+
+| Repository | Tipo de datos | Almacenamiento |
+|------------|---------------|----------------|
+| `TaskRepository` | Tareas | localStorage |
+| `UserRepository` | Usuarios | localStorage |
+
+**Por qué Repository**: Si mañana cambiamos a IndexedDB o una API, solo cambiamos el Repository. La lógica de negocio no se toca.
+
+## Patrones específicos
+
+| Patrón | Problema que resuelve | Dónde se aplica | Archivos |
+|--------|----------------------|-----------------|----------|
+| **Singleton** | Configuración global | `src/config/Config.js` | 1 archivo |
+| **Observer** | Notificaciones de eventos | `src/events/EventBus.js` | 1 archivo |
+| **Strategy** | Filtros de búsqueda | `src/strategies/FilterStrategy.js` | 3-4 estrategias |
+
+### Singleton — Configuración
+
+```javascript
+// src/config/Config.js
+class Config {
+  // ... implementación Singleton
+}
+```
+
+**Por qué**: Solo necesitamos una instancia de configuración global.
+
+### Observer — EventBus
+
+```javascript
+// src/events/EventBus.js
+class EventBus {
+  // ... implementación Observer
+}
+```
+
+**Por qué**: Necesitamos notificar a múltiples componentes cuando cambian los datos.
+
+### Strategy — Filtros
+
+```javascript
+// src/strategies/FilterStrategy.js
+const filterStrategies = {
+  byName: (items, query) => items.filter(i => i.name.includes(query)),
+  byDate: (items, query) => items.filter(i => i.date === query),
+  byCategory: (items, query) => items.filter(i => i.category === query),
+};
+```
+
+**Por qué**: Tenemos múltiples filtros que el usuario puede cambiar en tiempo de ejecución.
+
+## Patrones que NO usamos (y por qué)
+
+| Patrón | Por qué no | Alternativa |
+|--------|-----------|-------------|
+| **Factory** | Solo tenemos 1 tipo de cada cosa | `new Clase()` directo |
+| **Builder** | Los constructores son simples | Constructores normales |
+| **Adapter** | No hay APIs incompatibles | No hace falta |
+| **Facade** | La app es pequeña | Llamadas directas |
+| **Command** | No necesitamos deshacer | Funciones normales |
+
+## Diagrama de componentes
+
+```
+┌─────────────────────────────────────┐
+│              View                    │
+│  ┌─────────┐  ┌─────────┐          │
+│  │TaskList │  │TaskForm │  ...     │
+│  └────┬────┘  └────┬────┘          │
+│       │             │               │
+├───────┼─────────────┼───────────────┤
+│       ▼             ▼               │
+│           Controller                 │
+│  ┌─────────────────────────┐       │
+│  │    TaskController       │       │
+│  └────────────┬────────────┘       │
+│               │                     │
+├───────────────┼─────────────────────┤
+│               ▼                     │
+│             Model                   │
+│  ┌─────────────────────────┐       │
+│  │    TaskRepository       │       │
+│  └────────────┬────────────┘       │
+│               │                     │
+│               ▼                     │
+│         localStorage               │
+└─────────────────────────────────────┘
+```
+```
+
+---
+
+## Aclaración: "¿Necesito documentar todos los patrones?"
+
+<Aclaracion icono="🤔" pregunta="¿No es excesivo documentar cada patrón que uso?">
+No. Documenta **las decisiones importantes**:
+
+| Documenta | No documentes |
+|-----------|--------------|
+| MVC (arquitectura principal) | `if/else` statements |
+| Repository (acceso a datos) | Funciones auxiliares simples |
+| Patrones que el equipo no conoce | Cosas obvias |
+| Por qué elegiste un patrón sobre otro | Código que se explica solo |
+
+**Mínimo**: la tabla de patrones que usas + por qué los elegiste. Son 20 minutos de documentación que ahorran horas de confusión.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué documentar en PATRONES.md?</summary>
+
+Las **decisiones de arquitectura**: MVC, Repository, patrones específicos que usas, por qué los elegiste y dónde los aplicas.
+</details>
+
+<details>
+<summary>¿Por qué documentar patrones que no uso?</summary>
+
+Para que el equipo sepa **por qué no los elegiste**. Si alguien pregunta "¿por qué no Factory?", tienes la respuesta documentada.
+</details>
+
+<details>
+<summary>¿Cuánto tiempo toma documentar?</summary>
+
+**20-30 minutos** para tener el template completo. Es una inversión que ahorra confusión en el equipo y puntos extra con el profesor.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Documenta **qué patrones usas**, **por qué** los elegiste y **dónde** los aplicas en un archivo `PATRONES.md`.
+2. Incluye también **qué patrones NO usas** y por qué: si alguien pregunta, tienes la respuesta.
+3. Son **20-30 minutos** de documentación que ahorran horas de confusión y demuestran comprensión al profesor.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-5-patrones-diseno) · Anterior: [07 — Cuándo usar cada patrón](../07-cuando-usar) · Siguiente: [09 — Cierre](../09-cierre)

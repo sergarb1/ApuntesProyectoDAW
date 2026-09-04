@@ -1,0 +1,43 @@
+---
+title: "📊 UD 2.9: Monitorización"
+description: "Logs, métricas y dashboards: cómo saber qué pasa con tu aplicación en producción"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+
+<StoryIntro icono="📊" titulo="Lo que no mides, no puedes mejorar">
+  Desplegar tu app es solo el paso intermedio. Una vez en producción,
+  necesitas **saber qué está pasando**: ¿cuántos usuarios tiene?,
+  ¿hay errores?, ¿es rápida o lenta?, ¿se cae a veces?. La
+  monitorización te da esas respuestas con datos, no con suposiciones.
+</StoryIntro>
+
+## Objetivos de la unidad
+
+Al finalizar esta unidad serás capaz de:
+
+- 📝 Entender qué son los niveles de log y cómo usarlos
+- 📈 Definir las métricas clave de tu aplicación
+- 🔧 Configurar Prometheus y Grafana como stack de monitorización
+- 🚨 Crear alertas para detectar problemas antes de que los usuarios
+- 📊 Construir dashboards que muestren el estado de tu app
+
+## Mapa de la unidad
+
+| Punto | Tema | Idea clave |
+|-------|------|------------|
+| 01 | [Qué son los logs](./01-que-son-logs) | Niveles de log y estructura |
+| 02 | [Métricas clave](./02-metricas) | Latencia, errores, throughput |
+| 03 | [Prometheus + Grafana](./03-prometheus-grafana) | El stack estándar |
+| 04 | [Alertas](./04-alertas) | Detectar problemas en tiempo real |
+| 05 | [Stack mínimo](./05-stack-minimo) | Qué necesitas para empezar |
+| 06 | [Configuración](./06-configuracion) | Winston, prom-client y más |
+| 07 | [Dashboard](./07-dashboard) | Construir dashboards útiles |
+| 08 | [Template](./08-template-monitorizacion) | Plantilla de configuración |
+| 09 | [Cierre](./09-cierre) | Mini-chequeo + resumen |
+
+## ¿Por dónde empiezo?
+
+- **Si tienes prisa**: ve directamente al [punto 05 (stack mínimo)](./05-stack-minimo) y configura lo básico
+- **Si no sabes qué son los logs**: empieza por el [punto 01 (logs)](./01-que-son-logs)
+- **Si quieres entender bien**: ve los puntos en orden del 01 al 09

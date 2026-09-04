@@ -1,0 +1,136 @@
+---
+title: "09 — Cierre"
+description: "Mini-chequeo, vocabulario y resumen de la unidad de Diagramas"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📐 **UD 2.6 · Diagramas** → 09 · Cierre
+
+<StoryIntro icono="🎉" titulo="Ya puedes comunicar tu arquitectura con imágenes, no con palabras">
+  Has recorrido toda la unidad: desde qué son los diagramas hasta
+  Mermaid y las herramientas, pasando por C4, ER, secuencia y UML.
+  Ahora toca **verificar que lo entiendes** y **aplicarlo a tu proyecto**.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un diagrama bien hecho comunica en 30 segundos lo que un texto tarda 10 minutos. Si puedes explicar tu sistema en un diagrama, lo entiendes de verdad.**
+
+Los diagramas no son burocracia. Son comprensión.
+
+---
+
+## 🎯 Mini-chequeo final
+
+### Preguntas de comprensión
+
+<details>
+<summary>¿Qué son los 4 niveles de C4?</summary>
+
+**Contexto** (qué hace y quién lo usa), **Container** (qué tecnologías), **Componente** (qué partes), **Código** (cómo se implementa). Para Proyecto 2, documenta mínimo 2 niveles.
+</details>
+
+<details>
+<summary>¿Qué son las 3 relaciones del ER?</summary>
+
+**1:N** (uno a muchos: un usuario tiene muchas tareas), **N:M** (muchos a muchos: necesita tabla intermedia), **1:1** (uno a uno: un usuario tiene un perfil).
+</details>
+
+<details>
+<summary>¿Qué muestra un diagrama de secuencia?</summary>
+
+**Quién habla con quién** y **en qué orden** durante un proceso concreto. Muestra mensajes, respuestas y el tiempo.
+</details>
+
+<details>
+<summary>¿Qué significan +, -, # en UML?</summary>
+
+**+** = público, **-** = privado, **#** = protegido. Son modificadores de visibilidad de atributos y métodos.
+</details>
+
+<details>
+<summary>¿Qué es Mermaid?</summary>
+
+Un lenguaje de **diagramas en código de texto**: escribes la sintaxis y se renderiza automáticamente. GitHub lo soporta nativamente.
+</details>
+
+<details>
+<summary>¿Qué herramienta usar para diagramas formales?</summary>
+
+**draw.io**: visual, gratuita, exporta PNG/PDF. Ideal para entregar al profesor.
+</details>
+
+---
+
+### Ejercicio práctico
+
+**En 2 horas, crea los diagramas de tu proyecto:**
+
+1. **C4 contexto** (20 min): Dibuja qué hace tu app y quién la usa
+2. **C4 containers** (20 min): Dibuja qué tecnologías componen tu sistema
+3. **ER** (30 min): Modela tus entidades principales y sus relaciones
+4. **Secuencia** (30 min): Dibuja el flujo de login y crear tarea
+5. **Documenta** (20 min): Guarda todo en `DIAGRAMAS.md`
+
+**Si consigues tener C4 + ER + 2 secuencias documentados → has entendido la unidad.**
+
+---
+
+## 📊 Tabla resumen de la unidad
+
+| Concepto | Idea clave |
+|----------|------------|
+| **C4** | 4 niveles: Contexto, Container, Componente, Código |
+| **ER** | Entidades, atributos y relaciones (1:N, N:M, 1:1) |
+| **Secuencia** | Interacción entre componentes en el tiempo |
+| **UML** | Símbolos estándar: clase, relación, herencia |
+| **Mermaid** | Diagramas en código de texto, renderiza en GitHub |
+| **draw.io** | Herramienta visual gratuita para diagramas formales |
+| **Excalidraw** | Bocetos rápidos estilo manuscrito |
+| **PK/FK** | Primary Key / Foreign Key: identificador y referencia |
+
+---
+
+## 📖 Vocabulario rápido
+
+| Término | Definición |
+|---------|-----------|
+| **C4** | Modelo de arquitectura en 4 niveles: Contexto, Container, Componente, Código |
+| **ER** | Entidad-Relación: diagrama que modela datos y sus relaciones |
+| **Secuencia** | Diagrama que muestra interacciones entre componentes en el tiempo |
+| **UML** | Unified Modeling Language: estándar de diagramas de software |
+| **Mermaid** | Lenguaje de diagramas en código de texto |
+| **draw.io** | Herramienta visual gratuita para diagramas |
+| **Excalidraw** | Herramienta de bocetos estilo manuscrito |
+| **PK** | Primary Key: identificador único de cada fila |
+| **FK** | Foreign Key: referencia a la PK de otra tabla |
+| **1:N** | Relación uno a muchos |
+| **N:M** | Relación muchos a muchos (requiere tabla intermedia) |
+| **1:1** | Relación uno a uno |
+| **Flowchart** | Diagrama de flujo con nodos y flechas |
+| **Clase** | Entidad UML con nombre, atributos y métodos |
+
+---
+
+## 🔗 Conexión con las siguientes unidades
+
+| Unidad | Qué aprenderás | Cómo se conecta |
+|--------|---------------|-----------------|
+| **UD 2.6 IA como Copiloto** | LLMs, prompt engineering | Usarás IA para generar diagramas Mermaid |
+| **UD 2.7 Despliegue** | Docker, CI/CD | Diagramarás la infraestructura de despliegue |
+| **UD 2.8 Monitorización** | Prometheus, Grafana | Diagramarás el flujo de datos y métricas |
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **C4** documenta arquitectura en 4 niveles (Contexto → Container → Componente → Código): para Proyecto 2, documenta mínimo los 2 primeros.
+2. **ER** modela datos con entidades, atributos y relaciones (1:N, N:M, 1:1): dibuja tu modelo de datos antes de programar.
+3. **Mermaid** crea diagramas en código de texto que GitHub renderiza automáticamente: es la herramienta más rápida para documentar tu arquitectura.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-6-diagramas) · Anterior: [08 — Template diagramas](../08-template-diagramas) · Siguiente: [UD 2.7 — IA como Copiloto](../../u2-7-ia-copiloto)

@@ -1,0 +1,214 @@
+---
+title: "08 — Template de despliegue"
+description: "Plantilla para documentar el proceso de despliegue de tu proyecto"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** ☁️ **UD 2.8 · Despliegue** → 08 · Template de despliegue
+
+<StoryIntro icono="📋" titulo="Documenta tu despliegue para que cualquier persona lo reproduzca">
+  Un buen despliegue se documenta. Si mañana otro desarrollador (o tú
+  mismo) necesita replicar el proceso, la documentación es la clave.
+  Esta plantilla te guía para documentar cada aspecto de tu despliegue.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Si tu despliegue no se puede replicar con la documentación, no está bien documentado.**
+
+---
+
+## Plantilla: Documentación de despliegue
+
+### 1. Resumen del despliegue
+
+| Aspecto | Detalle |
+|---------|---------|
+| **Plataforma** | [Ej: Vercel, Netlify, Render] |
+| **URL de producción** | [Ej: https://mi-app.vercel.app] |
+| **URL de staging** | [Ej: https://mi-app-staging.vercel.app] |
+| **Último despliegue** | [Fecha y commit] |
+| **Estado** | ✅ Operativo / ⚠️ Problemas / ❌ Caído |
+
+---
+
+### 2. Stack de despliegue
+
+| Capa | Tecnología | Versión |
+|------|------------|---------|
+| **Frontend** | [Ej: Vue 3 + Vite] | [v3.4] |
+| **Backend** | [Ej: Node.js + Express] | [v20 LTS] |
+| **Base de datos** | [Ej: Supabase PostgreSQL] | [v15] |
+| **Hosting** | [Ej: Vercel] | [N/A] |
+| **CI/CD** | [Ej: GitHub Actions] | [N/A] |
+| **Dominio** | [Ej: mi-app.com] | [Cloudflare] |
+
+---
+
+### 3. Variables de entorno
+
+```bash
+# .env.example (commiteado)
+DATABASE_URL=          # URL de conexión a la BD
+API_KEY=               # Clave de la API externa
+FRONTEND_URL=          # URL del frontend (para CORS)
+NODE_ENV=              # production | development
+PORT=                  # Puerto del servidor (asignado por plataforma)
+```
+
+**Variables en la plataforma** (no commiteadas):
+
+| Variable | Valor | Dónde está |
+|----------|-------|------------|
+| DATABASE_URL | postgres://... | Plataforma → Settings → Env Vars |
+| API_KEY | sk-... | Plataforma → Settings → Env Vars |
+
+---
+
+### 4. Proceso de despliegue
+
+```bash
+# 1. Asegurar que todo está commiteado
+git status
+git add .
+git commit -m "feat: descripción del cambio"
+git push origin main
+
+# 2. GitHub Actions ejecuta automáticamente:
+#    - Lint (eslint)
+#    - Tests (jest/vitest)
+#    - Build (npm run build)
+#    - Deploy (a la plataforma)
+
+# 3. Verificar el despliegue
+#    - Abrir la URL de producción
+#    - Probar funcionalidades principales
+#    - Revisar logs si hay errores
+```
+
+---
+
+### 5. Comandos útiles
+
+```bash
+# Build local
+npm run build
+
+# Ejecutar en modo producción local
+npm run start
+
+# Verificar variables de entorno
+node -e "console.log(process.env.DATABASE_URL)"
+
+# Build de Docker
+docker build -t mi-app .
+
+# Ejecutar Docker
+docker run -p 3000:3000 -e DATABASE_URL=... mi-app
+
+# Verificar que el build es correcto
+npm run build && npm run start
+```
+
+---
+
+### 6. Troubleshooting (resolución de problemas)
+
+| Problema | Causa probable | Solución |
+|----------|---------------|----------|
+| "Cannot find module" | Dependencia faltante | `npm install` y commitear `package-lock.json` |
+| "PORT in use" | Puerto ya en uso | Usar `process.env.PORT` |
+| "CORS error" | Origen no permitido | Configurar `origin` en CORS |
+| "Build failed" | Error en el código | Revisar logs del build |
+| "Database connection" | URL incorrecta | Verificar DATABASE_URL en env vars |
+
+---
+
+### 7. Monitoreo post-despliegue
+
+- [ ] URL funciona y carga en &lt;3 segundos
+- [ ] Login/autenticación funciona
+- [ ] Operaciones CRUD principales funcionan
+- [ ] Formularios envían datos correctamente
+- [ ] Logs se generan (verificar en la plataforma)
+- [ ] No hay errores en la consola del navegador
+
+---
+
+### 8. Rollback (volver atrás)
+
+Si algo falla después del despliegue:
+
+**En Vercel:**
+1. Ve a tu proyecto → Deployments
+2. Busca el último deployment que funcionaba
+3. Haz clic en "Promote to Production"
+
+**En GitHub Pages:**
+```bash
+git revert HEAD
+git push origin main
+```
+
+**En Render:**
+1. Ve a tu servicio → Manual Deploy
+2. Selecciona un commit anterior
+3. Haz clic en "Deploy"
+
+---
+
+## Ejemplo rellenado
+
+### Resumen
+
+| Aspecto | Detalle |
+|---------|---------|
+| **Plataforma** | Vercel |
+| **URL** | https://taskmanager-sergarb1.vercel.app |
+| **Último despliegue** | 2025-01-15, commit abc123 |
+| **Estado** | ✅ Operativo |
+
+### Stack
+
+| Capa | Tecnología |
+|------|------------|
+| Frontend | Vue 3 + Vite + Tailwind |
+| Backend | Vercel Serverless Functions |
+| BD | Supabase PostgreSQL |
+| CI/CD | GitHub Actions |
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué secciones tiene la plantilla de despliegue?</summary>
+
+Respuesta: 8: Resumen, Stack, Variables de entorno, Proceso, Comandos, Troubleshooting, Monitoreo y Rollback.
+</details>
+
+<details>
+<summary>¿Por qué documentar las variables de entorno?</summary>
+
+Respuesta: Para que cualquier persona (incluido tu yo futuro) sepa qué variables necesita y dónde configurarlas, sin tener que buscar en la plataforma.
+</details>
+
+<details>
+<summary>¿Qué es un rollback?</summary>
+
+Respuesta: Volver a la versión anterior de la aplicación si el último despliegue tiene errores. La mayoría de plataformas lo permiten con un clic.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Documenta tu despliegue con **resumen, stack, variables de entorno, proceso, comandos y troubleshooting**.
+2. Incluye un apartado de **rollback** por si algo falla: saber volver atrás es tan importante como avanzar.
+3. La documentación debe permitir que **cualquier persona reproduzca tu despliegue** sin preguntarte.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-8-despliegue) · Anterior: [07 — Errores comunes](../07-errores-despliegue) · Siguiente: [09 — Cierre](../09-cierre)

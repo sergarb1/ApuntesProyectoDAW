@@ -1,0 +1,219 @@
+---
+title: "09 — Cierre"
+description: "Mini-chequeo, vocabulario y resumen de la unidad Despliegue"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** ☁️ **UD 2.8 · Despliegue** → 09 · Cierre
+
+<StoryIntro icono="🎉" titulo="Ya sabes llevar tu proyecto de localhost a producción">
+  Has recorrido toda la unidad: desde qué es el despliegue hasta
+  cómo resolver errores comunes. Ahora toca **verificar que lo
+  entiendes** y **prepararte para monitorizar tu aplicación**.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Desplegar es hacer tu aplicación accesible para el mundo: con dominio, HTTPS, automatización y un plan por si algo falla.**
+
+Si recuerdas esto, has entendido la unidad.
+
+---
+
+## 🎯 Mini-chequeo final
+
+Responde estas preguntas antes de seguir:
+
+### Preguntas de comprensión
+
+<details>
+<summary>¿Qué es Docker y para qué sirve?</summary>
+
+**Respuesta**: Docker empaqueta tu aplicación en un contenedor con todo lo que necesita (dependencias, configuración, sistema operativo) para que funcione igual en cualquier máquina. Elimina el problema de "en mi máquina funciona".
+</details>
+
+<details>
+<summary>¿Qué es CI/CD y por qué importa?</summary>
+
+**Respuesta**: CI/CD (Continuous Integration/Continuous Deployment) automatiza el proceso de test → build → deploy cada vez que haces push a main. Ahorra tiempo, reduce errores humanos y garantiza que el código desplegado siempre esté testeado.
+</details>
+
+<details>
+<summary>¿Cuáles son las 3 estrategias de zero-downtime?</summary>
+
+**Respuesta**: Rolling update (cambio gradual), blue-green (dos entornos idénticos) y canary (porcentaje pequeño de tráfico). Las tres evitan que el usuario vea errores durante el despliegue.
+</details>
+
+<details>
+<summary>¿Cuál es el error más común de despliegue?</summary>
+
+**Respuesta**: Variables de entorno no configuradas. La app funciona en local con `.env` pero en producción esas variables no existen. Solución: configurarlas en la plataforma.
+</details>
+
+<details>
+<summary>¿Qué debes hacer después de desplegar?</summary>
+
+**Respuesta**: Verificar que la URL carga, el login funciona, los CRUDs principales funcionan, los formularios envían datos y los logs se generan correctamente.
+</details>
+
+---
+
+### Ejercicio práctico
+
+**En 15 minutos, configura el despliegue de tu proyecto:**
+
+1. Crea un `Dockerfile` básico (si tu proyecto lo necesita)
+2. Configura un workflow de GitHub Actions para test + build
+3. Elige una plataforma (Vercel para frontend, Render para Full-Stack)
+4. Despliega y verifica que funciona
+5. Documenta el proceso con la plantilla del punto 08
+
+**Si consigues desplegar tu app y acceder a ella desde internet → has entendido la unidad.**
+
+---
+
+## 🧪 Laboratorio de Tortura: depura el docker-compose.yml
+
+**Duración estimada: 25-35 minutos.** Un equipo te pasa su configuración de despliegue. *Parece* correcta... y no lo es. Encuentra los 4 problemas.
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=localhost
+      - DB_PASSWORD=root123
+    depends_on:
+      - database
+
+  database:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root123
+      - MYSQL_DATABASE=mi_app
+```
+
+```dockerfile
+# Dockerfile del backend
+FROM node:20
+WORKDIR /app
+COPY . .
+RUN npm ci --only=production
+EXPOSE 3000
+CMD ["node", "src/server.js"]
+```
+
+```gitignore
+# .gitignore
+node_modules
+```
+
+Intenta encontrarlos tú primero. Si te atas, abre las pistas una a una:
+
+<details>
+<summary>Pista 1 — La red interna</summary>
+
+Revisa el punto 02 (Docker Compose): ¿cómo se comunican los servicios entre sí? ¿`localhost` funciona dentro de un contenedor para llegar a otro servicio?
+</details>
+
+<details>
+<summary>Pista 2 — Secrets</summary>
+
+Revisa las variables de entorno del punto 02: ¿la contraseña de la base de datos está escrita directamente en el YAML? ¿Y en `.gitignore` solo está `node_modules`? ¿Qué archivo falta por proteger?
+</details>
+
+<details>
+<summary>Pista 3 — Persistencia y puertos</summary>
+
+Si ejecutas `docker-compose down`, ¿qué pasa con los datos de MySQL? ¿Necesita el host acceso al puerto 3306 de la base de datos para que el backend se comunique con ella?
+</details>
+
+<details>
+<summary>...Solución completa...</summary>
+
+**Problemas detectados:**
+
+1. **`DB_HOST=localhost`** — dentro del contenedor, `localhost` es el contenedor mismo, no el servicio `database`. El backend nunca se conecta a la base de datos. Debe ser `DB_HOST=database` (el nombre del servicio en Docker Compose). Este es el **fallo intencionado** y el más grave.
+2. **Contraseña hardcodeada** — `DB_PASSWORD=root123` está escrita en el YAML. Debe ir en un `.env` y referenciarse con `${DB_PASSWORD}`. Además, `.gitignore` solo excluye `node_modules`: falta añadir `.env` para que los secretos no suban al repositorio.
+3. **Sin persistencia de datos** — no hay volúmenes para MySQL. Si ejecutas `docker-compose down`, la base de datos se pierde. Falta un volumen `db_data:/var/lib/mysql`.
+4. **Puerto 3306 expuesto innecesariamente** — el backend se comunica con la base de datos por la red interna de Compose. Mapear el puerto de MySQL al host solo lo abre al exterior sin necesidad.
+
+**Bonus (nivel extra):** el Dockerfile usa `FROM node:20` completo (~900 MB) en vez de `node:20-alpine`, y no hay usuario no-root. No rompe nada, pero es una imagen innecesariamente pesada e insegura.
+
+</details>
+
+---
+
+## 📊 Tabla resumen de la unidad
+
+| Concepto | Idea clave |
+|----------|------------|
+| **Despliegue** | De localhost a producción con dominio y HTTPS |
+| **Docker** | Empaquetar en contenedores para portabilidad |
+| **CI/CD** | Automatizar test → build → deploy con GitHub Actions |
+| **Plataformas** | Pages (estático), Vercel (frontend), Render (Full-Stack) |
+| **Zero-downtime** | Desplegar sin que el usuario note cortes |
+| **Checklist** | Verificar todo antes y después de desplegar |
+| **Errores** | Variables de entorno, dependencias, puertos |
+| **Template** | Documentar el proceso para replicabilidad |
+| **Laboratorio** | `DB_HOST=database` (no localhost), secrets en `.env`, volúmenes y puertos mínimos |
+
+---
+
+## 📖 Vocabulario rápido
+
+| Término | Definición |
+|---------|-----------|
+| **Dockerfile** | Archivo de instrucciones para construir una imagen Docker |
+| **Contenedor** | Caja aislada que ejecuta tu aplicación con todo lo que necesita |
+| **CI/CD** | Continuous Integration / Continuous Deployment: automatización de build y deploy |
+| **Workflow** | Pipeline de CI/CD definido en YAML |
+| **Zero-downtime** | Despliegue sin interrupciones de servicio |
+| **Rolling update** | Cambio gradual de versiones |
+| **Blue-green** | Dos entornos idénticos, uno activo y uno en espera |
+| **Canary** | Despliegue a un porcentaje pequeño de tráfico primero |
+| **Rollback** | Volver a la versión anterior del despliegue |
+
+---
+
+## 🔗 Conexión con las siguientes unidades
+
+| Unidad | Qué aprenderás | Cómo se conecta |
+|--------|---------------|-----------------|
+| **UD 2.8: Monitorización** | Logs, métricas, dashboards | Monitorizarás la app que desplegaste |
+| **UD 2.9: Propuesta Final** | Proyecto completo | Tu app desplegada será la base del proyecto final |
+| **Proyecto real** | Deploy en producción | Aplicarás todo lo aprendido aquí |
+
+---
+
+## 💡 Consejo para el siguiente punto
+
+Si vas a monitorizar tu app desplegada:
+
+1. Empieza por **logs básicos** (punto 01 de UD 2.8)
+2. Añade **métricas simples** como uptime y tiempo de respuesta
+3. No necesitas Prometheus y Grafana para empezar: **console.log y un servicio de monitoreo básico bastan**
+
+**Lo importante es empezar a observar, no tener el sistema perfecto.**
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Docker **empaqueta tu app en contenedores** que funcionan igual en cualquier entorno.
+2. CI/CD **automatiza** test → build → deploy con GitHub Actions, y las plataformas como Vercel y Render lo facilitan.
+3. Después de desplegar, **verifica todo**: URL, funcionalidades, logs y rendimiento. Y ten un **plan de rollback** por si algo falla.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-8-despliegue) · Anterior: [08 — Template](../08-template-despliegue) · Siguiente: [UD 2.9 — Monitorización](../../u2-9-monitorizacion)

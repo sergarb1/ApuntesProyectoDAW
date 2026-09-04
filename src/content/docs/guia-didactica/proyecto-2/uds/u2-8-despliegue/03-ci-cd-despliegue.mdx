@@ -1,0 +1,265 @@
+---
+title: "03 — CI/CD y despliegue"
+description: "Cómo automatizar la integración, testing y despliegue con GitHub Actions"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** ☁️ **UD 2.8 · Despliegue** → 03 · CI/CD y despliegue
+
+<StoryIntro icono="🔄" titulo="Automatizar el despliegue es como tener un asistente que nunca se equivoca">
+  Cada vez que haces un push a main, ¿quieres que se ejecuten los tests,
+  se construya la app y se despliegue automáticamente? Eso es CI/CD:
+  automatizar todo el proceso de code → test → build → deploy.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **CI/CD automatiza el camino de tu código desde tu máquina hasta producción: tests, build y deploy sin intervención manual.**
+
+---
+
+## CI vs CD
+
+| Siglas | Significado | Qué hace |
+|--------|-------------|----------|
+| **CI** | Continuous Integration | Ejecuta tests automáticamente en cada push |
+| **CD** | Continuous Delivery | Prepara el código para despliegue manual |
+| **CD** | Continuous Deployment | Despliega automáticamente en cada push |
+
+---
+
+## GitHub Actions: la herramienta gratuita
+
+GitHub Actions es el sistema de CI/CD de GitHub. Es gratuito para repos públicos y tiene 2000 minutos/mes para privados.
+
+### Estructura de un workflow
+
+Los workflows se definen en `.github/workflows/`:
+
+```yaml
+# .github/workflows/deploy.yml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm test
+
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci
+      - run: npm run build
+      - run: npm run deploy
+```
+
+---
+
+## Workflow completo para Node.js
+
+```yaml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm test
+
+  build:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - run: npm run deploy
+        env:
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+```
+
+---
+
+## Variables secretas en GitHub
+
+Nunca guardes tokens o contraseñas en el código. Usa GitHub Secrets:
+
+1. Ve a tu repo → Settings → Secrets and variables → Actions
+2. Crea un secret (ej: `DEPLOY_TOKEN`)
+3. En el workflow, accede con `${{ secrets.DEPLOY_TOKEN }}`
+
+---
+
+## Workflow para desplegar en Vercel
+
+```yaml
+name: Deploy to Vercel
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+```
+
+---
+
+## Workflow para desplegar en Netlify
+
+```yaml
+name: Deploy to Netlify
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm ci && npm run build
+      - uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: './dist'
+          production-deploy: true
+          netlify-auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
+```
+
+---
+
+## Flujo visual del CI/CD
+
+```
+Push a main
+    │
+    ├──→ Lint (eslint, prettier)
+    │        │
+    │        ✅ Pass ──→ Test (jest, vitest)
+    │        │                │
+    │        │                ✅ Pass ──→ Build (npm run build)
+    │        │                │                   │
+    │        │                │                   ✅ Pass ──→ Deploy
+    │        │                │                   │
+    │        │                ❌ Fail ──→ ❌ No deploy
+    │        │                │
+    │        ❌ Fail ──→ ❌ No deploy
+    │
+    ❌ Fail ──→ ❌ No deploy
+```
+
+---
+
+## Aclaración: "¿CI/CD es complicado?"
+
+<Aclaracion icono="🤔" pregunta="¿Merece la pena configurar CI/CD para un proyecto pequeño?">
+Sí, y es más fácil de lo que parece:
+
+1. **GitHub Actions** es gratuito para repos públicos
+2. Un workflow básico se configura en 20-30 líneas de YAML
+3. Te ahorra hacer manualmente tests, build y deploy cada vez
+4. Es una habilidad que los valoran mucho en entrevistas
+
+**Empieza con un workflow simple** (test + deploy) y ve ampliando según necesites.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué significan CI y CD?</summary>
+
+Respuesta: CI = Continuous Integration (tests automáticos en cada push). CD = Continuous Delivery/Deployment (preparar o desplegar automáticamente).
+</details>
+
+<details>
+<summary>¿Dónde se definen los workflows de GitHub Actions?</summary>
+
+Respuesta: En `.github/workflows/archivo.yml`. Cada archivo define un pipeline con triggers, jobs y steps.
+</details>
+
+<details>
+<summary>¿Por qué usar GitHub Secrets?</summary>
+
+Respuesta: Porque nunca debes guardar tokens o contraseñas en el código. Los Secrets los almacenan de forma segura y solo son accesibles desde los workflows.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. CI/CD **automatiza** el proceso de test → build → deploy cada vez que haces push a main.
+2. GitHub Actions es **gratuito** y se configura con archivos YAML en `.github/workflows/`.
+3. Usa **GitHub Secrets** para tokens y credenciales, nunca los guardes en el código.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-8-despliegue) · Anterior: [02 — Docker](../02-docker) · Siguiente: [04 — Plataformas](../04-plataformas)

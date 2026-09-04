@@ -1,0 +1,180 @@
+---
+title: "01 — Qué son los logs"
+description: "Niveles de log, estructura y por qué los logs son la primera herramienta de monitorización"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 📊 **UD 2.9 · Monitorización** → 01 · Qué son los logs
+
+<StoryIntro icono="📝" titulo="Los logs son el diario de tu aplicación">
+  Un log es un registro de lo que pasa en tu aplicación. Cuando algo
+  falla, el primer sitio donde miras es los logs. Si no tienes logs,
+  estás a ciegas: no sabes qué pasó, cuándo pasó ni por qué pasó.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los logs son el diario de tu aplicación: registran qué pasa, cuándo y por qué, para que puedas diagnosticar problemas.**
+
+---
+
+## Los 5 niveles de log
+
+| Nivel | Cuándo usarlo | Ejemplo |
+|-------|---------------|---------|
+| **ERROR** | Algo ha fallado | "No se pudo conectar a la base de datos" |
+| **WARN** | Algo sospechoso pero funciona | "La consulta tardó 3 segundos (umbral: 1s)" |
+| **INFO** | Información normal del sistema | "Servidor arrancado en puerto 3000" |
+| **DEBUG** | Detalles para desarrollo | "Recibida petición GET /api/users" |
+| **TRACE** | Muy detallado (solo desarrollo) | "Variable userId = 123 antes de la consulta" |
+
+### Regla de uso
+
+```
+Producción:  ERROR + WARN + INFO
+Desarrollo:  ERROR + WARN + INFO + DEBUG + TRACE
+```
+
+---
+
+## Estructura de un log
+
+Un buen log no es solo un mensaje. Es una línea estructurada:
+
+```json
+{
+  "timestamp": "2025-01-15T10:30:45.123Z",
+  "level": "error",
+  "message": "Error al conectar con la base de datos",
+  "service": "api-users",
+  "requestId": "req-abc-123",
+  "error": {
+    "name": "ConnectionError",
+    "message": "ECONNREFUSED 127.0.0.1:5432",
+    "stack": "..."
+  }
+}
+```
+
+### Por qué estructurar
+
+| Sin estructura | Con estructura |
+|----------------|----------------|
+| `Error al conectar` | `{"level":"error","message":"...","service":"api-users"}` |
+| No sabes cuándo | Tienes timestamp preciso |
+| No sabes de dónde | Tienes service y requestId |
+| No puedes buscar | Puedes filtrar por nivel, servicio, etc. |
+
+---
+
+## Logs en Node.js con Winston
+
+```javascript
+const winston = require('winston');
+
+const logger = winston.createLogger({
+  level: process.env.LOG_LEVEL || 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'logs/combined.log' }),
+  ],
+});
+
+// En desarrollo, también imprime en consola
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(new winston.transports.Console({
+    format: winston.format.simple()
+  }));
+}
+
+// Uso
+logger.info('Servidor arrancado', { port: 3000 });
+logger.error('Error al conectar', { error: err.message });
+logger.warn('Consulta lenta', { duration: 3200, query: 'SELECT *' });
+```
+
+---
+
+## Logs en Python con logging
+
+```python
+import logging
+import json
+
+# Configuración básica
+logging.basicConfig(
+    level=logging.INFO,
+    format='{"timestamp":"%(asctime)s","level":"%(levelname)s","message":"%(message)s"}'
+)
+
+logger = logging.getLogger(__name__)
+
+# Uso
+logger.info("Servidor arrancado en puerto 3000")
+logger.error("Error al conectar con la base de datos")
+```
+
+---
+
+## Dónde guardar logs
+
+| Opción | Ventaja | Desventaja |
+|--------|---------|------------|
+| Archivo local | Simple | Se llena el disco, difícil de buscar |
+| Consola | Visible en desarrollo | Se pierde al reiniciar |
+| Servicio externo (Sentry, LogRocket) | Búsqueda, alertas | Depende de un tercero |
+| ELK Stack | Potente, escalable | Complejo de configurar |
+
+---
+
+## Aclaración: "¿Necesito logs para un proyecto pequeño?"
+
+<Aclaracion icono="🤔" pregunta="¿Siempre necesito configurar logs estructurados?">
+Para un proyecto de clase, con `console.log` y `console.error` puede ser suficiente. Pero:
+
+1. **Aprender a loguear bien** es una habilidad que te diferencia
+2. Un log estructurado te permite **buscar y filtrar** errores
+3. En producción, los logs son tu **primera herramienta de diagnóstico**
+
+**Consejo**: Empieza con Winston (Node.js) o logging (Python) desde el principio. No mucho trabajo y te ahorra dolores de cabeza.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son los 5 niveles de log?</summary>
+
+Respuesta: ERROR (fallo), WARN (sospechoso), INFO (normal), DEBUG (detalles), TRACE (muy detallado). En producción usa ERROR + WARN + INFO.
+</details>
+
+<details>
+<summary>¿Por qué estructurar los logs en JSON?</summary>
+
+Respuesta: Porque te permite filtrar por nivel, servicio, timestamp y campos personalizados. Un log en texto libre es inútil para buscar.
+</details>
+
+<details>
+<summary>¿Qué librería de logs se usa en Node.js?</summary>
+
+Respuesta: **Winston** es la más común. Permite múltiples transports (archivo, consola, servicios externos) y formatos estructurados.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los logs son el **diario de tu aplicación**: registran qué pasa, cuándo y por qué.
+2. Usa **5 niveles** (ERROR, WARN, INFO, DEBUG, TRACE) y **estructura JSON** para poder buscar y filtrar.
+3. Configura **Winston** (Node.js) o **logging** (Python) desde el principio para tener logs útiles en producción.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-9-monitorizacion) · Siguiente: [02 — Métricas clave](../02-metricas)

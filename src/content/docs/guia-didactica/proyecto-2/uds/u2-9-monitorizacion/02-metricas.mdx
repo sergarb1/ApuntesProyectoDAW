@@ -1,0 +1,188 @@
+---
+title: "02 — Métricas clave"
+description: "Latencia, errores, throughput y las métricas que necesitas monitorizar"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📊 **UD 2.9 · Monitorización** → 02 · Métricas clave
+
+<StoryIntro icono="📈" titulo="Lo que no mides, no puedes mejorar">
+  Los logs te dicen qué pasó. Las métricas te dicen **cómo está** tu
+  aplicación ahora mismo: ¿es rápida? ¿tiene errores? ¿cuántos
+  usuarios tiene? Las métricas son el pulso de tu sistema.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Las métricas son los números que te dicen si tu aplicación funciona bien o mal: latencia, errores y throughput.**
+
+---
+
+## Las 3 métricas principales (RED)
+
+El método RED (Rate, Errors, Duration) es el estándar:
+
+### 1. Rate (Throughput) — Cuántas peticiones por segundo
+
+```
+Throughput = Peticiones / Tiempo
+
+Ejemplo: 150 requests/segundo
+```
+
+**Por qué importa**: Si el throughput cae de golpe, algo está fallando.
+
+### 2. Errors — Tasa de errores
+
+```
+Error Rate = (Errores / Total peticiones) × 100
+
+Ejemplo: 2.3% de errores (4xx + 5xx)
+```
+
+**Por qué importa**: Si la tasa de errores sube, hay un bug o el servidor está sobrecargado.
+
+### 3. Duration (Latency) — Cuánto tarda en responder
+
+```
+Latency = Tiempo desde request hasta response
+
+Percentiles:
+- P50 (mediana): 120ms  → La mitad de las peticiones son más rápidas
+- P95: 450ms             → El 95% son más rápidas
+- P99: 1200ms            → El 99% son más rápidas
+```
+
+**Por qué importa**: Si P95 sube de 500ms, los usuarios notan la app lenta.
+
+---
+
+## Métricas de infraestructura
+
+Además de RED, monitoriza el servidor:
+
+| Métrica | Qué mide | Umbral típico |
+|---------|----------|---------------|
+| **CPU** | Uso del procesador | >80% es preocupante |
+| **Memoria** | RAM utilizada | >85% es preocupante |
+| **Disco** | Espacio en disco | >90% es crítico |
+| **Red** | Ancho de banda | Depende del plan |
+
+---
+
+## Métricas de aplicación
+
+| Métrica | Qué mide | Ejemplo |
+|---------|----------|---------|
+| **Tiempo de respuesta de BD** | Cuánto tardan las queries | &lt;100ms es bueno |
+| **Tasa de cache hit** | Cuántas peticiones usan cache | >80% es bueno |
+| **Conexiones activas** | Peticiones simultáneas | Depende del servidor |
+| **Uptime** | Tiempo sin caídas | >99.9% es bueno |
+
+---
+
+## Ejemplo: métricas de una API REST
+
+```javascript
+// Métricas básicas que deberías trackear
+
+// 1. Tiempo de respuesta por endpoint
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    logger.info('Request completado', {
+      method: req.method,
+      path: req.path,
+      statusCode: res.statusCode,
+      duration,
+    });
+  });
+  next();
+});
+
+// 2. Errores por tipo
+app.use((err, req, res, next) => {
+  logger.error('Error no manejado', {
+    error: err.message,
+    stack: err.stack,
+    path: req.path,
+  });
+  res.status(500).json({ error: 'Internal Server Error' });
+});
+```
+
+---
+
+## Comparativa: logs vs métricas
+
+<Comparativa
+  dialogos={[
+    { who: "Logs", texto: "Te dicen QUÉ pasó: 'Error al conectar con BD a las 10:30:45'. Útil para diagnosticar un error específico." },
+    { who: "Métricas", texto: "Te dicen CÓMO ESTÁ tu app ahora: '95% de peticiones responden en &lt;200ms'. Útil para ver tendencias y alertas." },
+  ]}
+  titulo="Dos caras de la misma moneda"
+/>
+
+---
+
+## Cuándo usar cada métrica
+
+| Situación | Métrica clave | Qué buscar |
+|-----------|--------------|------------|
+| App lenta | Latency (P95, P99) | ¿Qué endpoint tarda más? |
+| Muchos errores | Error Rate | ¿Qué tipo de error sube? |
+| Pico de tráfico | Throughput | ¿Cuántas peticiones manejo? |
+| Servidor saturado | CPU, Memoria | ¿Necesito escalar? |
+| Caída del servicio | Uptime | ¿Cuánto tiempo ha estado caído? |
+
+---
+
+## Aclaración: "¿Necesito todas estas métricas?"
+
+<Aclaracion icono="🤔" pregunta="¿Para un proyecto de clase necesito monitorizar todo esto?">
+Para un proyecto de clase, enfócate en **3 métricas básicas**:
+
+1. **Uptime**: ¿está la app arriba?
+2. **Tiempo de respuesta**: ¿cuánto tarda?
+3. **Errores**: ¿hay errores 5xx?
+
+Con esas tres tienes suficiente para demostrar que sabes monitorizar. Las métricas avanzadas (throughput, percentiles, infraestructura) son para proyectos más grandes.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las 3 métricas RED?</summary>
+
+Respuesta: Rate (throughput, peticiones/segundo), Errors (tasa de errores) y Duration (latency, tiempo de respuesta).
+</details>
+
+<details>
+<summary>¿Qué es el percentil P95?</summary>
+
+Respuesta: El 95% de las peticiones se responden en menos de ese tiempo. Si P95 es 450ms, el 95% de usuarios esperan menos de 450ms.
+</details>
+
+<details>
+<summary>¿Cuándo es preocupante el uso de CPU?</summary>
+
+Respuesta: Cuando supera el 80% de forma sostenida. Picos puntuales son normales, pero si se mantiene alto, necesitas escalar o optimizar.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Las 3 métricas RED son **throughput** (peticiones/segundo), **error rate** (tasa de errores) y **latency** (tiempo de respuesta).
+2. Usa **percentiles** (P50, P95, P99) para medir latencia: el P95 es el más indicativo de la experiencia real del usuario.
+3. Para un proyecto básico, mide **uptime, tiempo de respuesta y errores 5xx**: son suficientes para demostrar monitorización.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-9-monitorizacion) · Anterior: [01 — Qué son los logs](../01-que-son-logs) · Siguiente: [03 — Prometheus + Grafana](../03-prometheus-grafana)

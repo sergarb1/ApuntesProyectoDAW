@@ -1,0 +1,161 @@
+---
+title: "05 — Símbolos UML"
+description: "Referencia rápida de los símbolos UML esenciales para tus diagramas"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📐 **UD 2.6 · Diagramas** → 05 · Símbolos UML
+
+<StoryIntro icono="📐" titulo="UML es el alfabeto de los diagramas: conoce los símbolos básicos">
+  **UML** (Unified Modeling Language) es el estándar para diagramas de
+  software. No necesitas conocer los 14 tipos de diagramas UML: necesitas
+  conocer los **símbolos esenciales** que aparecen en los diagramas que
+  vas a crear en Proyecto 2.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **UML es el lenguaje común de los diagramas: conoce los símbolos básicos (clases, relaciones, actores) y podrás leer y crear cualquier diagrama.**
+
+No memorices todo. Memoriza lo esencial.
+
+---
+
+## Los 10 símbolos esenciales
+
+### Para diagramas de clases
+
+| Símbolo | Nombre | Ejemplo |
+|---------|--------|---------|
+| `┌─────────────┐` | **Clase** | Una clase con nombre, atributos y métodos |
+| `+` | **Público** | `+ nombre: string` |
+| `-` | **Privado** | `- password: string` |
+| `#` | **Protegido** | `# id: number` |
+| `─────` | **Herencia** | Clase hija → Clase padre |
+
+### Para diagramas de relación
+
+| Símbolo | Nombre | Significado |
+|---------|--------|-------------|
+| `◆────` | **Composición** | "Tiene un" (fuerte, sin el todo no existe la parte) |
+| `◇────` | **Agregación** | "Tiene un" (débil, la parte existe sin el todo) |
+| `────►` | **Asociación** | "Conoce a" (hay relación) |
+| `─ ─ ─►` | **Dependencia** | "Usa a" (temporal) |
+| `────▷` | **Herencia** | "Es un tipo de" |
+
+### Para diagramas de secuencia
+
+| Símbolo | Nombre | Ejemplo |
+|---------|--------|---------|
+| `│` | **Línea de vida** | Componente que existe durante el flujo |
+| `──►` | **Mensaje síncrono** | `getTasks()` (espera respuesta) |
+| `···►` | **Respuesta** | `tasks[]` (devuelve datos) |
+
+---
+
+## Ejemplo: diagrama de clases UML
+
+```
+┌─────────────────────┐
+│      Usuario        │
+├─────────────────────┤
+│ - id: number        │
+│ - nombre: string    │
+│ - email: string     │
+│ - rol: string       │
+├─────────────────────┤
+│ + getNombre(): string│
+│ + getRol(): string  │
+└──────────┬──────────┘
+           │ 1
+           │
+           │ N
+┌──────────┴──────────┐
+│       Tarea         │
+├─────────────────────┤
+│ - id: number        │
+│ - titulo: string    │
+│ - completada: bool  │
+├─────────────────────┤
+│ + toggle(): void    │
+│ + getResumen(): str │
+└─────────────────────┘
+```
+
+### Leyendo el diagrama
+
+- **Usuario** tiene 3 atributos privados (`-`) y 2 métodos públicos (`+`)
+- **Tarea** tiene 3 atributos y 2 métodos
+- La relación **1:N** indica que un usuario tiene muchas tareas
+
+---
+
+## Las relaciones más importantes
+
+### Composición vs Agregación
+
+<Comparativa
+  dialogos={[
+    { quien: "Composición (◆)", texto: "Una TAREA no existe sin su USUARIO. Si borras el usuario, borras sus tareas. Es dependencia fuerte." },
+    { quien: "Agregación (◇)", texto: "Una CATEGORÍA existe sin las TAREAS. Si borras la categoría, las tareas siguen ahí. Es dependencia débil." },
+  ]}
+  titulo="La diferencia es si la parte sobrevive sin el todo"
+/>
+
+| Relación | Significado | Ejemplo |
+|----------|-------------|---------|
+| **Composición** ◆ | La parte NO existe sin el todo | Tarea sin usuario → no existe |
+| **Agregación** ◇ | La parte SÍ existe sin el todo | Tarea sin categoría → sigue existiendo |
+
+---
+
+## Aclaración: "¿Necesito memorizar todo UML?"
+
+<Aclaracion icono="🤔" pregunta="¿Tengo que dominar los 14 tipos de diagramas UML?">
+No. Para Proyecto 2 necesitas **3 tipos de diagramas** con sus símbolos:
+
+| Diagrama | Símbolos que necesitas |
+|----------|----------------------|
+| **Clases** | Clase, atributos, métodos, relación 1:N |
+| **Secuencia** | Línea de vida, mensaje, respuesta |
+| **ER** | Entidad, atributo, relación 1:N, N:M |
+
+Los demás símbolos los conocerás cuando los necesites. **No memorices: referencia**.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué significan +, -, # en UML?</summary>
+
+**+** = público (accesible desde fuera). **-** = privado (solo dentro de la clase). **#** = protegido (dentro de la clase y herencias).
+</details>
+
+<details>
+<summary>¿Cuál es la diferencia entre composición y agregación?</summary>
+
+**Composición** ◆: la parte NO existe sin el todo (tarea sin usuario). **Agregación** ◇: la parte SÍ existe sin el todo (tarea sin categoría).
+</details>
+
+<details>
+<summary>¿Cuántos símbolos UML debo memorizar?</summary>
+
+**10 símbolos**: 5 de clases (clase, +, -, #, herencia) y 5 de relaciones (composición, agregación, asociación, dependencia, herencia).
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los símbolos UML esenciales son **clase** (recuadro con nombre, atributos, métodos) y **relaciones** (composición, agregación, asociación, herencia).
+2. **Composición** ◆ = dependencia fuerte (la parte no existe sin el todo). **Agregación** ◇ = dependencia débil (la parte sobrevive).
+3. No memorices los 14 tipos de diagramas UML: **conoce los 10 símbolos esenciales** y úsalos como referencia.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-6-diagramas) · Anterior: [04 — Diagrama de secuencia](../04-diagrama-secuencia) · Siguiente: [06 — Mermaid](../06-mermaid)

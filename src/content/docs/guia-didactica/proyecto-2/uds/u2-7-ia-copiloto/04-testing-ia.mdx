@@ -1,0 +1,183 @@
+---
+title: "04 — Testing con IA"
+description: "Cómo testear código generado por IA y usar IA para escribir tests"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🤖 **UD 2.7 · IA como Copiloto** → 04 · Testing con IA
+
+<StoryIntro icono="🧪" titulo="Si la IA genera el código, ¿quién lo testea?">
+  Cuando la IA genera código, surge una pregunta: ¿cómo sabemos que
+  funciona bien? La respuesta es doble: testea el código generado **y**
+  usa la IA para ayudarte a escribir tests. Es un círculo virtuoso.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **El código generado por IA necesita tests tanto o más que el escrito por humanos: nunca asumas que es correcto.**
+
+---
+
+## Por qué testear código de IA
+
+La IA genera código que:
+- **Compila** → pero puede tener bugs lógicos
+- **Se ve correcto** → pero falla en edge cases
+- **Usa patrones conocidos** → pero no validados contra tu negocio
+
+### Ejemplo real
+
+La IA genera esto para validar un email:
+
+```javascript
+function validarEmail(email) {
+  return email.includes('@');
+}
+```
+
+¿Funciona? Sí, para emails simples. Pero:
+- `@.@` → pasa la validación (es inválido)
+- `user@.com` → pasa (inválido)
+- `user@domain` → no pasa (válido si hay DNS local)
+
+**Lección**: el código generado por IA necesita tests para validar comportamiento real, no solo casos felices.
+
+---
+
+## Estrategia: usar IA para testear con IA
+
+### Paso 1: Genera el código con IA
+
+```
+Crea una función calcularDescuento(precio, porcentaje) que:
+- Aplique un descuento al precio
+- No permita descuentos negativos ni mayores al 100%
+- Redondee a 2 decimales
+```
+
+### Paso 2: Pide tests con IA
+
+```
+Genera tests unitarios para la función calcularDescuento:
+- Happy path: descuento válido
+- Edge cases: 0%, 100%, descuento negativo
+- Errores: precio negativo, porcentaje > 100
+Usa Jest como framework.
+```
+
+### Paso 3: Ejecuta y verifica
+
+```javascript
+// Tests generados
+describe('calcularDescuento', () => {
+  test('aplica descuento correctamente', () => {
+    expect(calcularDescuento(100, 20)).toBe(80);
+  });
+  
+  test('no permite descuento negativo', () => {
+    expect(() => calcularDescuento(100, -10)).toThrow();
+  });
+  
+  test('no permite descuento mayor al 100%', () => {
+    expect(() => calcularDescuento(100, 150)).toThrow();
+  });
+  
+  test('redondea a 2 decimales', () => {
+    expect(calcularDescuento(100, 33.333)).toBe(66.67);
+  });
+});
+```
+
+---
+
+## Tipos de tests que la IA genera bien
+
+| Tipo | Utilidad | Limitaciones |
+|------|----------|--------------|
+| Tests unitarios de funciones puras | ✅ Excelente | No cubre integración |
+| Tests de validación | ✅ Muy bueno | Puede olvidar edge cases |
+| Tests de componentes básicos | ⚠️ Aceptable | No prueba interacción real |
+| Tests de integración | ⚠️ Limitado | No conoce tu arquitectura |
+| Tests E2E | ❌ Malo | No puede simular usuario real |
+
+---
+
+## Qué NO delegar a la IA en testing
+
+### 1. Estrategia de testing
+
+La IA genera tests individuales, pero no diseña la **estrategia**:
+- ¿Qué módulos son críticos?
+- ¿Cuánta cobertura necesitas?
+- ¿Qué escenarios de usuario son prioritarios?
+
+### 2. Tests de negocio
+
+La IA no entiende que "un profesor no puede crear un examen para mañana si el plazo mínimo es de 3 días". Ese test requiere conocimiento del dominio.
+
+### 3. Tests de rendimiento
+
+La IA no puede simular 1000 usuarios concurrentes. Para eso necesitas herramientas específicas (k6, Artillery).
+
+---
+
+## Patrón: Test-Driven con IA
+
+```
+1. Escribe el test primero (tú o con IA)
+2. Pide a la IA que implemente la función
+3. Ejecuta el test
+4. Si falla, refina el prompt
+5. Repite hasta pasar
+```
+
+### Ejemplo
+
+```typescript
+// 1. Test primero
+test('formato fecha DD/MM/YYYY', () => {
+  expect(formatoFecha(new Date(2025, 0, 15))).toBe('15/01/2025');
+});
+
+// 2. Pides a la IA que implemente
+// "Implementa formatoFecha que convierta Date a DD/MM/YYYY"
+
+// 3. Ejecutas y verificas
+```
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Por qué testear código generado por IA?</summary>
+
+Respuesta: Porque compila y se ve correcto, pero puede tener bugs lógicos, edge cases sin cubrir y problemas de validación que solo descubres al testear.
+</details>
+
+<details>
+<summary>¿Qué tipo de tests genera mejor la IA?</summary>
+
+Respuesta: Tests unitarios de funciones puras y tests de validación. Es limitada para tests de integración, E2E y rendimiento.
+</details>
+
+<details>
+<summary>¿Qué es el patrón Test-Driven con IA?</summary>
+
+Respuesta: Escribir el test primero (tú o con IA), pedir a la IA que implemente la función, ejecutar el test y refinar hasta que pase. Combina la planificación humana con la ejecución de la IA.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El código generado por IA **necesita tests** porque puede tener bugs lógicos que no son evidentes.
+2. Usa la IA para **generar tests unitarios y de validación**, pero diseña la estrategia de testing tú mismo.
+3. Aplica el patrón **Test-Driven con IA**: test primero, implementación con IA, verificación y refinamiento.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-7-ia-copiloto) · Anterior: [03 — GitHub Copilot](../03-copilot-github) · Siguiente: [05 — Seguridad con IA](../05-seguridad-ia)
