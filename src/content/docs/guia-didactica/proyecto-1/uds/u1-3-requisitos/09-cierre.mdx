@@ -1,0 +1,174 @@
+---
+title: "09 — Cierre"
+description: "Mini-chequeo, vocabulario y resumen de la unidad de Requisitos"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../../../components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📝 **UD 1.3 · Requisitos** → 09 · Cierre
+
+<StoryIntro icono="🎉" titulo="Ya sabes qué construir. Ahora toca documentarlo.">
+  Has recorrido toda la unidad: desde qué son los requisitos hasta cómo
+  priorizarlos y escribirlos correctamente. Ahora toca **verificar que lo
+  entiendes** y **aplicarlo a tu proyecto**.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los requisitos son el mapa de tu proyecto: sin ellos, estás programando a ciegas.**
+
+Si recuerdas esto, has entendido la unidad.
+
+---
+
+## 🎯 Mini-chequeo final
+
+Responde estas preguntas antes de seguir:
+
+### Preguntas de comprensión
+
+<details>
+<summary>¿Cuál es la diferencia entre requisitos funcionales y no funcionales?</summary>
+
+**Respuesta**: Los **funcionales** describen qué hace la app ("el alumno crea tareas"). Los **no funcionales** describen cómo se comporta ("carga en menos de 2 segundos").
+
+**Para qué sirve**: Para saber qué documentar en cada apartado de tu documento de requisitos.
+</details>
+
+<details>
+<summary>¿Cuál es el formato de una historia de usuario?</summary>
+
+**Respuesta**: **Como [tipo de usuario], quiero [acción concreta], para [beneficio]**. Ejemplo: "Como alumno, quiero crear tareas con fecha para organizarme."
+
+**Para qué sirve**: Para pensar en el usuario y en el valor, no solo en el código.
+</details>
+
+<details>
+<summary>¿Qué son los criterios de aceptación?</summary>
+
+**Respuesta**: Condiciones verificables que definen cuándo una historia está terminada. Formato: **DADO que [contexto], CUANDO [acción], ENTONCES [resultado]**.
+
+**Para qué sirve**: Para que no haya ambigüedad sobre qué significa "hecho".
+</details>
+
+<details>
+<summary>¿Qué significa MoSCoW?</summary>
+
+**Respuesta**: **Must** (obligatorio), **Should** (importante), **Could** (deseable), **Won't** (no ahora). Sirve para priorizar requisitos.
+
+**Para qué sirve**: Para decidir qué hacer primero y qué dejar para después.
+</details>
+
+<details>
+<summary>¿Cuáles son las 5 categorías de RNF?</summary>
+
+**Respuesta**: **Rendimiento** (qué tan rápido), **Usabilidad** (qué tan fácil), **Seguridad** (cómo protege datos), **Fiabilidad** (qué tan estable), **Compatibilidad** (dónde funciona).
+
+**Para qué sirve**: Para no olvidar restricciones que afectan a toda la app.
+</details>
+
+<details>
+<summary>¿Qué es el modelo Kano?</summary>
+
+**Respuesta**: Clasifica requisitos en **Básicos** (sin ellos no funciona), **Lineales** (cuanto mejor, más satisfacción) y **Excitadores** (generan sorpresa positiva).
+
+**Para qué sirve**: Para entender qué genera satisfacción real en el usuario.
+</details>
+
+<details>
+<summary>¿Cuáles son los 7 errores más comunes de requisitos?</summary>
+
+**Respuesta**: 1) Requisitos vagos, 2) Olvidar RNF, 3) Historias sin claridad, 4) Sin documentar, 5) Todo es Must, 6) Requisitos contradictorios, 7) Confundir qué con cómo.
+
+**Para qué sirve**: Para evitarlos antes de que te cuesten semanas de trabajo.
+</details>
+
+---
+
+### Ejercicio práctico
+
+**En 60 minutos, prepara tu documento de requisitos:**
+
+1. **Visión** (5 min): Escribe el nombre, descripción y usuario de tu app
+2. **RF** (15 min): Lista 5-10 requisitos funcionales con actor y prioridad
+3. **RNF** (10 min): Define 3-5 requisitos no funcionales medibles
+4. **Historias** (20 min): Escribe 10-15 historias de usuario con criterios de aceptación
+5. **MoSCoW** (10 min): Clasifica todos los requisitos en Must/Should/Could
+
+**Si consigues tener un `REQUISITOS.md` completo → has entendido la unidad.**
+
+---
+
+## 📊 Tabla resumen de la unidad
+
+| Concepto | Idea clave |
+|----------|------------|
+| **Requisitos** | Declaraciones de qué debe hacer la app o cómo debe comportarse |
+| **Requisitos funcionales** | Qué hace la app: actor + acción + resultado |
+| **Requisitos no funcionales** | Cómo se comporta: rendimiento, usabilidad, seguridad |
+| **Historias de usuario** | "Como... quiero... para que..." con valor concreto |
+| **Criterios de aceptación** | DADO/CUANDO/ENTONCES: cuándo una historia está terminada |
+| **INVEST** | Independiente, Negociable, Valuable, Estimable, Small, Testable |
+| **MoSCoW** | Must/Should/Could/Won't para priorizar |
+| **Kano** | Básicos, lineales, excitadores para entender satisfacción |
+| **Errores** | Vagos, sin RNF, todo Must, sin documentar, contradicciones |
+
+---
+
+## 📖 Vocabulario rápido
+
+| Término | Definición |
+|---------|-----------|
+| **Requisito funcional** | Descripción de una funcionalidad concreta que la app debe realizar |
+| **Requisito no funcional** | Restricción o cualidad que afecta a toda la app (rendimiento, seguridad...) |
+| **Historia de usuario** | Descripción de una funcionalidad desde el punto de vista del usuario |
+| **Criterio de aceptación** | Condición verificable que define cuándo una historia está terminada |
+| **INVEST** | Acrónimo para evaluar la calidad de una historia de usuario |
+| **MoSCoW** | Método de priorización: Must, Should, Could, Won't |
+| **Kano** | Modelo de satisfacción: básicos, lineales, excitadores |
+| **Dado/Cuando/Entonces** | Formato estándar para criterios de aceptación (BDD) |
+| **PWA** | Progressive Web App: aplicación web que funciona offline |
+| **BDD** | Behavior-Driven Development: desarrollo guiado por comportamiento |
+| **Valor** | Beneficio que una funcionalidad aporta al usuario |
+| **Esfuerzo** | Trabajo necesario para implementar una funcionalidad |
+| **Quick Win** | Feature de alto valor y bajo esfuerzo: hazla primero |
+| **Thankless Task** | Feature de bajo valor y alto esfuerzo: evítala |
+
+---
+
+## 🔗 Conexión con las siguientes unidades
+
+| Unidad | Qué aprenderás | Cómo se conecta |
+|--------|---------------|-----------------|
+| **1.4 Diseño** | Cómo diseñar la interfaz | Diseñarás basándote en los requisitos que acabas de definir |
+| **1.5 Comunicación** | Cómo presentar tu proyecto | Mostrarás el documento de requisitos como parte de la documentación |
+| **1.7 Propuesta** | Cómo escribir la propuesta final | Los requisitos documentados son la base de la propuesta técnica |
+| **PI2 Sprints** | Cómo ejecutar el proyecto | Cada sprint se basa en las historias de usuario priorizadas |
+
+---
+
+## 💡 Consejo para el siguiente punto
+
+Si todavía no tienes claro qué poner en tus requisitos:
+
+1. Abre un archivo `REQUISITOS.md` en tu repositorio
+2. Copia el template del [punto 08](./08-template-requisitos)
+3. Rellena la visión (5 min)
+4. Lista 5 features principales (10 min)
+5. Escribe 5 historias de usuario (15 min)
+
+**No necesitas un documento perfecto. Necesitas empezar.**
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los requisitos son el **mapa de tu proyecto**: definen qué construir, para quién y con qué restricciones antes de escribir código.
+2. Usa **historias de usuario** (Como... quiero... para que...) con **criterios de aceptación** (Dado/Cuando/Entonces) para que no quede ambigüedad.
+3. **Prioriza con MoSCoW** y completa el template en **1 hora** para tener tu proyecto documentado y listo para diseñar.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-3-requisitos) · Anterior: [08 — Template requisitos](./08-template-requisitos) · Siguiente: [UD 1.4 — Diseño](../u1-4-diseno)

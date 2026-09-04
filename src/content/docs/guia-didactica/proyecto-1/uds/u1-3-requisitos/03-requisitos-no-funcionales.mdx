@@ -1,0 +1,214 @@
+---
+title: "03 — Requisitos no funcionales"
+description: "Rendimiento, seguridad, usabilidad y cómo definir restricciones concretas"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../../../components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📝 **UD 1.3 · Requisitos** → 03 · Requisitos no funcionales
+
+<StoryIntro icono="📖" titulo="Los RNF son las reglas del juego que no se ven">
+  Un usuario nunca te pedirá "que cargue en 2 segundos". Pero cuando
+  tu app tarda 10 segundos, nadie la usa. Los requisitos no funcionales
+  son las **restricciones invisibles** que definen si tu app es buena
+  o insoportable.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los requisitos no funcionales no dicen qué hace la app, sino CÓMO se comporta: qué tan rápido, qué tan segura, qué tan fácil de usar.**
+
+Son las "reglas del juego" que aplican a toda la app, no a una funcionalidad concreta.
+
+---
+
+## ¿Qué son los requisitos no funcionales?
+
+Son restricciones que afectan a **toda la aplicación** o a componentes transversales. No describen una funcionalidad, sino una **cualidad del sistema**.
+
+```
+Requisito funcional:    "El usuario crea una tarea"
+Requisito no funcional: "La tarea se guarda en menos de 1 segundo"
+```
+
+---
+
+## Las 5 categorías principales de RNF
+
+### 1. Rendimiento (Performance)
+
+**¿Qué tan rápido funciona la app?**
+
+| Métrica | Ejemplo de RNF |
+|---------|----------------|
+| Tiempo de carga | "La lista de tareas carga en menos de 2 segundos" |
+| Tiempo de respuesta | "Al pulsar 'Guardar', la confirmación aparece en menos de 1 segundo" |
+| Capacidad | "Soporta 100 usuarios simultáneos sin degradación" |
+| Tamaño | "La app ocupa menos de 5MB de almacenamiento" |
+
+### 2. Usabilidad
+
+**¿Qué tan fácil es usar la app?**
+
+| Métrica | Ejemplo de RNF |
+|---------|----------------|
+| Aprendizaje | "Un nuevo usuario crea su primera tarea en menos de 2 minutos" |
+| Accesibilidad | "Cumple WCAG 2.1 nivel AA (contraste, alt text, navegación por teclado)" |
+| Consistencia | "Los botones de acción están siempre en la misma posición" |
+| Adaptabilidad | "La interfaz se adapta a pantallas de 320px a 1920px" |
+
+### 3. Seguridad
+
+**¿Cómo protege los datos?**
+
+| Métrica | Ejemplo de RNF |
+|---------|----------------|
+| Autenticación | "Login con email y contraseña hasheada con bcrypt" |
+| Autorización | "Solo el profesor puede ver las tareas de todos los alumnos" |
+| Datos | "Las contraseñas nunca se almacenan en texto plano" |
+| Sesiones | "La sesión expira tras 30 minutos de inactividad" |
+
+### 4. Fiabilidad
+
+**¿Qué tan estable es la app?**
+
+| Métrica | Ejemplo de RNF |
+|---------|----------------|
+| Disponibilidad | "Funciona offline (PWA) con datos cacheados" |
+| Errores | "Si falla la conexión, muestra un mensaje claro y reintentar" |
+| Datos | "Los datos no se pierden al cerrar el navegador (localStorage)" |
+| Recuperación | "Si hay error, la app se recupera sin perder datos introducidos" |
+
+### 5. Compatibilidad
+
+**¿Dónde funciona la app?**
+
+| Métrica | Ejemplo de RNF |
+|---------|----------------|
+| Navegadores | "Funciona en Chrome 90+, Firefox 88+, Safari 14+, Edge 90+" |
+| Dispositivos | "Funciona en móvil (iOS 14+, Android 10+), tablet y escritorio" |
+| Resoluciones | "Diseño responsive desde 320px hasta 1920px" |
+| Tecnologías | "Framework Vue 3, desplegado en GitHub Pages" |
+
+---
+
+## Plantilla de requisito no funcional
+
+```
+RNF-[Número]: [Nombre descriptivo]
+
+  Categoría: [Rendimiento/Usabilidad/Seguridad/Fiabilidad/Compatibilidad]
+  Descripción: [Qué restricción se aplica]
+  Métrica: [Cómo se mide]
+  Valor objetivo: [Cuánto debe valer]
+  Verificación: [Cómo se comprueba]
+```
+
+### Ejemplo completo
+
+```
+RNF-001: Tiempo de carga
+
+  Categoría: Rendimiento
+  Descripción: La lista de tareas debe cargar rápidamente
+  Métrica: Tiempo desde que se pulsa "Mis tareas" hasta que se muestra la lista
+  Valor objetivo: Menos de 2 segundos en un móvil de gama baja
+  Verificación: Medir con DevTools > Performance en un Nexus 5X
+```
+
+---
+
+## Ejemplos de RNF para tu proyecto
+
+| # | RNF | Categoría | Métrica |
+|---|-----|-----------|---------|
+| RNF-001 | La app carga en menos de 2 segundos | Rendimiento | Tiempo de carga |
+| RNF-002 | La interfaz es responsive (320px–1920px) | Usabilidad | Resolución |
+| RNF-003 | Los datos persisten sin conexión (PWA) | Fiabilidad | Disponibilidad |
+| RNF-004 | Cumple WCAG 2.1 nivel AA | Usabilidad | Accesibilidad |
+| RNF-005 | Funciona en Chrome, Firefox, Safari y Edge | Compatibilidad | Navegadores |
+| RNF-006 | Las contraseñas se hashean con bcrypt | Seguridad | Hashing |
+
+---
+
+## Comparativa: RNF bien escrito vs mal escrito
+
+<Comparativa
+  dialogos={[
+    { who: "Mal escrito", texto: "La app debe ser rápida. (¿Qué es 'rápida'? ¿200ms? ¿5s?)" },
+    { who: "Bien escrito", texto: "RNF-001: La lista de tareas carga en menos de 2 segundos en un móvil de gama baja (Nexus 5X). Se mide con DevTools." },
+  ]}
+  titulo="La diferencia entre vago y medible"
+/>
+
+| Mal escrito | Bien escrito |
+|-------------|-------------|
+| "Que sea seguro" | "Las contraseñas se almacenan hasheadas con bcrypt (coste 12). Nunca en texto plano." |
+| "Que funcione en móvil" | "La interfaz se adapta a pantallas de 320px (iPhone SE) a 428px (iPhone 14 Plus)" |
+| "Que sea fácil" | "Un nuevo usuario crea su primera tarea en menos de 2 minutos sin instrucciones" |
+| "Que no se caiga" | "Si la conexión falla, la app muestra 'Sin conexión' y reintenta cada 5 segundos" |
+
+---
+
+## RNF y PWA
+
+Si tu app es una PWA (Progressive Web App), estos son los RNF más importantes:
+
+| RNF PWA | Descripción |
+|---------|-------------|
+| **Offline** | La app funciona sin conexión usando Service Worker |
+| **Cache** | Los assets estáticos se cachean para carga rápida |
+| **Instalable** | El usuario puede "instalarla" en su pantalla de inicio |
+| **Responsive** | Se adapta a cualquier tamaño de pantalla |
+| **HTTPS** | Obligatorio para Service Workers |
+
+---
+
+## Aclaración: "Los RNF son para empresas grandes"
+
+<Aclaracion icono="🤔" pregunta="¿Necesito definir RNF para un proyecto escolar?">
+Sí, pero **mínimos**. Para un proyecto de 6 semanas, define 3-5 RNF:
+
+1. **Responsive**: "Funciona en móvil y escritorio"
+2. **Offline**: "Los datos persisten sin conexión"
+3. **Accesibilidad**: "Contraste suficiente, texto legible"
+4. **Compatibilidad**: "Funciona en Chrome y Firefox"
+
+Esto te toma 15 minutos y te ahorra la vergüenza de entregar una app que no funciona en el móvil del profesor.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las 5 categorías de RNF?</summary>
+
+Respuesta: **Rendimiento** (qué tan rápido), **Usabilidad** (qué tan fácil), **Seguridad** (cómo protege datos), **Fiabilidad** (qué tan estable) y **Compatibilidad** (dónde funciona).
+</details>
+
+<details>
+<summary>¿Cómo sé si un RNF es bueno o malo?</summary>
+
+Respuesta: Si es **medible** y **verificable**. "Rápido" es malo. "Menos de 2 segundos" es bueno. Si no puedes medirlo, no es un RNF.
+</details>
+
+<details>
+<summary>¿Cuántos RNF debería definir?</summary>
+
+Respuesta: Entre 3 y 6. Más de 6 puede que estés sobre-especificando. Menos de 2 puede que estés olvidando restricciones importantes.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los RNF no describen qué hace la app, sino **cómo se comporta**: rendimiento, usabilidad, seguridad, fiabilidad y compatibilidad.
+2. Un buen RNF es **medible y verifiable**: no "que sea rápido", sino "que cargue en menos de 2 segundos".
+3. Para tu proyecto, define **3-5 RNF concretos** (responsive, offline, accesibilidad) que te toman 15 minutos.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-3-requisitos) · Anterior: [02 — Requisitos funcionales](./02-requisitos-funcionales) · Siguiente: [04 — Historias de usuario](./04-historias-de-usuario)

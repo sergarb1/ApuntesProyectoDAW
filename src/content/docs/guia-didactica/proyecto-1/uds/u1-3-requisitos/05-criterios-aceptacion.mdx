@@ -1,0 +1,245 @@
+---
+title: "05 — Criterios de aceptación"
+description: "Cómo escribir criterios de aceptación en formato Dado/Cuando/Entonces"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../../../components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📝 **UD 1.3 · Requisitos** → 05 · Criterios de aceptación
+
+<StoryIntro icono="📖" titulo="Los criterios de aceptación definen cuándo una historia está terminada">
+  "Está hecho" es subjetivo. Para uno, "hecho" significa que compila.
+  Para otro, significa que pasa tests. Los criterios de aceptación eliminan
+  la ambigüedad: son **condiciones objetivas** que deben cumplirse para
+  considerar una historia completa.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un criterio de aceptación es una condición verifiable que, cuando se cumple, garantiza que la historia de usuario aporta el valor prometido.**
+
+Si no puedes testear si se cumple, no es un criterio de aceptación.
+
+---
+
+## ¿Qué son los criterios de aceptación?
+
+Son las **condiciones concretas** que deben darse para que una historia de usuario esté "terminada". Responden a la pregunta: **¿cómo sé que esto funciona como debe?**
+
+### Sin criterios vs con criterios
+
+| Sin criterios | Con criterios |
+|---------------|---------------|
+| "Hacer el login" → cada uno interpreta algo diferente | "Login con email y contraseña. Si son correctos, redirige al dashboard. Si no, muestra error." |
+| "Funciona" → ¿para quién? ¿en qué navegador? | "Funciona en Chrome, Firefox y Safari. Se ve bien en móvil y escritorio." |
+| "Está terminado" → ¿según quién? | "Cumple los 3 criterios listados abajo." |
+
+---
+
+## El formato Dado/Cuando/Entonces
+
+Este formato viene de **BDD (Behavior-Driven Development)** y es el estándar para escribir criterios de aceptación:
+
+```
+DADO que [contexto o precondición]
+CUANDO [acción del usuario]
+ENTONCES [resultado esperado]
+```
+
+### Variantes útiles
+
+```
+DADO que [contexto]
+CUANDO [acción]
+ENTONCES [resultado]
+
+Y [otro resultado]
+
+PERO SI [condición alternativa]
+ENTONCES [otro resultado]
+```
+
+---
+
+## Ejemplos completos
+
+### Historia: "Como alumno, quiero crear tareas para organizarme"
+
+```
+Criterios de aceptación:
+
+DADO que estoy en la pantalla de tareas
+CUANDO pulso el botón "Nueva tarea"
+ENTONCES se abre un formulario con campos nombre y fecha
+
+DADO que el formulario está abierto
+CUANDO escribo un nombre y selecciono una fecha futura
+Y pulso "Guardar"
+ENTONCES la tarea aparece en mi lista ordenada por fecha
+
+DADO que el formulario está abierto
+CUANDO pulso "Guardar" sin escribir nombre
+ENTONCES aparece un error: "El nombre es obligatorio"
+
+DADO que el formulario está abierto
+CUANDO selecciono una fecha pasada
+ENTONCES aparece un aviso: "La fecha ya pasó"
+
+DADO que la tarea se ha creado correctamente
+CUANDO vuelvo a abrir la app
+ENTONCES la tarea sigue ahí (persiste)
+```
+
+### Historia: "Como alumno, quiero marcar tareas como hechas"
+
+```
+Criterios de aceptación:
+
+DADO que tengo una tarea pendiente en mi lista
+CUANDO pulso el checkbox de la tarea
+ENTONCES la tarea se marca como completada y se tacha visualmente
+
+DADO que una tarea está marcada como hecha
+CUANDO pulso el checkbox de nuevo
+ENTONCES la tarea vuelve a estar pendiente
+
+DADO que tengo 5 tareas y 3 están hechas
+CUANDO miro el contador de progreso
+ENTONCES muestra "3/5 completadas (60%)"
+```
+
+---
+
+## Los 5 tipos de criterios de aceptación
+
+### 1. Happy path (camino feliz)
+
+El escenario donde todo va bien:
+
+```
+DADO que estoy en la pantalla de login
+CUANDO introduzco email y contraseña correctos
+ENTONCES accedo al dashboard
+```
+
+### 2. Validación de errores
+
+Qué pasa cuando algo va mal:
+
+```
+DADO que introduzco un email que no existe
+CUANDO pulso "Iniciar sesión"
+ENTONCES aparece: "Email o contraseña incorrectos"
+```
+
+### 3. Límites y restricciones
+
+Los límites del sistema:
+
+```
+DADO que escribo un nombre de tarea
+CUANDO el nombre tiene más de 100 caracteres
+ENTONCES el campo no acepta más caracteres
+```
+
+### 4. Persistencia
+
+Los datos sobreviven:
+
+```
+DADO que he creado 3 tareas
+CUANDO cierro el navegador y lo vuelvo a abrir
+ENTONCES las 3 tareas siguen en mi lista
+```
+
+### 5. Comportamiento responsive
+
+La app se adapta:
+
+```
+DADO que abro la app en un móvil de 320px de ancho
+CUANDO miro la lista de tareas
+ENTONCES las tareas se muestran en una columna, legibles
+```
+
+---
+
+## Comparativa: criterio vago vs concreto
+
+<Comparativa
+  dialogos={[
+    { who: "Criterio vago", texto: "DADO que el usuario hace login, CUANDO mete sus datos, ENTONCES funciona. (¿Qué es 'funciona'? ¿Qué datos?)" },
+    { who: "Criterio concreto", texto: "DADO que introduzco email 'ana@test.com' y contraseña '1234', CUANDO pulso 'Entrar', ENTONCES accedo al dashboard en menos de 2 segundos." },
+  ]}
+  titulo="La diferencia entre subjetivo y testable"
+/>
+
+| Vago | Concreto |
+|------|----------|
+| "Funciona el login" | "Con email y contraseña correctos, accedo al dashboard" |
+| "Se ve bien en móvil" | "En pantallas de 320px, el texto es legible sin hacer zoom" |
+| "La app es rápida" | "La lista carga en menos de 2 segundos en un Nexus 5X" |
+| "Guarda los datos" | "Tras crear una tarea y cerrar la app, la tarea sigue al reabrirla" |
+
+---
+
+## Cuántos criterios por historia
+
+| Tamaño de la historia | Criterios recomendados |
+|----------------------|----------------------|
+| Simple (1 día) | 2-3 criterios |
+| Media (2-3 días) | 3-5 criterios |
+| Compleja (4-5 días) | 5-7 criterios |
+
+**Regla práctica**: Si tienes más de 7 criterios, probablemente la historia es demasiado grande. Divídela.
+
+---
+
+## Aclaración: "¿Y si no sé qué criterios poner?"
+
+<Aclaracion icono="🤔" pregunta="¿Cómo sé si mis criterios de aceptación son suficientes?">
+Hazte estas preguntas para cada historia:
+
+1. **¿Puedo testear cada criterio?** Si no puedes verificarlo, reformúlalo.
+2. **¿Incluyo el happy path y los errores?** No solo "cuando va bien", también "cuando algo falla".
+3. **¿Incluyo persistencia?** ¿Los datos sobreviven al cerrar la app?
+4. **¿Incluyo límites?** ¿Qué pasa si el campo está vacío, si es muy largo, si la fecha es inválida?
+
+Si respondes "sí" a todo, tus criterios están completos.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es el formato de un criterio de aceptación?</summary>
+
+Respuesta: **DADO que [contexto], CUANDO [acción], ENTONCES [resultado]**. Ejemplo: "DADO que estoy en tareas, CUANDO pulso añadir, ENTONCES la tarea aparece en mi lista."
+</details>
+
+<details>
+<summary>¿Cuántos criterios por historia?</summary>
+
+Respuesta: Entre 2 y 7. Si tienes más de 7, la historia probablemente es demasiado grande y hay que dividirla.
+</details>
+
+<details>
+<summary>¿Qué tipos de criterios debo incluir?</summary>
+
+Respuesta: **Happy path** (cuando va bien), **errores** (cuando algo falla), **límites** (campos vacíos, largos), **persistencia** (los datos sobreviven) y **responsive** (se adapta a pantallas).
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los criterios de aceptación son **condiciones verificables** que definen cuándo una historia está terminada.
+2. El formato estándar es **DADO que [contexto], CUANDO [acción], ENTONCES [resultado]**.
+3. Incluye siempre el **happy path**, los **errores** y la **persistencia** para que no quede ambigüedad.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-3-requisitos) · Anterior: [04 — Historias de usuario](./04-historias-de-usuario) · Siguiente: [06 — Priorización](./06-priorizacion)

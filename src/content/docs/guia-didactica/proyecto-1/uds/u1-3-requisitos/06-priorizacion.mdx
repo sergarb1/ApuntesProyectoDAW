@@ -1,0 +1,224 @@
+---
+title: "06 — Priorización"
+description: "MoSCoW, modelo Kano y matriz valor vs esfuerzo para decidir qué hacer primero"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../../../components/Comparativa.astro';
+import CasoPractico from '../../../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📝 **UD 1.3 · Requisitos** → 06 · Priorización
+
+<StoryIntro icono="📖" titulo="No puedes hacer todo: hay que decidir qué importa más">
+  Tienes 6 semanas y 15 features en la lista. ¿Cuáles haces primero? Si no
+  priorizas, acabarás haciendo features bonitas pero inútiles mientras
+  olvidas las fundamentales. Priorizar es **decidir a qué le dices sí** y
+  a qué le dices "no, ahora no".
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Priorizar es ordenar los requisitos por su importancia real, no por lo que suena bonito.**
+
+No todo es "Must". Si todo es urgente, nada es urgente.
+
+---
+
+## Método 1: MoSCoW
+
+El método más usado y el más fácil de aplicar. Divide los requisitos en 4 categorías:
+
+### Las 4 categorías
+
+| Categoría | Significado | Pregunta clave | Ejemplo |
+|-----------|-------------|-----------------|---------|
+| **Must** | Obligatorio | "¿Sin esto, la app no funciona?" | Crear y ver tareas |
+| **Should** | Importante | "¿Se puede sin esto, pero se nota?" | Filtrar tareas por fecha |
+| **Could** | Deseable | "Estaría bien, pero no es vital" | Exportar a PDF |
+| **Won't** | No ahora | "No entra en este proyecto" | Notificaciones push |
+
+### Regla del 60/20/20
+
+Una distribución saludable para tu proyecto:
+
+```
+Must:   60% de los requisitos (lo que ENTREGAS seguro)
+Should: 20% de los requisitos (lo que intentas incluir)
+Could:  20% de los requisitos (si sobra tiempo)
+Won't:  0% (no los listes, son features futuras)
+```
+
+### Ejemplo: app de tareas
+
+| # | Requisito | MoSCoW |
+|---|-----------|--------|
+| HU-001 | Crear tareas con nombre y fecha | **Must** |
+| HU-002 | Marcar tareas como hechas | **Must** |
+| HU-003 | Ver lista de tareas | **Must** |
+| HU-004 | Editar tareas | **Should** |
+| HU-005 | Filtrar por fecha | **Should** |
+| HU-006 | Eliminar tareas | **Could** |
+| HU-007 | Exportar a PDF | **Could** |
+| HU-008 | Notificaciones push | **Won't** |
+
+---
+
+## Método 2: Modelo Kano
+
+El modelo Kano clasifica los requisitos según **cómo afectan a la satisfacción del usuario**. No todos los requisitos aportan la misma satisfacción.
+
+### Las 3 categorías de Kano
+
+| Tipo | Descripción | Ejemplo | Satisfacción si está |
+|------|-------------|---------|---------------------|
+| **Básicos** | Si no están, el usuario se va. Si están, no genera satisfacción | Login, crear tareas | Esperado (0 satisfacción extra) |
+| **Lineales** | Cuanto mejor, más satisfecho. Relación lineal | Velocidad, filtros | Satisfecho (más es mejor) |
+| **Excitadores** | Si no están, no pasa nada. Si están, generan satisfacción inesperada | Exportar PDF, estadísticas | De sorpresa (wow!) |
+
+### La curva de Kano
+
+```
+Satisfacción
+    │
+    │        ╱ Excitadores (Wow!)
+    │       ╱
+    │      ╱
+    │─────╱──────────── Línea base
+    │    ╱
+    │   ╱  Lineales (más es mejor)
+    │  ╱
+    │ ╱
+    │╱  Básicos (si no están, frustración)
+    └────────────────── Funcionalidad
+```
+
+### ¿Cómo usar Kano en tu proyecto?
+
+1. **Básicos**: Defínelos primero. Son los Must de MoSCoW.
+2. **Lineales**: Priorízalos por impacto. Son los Should.
+3. **Excitadores**: Añádelos si sobra tiempo. Son los Could.
+
+---
+
+## Método 3: Matriz valor vs esfuerzo
+
+Este método es **visual**: dibujas una matriz y sitúas cada requisito según su valor para el usuario y el esfuerzo para construirlo.
+
+### La matriz
+
+```
+                    ALTO VALOR
+                        │
+         ★ QUICK WINS   │  ★ MAJOR PROJECTS
+         (Hazlo ya)     │  (Planifícalo)
+                        │
+  ──────────────────────┼──────────────────────
+                        │
+         ✗ FILL-INS     │  ✗ THANKLESS TASKS
+         (Si sobra tiempo)│ (Evítalos)
+                        │
+                    BAJO VALOR
+     BAJO ESFUERZO ──────────── ALTO ESFUERZO
+```
+
+### Ejemplo: app de tareas
+
+| Requisito | Valor | Esfuerzo | Cuadrante | Acción |
+|-----------|-------|----------|-----------|--------|
+| Crear tareas | Alto | Bajo | ★ Quick Win | **Hazlo primero** |
+| Marcar hechas | Alto | Bajo | ★ Quick Win | **Hazlo primero** |
+| Filtrar por fecha | Alto | Medio | ★ Major Project | Planifícalo |
+| Exportar PDF | Medio | Alto | ★ Major Project | Ver si vale la pena |
+| Eliminar tareas | Bajo | Bajo | Fill-in | Si sobra tiempo |
+| Notificaciones | Bajo | Alto | Thankless | **No lo hagas** |
+
+---
+
+## Caso práctico: priorizando un proyecto real
+
+<CasoPractico titulo="El equipo que priorizó mal">
+Laura, Diego y Ana tenían 4 semanas para entregar su app de notas.
+
+**Sin priorizar** empezaron por:
+1. Una pantalla de login bonita con animaciones
+2. Un sistema de temas oscuro/claro
+3. Un gráfico de evolución de notas
+4. Estadísticas comparativas entre alumnos
+
+**Resultado**: Llevaban 2 semanas y no podían ni introducir notas. El login funcionaba perfecto y el tema oscuro era precioso, pero la app no servía para nada.
+
+**Si hubieran priorizado con MoSCoW**:
+- **Must**: Introducir notas, ver notas por alumno
+- **Should**: Media de notas, buscar alumno
+- **Could**: Gráficos, temas, animaciones
+
+Habrían terminado la app funcional en 2 semanas y habrían añadido bonito en las 2 restantes.
+</CasoPractico>
+
+---
+
+## Comparativa: los 3 métodos
+
+<Comparativa
+  dialogos={[
+    { who: "MoSCoW", texto: "Fácil y rápido. Clasifica en Must/Should/Could/Won't. Perfecto para tu primer proyecto." },
+    { who: "Kano", texto: "Más sofisticado. Distingue básicos, lineales y excitadores. Útil para saber qué genera satisfacción real." },
+    { who: "Valor vs esfuerzo", texto: "Visual y práctico. Si algo es alto valor y bajo esfuerzo, hazlo ya. Si es bajo valor y alto esfuerzo, ni lo mires." },
+  ]}
+  titulo="Tres formas de decidir qué hacer primero"
+/>
+
+| Método | Ventaja | Cuándo usarlo |
+|--------|---------|---------------|
+| **MoSCoW** | Fácil de aplicar, todos lo entienden | Siempre (método base) |
+| **Kano** | Entiende qué genera satisfacción real | Cuando quieres sorprender al usuario |
+| **Valor vs esfuerzo** | Visual, eliminafeatures inútiles | Cuando tienes demasiadas opciones |
+
+**Recomendación**: Usa **MoSCoW como base** y complementa con la **matriz valor vs esfuerzo** para las features dudosas.
+
+---
+
+## Aclaración: "¿Y si todo parece Must?"
+
+<Aclaracion icono="🤔" pregunta="Si todas las features parecen importantes, ¿cómo priorizo?">
+Hazte esta prueba: si tu app solo pudiera hacer **UNA cosa**, ¿cuál sería? Esa es tu Must.
+
+Luego pregúntate: "Si no tengo esa feature, ¿la app sirve para algo?" Si la respuesta es no, es Must. Si la respuesta es "sirve, pero menos", es Should. Si "funciona igual", es Could.
+
+El truco es ser **honesto contigo mismo**: "bonito" no es "necesario".
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué significa cada categoría de MoSCoW?</summary>
+
+Respuesta: **Must** (obligatorio, sin esto no funciona), **Should** (importante pero no vital), **Could** (deseable, si sobra tiempo), **Won't** (no ahora).
+</details>
+
+<details>
+<summary>¿Cuáles son las 3 categorías del modelo Kano?</summary>
+
+Respuesta: **Básicos** (si no están, frustración), **Lineales** (cuanto mejor, más satisfacción) y **Excitadores** (generan sorpresa positiva).
+</details>
+
+<details>
+<summary>¿Cómo uso la matriz valor vs esfuerzo?</summary>
+
+Respuesta: Sitúa cada feature en la matriz. Si es **alto valor + bajo esfuerzo**, hazlo ya (Quick Win). Si es **bajo valor + alto esfuerzo**, no lo hagas (Thankless Task).
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **MoSCoW** clasifica en Must/Should/Could/Won't. Si todo es Must, nada es Must: sé honesto.
+2. El **modelo Kano** distingue básicos (obligatorios), lineales (más es mejor) y excitadores (sorpresa positiva).
+3. La **matriz valor vs esfuerzo** te dice qué hacer ya (Quick Win) y qué evitar (Thankless Task).
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-3-requisitos) · Anterior: [05 — Criterios de aceptación](./05-criterios-aceptacion) · Siguiente: [07 — Errores comunes](./07-errores-requisitos)

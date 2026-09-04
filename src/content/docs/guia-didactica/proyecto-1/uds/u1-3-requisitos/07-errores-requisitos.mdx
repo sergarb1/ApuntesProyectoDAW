@@ -1,0 +1,202 @@
+---
+title: "07 — Errores comunes"
+description: "Los 7 pecados de los requisitos y cómo evitarlos"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import CasoPractico from '../../../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 📝 **UD 1.3 · Requisitos** → 07 · Errores comunes
+
+<StoryIntro icono="📖" titulo="Los errores de requisitos se pagan caros">
+  Cada error de requisitos que pasas desapercibido se multiplica por 10
+  cuando lo implementas. Si lo detectas al programar, te cuesta 1 hora.
+  Si lo detectas al entregar, te cuesta el proyecto. Estos son los 7
+  errores que cometen la mayoría de equipos de FP.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **El error más caro no es un bug de código: es construir algo que nadie pidió o que no funciona como esperaba.**
+
+Conocer estos errores antes de empezar te ahorra semanas.
+
+---
+
+## Los 7 pecados de los requisitos
+
+### Pecado 1: "El usuario puede hacer todo"
+
+**El error**: Definir requisitos tan amplios que no dicen nada concreto.
+
+| Ejemplo de error | Versión corregida |
+|------------------|-------------------|
+| "El usuario puede gestionar sus datos" | "El alumno crea, edita y elimina tareas con nombre y fecha" |
+| "La app tiene funcionalidades de usuario" | "El alumno se registra con email y contraseña, y crea su primera tarea en menos de 2 minutos" |
+| "Se pueden ver estadísticas" | "El alumno ve un gráfico de barras con tareas completadas por semana" |
+
+**Solución**: Usa verbos de acción concretos: crear, editar, eliminar, ver, filtrar, exportar. Nunca "gestionar" ni "administrar".
+
+---
+
+### Pecado 2: Requisitos no funcionales olvidados
+
+**El error**: Definir solo funcionalidades y olvidar restricciones.
+
+```
+Todo el mundo define: "El alumno crea tareas"
+Nadie define: "La app carga en menos de 2 segundos"
+           "La interfaz funciona en móvil"
+           "Los datos persisten sin conexión"
+```
+
+**Solución**: Después de listar los requisitos funcionales, pregunta: ¿Qué pasa si va lento? ¿Qué pasa si no hay internet? ¿Qué pasa si uso un móvil pequeño? Cada respuesta es un RNF.
+
+---
+
+### Pecado 3: Historias de usuario vagas
+
+**El error**: Historias sin actor concreto, sin valor claro o sin criterios de aceptación.
+
+| Historia vaga | Historia concreta |
+|---------------|-------------------|
+| "Como usuario, quiero usar la app" | "Como alumno, quiero crear tareas con fecha para organizarme" |
+| "Que tenga login" | "Como alumno, quiero registrarme con email y contraseña para acceder a mis tareas" |
+| "Que se vea bien" | "Como alumno, quiero ver mis tareas en el móvil para comprobarlas en el bus" |
+
+**Solución**: Pregúntate: ¿Quién es el usuario concreto? ¿Qué quiere hacer exactamente? ¿Por qué le importa? Si no puedes responder, la historia no está lista.
+
+---
+
+### Pecado 4: Confundir "cómo" con "qué"
+
+**El error**: Escribir requisitos que definen la implementación en vez del comportamiento.
+
+| Cómo (mal) | Qué (bien) |
+|------------|-----------|
+| "Usar Vue 3 con Composition API" | "La app carga la lista de tareas en menos de 2 segundos" |
+| "Almacenar en IndexedDB" | "Los datos persisten sin conexión a internet" |
+| "Usar Tailwind CSS" | "La interfaz es responsive y funciona en móvil y escritorio" |
+
+**Solución**: Los requisitos definen **qué** necesita el usuario y **cómo se comporta** la app. La tecnología es decisión del equipo, no del requisito.
+
+---
+
+### Pecado 5: "Lo sabré cuando lo vea"
+
+**El error**: No documentar requisitos y confiar en que el equipo "se entiende".
+
+**Consecuencia**: Cada persona imagina features diferentes. El alumno piensa en un gestor de tareas. El profe piensa en un portal de notas. El compañero piensa en algo con juegos. Cuando se juntan los trozos, no encajan nada.
+
+**Solución**: Escribe los requisitos **antes de programar**. Una tarde de documentación te ahorra semanas de reescribir código.
+
+---
+
+### Pecado 6: Todo es Must
+
+**El error**: Clasificar todas las features como obligatorias.
+
+**Consecuencia**: No puedes priorizar. Intentas hacer todo a la vez. No terminas nada. El sprint se llena de tareas a medias.
+
+**Solución**: Usa MoSCoW y sé honesto. Si tu app pudiera hacer solo UNA cosa, ¿cuál sería? Esa es tu Must. Las demás son Should, Could o Won't.
+
+---
+
+### Pecado 7: Requisitos contradictorios
+
+**El error**: Tener requisitos que se contradicen entre sí.
+
+| Requisito 1 | Requisito 2 (contradictorio) |
+|-------------|------------------------------|
+| "La app funciona offline" | "La app se sincroniza en tiempo real con el servidor" |
+| "Carga en menos de 1 segundo" | "Muestra 1000 tareas con imágenes en alta resolución" |
+| "Accesible para discapacidad visual" | "Usa colores muy claros y texto pequeño" |
+
+**Solución**: Revisa todos los requisitos juntos al final. Si dos se contradicen, decide cuál es más importante y ajusta el otro.
+
+---
+
+## Caso práctico: los 7 errores en acción
+
+<CasoPractico titulo="El proyecto que tenía todo mal">
+Elena, Marcos y Sofía hicieron su proyecto de DAW con estos errores:
+
+**Semana 1**: Escribieron requisitos como "La app debe ser completa y funcional". No definieron quién es el usuario ni qué hace exactamente.
+
+**Semana 2**: Cada uno empezó a programar algo diferente. Elena hizo un login con OAuth. Marcos hizo un CRUD de tareas. Sofía hizo gráficos bonitos. No había coordinación.
+
+**Semana 3**: Descubrieron que el login de Elena no conectaba con el CRUD de Marcos. Los gráficos de Sofía usaban datos que nadie había introducido.
+
+**Semana 4**: El profe preguntó "¿qué hace vuestra app?" y no supieron explicarlo. "Pues... tiene login... y tareas... y gráficos..."
+
+**Semana 5**: Intentaron arreglarlo, pero no tenían documentación de qué habían construido ni por qué.
+
+**Semana 6**: Entregaron un proyecto que compila pero que nadie entiende. Las features no se integran.
+
+**¿Qué salió mal?** Los 7 errores: requisitos vagos, sin RNF, sin historias claras, confundiendo qué con cómo, sin documentar, todo era Must y había contradicciones.
+
+**¿Qué debería haber hecho?** 2 horas definiendo 8-10 requisitos funcionales, 4 RNF, 12 historias de usuario con criterios de aceptación. Les habría ahorrado 5 semanas de confusión.
+</CasoPractico>
+
+---
+
+## La tabla de los errores
+
+| Error | Consecuencia | Solución |
+|-------|-------------|----------|
+| "El usuario puede hacer todo" | Requisitos vagos, sin valor | Verbos concretos: crear, editar, ver |
+| Sin RNF | App lenta, que no funciona en móvil | Definir 3-5 RNF medibles |
+| Historias vagas | Sin claridad sobre qué construir | Actor + Acción + Beneficio |
+| "Lo sabré cuando lo vea" | Cada uno imagina algo diferente | Documentar antes de programar |
+| Todo es Must | No priorizas, no terminas | MoSCoW honesto |
+| Requisitos contradictorios | Imposible de implementar | Revisar todos juntos al final |
+| Confundir qué con cómo | Ata tecnológica innecesaria | Definir comportamiento, no tecnología |
+
+---
+
+## Aclaración: "No necesito documentar para un proyecto pequeño"
+
+<Aclaracion icono="🤔" pregunta="Si mi proyecto es pequeño, ¿realmente necesito documentar requisitos?">
+Sí, pero **ligero**. No necesitas un documento formal. Necesitas:
+
+1. Una **lista de 8-10 features** con nombre y prioridad (MoSCoW): 15 minutos
+2. Una **lista de 3-5 RNF** con métricas concretas: 10 minutos
+3. **12-15 historias de usuario** con criterios de aceptación: 1 hora
+
+Total: **1.5 horas** de inversión que te ahorran semanas de construir cosas que nadie pidió.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son los 7 errores más comunes?</summary>
+
+Respuesta: 1) Requisitos vagos ("gestionar todo"), 2) Olvidar RNF, 3) Historias vagas, 4) Sin documentar, 5) Todo es Must, 6) Requisitos contradictorios, 7) Confundir qué con cómo.
+</details>
+
+<details>
+<summary>¿Cuál es el error más caro?</summary>
+
+Respuesta: **No documentar requisitos** ("lo sabré cuando lo vea"). Cada persona imagina algo diferente y cuando se juntan los trozos, no encajan.
+</details>
+
+<details>
+<summary>¿Cómo evito requisitos contradictorios?</summary>
+
+Respuesta: Revisa **todos los requisitos juntos** al final. Si dos se contradicen, decide cuál es más importante y ajusta el otro.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los 7 errores más comunes son: **requisitos vagos, olvidar RNF, historias sin claridad, no documentar, todo es Must, contradicciones y confundir qué con cómo**.
+2. El error más caro es **no documentar**: cada persona imagina algo diferente y al final nada encaja.
+3. **1.5 horas de documentación** te ahorran semanas de construir cosas que nadie pidió.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-3-requisitos) · Anterior: [06 — Priorización](./06-priorizacion) · Siguiente: [08 — Template requisitos](./08-template-requisitos)

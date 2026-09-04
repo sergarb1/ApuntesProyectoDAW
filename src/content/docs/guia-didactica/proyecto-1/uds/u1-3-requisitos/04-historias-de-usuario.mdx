@@ -1,0 +1,167 @@
+---
+title: "04 — Historias de usuario"
+description: "Formato, ejemplos y criterios INVEST para historias de usuario claras"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../../../components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📝 **UD 1.3 · Requisitos** → 04 · Historias de usuario
+
+<StoryIntro icono="📖" titulo="Las historias de usuario convierten requisitos en lenguaje humano">
+  "Implementar endpoint POST /tareas" no le dice nada a tu profe ni a tu
+  compañero. Pero "Como alumno, quiero crear tareas para organizarme" lo
+  entiende todo el mundo. Las historias de usuario son el puente entre
+  **lo que el usuario necesita** y **lo que el equipo construye**.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Una historia de usuario describe una funcionalidad desde el punto de vista de quien la usa: quién la necesita, qué quiere hacer y por qué le importa.**
+
+Si no puedes explicar el valor en una frase, la historia no está clara.
+
+---
+
+## El formato clásico
+
+```
+Como [tipo de usuario]
+quiero [hacer algo concreto]
+para [obtener un beneficio]
+```
+
+### Las 3 preguntas que obliga a responder
+
+| Pregunta | Parte de la historia | Por qué importa |
+|----------|---------------------|-----------------|
+| **¿Quién?** | "Como [tipo de usuario]" | No todos los usuarios son iguales |
+| **¿Qué?** | "Quiero [acción concreta]" | Define la funcionalidad exacta |
+| **¿Para qué?** | "Para [beneficio]" | Justifica por qué merece el esfuerzo |
+
+---
+
+## Ejemplos de historias de usuario
+
+### App de tareas escolares
+
+| # | Historia de usuario | Valor |
+|---|---------------------|-------|
+| HU-001 | Como **alumno**, quiero **añadir tareas con nombre y fecha límite** para **no olvidarme de entregar trabajos** | Organización personal |
+| HU-002 | Como **alumno**, quiero **marcar tareas como hechas** para **ver mi progreso** | Motivación |
+| HU-003 | Como **alumno**, quiero **filtrar tareas por fecha** para **ver las urgentes primero** | Eficiencia |
+| HU-004 | Como **profesor**, quiero **ver las tareas de mis alumnos** para **saber quién va retrasado** | Supervisión |
+| HU-005 | Como **alumno**, quiero **editar tareas** para **corregir errores** | Flexibilidad |
+| HU-006 | Como **alumno**, quiero **eliminar tareas** para **limpiar mi lista** | Organización |
+| HU-007 | Como **alumno**, quiero **exportar mis tareas a PDF** para **imprimirlas** | Accesibilidad offline |
+
+### Portal de notas
+
+| # | Historia de usuario | Valor |
+|---|---------------------|-------|
+| HU-001 | Como **alumno**, quiero **ver mis notas por asignatura** para **saber mi nivel** | Transparencia |
+| HU-002 | Como **profesor**, quiero **introducir notas de mis alumnos** para **evaluar su progreso** | Evaluación |
+| HU-003 | Como **alumno**, quiero **ver la media de mis notas** para **saber cómo voy** | Motivación |
+| HU-004 | Como **profesor**, quiero **importar notas desde un CSV** para **ahorrar tiempo** | Eficiencia |
+
+---
+
+## Las 6 letras de INVEST
+
+Una buena historia de usuario debe cumplir el acrónimo **INVEST**:
+
+| Letra | Significado | Significado | Ejemplo malo | Ejemplo bueno |
+|-------|-------------|-------------|--------------|---------------|
+| **I** | Independiente | No depende de otras historias | "Crear usuario" antes de "Login" | Cada historia se puede implementar sola |
+| **N** | Negociable | Se puede discutir el "cómo" | "Usar Vue 3 con Composition API" | "El usuario se registra" (el cómo se decide después) |
+| **V** | Valuable | Aporta valor al usuario | "Añadir un botón decorativo" | "El alumno crea tareas para organizarse" |
+| **E** | Estimable | Puedes estimar cuánto cuesta | "Hacer la app perfecta" | "El alumno filtra tareas por fecha" (2-3 días) |
+| **S** | Small | Pequeña para un sprint | "Implementar todo el sistema de usuarios" | "El alumno crea una tarea con nombre y fecha" (1 día) |
+| **T** | Testable | Puedes verificar que funciona | "Que sea fácil de usar" | "El alumno crea una tarea y aparece en su lista" |
+
+---
+
+## Historia de usuario vs requisito funcional
+
+| Aspecto | Historia de usuario | Requisito funcional |
+|---------|--------------------|--------------------|
+| **Formato** | "Como... quiero... para que..." | "RF-001: El alumno crea tareas..." |
+| **Público** | Equipo + usuarios | Analistas + desarrolladores |
+| **Detalle** | Resumen + criterios de aceptación | Flujo detallado con pasos |
+| **Flexibilidad** | Negociable | Fijo |
+| **Ejemplo** | "Como alumno, quiero crear tareas para organizarme" | "RF-001: El alumno ingresa nombre, selecciona fecha y pulsa Guardar. La tarea aparece en la lista." |
+
+**Regla**: Primero las historias (para entender el qué y el por qué), luego los requisitos funcionales (para definir el cómo exacto).
+
+---
+
+## Comparativa: historia bien escrita vs mal escrita
+
+<Comparativa
+  dialogos={[
+    { who: "Mal escrita", texto: "Como usuario, quiero un CRUD de tareas para gestionarlas. (¿Quién es 'el usuario'? ¿Qué es 'gestionar'? ¿Qué valor tiene un CRUD?)" },
+    { who: "Bien escrita", texto: "Como alumno, quiero crear tareas con nombre y fecha límite para no olvidarme de entregar trabajos. (Claro, concreto, con valor)" },
+  ]}
+  titulo="La diferencia entre vago y útil"
+/>
+
+| Mal escrita | Bien escrita |
+|-------------|-------------|
+| "Como admin, quiero gestionar usuarios" | "Como profesor, quiero ver las tareas de mis alumnos para saber quién va retrasado" |
+| "Que tenga notificaciones" | "Como alumno, quiero recibir un aviso 24h antes de la fecha límite para no olvidarme" |
+| "Funcionalidad de búsqueda" | "Como alumno, quiero buscar tareas por nombre para encontrar rápidamente una tarea concreta" |
+
+---
+
+## Aclaración: "Las historias de usuario son solo para empresas"
+
+<Aclaracion icono="🤔" pregunta="¿Necesito escribir historias de usuario para mi proyecto de FP?">
+Sí, y es más fácil de lo que parece. No necesitas un backlog de 200 historias. Necesitas **10-15 historias** que:
+
+1. Cubran las funcionalidades principales de tu app
+2. Sean comprensibles por tu profe y tu compañero
+3. Tengan criterios de aceptación claros
+
+Esto te toma 1-2 horas y te da una visión clara de todo lo que hay que construir.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es el formato de una historia de usuario?</summary>
+
+Respuesta: **Como [tipo de usuario], quiero [acción concreta], para [beneficio]**. Ejemplo: "Como alumno, quiero crear tareas con fecha para organizarme."
+</details>
+
+<details>
+<summary>¿Qué significan las siglas INVEST?</summary>
+
+Respuesta: **I**ndependiente, **N**egociable, **V**aluable, **E**stimable, **S**mall, **T**estable. Si una historia no cumple alguna de estas, hay que reformularla.
+</details>
+
+<details>
+<summary>¿Cuántas historias de usuario debería tener mi proyecto?</summary>
+
+Respuesta: Entre 10 y 15. Más de 20 probablemente tienes demasiadas features. Menos de 8 puede que tu app sea demasiado simple.
+</details>
+
+<details>
+<summary>¿Cuál es la diferencia entre historia de usuario y requisito funcional?</summary>
+
+Respuesta: La historia es un **resumen en lenguaje humano** del qué y el por qué. El requisito funcional es la **especificación detallada** del cómo exacto.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Las historias de usuario usan el formato **"Como... quiero... para que..."** para describir funcionalidades desde el punto de vista del usuario.
+2. Una buena historia cumple **INVEST**: Independiente, Negociable, Valuable, Estimable, Small y Testable.
+3. Primero las historias (el qué y el por qué), luego los requisitos funcionales (el cómo exacto). No al revés.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-3-requisitos) · Anterior: [03 — Requisitos no funcionales](./03-requisitos-no-funcionales) · Siguiente: [05 — Criterios de aceptación](./05-criterios-aceptacion)

@@ -1,0 +1,170 @@
+---
+title: "01 — ¿Qué son los requisitos?"
+description: "Definición, tipos y por qué son el primer paso de cualquier proyecto"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../../../components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📝 **UD 1.3 · Requisitos** → 01 · ¿Qué son los requisitos?
+
+<StoryIntro icono="📖" titulo="Antes de programar, hay que saber qué construir">
+  El 40% de los problemas en proyectos de software se deben a requisitos
+  mal definidos o incompletos. Los requisitos son el contrato entre
+  **lo que el usuario necesita** y **lo que tú vas a construir**. Sin ellos,
+  estás adivinando.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un requisito es una declaración de lo que la app debe hacer (o cómo debe comportarse) para satisfacer una necesidad del usuario.**
+
+No es un deseo vago ni una idea suelta. Es una afirmación concreta, verificable y documentada.
+
+---
+
+## ¿Qué es un requisito?
+
+En términos sencillos:
+
+```
+Requisito = Necesidad del usuario + Cómo se satisface + Cómo se verifica
+```
+
+### Ejemplo cotidiano
+
+| Sin requisito | Con requisito |
+|---------------|---------------|
+| "Quiero una app de tareas" | "El alumno debe poder crear tareas con nombre, fecha límite y prioridad, y verlas ordenadas por fecha" |
+| "Que sea rápida" | "La app debe cargar la lista de tareas en menos de 2 segundos en un móvil de gama baja" |
+| "Que sea bonita" | "La interfaz debe usar colores del instituto y ser legible en pantalla de 5 pulgadas" |
+
+---
+
+## Los dos tipos de requisitos
+
+### Requisitos funcionales (RF)
+
+**¿Qué hace la app?** describen funcionalidades concretas.
+
+- "El usuario puede registrarse con email y contraseña"
+- "El alumno puede crear, editar y eliminar tareas"
+- "El profesor puede ver las tareas de todos sus alumnos"
+
+### Requisitos no funcionales (RNF)
+
+**¿Cómo se comporta la app?** describen restricciones y cualidades.
+
+- "La app debe cargar en menos de 2 segundos"
+- "Los datos deben persistir localmente sin conexión"
+- "La interfaz debe ser accesible para personas con discapacidad visual"
+
+---
+
+## Comparativa: funcional vs no funcional
+
+<Comparativa
+  dialogos={[
+    { quien: "Requisito funcional", texto: "El alumno puede crear tareas con nombre y fecha. Describe UNA COSA que la app HACE." },
+    { why: "Requisito no funcional", texto: "La app carga en menos de 2 segundos. Describe CÓMO se hace, no qué se hace." },
+  ]}
+  titulo="Dos caras de la misma moneda"
+/>
+
+| Característica | Requisito funcional | Requisito no funcional |
+|----------------|--------------------|-----------------------|
+| **Pregunta** | ¿Qué hace? | ¿Cómo se comporta? |
+| **Ejemplo** | "Crear tarea" | "Carga en 2s" |
+| **Verificable** | Sí (funciona o no) | Sí (se mide con métrica) |
+| **Priorización** | MoSCoW | MoSCoW |
+
+---
+
+## ¿Por qué importan los requisitos?
+
+### Sin requisitos...
+
+- Cada miembro del equipo imagina features diferentes
+- Programas cosas que nadie pidió
+- Descubres errores en la última semana
+- El profesor no sabe qué esperar de ti
+
+### Con requisitos...
+
+- Todos saben exactamente qué hay que construir
+- Estimas esfuerzo real (porque sabes qué implica)
+- Detectas conflictos al principio (no al final)
+- Puedes priorizar y evitar features innecesarias
+
+---
+
+## La pirámide de los requisitos
+
+```
+        ┌─────────────┐
+        │  Visión      │  ← Tu app en una frase
+        ├─────────────┤
+        │  Requisitos  │  ← Qué debe hacer (RF + RNF)
+        │  no func.    │
+        ├─────────────┤
+        │  Requisitos  │  ← Funcionalidades concretas
+        │  funcionales │
+        ├─────────────┤
+        │  User        │  ← "Como... quiero... para que..."
+        │  Stories     │
+        ├─────────────┤
+        │  Criterios   │  ← Dado/Cuando/Entonces
+        │  aceptación  │
+        └─────────────┘
+```
+
+La visión es el faro. Los requisitos son el mapa. Las user stories son los pasos.
+
+---
+
+## Aclaración: "Requisitos son solo para empresas grandes"
+
+<Aclaracion icono="🤔" pregunta="¿Necesito documentar requisitos para un proyecto de 6 semanas?">
+Sí, pero de forma **ligera**. No necesitas un documento de 50 páginas. Necesitas:
+
+1. Una lista de **5-10 requisitos funcionales** claros
+2. Una lista de **3-5 requisitos no funcionales** concretos
+3. **10-15 user stories** con criterios de aceptación
+
+Esto te toma 2-3 horas y te ahorra semanas de trabajo desperdiciado.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es la diferencia entre requisito funcional y no funcional?</summary>
+
+Respuesta: El **funcional** describe qué hace la app ("el usuario puede crear tareas"). El **no funcional** describe cómo se comporta ("carga en menos de 2 segundos").
+</details>
+
+<details>
+<summary>¿Por qué son importantes los requisitos?</summary>
+
+Respuesta: Porque definen exactamente qué hay que construir. Sin ellos, cada persona imagina cosas diferentes y descubres problemas cuando ya es tarde.
+</details>
+
+<details>
+<summary>¿Necesito un documento de 50 páginas?</summary>
+
+Respuesta: No. Para un proyecto de 6 semanas, una lista breve de requisitos funcionales (5-10), no funcionales (3-5) y 10-15 user stories es suficiente.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Un requisito es una declaración concreta de **qué debe hacer la app** o **cómo debe comportarse** para satisfacer una necesidad del usuario.
+2. Los **requisitos funcionales** describen funcionalidades ("el usuario puede crear tareas"). Los **no funcionales** describen restricciones ("carga en 2 segundos").
+3. Documentar requisitos ligero (no burocrático) te ahorra semanas de trabajo desperdiciado y malentendidos en el equipo.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-3-requisitos) · Siguiente: [02 — Requisitos funcionales](./02-requisitos-funcionales)

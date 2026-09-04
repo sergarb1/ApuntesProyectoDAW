@@ -1,0 +1,213 @@
+---
+title: "02 — Requisitos funcionales"
+description: "Cómo identificar, documentar y plantear las funcionalidades de tu app"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../../../components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📝 **UD 1.3 · Requisitos** → 02 · Requisitos funcionales
+
+<StoryIntro icono="📖" titulo="Los requisitos funcionales son el 'qué' de tu app">
+  "Mi app tiene login, un CRUD y exporta a PDF." Eso no son requisitos: es
+  una lista de palabras sueltas. Los requisitos funcionales bien escritos
+  dicen **exactamente qué debe hacer cada funcionalidad**, para quién y con
+  qué condiciones.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un requisito funcional describe una acción concreta que la app debe realizar: quién la ejecuta, qué hace y cuál es el resultado.**
+
+Si no puedes testear si se cumple, no es un requisito funcional.
+
+---
+
+## ¿Qué es un requisito funcional?
+
+Es una declaración que describe un **comportamiento observable** de la app. El usuario puede verlo, hacerlo o comprobarlo.
+
+### Estructura básica
+
+```
+[Actor] + [Acción] + [Objeto] + [Condición] + [Resultado]
+```
+
+### Ejemplo desglosado
+
+| Actor | Acción | Objeto | Condición | Resultado |
+|-------|--------|--------|-----------|-----------|
+| Alumno | Crea | Una tarea | Con nombre y fecha | La tarea aparece en su lista |
+| Profesor | Ve | Las tareas de sus alumnos | Filtrando por alumno | Muestra solo las tareas de ese alumno |
+| Alumno | Elimina | Una tarea | Que sea suya | La tarea desaparece de la lista |
+
+---
+
+## Cómo identificarlos
+
+### Método 1: Preguntar "¿Qué puede hacer el usuario?"
+
+```
+App de tareas escolares:
+- ¿Qué puede hacer un ALUMNO?
+  → Crear tareas, editarlas, eliminarlas, marcar como hechas, ver su lista
+- ¿Qué puede hacer un PROFESOR?
+  → Ver tareas de alumnos, asignar tareas, ver estadísticas
+- ¿Qué puede hacer un PADRE?
+  → Ver notas del hijo (si hay funcionalidad)
+```
+
+### Método 2: Escuchar a los usuarios
+
+Preguntas clave:
+- "¿Qué haces ahora con papel/cuaderno que podrías hacer en la app?"
+- "¿Qué información necesitas ver?"
+- "¿Qué errores quieres evitar?"
+
+### Método 3: Revisar requisitos previos
+
+Si el profesor o el equipo ya tiene algo documentado, revísalo y tradúcelo a requisitos concretos.
+
+---
+
+## Plantilla de requisito funcional
+
+```
+RF-[Número]: [Nombre descriptivo]
+
+  Descripción: [Qué hace la app]
+  Actor: [Quién lo ejecuta]
+  Precondiciones: [Qué debe ocurrir antes]
+  Flujo principal:
+    1. [Paso 1]
+    2. [Paso 2]
+    3. [Paso 3]
+  Flujo alternativo: [Qué pasa si algo cambia]
+  Postcondiciones: [Qué queda después]
+```
+
+### Ejemplo completo: "Crear tarea"
+
+```
+RF-001: Crear tarea
+
+  Descripción: El alumno crea una nueva tarea escolar
+  Actor: Alumno
+  Precondiciones: Estoy registrado y en la pantalla principal
+
+  Flujo principal:
+    1. Pulso el botón "Nueva tarea"
+    2. Escribo el nombre de la tarea
+    3. Selecciono la fecha límite
+    4. Pulso "Guardar"
+    5. La tarea aparece en mi lista ordenada por fecha
+
+  Flujo alternativo:
+    - Si el nombre está vacío → muestra error "Nombre obligatorio"
+    - Si la fecha es pasada → muestra warning "La fecha ya pasó"
+
+  Postcondiciones: La tarea existe en la lista del alumno
+```
+
+---
+
+## Ejemplos de requisitos funcionales
+
+### App de tareas escolares
+
+| # | Requisito | Actor | Prioridad |
+|---|-----------|-------|-----------|
+| RF-001 | El alumno crea tareas con nombre, fecha y prioridad | Alumno | Must |
+| RF-002 | El alumno edita tareas existentes | Alumno | Must |
+| RF-003 | El alumno elimina tareas que ya no necesita | Alumno | Should |
+| RF-004 | El alumno marca tareas como completadas | Alumno | Must |
+| RF-005 | El alumno filtra tareas por fecha, prioridad o estado | Alumno | Should |
+| RF-006 | El profesor ve todas las tareas de sus alumnos | Profesor | Must |
+| RF-007 | La app exporta la lista de tareas a PDF | Alumno | Could |
+| RF-008 | La app muestra estadísticas de tareas completadas | Alumno | Could |
+
+### Portal de notas
+
+| # | Requisito | Actor | Prioridad |
+|---|-----------|-------|-----------|
+| RF-001 | El profesor introduce notas de sus alumnos | Profesor | Must |
+| RF-002 | El alumno ve sus notas por asignatura | Alumno | Must |
+| RF-003 | El alumno ve la media de sus notas | Alumno | Should |
+| RF-004 | El profesor importa notas desde un CSV | Profesor | Could |
+| RF-005 | El alumno recibe alertas cuando saca un suspenso | Alumno | Could |
+
+---
+
+## Comparativa: requisito bien escrito vs mal escrito
+
+<Comparativa
+  dialogos={[
+    { quien: "Mal escrito", texto: "La app debe ser funcional. (¿Qué significa 'funcional'? ¿Funcional para qué?)" },
+    { why: "Bien escrito", texto: "RF-001: El alumno crea tareas con nombre y fecha límite. La tarea aparece en su lista ordenada por fecha." },
+  ]}
+  titulo="La diferencia entre vago y concreto"
+/>
+
+| Mal escrito | Bien escrito |
+|-------------|-------------|
+| "Tiene login" | "El usuario se registra con email y contraseña válidos. Recibe confirmación por email." |
+| "Se pueden ver estadísticas" | "El alumno ve un gráfico de barras con tareas completadas vs pendientes por semana" |
+| "Funciona en móvil" | "La interfaz se adapta a pantallas de 320px a 428px de ancho" |
+
+---
+
+## Consejos para buenos requisitos funcionales
+
+1. **Usa verbos de acción**: crear, editar, eliminar, ver, filtrar, exportar
+2. **Sé específico**: no "el usuario puede gestionar tareas", sino "el alumno crea, edita y elimina tareas"
+3. **Incluye el actor**: ¿quién lo hace? No todos los usuarios hacen lo mismo
+4. **Define el resultado**: ¿qué pasa después de la acción?
+5. **Numéralos**: RF-001, RF-002... para poder referirte a ellos fácilmente
+
+---
+
+## Aclaración: "¿Y si no sé qué requisitos poner?"
+
+<Aclaracion icono="🤔" pregunta="¿Cómo sé si mis requisitos son suficientes?">
+Hazte estas preguntas:
+
+1. **¿Cada pantalla de mi app tiene al menos un requisito?** Si tienes una pantalla sin requisito, falta algo.
+2. **¿Cada actor tiene sus propios requisitos?** Si todos hacen lo mismo, quizá solo hay un actor.
+3. **¿Puedo testear cada requisito?** Si no puedes verificarlo, no es un requisito.
+4. **¿Puedo estimar el esfuerzo de cada requisito?** Si no puedes estimarlo, es demasiado vago.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es la estructura de un requisito funcional?</summary>
+
+Respuesta: **Actor + Acción + Objeto + Condición + Resultado**. Ejemplo: "El alumno (actor) crea (acción) una tarea (objeto) con nombre y fecha (condición) y aparece en su lista (resultado)."
+</details>
+
+<details>
+<summary>¿Cómo identifico los requisitos funcionales de mi app?</summary>
+
+Respuesta: Pregúntate: 1) ¿Qué puede hacer cada usuario? 2) ¿Qué信息 necesito mostrar? 3) ¿Qué errores debo evitar? 4) ¿Qué necesita el usuario para trabajar?
+</details>
+
+<details>
+<summary>¿Cuántos requisitos funcionales debería tener mi proyecto?</summary>
+
+Respuesta: Entre 5 y 10. Menos de 5 puede que tu app sea demasiado simple. Más de 10 puede que necesites priorizar o dividir en fases.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los requisitos funcionales describen **qué hace la app**: quién ejecuta la acción, qué hace y cuál es el resultado.
+2. Usa la plantilla **Actor + Acción + Objeto + Condición + Resultado** para escribir requisitos claros y testables.
+3. Si no puedes verificar que se cumple un requisito, **es demasiado vago**. Conviértelo en algo concreto.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-3-requisitos) · Anterior: [01 — ¿Qué son los requisitos?](./01-que-son-requisitos) · Siguiente: [03 — Requisitos no funcionales](./03-requisitos-no-funcionales)

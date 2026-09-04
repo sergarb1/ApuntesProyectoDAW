@@ -1,0 +1,240 @@
+---
+title: "08 — Template Requisitos"
+description: "Documento listo para rellenar con todos los apartados de requisitos"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 📝 **UD 1.3 · Requisitos** → 08 · Template Requisitos
+
+<StoryIntro icono="📖" titulo="No empieces desde cero: rellena esta plantilla">
+  Este template contiene todo lo que necesitas para documentar los requisitos
+  de tu proyecto. Cópialo, rellénalo y tendrás un documento completo en
+  1-2 horas. No es burocracia: es el mapa que guiará todo tu desarrollo.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un template bien diseñado te obliga a pensar en lo que importa antes de empezar a programar.**
+
+Si una plantilla te parece inútil, probablemente no la estás usando para pensar.
+
+---
+
+## Template completo de requisitos
+
+Copia este documento en tu repositorio como `REQUISITOS.md` y rellénalo.
+
+---
+
+### 1. Visión del proyecto
+
+```
+Nombre de la app: [Nombre]
+Descripción breve (1 frase): [Qué hace y para quién]
+Usuario principal: [Quién la usa]
+Problema que resuelve: [Qué necesidad satisface]
+```
+
+**Ejemplo**:
+```
+Nombre: TaskSchool
+Descripción: Gestor de tareas escolares para alumnos de FP
+Usuario: Alumnos y profesores de FP
+Problema: Los alumnos olvidan fechas de entrega y no organizan bien su trabajo
+```
+
+---
+
+### 2. Requisitos funcionales
+
+| # | Requisito | Actor | Descripción | Prioridad |
+|---|-----------|-------|-------------|-----------|
+| RF-001 | [Nombre descriptivo] | [Quién] | [Qué hace la app] | Must/Should/Could |
+| RF-002 | | | | |
+| RF-003 | | | | |
+| RF-004 | | | | |
+| RF-005 | | | | |
+| RF-006 | | | | |
+| RF-007 | | | | |
+| RF-008 | | | | |
+
+**Rellena con 5-10 requisitos. Usa verbos de acción concretos.**
+
+---
+
+### 3. Requisitos no funcionales
+
+| # | RNF | Categoría | Métrica | Valor objetivo |
+|---|-----|-----------|---------|----------------|
+| RNF-001 | [Nombre] | Rendimiento/Usabilidad/Seguridad/Fiabilidad/Compatibilidad | [Cómo se mide] | [Cuánto debe valer] |
+| RNF-002 | | | | |
+| RNF-003 | | | | |
+| RNF-004 | | | | |
+| RNF-005 | | | | |
+
+**Rellena con 3-6 RNF. Cada uno debe ser medible y verificable.**
+
+---
+
+### 4. Historias de usuario
+
+```
+HU-001: Como [actor], quiero [acción], para [beneficio]
+
+  Criterios de aceptación:
+  - DADO que [contexto]
+    CUANDO [acción]
+    ENTONCES [resultado]
+
+  - DADO que [contexto alternativo]
+    CUANDO [acción]
+    ENTONCES [resultado]
+
+  Prioridad: Must/Should/Could
+  Estimación: S/M/L
+```
+
+**Repite para cada historia (10-15 historias recomendadas).**
+
+---
+
+### 5. Tabla resumen de historias
+
+| # | Historia de usuario | Actor | Prioridad | Estimación |
+|---|---------------------|-------|-----------|------------|
+| HU-001 | Como [actor], quiero [acción], para [beneficio] | | Must/Should/Could | S/M/L |
+| HU-002 | | | | |
+| HU-003 | | | | |
+| HU-004 | | | | |
+| HU-005 | | | | |
+| HU-006 | | | | |
+| HU-007 | | | | |
+| HU-008 | | | | |
+| HU-009 | | | | |
+| HU-010 | | | | |
+
+---
+
+### 6. Priorización MoSCoW
+
+| Categoría | Requisitos |
+|-----------|-----------|
+| **Must** (60%) | RF-___, RF-___ |
+| **Should** (20%) | RF-___, RF-___ |
+| **Could** (20%) | RF-___, RF-___ |
+| **Won't** | [No listar, son features futuras] |
+
+---
+
+### 7. Supuestos y dependencias
+
+```
+Supuestos:
+- [Qué damos por hecho que será cierto]
+- [Ejemplo: Los alumnos tienen smartphone con navegador actualizado]
+- [Ejemplo: El profesor tiene acceso a un ordenador]
+
+Dependencias:
+- [Qué necesitamos de fuera para que funcione]
+- [Ejemplo: GitHub Pages para desplegar]
+- [Ejemplo: LocalStorage del navegador para persistir datos]
+```
+
+---
+
+### 8. Fuera de alcance
+
+```
+Estas funcionalidades NO se incluyen en esta versión:
+- [Feature 1 que no entra]
+- [Feature 2 que no entra]
+- [Feature 3 que no entra]
+```
+
+**Importante**: Definir qué NO haces es tan importante como definir qué SÍ haces.
+
+---
+
+## Ejemplo rellenado: app de tareas
+
+### 1. Visión
+
+```
+Nombre: TaskSchool
+Descripción: Gestor de tareas escolares para alumnos de FP
+Usuario: Alumnos y profesores
+Problema: Los alumnos olvidan fechas y no organizan su trabajo
+```
+
+### 2. Requisitos funcionales
+
+| # | Requisito | Actor | Descripción | Prioridad |
+|---|-----------|-------|-------------|-----------|
+| RF-001 | Crear tarea | Alumno | Crea tarea con nombre y fecha límite | Must |
+| RF-002 | Ver tareas | Alumno | Ve sus tareas ordenadas por fecha | Must |
+| RF-003 | Marcar hecha | Alumno | Marca tarea como completada | Must |
+| RF-004 | Editar tarea | Alumno | Modifica nombre o fecha de una tarea | Should |
+| RF-005 | Filtrar tareas | Alumno | Filtra por fecha, prioridad o estado | Should |
+| RF-006 | Ver tareas alumnos | Profesor | Ve tareas de todos sus alumnos | Must |
+| RF-007 | Eliminar tarea | Alumno | Elimina tareas que no necesita | Could |
+| RF-008 | Exportar PDF | Alumno | Exporta su lista de tareas a PDF | Could |
+
+### 3. RNF
+
+| # | RNF | Categoría | Métrica | Valor |
+|---|-----|-----------|---------|-------|
+| RNF-001 | Carga rápida | Rendimiento | Tiempo de carga lista | < 2 segundos |
+| RNF-002 | Responsive | Usabilidad | Rango de resolución | 320px–1920px |
+| RNF-003 | Offline | Fiabilidad | Funciona sin conexión | Sí (PWA) |
+| RNF-004 | Compatibilidad | Compatibilidad | Navegadores | Chrome, Firefox, Safari, Edge |
+
+---
+
+## Aclaración: "¿Esto es obligatorio?"
+
+<Aclaracion icono="🤔" pregunta="¿Tengo que rellenar todo este template?">
+No todo. Para un proyecto de 6 semanas, lo **mínimo** es:
+
+1. **Visión del proyecto** (5 minutos)
+2. **Requisitos funcionales** (15 minutos)
+3. **Tabla de historias de usuario** (30 minutos)
+4. **Priorización MoSCoW** (10 minutos)
+
+Total: **1 hora**. Los apartados de RNF, supuestos y fuera de alcance son opcionales pero muy recomendables.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las secciones mínimas del template?</summary>
+
+Respuesta: 1) Visión del proyecto, 2) Requisitos funcionales (5-10), 3) Tabla de historias de usuario (10-15), 4) Priorización MoSCoW. Total: 1 hora.
+</details>
+
+<details>
+<summary>¿Dónde guardo el documento de requisitos?</summary>
+
+Respuesta: En la raíz de tu repositorio como `REQUISITOS.md`. Así es accesible por todo el equipo y el profesor.
+</details>
+
+<details>
+<summary>¿Puedo modificar el template?</summary>
+
+Respuesta: Sí, adáptalo a tu proyecto. Añade o quita secciones según necesites. Lo importante es que cubra los puntos clave.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El template tiene **8 secciones**: visión, RF, RNF, historias, tabla, MoSCoW, supuestos y fuera de alcance.
+2. Lo **mínimo** para tu proyecto es rellenar: visión, RF, historias y MoSCoW. Te toma **1 hora**.
+3. Guarda el documento como `REQUISITOS.md` en la raíz de tu repositorio para que todo el equipo lo tenga visible.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-3-requisitos) · Anterior: [07 — Errores comunes](./07-errores-requisitos) · Siguiente: [09 — Cierre](./09-cierre)
