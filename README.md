@@ -1,6 +1,6 @@
 # Apuntes Proyecto Intermodular DAW I y II
 
-Sitio web educativo con guía didáctica y apuntes para afrontar el **Proyecto Intermodular** del ciclo **Desarrollo de Aplicaciones Web (DAW)**. Curso 2026-2027.
+Sitio web educativo con material didáctico y apuntes para afrontar el **Proyecto Intermodular** del ciclo **Desarrollo de Aplicaciones Web (DAW)**. Curso 2026-2027.
 
 Enfoque **project-facing**: no es contenido técnico (cómo programar), sino cómo afrontar, planificar, ejecutar y defender un proyecto software.
 
@@ -15,7 +15,7 @@ Enfoque **project-facing**: no es contenido técnico (cómo programar), sino có
 ## Características
 
 - **Homepage** con portada, hero buttons y card grid por UDs (2 columnas en PC, 1 en móvil)
-- **Guía Didáctica** completa: plan docente, 16 Unidades Didácticas (7 PI1 + 9 PI2 con Testing), evaluación, FAQ, ideas
+- **Material didáctico** completo: plan docente, 16 Unidades Didácticas (7 PI1 + 9 PI2 con Testing), evaluación, FAQ, ideas
 - **Componentes propios**: StoryIntro, Aclaracion, Comparativa, CasoPractico
 - **Animaciones**: fadeInUp en cards, pulse en 404, transiciones suaves hover
 - **404 divertida** con emoji animado y navegación rápida

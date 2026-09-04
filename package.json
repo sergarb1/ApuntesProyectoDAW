@@ -2,7 +2,7 @@
   "name": "pi-guia-didactica",
   "type": "module",
   "version": "1.0.0",
-  "description": "Guía Didáctica - Proyecto Intermodular I y II (DAW)",
+  "description": "Material didáctico - Proyecto Intermodular I y II (DAW)",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

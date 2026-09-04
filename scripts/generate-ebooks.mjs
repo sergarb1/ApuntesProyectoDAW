@@ -252,7 +252,9 @@ ${bodyContent}
 
   try {
     const page = await browser.newPage();
-    await page.setContent(html, { waitUntil: 'networkidle0', timeout: 30000 });
+    page.setDefaultTimeout(120000);
+    page.setDefaultNavigationTimeout(120000);
+    await page.setContent(html, { waitUntil: 'load', timeout: 120000 });
 
     await page.pdf({
       path: pdfFile,
@@ -290,8 +292,8 @@ async function generate() {
   }
 
   const BOOKS = [
-    { id: 'guia-didactica', title: 'Guía Didáctica — Proyecto Intermodular', files: GUIDE_FILES },
-    { id: 'completa', title: 'Guía Didáctica Completa — Proyecto Intermodular', files: ALL_FILES },
+    { id: 'guia-didactica', title: 'Material didáctico — Proyecto Intermodular', files: GUIDE_FILES },
+    { id: 'completa', title: 'Material didáctico Completo — Proyecto Intermodular', files: ALL_FILES },
   ];
 
   for (const book of BOOKS) {

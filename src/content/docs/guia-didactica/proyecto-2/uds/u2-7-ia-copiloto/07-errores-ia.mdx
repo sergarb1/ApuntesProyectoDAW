@@ -82,8 +82,8 @@ if (validarPermisos(usuario)) {
 function promedio(numeros) {
   return numeros.reduce((a, b) => a + b) / numeros.length;
 }
-// ¿Qué pasa con un array vacío? → NaN
-// ¿Qué pasa con [1, 2, "3"]? → "123/3" (concatenación, no suma)
+// ¿Qué pasa con un array vacío? → lanza TypeError (reduce sin valor inicial)
+// ¿Qué pasa con [1, 2, "3"]? → reduce da "33" (concatenación, no suma), y "33"/3 = 11
 ```
 
 **Cómo evitarlo**: Piensa en edge cases: arrays vacíos, tipos mixtos, valores nulos, límites numéricos.

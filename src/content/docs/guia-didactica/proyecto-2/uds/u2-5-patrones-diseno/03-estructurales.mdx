@@ -36,7 +36,7 @@ Tienes una clase que no tiene la interfaz que necesitas. No puedes modificarla (
 
 // Interfaz antigua (API vieja)
 class OldWeatherAPI {
- 获取Weather(city) {
+  getWeather(city) {
     return { temp: 25, condicion: 'soleado' };
   }
 }
@@ -48,12 +48,12 @@ class WeatherAdapter {
   }
 
   getTemperature(city) {
-    const data = this.oldAPI.获取Weather(city);
+    const data = this.oldAPI.getWeather(city);
     return data.temp;
   }
 
   getCondition(city) {
-    const data = this.oldAPI.获取Weather(city);
+    const data = this.oldAPI.getWeather(city);
     return data.condicion;
   }
 }
@@ -80,7 +80,7 @@ adapter.getCondition('Madrid');    // 'soleado'
 
 ### El problema
 
-Tienes múltiples clases con interfaces complejas. El cliente no necesita知道 todo eso.
+Tienes múltiples clases con interfaces complejas. El cliente no necesita conocer todo eso.
 
 ### La solución
 
@@ -142,7 +142,7 @@ const profile = await app.getUserProfile(123);
 | Caso | Ejemplo |
 |------|---------|
 | Simplificar API compleja | Un facade que coordina auth + DB + cache |
-| Ocultar complejidad interna | El cliente no necesita知道 los subsistemas |
+| Ocultar complejidad interna | El cliente no necesita conocer los subsistemas |
 | Punto de entrada único | Una sola interfaz para todo |
 
 ---

@@ -10,7 +10,7 @@
 
 ## Estructura del sidebar
 1. **Inicio** — Página principal con portada, hero buttons y card grid por UDs
-2. **Guía Didáctica** (visible) — Continuidad, Proyecto 1 (intro, competencias, 7 UDs), Proyecto 2 (intro, competencias, 10 UDs, entregables, evaluación), Metodología, Herramientas, Recursos, Licencia, FAQ, Ideas
+2. **Material didáctico** (visible) — Proyecto 1 (intro, competencias, 7 UDs), Proyecto 2 (intro, competencias, 10 UDs, entregables, evaluación), Metodología, Herramientas, Recursos, Licencia, FAQ, Ideas
 3. No existe grupo "Apuntes" ni sección "Profesores" (se eliminaron)
 
 ## Contenido por UD (estructura de carpetas)

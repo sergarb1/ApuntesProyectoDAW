@@ -8,7 +8,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'Apuntes Proyecto Intermodular',
-      description: 'Guía Didáctica de Proyecto Intermodular I y II - Desarrollo de Aplicaciones Web (DAW) · Curso 2026-2027',
+      description: 'Material didáctico de Proyecto Intermodular I y II - Desarrollo de Aplicaciones Web (DAW) · Curso 2026-2027',
       logo: {
         src: './src/assets/logo.svg',
         replacesTitle: false,
@@ -56,7 +56,7 @@ export default defineConfig({
           link: '/',
         },
         {
-          label: '📚 Guía Didáctica',
+          label: '📚 Material didáctico',
           collapsed: false,
           items: [
             {
