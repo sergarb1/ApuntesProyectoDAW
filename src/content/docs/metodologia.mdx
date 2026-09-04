@@ -3,9 +3,9 @@ title: ⚙️ Metodología
 description: Cómo abordar el proyecto con una metodología que te ayude a organizarte
 ---
 
-import StoryIntro from '../../components/StoryIntro.astro';
-import CasoPractico from '../../components/CasoPractico.astro';
-import Comparativa from '../../components/Comparativa.astro';
+import StoryIntro from '@components/StoryIntro.astro';
+import CasoPractico from '@components/CasoPractico.astro';
+import Comparativa from '@components/Comparativa.astro';
 
 <StoryIntro icono="🎬" titulo="El día que entendieron que la metodología no era burocracia">
   "¿Otra reunión?", "¿Otra columna en el tablero?", "¿Otra estimación?".
@@ -25,13 +25,18 @@ import Comparativa from '../../components/Comparativa.astro';
 No hay una única respuesta. Depende de tu equipo y tu proyecto.
 
 <Comparativa titulo="Scrum vs Kanban" dialogos={[
-  { quien: "✅ Scrum (recomendado para PI1)", texto: "Sprints de 1-2 semanas. Reuniones cortas con propósito. Roles rotativos. Ideal para fechas de entrega fijas." },
-  { quien: "✅ Kanban (recomendado para PI2)", texto: "Flujo continuo sin sprints. Límites de trabajo en curso (WIP). Menos reuniones. Ideal para mantenimiento y mejoras." },
+  { quien: "✅ Scrum (SCRUM Lite)", texto: "Sprints de 1-2 semanas. Reuniones cortas con propósito. Roles rotativos. Ideal para fechas de entrega fijas. Se trabaja a fondo en la UD 1.2 (SCRUM Lite) y la UD 2.2 (SCRUM Avanzado)." },
+  { quien: "✅ Kanban", texto: "Flujo continuo sin sprints. Límites de trabajo en curso (WIP). Menos reuniones. Ideal para mantenimiento y mejoras. También se cubre en la UD 1.2." },
 ]} />
 
 ### SCRUM (adaptado)
 
 Para equipos de 2-4 personas, con sprints de 1-2 semanas.
+
+> 📚 Esta sección resume lo esencial. En profundidad, verás **SCRUM Lite**
+> en la [UD 1.2](/guia-didactica/proyecto-1/uds/u1-2-scrum-lite) y
+> **SCRUM Avanzado** (métricas, burndown, retrospectivas) en la
+> [UD 2.2](/guia-didactica/proyecto-2/uds/u2-2-scrum-avanzado).
 
 **Qué hacer**:
 - Sprint planning al empezar cada sprint (qué haremos, quién lo hará)
@@ -67,6 +72,8 @@ No es solo para el código. También organiza el trabajo:
 | `develop` | Integración de funcionalidades |
 | `feature/*` | Una funcionalidad nueva (una por persona) |
 | `hotfix/*` | Corrección urgente |
+
+> 📚 En profundidad: [UD 2.3 — Git Avanzado](/guia-didactica/proyecto-2/uds/u2-3-git-avanzado).
 
 ## El ciclo del proyecto
 

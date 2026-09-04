@@ -14,65 +14,42 @@ const PORTADA = path.join(PUBLIC_DIR, 'portada.webp');
 const format = (process.argv[2] || 'both').toLowerCase();
 
 const GUIDE_FILES = [
-  'continuidad.mdx',
-  'pi1/index.mdx',
-  'pi1/competencias.mdx',
-  'pi1/fases/reto-1.mdx',
-  'pi1/fases/reto-2.mdx',
-  'pi1/fases/reto-3.mdx',
-  'pi1/fases/reto-4.mdx',
-  'pi1/fases/reto-5.mdx',
-  'pi1/evaluacion.mdx',
-  'pi2/index.mdx',
-  'pi2/competencias.mdx',
-  'pi2/fases/sprint-0.mdx',
-  'pi2/fases/sprint-1.mdx',
-  'pi2/fases/sprint-2.mdx',
-  'pi2/fases/sprint-3.mdx',
-  'pi2/fases/sprint-4.mdx',
-  'pi2/fases/sprint-5.mdx',
-  'pi2/fases/sprint-6.mdx',
-  'pi2/entregables.mdx',
-  'pi2/evaluacion.mdx',
+  'guia-didactica/proyecto-1/index.mdx',
+  'guia-didactica/proyecto-1/competencias.mdx',
+  'guia-didactica/proyecto-1/evaluacion.mdx',
+  ...udLandings('proyecto-1', 'u1-1-mvp', 'u1-2-scrum-lite', 'u1-3-requisitos', 'u1-4-eleccion-tecnologias', 'u1-5-comunicacion', 'u1-6-documentacion', 'u1-7-propuesta'),
+  'guia-didactica/proyecto-2/index.mdx',
+  'guia-didactica/proyecto-2/competencias.mdx',
+  'guia-didactica/proyecto-2/entregables.mdx',
+  'guia-didactica/proyecto-2/evaluacion.mdx',
+  ...udLandings('proyecto-2', 'u2-1-requisitos-avanzado', 'u2-2-scrum-avanzado', 'u2-3-git-avanzado', 'u2-4-testing', 'u2-5-patrones-diseno', 'u2-6-diagramas', 'u2-7-ia-copiloto', 'u2-8-despliegue', 'u2-9-monitorizacion', 'u2-10-propuesta-final'),
   'metodologia.mdx',
   'herramientas.mdx',
   'recursos.mdx',
-  'profesores.mdx',
   'licencia.mdx',
   'faq.mdx',
   'ideas.mdx',
 ];
 
-const APUNTES_PI1_FILES = [
-  'apuntes-pi1/index.mdx',
-  'apuntes-pi1/ruta-aprendizaje.mdx',
-  'apuntes-pi1/u1-fundamentos-programacion.mdx',
-  'apuntes-pi1/u2-poo.mdx',
-  'apuntes-pi1/u3-diseno-bd.mdx',
-  'apuntes-pi1/u4-lenguajes-marcas.mdx',
-  'apuntes-pi1/u5-frontend-basico.mdx',
-  'apuntes-pi1/u6-backend-basico.mdx',
-  'apuntes-pi1/u7-git.mdx',
-  'apuntes-pi1/u8-metodologias.mdx',
-];
+function udLandings(proyecto, ...uds) {
+  return uds.map(ud => `guia-didactica/${proyecto}/uds/${ud}.mdx`);
+}
 
-const APUNTES_PI2_FILES = [
-  'apuntes-pi2/index.mdx',
-  'apuntes-pi2/u1-arquitectura-web.mdx',
-  'apuntes-pi2/u2-frontend-framework.mdx',
-  'apuntes-pi2/u3-apis-rest.mdx',
-  'apuntes-pi2/u4-ui-ux.mdx',
-  'apuntes-pi2/u5-testing.mdx',
-  'apuntes-pi2/u6-seguridad.mdx',
-  'apuntes-pi2/u7-docker.mdx',
-  'apuntes-pi2/u8-despliegue-ci-cd.mdx',
-  'apuntes-pi2/u9-metodologias-agiles.mdx',
-];
+function udSections(proyecto, ud) {
+  const dir = path.join(CONTENT_DIR, 'guia-didactica', proyecto, 'uds', ud);
+  const files = [];
+  if (fs.existsSync(dir)) {
+    for (const f of fs.readdirSync(dir).sort()) {
+      if (f.endsWith('.mdx')) files.push(`guia-didactica/${proyecto}/uds/${ud}/${f}`);
+    }
+  }
+  return files;
+}
 
 const ALL_FILES = [
   ...GUIDE_FILES,
-  ...APUNTES_PI1_FILES,
-  ...APUNTES_PI2_FILES,
+  ...['u1-1-mvp', 'u1-2-scrum-lite', 'u1-3-requisitos', 'u1-4-eleccion-tecnologias', 'u1-5-comunicacion', 'u1-6-documentacion', 'u1-7-propuesta'].flatMap(ud => udSections('proyecto-1', ud)),
+  ...['u2-1-requisitos-avanzado', 'u2-2-scrum-avanzado', 'u2-3-git-avanzado', 'u2-4-testing', 'u2-5-patrones-diseno', 'u2-6-diagramas', 'u2-7-ia-copiloto', 'u2-8-despliegue', 'u2-9-monitorizacion', 'u2-10-propuesta-final'].flatMap(ud => udSections('proyecto-2', ud)),
 ];
 
 function stripFrontmatter(content) {
@@ -314,9 +291,7 @@ async function generate() {
 
   const BOOKS = [
     { id: 'guia-didactica', title: 'Guía Didáctica — Proyecto Intermodular', files: GUIDE_FILES },
-    { id: 'apuntes-pi1', title: 'Apuntes PI1 — Cómo afrontar el proyecto', files: APUNTES_PI1_FILES },
-    { id: 'apuntes-pi2', title: 'Apuntes PI2 — Cómo evolucionar el proyecto', files: APUNTES_PI2_FILES },
-    { id: 'completa', title: 'Guía Didáctica y Apuntes — Proyecto Intermodular', files: ALL_FILES },
+    { id: 'completa', title: 'Guía Didáctica Completa — Proyecto Intermodular', files: ALL_FILES },
   ];
 
   for (const book of BOOKS) {

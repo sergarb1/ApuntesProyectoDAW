@@ -59,7 +59,6 @@ export default defineConfig({
           label: '📚 Guía Didáctica',
           collapsed: false,
           items: [
-            { label: '🔄 Continuidad PI1 → PI2', link: '/continuidad' },
             {
               label: '🎯 Proyecto 1 — Bases y Planificación',
               collapsed: false,

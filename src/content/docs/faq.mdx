@@ -3,8 +3,8 @@ title: ❓ Preguntas Frecuentes
 description: Dudas habituales sobre el Proyecto Intermodular
 ---
 
-import StoryIntro from '../../components/StoryIntro.astro';
-import Aclaracion from '../../components/Aclaracion.astro';
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
 
 <StoryIntro icono="❓" titulo="Las dudas que todo el mundo tiene">
   Da igual el curso: siempre surgen las mismas preguntas. Aquí tienes
@@ -48,14 +48,14 @@ import Aclaracion from '../../components/Aclaracion.astro';
 
 ## Sobre la evaluación
 
-<Aclaracion pregunta="¿Qué peso tiene cada reto/sprint?" abierto={true}>
-  Cada reto tiene un peso distinto en función de su **complejidad** y
-  carga de trabajo. Los retos más complejos (como la implementación)
-  tienen más peso que los iniciales. Consulta la guía de evaluación
+<Aclaracion pregunta="¿Qué peso tiene cada unidad didáctica?" abierto={true}>
+  Cada UD tiene un peso distinto en función de su **complejidad** y
+  carga de trabajo. Las UD más complejas (como la implementación)
+  tienen más peso que las iniciales. Consulta la guía de evaluación
   para ver los porcentajes concretos.
 </Aclaracion>
 
-<Aclaracion pregunta="¿Qué pasa si no entrego un reto a tiempo?" abierto={true}>
+<Aclaracion pregunta="¿Qué pasa si no entrego una UD a tiempo?" abierto={true}>
   Depende del profesor. Normalmente hay penalización o pérdida de la
   evaluación continua. **Mejor avisar antes que desaparecer**. Si sabes
   que no vas a llegar, comunícalo con antelación y busca alternativas.
@@ -104,7 +104,7 @@ import Aclaracion from '../../components/Aclaracion.astro';
 <Aclaracion pregunta="¿La memoria se entrega al final?" abierto={true}>
   No. Idealmente se entrega por partes a lo largo del proyecto.
   Dejarlo todo para el final garantiza una memoria mal hecha. Cada
-  reto/sprint debería tener su correspondiente sección de memoria.
+  UD debería tener su correspondiente sección de memoria.
 </Aclaracion>
 
 <Aclaracion pregunta="¿Qué extensión debe tener?" abierto={true}>
