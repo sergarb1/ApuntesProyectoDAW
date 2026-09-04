@@ -1,0 +1,215 @@
+---
+title: "07 — Herramientas"
+description: "Qué usar para organizar tu MVP sin complicarte"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../../../components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🔍 **UD 1.1 · MVP** → 07 · Herramientas
+
+<StoryIntro icono="📖" titulo="Herramientas simples para no perder el tiempo">
+  No necesitas una suite empresarial para organizar tu proyecto. Necesitas
+  algo **simple, rápido y que todos entiendan**. Aquí tienes las mejores
+  opciones para cada cosa.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **La mejor herramienta es la que usas, no la que es "la mejor".**
+
+No pierdas tiempo configurando herramientas. Usa la más simple y empieza.
+
+---
+
+## ¿Qué necesitas organizar?
+
+Para tu Proyecto 1 necesitas 3 cosas:
+
+| Necesidad | Para qué | Ejemplo |
+|-----------|----------|---------|
+| **Tablero de tareas** | Ver qué has hecho, qué falta | Trello, GitHub Projects |
+| **Documentación** | Escribir apuntes, README | Notion, Markdown, Google Docs |
+| **Comunicación** | Hablar con tu compañero | WhatsApp, Discord, Telegram |
+
+---
+
+## Tablero de tareas: Trello vs GitHub Projects
+
+### Trello
+
+| Aspecto | Detalle |
+|---------|---------|
+| **Qué es** | Tablero kanban con tarjetas arrastrables |
+| **Ventajas** | Muy visual, fácil, gratis, sin configurar |
+| **Inconvenientes** | Sin integración con código, sin métricas |
+| **Ideal para** | Equipo pequeño, proyecto simple |
+
+**Cómo usarlo para tu MVP**:
+```
+Columnas:
+| Por hacer | En progreso | Hecho |
+|-----------|-------------|-------|
+
+Ejemplo:
+| Por hacer    | En progreso    | Hecho        |
+|-------------|----------------|--------------|
+| CRUD tareas | Login JWT      | Setup proyecto|
+| Calendario  |                | README       |
+```
+
+### GitHub Projects
+
+| Aspecto | Detalle |
+|---------|---------|
+| **Qué es** | Tablero integrado con tu repositorio GitHub |
+| **Ventajas** | Gratis, integrado con Git, métricas automáticas |
+| **Inconvenientes** | Más complejo que Trello, requiere GitHub |
+| **Ideal para** | Equipo que ya usa GitHub, proyecto con Git |
+
+**Cómo usarlo**: Ve a tu repositorio → pestaña "Projects" → "New project" → Kanban board.
+
+---
+
+<Comparativa 
+  titulo="Trello vs GitHub Projects"
+  dialogos={[
+    { quien: "Trello", texto: "Soy más fácil. Arrastras tarjetas y listo. Sin configurar." },
+    { quien: "GitHub Projects", texto: "Estoy integrado con tu código. Cada commit puede mover una tarjeta." }
+  ]}
+/>
+
+**Recomendación**: Si no sabes cuál usar, **empieza con Trello**. Es más fácil y no necesitas configurar nada.
+
+---
+
+## Documentación: Notion vs Markdown vs Google Docs
+
+### Notion
+
+| Aspecto | Detalle |
+|---------|---------|
+| **Qué es** | Wiki/ documentación todo-en-uno |
+| **Ventajas** | Bonito, fácil, colaborativo, plantillas |
+| **Inconvenientes** | Sin exportar a PDF fácil, requiere cuenta |
+| **Ideal para** | Documentación del proyecto, apuntes |
+
+### Markdown (en VS Code)
+
+| Aspecto | Detalle |
+|---------|---------|
+| **Qué es** | Texto simple con formato (`.md`) |
+| **Ventajas** | Gratis, rápido, portable, versionable con Git |
+| **Inconvenientes** | Sin preview en tiempo real (necesitas extensión) |
+| **Ideal para** | README, documentación técnica, notas |
+
+### Google Docs
+
+| Aspecto | Detalle |
+|---------|---------|
+| **Qué es** | Procesador de textos online |
+| **Ventajas** | Colaborativo, familiar, exporta PDF |
+| **Inconvenientes** | Sin versionado, sin formato técnico |
+| **Ideal para** | Memoria del proyecto, documento para el tribunal |
+
+**Recomendación**: Usa **Markdown** para documentación técnica (README, apuntes) y **Google Docs** para la memoria del proyecto.
+
+---
+
+## Comunicación del equipo
+
+| Herramienta | Ventaja principal | Cuándo usarla |
+|-------------|-------------------|---------------|
+| **WhatsApp** | Ya la tienes, es rápida | Dudas rápidas, acuerdos |
+| **Discord** | Canales organizados, voz | Reuniones, discusiones largas |
+| **Telegram** | Canales, archivos grandes | Compartir documentos |
+| **GitHub Issues** | Trazabilidad | Bugs, tareas concretas |
+
+**Recomendación**: **WhatsApp** para comunicación diaria. **GitHub Issues** para bugs y tareas formales.
+
+---
+
+## Herramientas de diseño (opcional)
+
+Si necesitas hacer mockups o diagramas:
+
+| Herramienta | Para qué | Precio |
+|-------------|----------|--------|
+| **Figma** | Mockups de UI, wireframes | Gratis (plan personal) |
+| **draw.io** | Diagramas ER, secuencia, fluxogramas | Gratis |
+| **Excalidraw** | Bocetos rápidos, pizarra digital | Gratis |
+| **Lucidchart** | Diagramas profesionales | Gratis (limitado) |
+
+**Recomendación**: **draw.io** para diagramas (se integra con VS Code) y **Excalidraw** para bocetos rápidos.
+
+---
+
+## La stack mínima recomendada
+
+Para tu Proyecto 1, esta es la **stack mínima** de herramientas:
+
+| Categoría | Herramienta | Por qué |
+|-----------|-------------|---------|
+| **Tablero** | Trello | Fácil, visual, gratis |
+| **Documentación** | Markdown + VS Code | Rápido, versionable |
+| **Memoria** | Google Docs | Fácil de exportar a PDF |
+| **Comunicación** | WhatsApp | Ya la tienes |
+| **Código** | GitHub | Versionado, backup, portfolio |
+| **Diagramas** | draw.io | Gratis, se integra con VS Code |
+
+**Total: 6 herramientas.** No necesitas más.
+
+---
+
+<Aclaracion pregunta="¿Necesito pagar por herramientas?">
+  No. Todas las herramientas recomendadas tienen **planes gratuitos** suficientes
+  para Proyecto 1. Trello, GitHub, draw.io, Excalidraw, Google Docs... todo es
+  gratis. No gastes dinero en herramientas.
+</Aclaracion>
+
+---
+
+## Errores comunes con herramientas
+
+| Error | Consecuencia | Solución |
+|-------|-------------|----------|
+| **Elegir herramientas complicadas** | Más tiempo configurando que trabajando | Usa la más simple |
+| **Usar 20 herramientas** | Caos, nada conectado | Máximo 6-7 |
+| **No usar el tablero** | Pierdes el control de qué falta | Revisa cada día |
+| **Documentar solo al final** | No recuerdas qué hiciste | Documenta mientras |
+| **No usar Git** | Pierdes código, no puedes volver atrás | Git desde el día 1 |
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las 3 cosas que necesitas organizar?</summary>
+
+Respuesta: Tablero de tareas (Trello/GitHub Projects), documentación (Markdown/Google Docs) y comunicación (WhatsApp/GitHub Issues).
+</details>
+
+<details>
+<summary>¿Trello o GitHub Projects?</summary>
+
+Respuesta: Si no sabes cuál usar, empieza con Trello. Es más fácil y no necesita configuración.
+</details>
+
+<details>
+<summary>¿Necesito pagar por herramientas?</summary>
+
+Respuesta: No. Todas las recomendadas tienen planes gratuitos suficientes para Proyecto 1.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Necesitas **6 herramientas**: tablero (Trello), docs (Markdown), memoria (Google Docs), comunicación (WhatsApp), código (GitHub), diagramas (draw.io).
+2. **La mejor herramienta es la que usas**, no la más potente. No pierdas tiempo configurando.
+3. No gastes dinero. Todo lo necesario es **gratis**.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-1-mvp) · Anterior: [06 — Errores comunes](./06-errores-comunes) · Siguiente: [08 — Template MVP](./08-template-mvp)

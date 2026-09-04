@@ -1,0 +1,213 @@
+---
+title: "06 — Errores comunes"
+description: "Los 7 pecados capitales del MVP y cómo evitarlos"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import CasoPractico from '../../../../../../components/CasoPractico.astro';
+
+> 🗺️ **Estás en:** 🔍 **UD 1.1 · MVP** → 06 · Errores comunes
+
+<StoryIntro icono="📖" titulo="Aprender de los errores de otros es más barato que cometer los tuyos">
+  Cada año, cientos de alumnos de FP cometen los mismos errores al definir
+  su MVP. Conocer estos errores **antes de empezar** te ahorra semanas
+  de trabajo desperdiciado.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los errores más comunes no son técnicos: son de alcance, de priorización y de no terminar.**
+
+El 70% de los proyectos que fracasan en FP lo hacen por estos 7 errores.
+
+---
+
+## Los 7 pecados del MVP
+
+### Pecado 1: "Quiero hacer todo"
+
+**El error**: Empezar con una lista de 15 funcionalidades porque "todas parecen importantes".
+
+**Consecuencia**: No terminas ninguna bien. Entregas un proyecto a medias con 10 features rotas.
+
+**Solución**: Usa MoSCoW y cíñete a las "Must have". Si tu lista tiene más de 4 features, corta.
+
+---
+
+### Pecado 2: "Es rápido de hacer"
+
+**El error**: Añadir features que "parecen rápidas" sin calcular el tiempo real.
+
+**Consecuencia**: Esas "features rápidas" se comen tu tiempo y las esenciales quedan a medias.
+
+**Ejemplo real**:
+```
+Alumno: "Modo oscuro es rápido, lo añado"
+Resultado: 3 días en hacerlo funcionar bien
+           + 2 días en que el modo claro se rompió
+           + 1 día en arreglar bugs de contraste
+           = 6 días que podría haber usado para testing
+```
+
+**Solución**: Si una feature no es esencial, **no la añadas** aunque sea "rápida".
+
+---
+
+### Pecado 3: "Ya veré cómo lo integro"
+
+**El error**: Añadir features sin pensar en cómo se conectan entre sí.
+
+**Consecuencia**: Tienes 5 features sueltas que no forman un producto coherente.
+
+**Ejemplo real**:
+```
+Features aisladas:
+- CRUD de usuarios ✓
+- CRUD de tareas ✓
+- Login ✓
+- Dashboard ✓
+- Notificaciones ✓
+
+Resultado: 5 módulos que no se hablan entre sí
+```
+
+**Solución**: Antes de añadir, pregúntate: "¿Cómo se conecta esto con lo que ya tengo?"
+
+---
+
+### Pecado 4: "No necesito documentar"
+
+**El error**: Pensar que documentar es "perder tiempo" o "algo para el final".
+
+**Consecuencia**: El tribunal no entiende tu proyecto. Parece que no sabes qué has hecho.
+
+**Solución**: Documenta **mientras** desarrollas, no después. Un README básico cada semana.
+
+---
+
+### Pecado 5: "No necesito testear"
+
+**El error**: "Funciona en mi ordenador, luego lo pruebo".
+
+**Consecuencia**: Bugs que aparecen en la demo del tribunal. Embarazo.
+
+**Solución**: Prueba cada feature **inmediatamente** después de implementarla.
+
+---
+
+### Pecado 6: "Ya tengo tiempo"
+
+**El error**: Planificar para 6 semanas cuando realmente tienes 4 de desarrollo real.
+
+**Consecuencia**: La última semana entras en pánico y entregas a medias.
+
+**Cronograma real de un proyecto FP**:
+| Semana | Actividad | ¿Realmente es desarrollo? |
+|--------|-----------|--------------------------|
+| 1 | Planificación, setup, dudas | 20% desarrollo |
+| 2 | Empiezas en serio | 70% desarrollo |
+| 3 | Bugs, problemas técnicos | 50% desarrollo |
+| 4 | Integración, más bugs | 40% desarrollo |
+| 5 | Documentación, testing | 20% desarrollo |
+| 6 | Preparar presentación | 10% desarrollo |
+
+**Solución**: Planifica para 4 semanas de desarrollo. La semana 5 es para documentación, la 6 para presentación.
+
+---
+
+### Pecado 7: "Mi idea es original"
+
+**El error**: No buscar soluciones existentes porque "ya se ha inventado todo".
+
+**Consecuencia**: Inventas la rueda, pierdes tiempo, o descubres que alguien lo hizo mejor.
+
+**Solución**: Busca apps similares. Aprende de ellas. Diferénciate en algo concreto.
+
+---
+
+## Caso práctico: Los 7 pecados en acción
+
+<CasoPractico titulo="Laura y el gestor de tareas imposible">
+Laura quiso hacer un "gestor de tareas con IA" para su Proyecto 1. Empezó con esta lista:
+
+1. CRUD de tareas ✓
+2. Login con JWT ✓
+3. IA que sugiere prioridades ✓
+4. Calendario visual ✓
+5. Estadísticas con gráficos ✓
+6. Notificaciones por email ✓
+7. Modo oscuro ✓
+8. Exportar a PDF ✓
+9. Chat en tiempo real ✓
+10. App móvil ✓
+
+**Semana 1**: Hizo el CRUD y el login. Iba bien.
+
+**Semana 2**: Empezó la IA. Se atasó 5 días en un algoritmo de priorización.
+
+**Semana 3**: El calendario no funcionaba bien con la IA. Empezó a estresarse.
+
+**Semana 4**: Las notificaciones no iban. El chat era imposible. Laura estaba furiosa.
+
+**Semana 5**: No tenía documentación, no había testeado nada. Entró en pánico.
+
+**Semana 6**: Entregó un CRUD con login, una IA a medias, y nada más. Suspenso.
+
+**¿Qué salió mal?** Los 7 pecados: quiso hacer todo, añadió features "rápidas", no documentó, no testeo, no planificó bien.
+
+**¿Qué debería haber hecho?** Un CRUD de tareas con priorización manual, documentación básica y testing. 3 features bien hechas.
+</CasoPractico>
+
+---
+
+## La lista de "NO" definitiva
+
+Antes de empezar tu proyecto, decide qué **NO** vas a hacer:
+
+| NO haré... | ¿Por qué? |
+|------------|-----------|
+| Notificaciones push | Requiere backend, permisos, diseño complejo |
+| Multiidioma | Más traducciones que features |
+| App móvil | Web responsive es suficiente |
+| Chat en tiempo real | Requiere WebSockets, backend persistente |
+| IA/Machine Learning | Requiere datos, entrenamiento, tiempo |
+| Modo offline | Requiere Service Workers, sincronización |
+| Pagos | Requiere integración con pasarela, SSL |
+| Redes sociales | Requiere APIs, OAuth, moderación |
+
+**Imprime esta póster y pégalo junto a tu pantalla.** Cada vez que digas "y además...", míralo.
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son los 7 pecados del MVP?</summary>
+
+Respuesta: 1) Querer hacer todo, 2) Features "rápidas", 3) No integrar, 4) No documentar, 5) No testear, 6) No planificar tiempo, 7) No buscar soluciones existentes.
+</details>
+
+<details>
+<summary>¿Por qué "ya tengo tiempo" es un error?</summary>
+
+Respuesta: Porque el desarrollo real se come más tiempo del que crees. Planifica para 4 semanas, no para 6. La última semana es para imprevistos.
+</details>
+
+<details>
+<summary>¿Qué hacer si te atascas en una feature?</summary>
+
+Respuesta: Si una feature te cuesta más de 3 días, pregúntate: ¿es esencial? Si no lo es, quítala. Si lo es, busca una solución más simple.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los 7 pecados más comunes son: **querer todo, features rápidas, no integrar, no documentar, no testear, no planificar tiempo y no buscar soluciones existentes**.
+2. El error más peligroso es **"ya tengo tiempo"** — siempre se acaba antes de lo que crees.
+3. Decide **qué NO vas a hacer** antes de empezar. Eso te salvará más que decidir qué sí.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-1-mvp) · Anterior: [05 — Ejemplos reales](./05-ejemplos-reales) · Siguiente: [07 — Herramientas](./07-herramientas)

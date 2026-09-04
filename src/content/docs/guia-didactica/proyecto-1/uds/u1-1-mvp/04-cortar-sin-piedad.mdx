@@ -1,0 +1,193 @@
+---
+title: "04 — Cortar sin piedad"
+description: "Reglas de alcance, cuándo parar y por qué menos es más"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 🔍 **UD 1.1 · MVP** → 04 · Cortar sin piedad
+
+<StoryIntro icono="📖" titulo="El arte de decir 'no' a las buenas ideas">
+  Tienes tu lista de features priorizadas. Ahora viene la parte difícil:
+  **cortar**. No es destruir tu proyecto, es enfocarlo. Cada feature que
+  quitas es tiempo que ahorras para hacer bien lo que queda.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Cortar features no es perder, es ganar tiempo y calidad.**
+
+Menos features = más tiempo para cada una = mejor resultado = proyecto terminado.
+
+---
+
+## Por qué cortar es tan difícil
+
+Cortar features se siente mal porque:
+
+1. **Inversión emocional** — te ha costado pensarlo, quitarlo es como desperdiciar ese esfuerzo
+2. **Miedo a decepcionar** — "¿y si el profesor piensa que es poco?"
+3. **Síndrome del "y además..."** — cada feature parece rápida de añadir
+4. **Optimismo irracional** — "ya veré cómo lo meto"
+
+Pero la realidad es esta:
+
+> **Un proyecto con 3 features perfectas gana siempre a un proyecto con 8 features rotas.**
+
+---
+
+## Las 5 reglas para cortar
+
+### Regla 1: El "test del ISBN"
+
+Imagina que tu proyecto tiene un ISBN (un libro). ¿Podrías poner en la portada una descripción de 10 palabras?
+
+- ✅ "App que convierte tu nevera en recetas concretas"
+- ❌ "Plataforma educativa multiidioma con gamificación, notificaciones y IA"
+
+Si la descripción es larga, tienes demasiadas features.
+
+### Regla 2: El "test del usuario imaginario"
+
+Crea un usuario imaginario (ej: "María, 20 años, estudiante de DAW"). Ahora pregúntate:
+
+> **"¿María usaría mi app todos los días para resolver SU problema?"**
+
+Si la respuesta es "no sé" o "a veces", es que tu app no es suficientemente focused.
+
+### Regla 3: El "test del delete"
+
+Pregunta: "Si quito esta feature, ¿el usuario se va a furioso?"
+
+- Si la respuesta es "se va a molestar un poco" → **quítala**
+- Si la respuesta es "no puede usar la app" → **déjala**
+
+La mayoría de las features que "parecen importantes" en realidad causan una molestia menor si no están.
+
+### Regla 4: El "test del tiempo"
+
+Calcula cuánto tiempo te tomaría cada feature:
+
+| Feature | Tiempo estimado | ¿Vale la pena? |
+|---------|----------------|-----------------|
+| CRUD de recetas | 3 días | Sí — esencial |
+| Filtrar por dificultad | 1 día | Tal vez |
+| Modo oscuro | 2 días | No — es cosmético |
+| Notificaciones | 3 días | No — es complejo |
+
+**Regla**: si una feature tarda más de 2 días y no es esencial, **quítala**.
+
+### Regla 5: El "test de la navaja de Ockham"
+
+> "Entre varias soluciones, la más simple es la correcta."
+
+Si puedes resolver un problema de 2 formas, elige la más simple. Siempre.
+
+---
+
+## El error del "tengo tiempo"
+
+El error más peligroso en un proyecto FP es pensar: "todavía me queda tiempo, puedo añadir esto".
+
+**Realidad**: el tiempo siempre se acaba más rápido de lo que crees.
+
+| Semana | Lo que piensas | Lo que pasa |
+|--------|---------------|-------------|
+| 1 | "Tengo mucho tiempo" | Estás en la planificación |
+| 2 | "Empiezo a programar" | Aparecen bugs que no esperabas |
+| 3 | "Va bien" | Te enfrentas a problemas técnicos |
+| 4 | "Estoy terminando" | Falta documentación y testing |
+| 5 | "Ya casi está" | El tribunal pide más detalles |
+| 6 | "Entrego lo que tengo" | Entregas a medias |
+
+**Regla**: planifica para 4 semanas, no para 6. La última semana es para imprevistos.
+
+---
+
+## ¿Cuándo parar de cortar?
+
+No es "cortar todo". Es cortar **hasta que quede lo imprescindible**.
+
+### Señales de que has cortado suficiente:
+- Tu app se puede explicar en 1 frase
+- Tienes 2-4 funcionalidades principales
+- Cada feature se puede implementar en 1-3 días
+- Te sientes cómodo con el alcance
+
+### Señales de que has cortado de más:
+- Tu app hace solo 1 cosa (eso es un script, no un proyecto)
+- No hay nada interesante que mostrar
+- El proyecto no tiene sentido sin al menos 3 features
+
+---
+
+## El "y además" final
+
+Antes de decidir tu MVP final, haz una última revisión. Para cada feature que quede, pregúntate:
+
+> **"Si esta feature no está, ¿el profesor va a pensar que el proyecto está incompleto?"**
+
+Si la respuesta es "no, va a pensar que está bien enfocado" → **béla**.
+Si la respuesta es "sí, va a pensar que falta algo" → **déjala**.
+
+---
+
+<Aclaracion pregunta="¿Y si mi profesor dice que es poco?">
+  Mejor 3 funcionalidades **completas y funcionales** que 10 a medias.
+  Un proyecto con un CRUD bien hecho, validación y documentación supera
+  a un proyecto con 10 features rotas. La calidad gana siempre.
+  
+  Si el profesor te dice "esto es poco", responde: "está enfocado en
+  lo esencial. Si tengo tiempo, puedo ampliar, pero prefiero entregar
+  algo completo."
+</Aclaracion>
+
+---
+
+## Checklist de corte final
+
+Antes de cerrar tu alcance, verifica:
+
+- [ ] ¿Puedo explicar mi proyecto en una frase?
+- [ ] ¿Tiene entre 2 y 4 funcionalidades principales?
+- [ ] ¿Cada feature resuelve directamente el problema central?
+- [ ] ¿He quitado todo lo que es "bonito pero no necesario"?
+- [ ] ¿Sé exactamente qué voy a construir?
+- [ ] ¿Estoy cómodo con el alcance (no asustado ni sobrado)?
+
+Si respondes sí a todo → **tu MVP está definido**.
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Por qué cortar features es bueno?</summary>
+
+Respuesta: Porque menos features = más tiempo para cada una = mejor calidad = proyecto terminado. Un proyecto con 3 features perfectas gana a uno con 8 rotas.
+</details>
+
+<details>
+<summary>¿Qué es el "test del ISBN"?</summary>
+
+Respuesta: Imagina que tu proyecto es un libro. ¿Podrías poner en la portada una descripción de 10 palabras? Si necesitas más, tienes demasiadas features.
+</details>
+
+<details>
+<summary>¿Cuánto tiempo debes planificar para el desarrollo?</summary>
+
+Respuesta: Planifica para 4 semanas, no para 6. La última semana es para imprevistos que siempre aparecen.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **Cortar no es perder**, es ganar tiempo y calidad para hacer bien lo que queda.
+2. Usa los tests (ISBN, usuario, delete, tiempo, navaja) para decidir qué quitar.
+3. Un MVP con **2-4 features perfectas** gana siempre a uno con 8 features rotas.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-1-mvp) · Anterior: [03 — Definir features](./03-definir-features) · Siguiente: [05 — Ejemplos reales](./05-ejemplos-reales)

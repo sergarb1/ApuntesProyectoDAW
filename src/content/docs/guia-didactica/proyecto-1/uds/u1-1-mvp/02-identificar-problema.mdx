@@ -1,0 +1,209 @@
+---
+title: "02 — Identificar el problema"
+description: "Cómo encontrar problemas reales que merezca la pena resolver"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../../../components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🔍 **UD 1.1 · MVP** → 02 · Identificar el problema
+
+<StoryIntro icono="📖" titulo="El problema correcto es la mitad de la solución">
+  No es lo mismo "quiero hacer una app" que "quiero resolver **este problema
+  concreto** para **estas personas**". El primer paso de tu proyecto no es
+  código: es encontrar un problema que merezca la pena resolver.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un buen proyecto empieza por un problema real que alguien tiene, no por una función que quieres programar.**
+
+Si no identificas bien el problema, construirás algo que nadie necesita.
+
+---
+
+## Por qué no puedes empezar por "quiero hacer una app de..."
+
+El error más común en Proyecto 1 es empezar por la solución en vez del problema:
+
+| Enfoque incorrecto | Enfoque correcto |
+|-------------------|------------------|
+| "Quiero hacer una app de recetas" | "No sé qué cocinar con lo que tengo en la nevera" |
+| "Quiero hacer un gestor de tareas" | "Siempre olvido qué tengo que hacer para el institute" |
+| "Quiero hacer una red social" | "Mis compañeros pierden apuntes por WhatsApp" |
+
+**¿Cuál es la diferencia?** El enfoque incorrecto empieza por la **solución**. El correcto empieza por el **problema**. Si empiezas por la solución, puedes construir algo que no necesita nadie.
+
+---
+
+## 3 fuentes de problemas reales
+
+### Fuente 1: Tu día a día
+
+Los mejores problemas son los que **tú mismo tienes**:
+
+- ¿Qué gestionas manualmente que podría automatizarse?
+- ¿Qué datos siempre pierdes u olvidas?
+- ¿Qué haría tu familia o amigos más fácil?
+- ¿Qué apps existentes hacen mal?
+
+**Ejemplo**: "Odio hacer la lista de la compra y siempre se me olvida algo" → App de listas con recordatorios.
+
+### Fuente 2: Tu entorno
+
+Pregúnta a personas de tu alrededor:
+
+- **Familia**: "¿Qué te gustaría que una app hiciera por ti?"
+- **Compañeros**: "¿Qué os gustaría tener para el institute?"
+- **Amigos**: "¿Qué problemas tienes con las apps que usas?"
+
+**Ejemplo**: "Mi madre tiene una peluquería y gestiona las citas en un papel" → App de reservas.
+
+### Fuente 3: Apps existentes
+
+Busca apps que ya existen y pregúntate:
+
+- ¿Qué hacen bien?
+- ¿Qué hacen mal?
+- ¿Qué les falta?
+- ¿Para quién son demasiado complicadas?
+
+**Ejemplo**: "Existen gestores de tareas, pero todos son demasiado complicados para algo simple" → Gestor de tareas minimalista.
+
+---
+
+## El ejercicio de los 10 problemas
+
+**Objetivo**: En 10 minutos, escribe 10 problemas reales de tu entorno.
+
+Reglas:
+1. **No filtrar** — escribe todo lo que se te ocurra, sin juzgar
+2. **Problemas, no soluciones** — "no sé qué cocinar" no "app de recetas"
+3. **Concretos** — "pierdo apuntes de DAW" no "pierdo cosas"
+4. **De otros** — también vale problemas de familiares o amigos
+
+```
+1. No sé qué cocinar con lo que tengo en la nevera
+2. Siempre olvido la fecha de exámenes
+3. Mi madre pierde citas de la peluquería
+4. Mis compañeros pierden apuntes por WhatsApp
+5. No encuentro dónde guardar fotos organizadas
+6. Mi club deportivo no tiene sistema de reservas
+7. Odio hacer la lista de la compra
+8. No sé cuánto dinero gasto al mes
+9. Mi padre no encuentra herramientas en el garaje
+10. No recuerdo qué libros he leído
+```
+
+**Después de escribir 10, elige el que más te motive.** Si no te motiva ninguno, vuelve a escribir 10 más.
+
+---
+
+## El "test de la ducha"
+
+Una buena forma de saber si un problema es real es el **test de la ducha**:
+
+> Si estás en la ducha y piensas en ese problema, ¿te sigue pareciendo importante?
+
+- Si piensas "sí, esto es un rollo y debería tener solución" → **problema real**
+- Si piensas "bueno, no es para tanto" → **problema inventado**
+
+Los problemas reales te **molestan**. Los inventados te dan igual.
+
+---
+
+## Validar el problema
+
+Una vez tengas un problema, **valida que es real** antes de construir nada:
+
+### Método 1: Habla con 3 personas
+
+Pregunta a 3 personas que tengan ese problema:
+- "¿Tienes este problema?"
+- "¿Cómo lo resuelves ahora?"
+- "¿Pagarías por una solución?"
+- "¿Qué tendría que tener una solución para que la usaras?"
+
+Si las 3 personas te dicen "sí, tengo ese problema" → **problema validado**.
+
+### Método 2: Busca soluciones existentes
+
+Si ya existen soluciones, pregunta:
+- ¿Por qué no las usan?
+- ¿Qué les falta?
+- ¿Son demasiado caras, complicadas o lentas?
+
+Si existen soluciones pero tienen problemas → **oportunidad**.
+
+### Método 3: El "test del Mínimo Viable"
+
+Pregunta: "¿Cuál es la versión más simple que usarías?"
+
+Si la respuesta es algo que puedes construir en 2-4 semanas → **buen problema para MVP**.
+
+---
+
+<Comparativa 
+  titulo="Problema real vs problema inventado"
+  dialogos={[
+    { quien: "Problema real", texto: "Mis compañeros pierden apuntes por WhatsApp y no los encuentran cuando los necesitan" },
+    { quien: "Problema inventado", texto: "Estaría bien tener una app para organizar apuntes, por si acaso alguien la necesita" }
+  ]}
+/>
+
+---
+
+<Comparativa 
+  titulo="Problema grande vs problema de MVP"
+  dialogos={[
+    { quien: "Problema demasiado grande", texto: "Crear una plataforma educativa completa para todos los institutos de España" },
+    { quien: "Problema de MVP", texto: "Que mis compañeros de DAW tengan sus apuntes organizados por asignatura" }
+  ]}
+/>
+
+---
+
+## Errores comunes al identificar problemas
+
+| Error | Ejemplo | Por qué es malo |
+|-------|---------|-----------------|
+| **Empezar por la solución** | "Quiero hacer una app con React" | No sabes si es necesaria |
+| **Problema demasiado grande** | "Resolver la educación en España" | No puedes resolverlo en 4 semanas |
+| **Problema demasiado pequeño** | "Recordar el color de la pared" | No tiene valor real |
+| **Problema ficticio** | "Una app para..." sin tener el problema | No lo usarías tú |
+| **Problema sin usuario** | "Algo para todo el mundo" | Si es para todos, es para nadie |
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las 3 fuentes de problemas reales?</summary>
+
+Respuesta: Tu día a día, tu entorno (familia, compañeros) y apps existentes que hacen algo mal.
+</details>
+
+<details>
+<summary>¿Qué es el "test de la ducha"?</summary>
+
+Respuesta: Si piensas en el problema estando en la ducha y te sigue pareciendo importante, es un problema real. Si te da igual, es inventado.
+</details>
+
+<details>
+<summary>¿Cómo validas que un problema es real?</summary>
+
+Respuesta: Hablando con 3 personas que lo tengan, buscando soluciones existentes, o preguntando cuál sería la versión más simple que usarían.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Empieza por el **problema**, no por la solución: "no sé qué cocinar" es mejor que "app de recetas".
+2. Los mejores problemas vienen de **tu día a día** y de las **personas de tu entorno**.
+3. **Valida** que el problema es real antes de construir: habla con 3 personas y busca soluciones existentes.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-1-mvp) · Anterior: [01 — ¿Qué es un MVP?](./01-que-es-un-mvp) · Siguiente: [03 — Definir features](./03-definir-features)

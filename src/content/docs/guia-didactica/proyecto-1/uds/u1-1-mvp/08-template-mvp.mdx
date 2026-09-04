@@ -1,0 +1,245 @@
+---
+title: "08 — Template MVP"
+description: "Plantilla rellenable para definir el MVP de tu proyecto"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 🔍 **UD 1.1 · MVP** → 08 · Template MVP
+
+<StoryIntro icono="📖" titulo="Copia, rellena y ya tienes tu MVP definido">
+  Si has leído los puntos anteriores, ya sabes qué es un MVP, cómo
+  identificar un problema, cómo priorizar features y qué errores evitar.
+  Ahora toca **ponerlo por escrito**. Esta plantilla te guía paso a paso.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un buen MVP se define en 1 página. Si necesitas más, es que es demasiado grande.**
+
+Rellena esta plantilla y tendrás tu MVP listo para empezar a desarrollar.
+
+---
+
+## Plantilla: Definición de MVP
+
+Copia este esquema en un documento (Markdown, Notion o Google Docs) y rellénalo:
+
+---
+
+### 1. Problema
+
+**¿Qué problema resuelve tu proyecto?**
+
+> [Escribe aquí el problema en 1-2 frases. Ejemplo: "Mis compañeros de DAW pierden apuntes por WhatsApp y no los encuentran cuando los necesitan."]
+
+**¿Quién tiene este problema?**
+
+> [Define tu usuario objetivo. Ejemplo: "Estudiantes de DAW de 1º y 2ño del IES X"].
+
+**¿Cómo lo resuelven ahora?**
+
+> [Describe la solución actual. Ejemplo: "Búscan en WhatsApp, preguntan en grupo, o directamente no encuentran."].
+
+---
+
+### 2. Solución (MVP)
+
+**En 1 frase, ¿qué hace tu app?**
+
+> [Ejemplo: "Una web donde los alumnos de DAW guardan y buscan apuntes por asignatura."]
+
+**¿Por qué esta solución y no otra?**
+
+> [Justificación breve. Ejemplo: "Porque WhatsApp no tiene organización por asignatura y la búsqueda es mala."].
+
+---
+
+### 3. Features (MoSCoW)
+
+| Feature | MoSCoW | Tiempo estimado | Justificación |
+|---------|--------|-----------------|---------------|
+| [Feature 1] | M/S/C/W | [días] | [Por qué es M/S/C/W] |
+| [Feature 2] | M/S/C/W | [días] | [Por qué es M/S/C/W] |
+| [Feature 3] | M/S/C/W | [días] | [Por qué es M/S/C/W] |
+| [Feature 4] | M/S/C/W | [días] | [Por qué es M/S/C/W] |
+| [Feature 5] | M/S/C/W | [días] | [Por qué es M/S/C/W] |
+
+**Features M (MVP):** [Lista solo las M]
+**Features S (Deseable):** [Lista las S]
+**Features C (Podría tener):** [Lista las C]
+**Features W (Futuro):** [Lista las W]
+
+---
+
+### 4. Límites del MVP
+
+**¿Qué NO hace tu MVP?**
+
+> [Lista explícitamente lo que NO vas a hacer. Ejemplo: "No tiene login, no tiene notificaciones, no tiene modo oscuro."]
+
+**¿Qué pasaría si alguien pide una de estas features?**
+
+> [Tu respuesta. Ejemplo: "Se puede añadir en el futuro, pero el MVP se queda así."]
+
+---
+
+### 5. Usuario objetivo
+
+**¿Para quién es?**
+
+> [Descripción del usuario. Ejemplo: "Alumnos de DAW que necesitan organizar apuntes por asignatura."]
+
+**¿Qué necesita hacer?**
+
+> [Acciones principales. Ejemplo: "Guardar un apunte, buscarlo, verlo, borrarlo."]
+
+**¿Qué NO necesita hacer?**
+
+> [Acciones que no van en el MVP. Ejemplo: "Compartir apuntes, valorar, chatear."]
+
+---
+
+### 6. Criterios de éxito
+
+Tu MVP es exitoso si:
+
+- [ ] [Criterio 1. Ejemplo: "Un alumno puede guardar un apunte en menos de 30 segundos."]
+- [ ] [Criterio 2. Ejemplo: "Un alumno puede encontrar un apunte por asignatura."]
+- [ ] [Criterio 3. Ejemplo: "El profesor puede ver que el proyecto funciona y está documentado."]
+
+---
+
+### 7. Cronograma estimado
+
+| Semana | Actividad |
+|--------|-----------|
+| 1 | Planificación + setup |
+| 2-3 | Desarrollo features MVP |
+| 4 | Testing + documentación |
+| 5 | Preparar presentación |
+| 6 | Buffer (imprevistos) |
+
+---
+
+### 8. Stack tecnológico
+
+| Capa | Tecnología | Por qué |
+|------|------------|---------|
+| Frontend | [Ej: Vue, React, HTML+JS] | [Justificación] |
+| Backend | [Ej: Node, Python, Ninguno] | [Justificación] |
+| BD | [Ej: SQLite, JSON, Ninguna] | [Justificación] |
+| Despliegue | [Ej: GitHub Pages, Netlify] | [Justificación] |
+
+---
+
+## Ejemplo rellenado: App de apuntes DAW
+
+Para que veas cómo queda, aquí tienes un ejemplo:
+
+### 1. Problema
+
+**¿Qué problema resuelve tu proyecto?**
+> Mis compañeros de DAW pierden apuntes por WhatsApp y no los encuentran cuando los necesitan antes de un examen.
+
+**¿Quién tiene este problema?**
+> Estudiantes de Desarrollo de Aplicaciones Web de 1º y 2º.
+
+**¿Cómo lo resuelven ahora?**
+> Buscan en WhatsApp (llorando), preguntan en grupo, o directamente no encuentran y estudian sin apuntes.
+
+### 2. Solución (MVP)
+
+**En 1 frase, ¿qué hace tu app?**
+> Una web donde los alumnos guardan y buscan apuntes por asignatura.
+
+**¿Por qué esta solución y no otra?**
+> Porque WhatsApp no tiene organización por asignatura y la búsqueda es terrible.
+
+### 3. Features (MoSCoW)
+
+| Feature | MoSCoW | Tiempo | Justificación |
+|---------|--------|--------|---------------|
+| Guardar apunte (título, asignatura, contenido) | M | 2 días | Función principal |
+| Buscar por asignatura | M | 1 día | Esencial para encontrar |
+| Ver apunte completo | M | 1 día | Sin esto no se puede leer |
+| Editar apunte | M | 1 día | Para corregir errores |
+| Eliminar apunte | S | 0.5 días | Útil pero no vital |
+| Filtrar por autor | C | 1 día | Mejora la experiencia |
+| Login de usuarios | W | 3 días | Futuro |
+| Notificaciones | W | 2 días | Futuro |
+
+**Features M:** Guardar, buscar, ver, editar (6 días)
+**Features S:** Eliminar (0.5 días)
+**Features C:** Filtrar por autor (1 día)
+**Features W:** Login, notificaciones
+
+### 4. Límites del MVP
+
+**¿Qué NO hace tu MVP?**
+> No tiene login, no tiene notificaciones, no tiene chat, no tiene valoraciones, no tiene modo oscuro.
+
+### 5. Usuario objetivo
+
+**¿Para quién es?**
+> Alumnos de DAW que necesitan apuntes organizados por asignatura.
+
+**¿Qué necesita hacer?**
+> Guardar un apunte, buscarlo por asignatura, verlo, editarlo, borrarlo.
+
+### 6. Criterios de éxito
+
+- [ ] Un alumno puede guardar un apunte en menos de 30 segundos
+- [ ] Un alumno puede encontrar un apunte por asignatura en menos de 10 segundos
+- [ ] El proyecto tiene README con instrucciones de ejecución
+
+---
+
+## Checklist final del MVP
+
+Antes de empezar a desarrollar, verifica:
+
+- [ ] El problema está claro y es real
+- [ ] El usuario objetivo está definido
+- [ ] Las features están priorizadas con MoSCoW
+- [ ] Sé exactamente qué NO voy a hacer
+- [ ] Los criterios de éxito están definidos
+- [ ] El cronograma es realista (4 semanas de desarrollo)
+- [ ] El stack tecnológico está decidido
+
+**Si todo está marcado → tu MVP está listo para empezar.**
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuántas secciones tiene la plantilla?</summary>
+
+Respuesta: 8: Problema, Solución, Features, Límites, Usuario, Criterios de éxito, Cronograma y Stack.
+</details>
+
+<details>
+<summary>¿Cuál es el paso más importante de la plantilla?</summary>
+
+Respuesta: El paso 4 (Límites). Saber qué NO vas a hacer es más importante que saber qué sí.
+</details>
+
+<details>
+<summary>¿Qué hago si el cronograma no cuadra?</summary>
+
+Respuesta: Reduce features. Es mejor entregar 3 features en tiempo que 5 a medias.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Un buen MVP se define en **1 página**: problema, solución, features, límites, usuario, criterios, cronograma y stack.
+2. El paso más importante es **saber qué NO vas a hacer** — eso define tu alcance.
+3. Rellena la plantilla, verifica la checklist y **empieza a desarrollar**.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-1-mvp) · Anterior: [07 — Herramientas](./07-herramientas) · Siguiente: [09 — Cierre](./09-cierre)

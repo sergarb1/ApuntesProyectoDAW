@@ -1,0 +1,210 @@
+---
+title: "03 — Definir features"
+description: "Cómo listar, clasificar y priorizar funcionalidades para tu MVP"
+---
+
+import StoryIntro from '../../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../../components/Aclaracion.astro';
+import Comparativa from '../../../../../../components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🔍 **UD 1.1 · MVP** → 03 · Definir features
+
+<StoryIntro icono="📖" titulo="De la idea suelta a la lista concreta de funcionalidades">
+  Ya tienes un problema claro. Ahora necesitas decidir **qué va a hacer
+  tu aplicación** para resolverlo. Pero no todo lo que se te ocurra:
+  solo lo imprescindible. Este punto te enseña a listar, clasificar y
+  priorizar con criterio.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Las features son lo que tu app hace. Las features del MVP son solo las que necesitas para que resuelva el problema.**
+
+No pongas todo lo que se te ocurra. Pon solo lo que **necesitas**.
+
+---
+
+## Paso 1: Lista todo (sin filtrar)
+
+Abre un documento y escribe **todas** las funcionalidades que se te ocurran. Sin juzgar, sin ordenar, sin pensar si son posibles.
+
+**Ejemplo: App de recetas para "¿Qué cocino con lo que tengo?"**
+
+```
+- Introducir los ingredientes que tengo
+- Buscar recetas por ingrediente
+- Buscar recetas por nombre
+- Filtrar por tiempo de cocina
+- Filtrar por dificultad
+- Guardar recetas favoritas
+- Crear listas de compra
+- Compartir recetas
+- Valorar recetas
+- Subir fotos de recetas propias
+- Modo oscuro
+- Notificaciones de recetas nuevas
+- Estadísticas de lo que más cocinas
+- Integración con supermercados
+- Modo offline
+- Accesibilidad (voz)
+- Multiidioma
+```
+
+**Regla importante**: en esta fase **no quites nada**. Escríbelo todo. Luego priorizarás.
+
+---
+
+## Paso 2: Clasifica por prioridad
+
+Una vez tengas tu lista, clasifica cada feature en una de estas categorías:
+
+| Categoría | Significado | Ejemplo |
+|-----------|-------------|---------|
+| **MVP** | Sin esto, la app no tiene sentido | Introducir ingredientes, buscar recetas |
+| **Deseable** | Mejora la experiencia si hay tiempo | Favoritos, filtrar por tiempo |
+| **Futuro** | Ideas para después | Compartir, notificaciones, estadísticas |
+
+### El test de la pregunta mágica
+
+Para cada feature, hazte esta pregunta:
+
+> **"Si esta feature no está, ¿la app sigue resolviendo el problema?"**
+
+- Si la respuesta es **NO** → es MVP
+- Si la respuesta es **SÍ, pero peor** → es deseable
+- Si la respuesta es **SÍ, igual** → es futuro
+
+**Ejemplo aplicado:**
+
+| Feature | ¿La app resuelve sin ella? | Categoría |
+|---------|---------------------------|-----------|
+| Introducir ingredientes | NO — no puedes buscar sin ellos | MVP |
+| Buscar recetas | NO — no tiene sentido sin búsqueda | MVP |
+| Filtrar por dificultad | SÍ, pero peor — puedes buscar sin filtro | Deseable |
+| Modo oscuro | SÍ, igual — es cosmético | Futuro |
+| Notificaciones | SÍ, igual — no es esencial | Futuro |
+
+---
+
+## Paso 3: El test del "¿y además...?"
+
+Imagina que alguien te pregunta por tu app. Cada vez que digas "y además...", estás añadiendo una feature que **probablemente no necesitas**.
+
+```
+Tú: "Mi app busca recetas por ingredientes"
+Amigo: "¿Y también busca por nombre?"
+Tú: "Sí, y además filtra por tiempo"
+Amigo: "¿Y tiene favoritos?"
+Tú: "Eh... sí, y además notificaciones"
+```
+
+**Cada "y además" es una feature que complica tu MVP.** En este punto, para y pregúntate: "¿Es esto imprescindible o es un 'deseable'?"
+
+---
+
+## Paso 4: El "test del abuelo"
+
+Explica tu app a alguien que no sea de informática (tu abuelo, tu madre, un amigo de otra carrera). Si no lo entiende en 30 segundos, tu MVP es demasiado complicado.
+
+**Ejemplo malo**: "Mi app es una plataforma educativa multiidioma con gamificación y notificaciones push que integra un sistema de recomendaciones basado en IA para sugerir recetas personalizadas según el perfil nutricional del usuario."
+
+**Ejemplo bueno**: "Mi app es una lista de la compra que se convierte en recetas según lo que tengas en casa."
+
+Si no puedes explicarlo en una frase, tienes demasiadas features.
+
+---
+
+## MoSCoW: el método de priorización
+
+**MoSCoW** es un acrónimo que te ayuda a clasificar features:
+
+| Letra | Significado | Pregunta clave |
+|-------|-------------|----------------|
+| **M** | Must have | ¿Sin esto, la app no funciona? |
+| **S** | Should have | ¿Es importante pero no vital? |
+| **C** | Could have | ¿Mejora la experiencia pero no es necesario? |
+| **W** | Won't have | ¿Es para el futuro? |
+
+### Ejemplo completo: App de recetas
+
+| Feature | MoSCoW | Justificación |
+|---------|--------|---------------|
+| Introducir ingredientes | **M** | Sin esto no hay app |
+| Buscar recetas | **M** | Función principal |
+| Ver receta completa | **M** | Sin esto no se puede cocinar |
+| Filtrar por dificultad | **S** | Mejora la experiencia |
+| Guardar favoritos | **C** | Útil pero no vital |
+| Notificaciones | **W** | Futuro |
+| Multiidioma | **W** | Futuro |
+| Modo offline | **W** | Futuro |
+
+**Regla del MVP**: solo las **M** (Must have) van en la primera versión.
+
+---
+
+## El error de las "features de emergencia"
+
+Cuando estás priorizando, es fácil pensar: "esto es rápido de hacer, lo pongo". **No caigas en esa trampa.**
+
+| Features "rápidas" que parecen inocentes | Por qué son peligrosas |
+|------------------------------------------|----------------------|
+| "Modo oscuro" | Requiere diseño, testing en ambos modos |
+| "Botón de compartir" | Requiere integración con redes sociales |
+| "Notificaciones" | Requiere backend, permisos, diseño |
+| "Filtros avanzados" | Requiere diseño de UI, testing |
+
+**Regla**: si una feature no resuelve directamente el problema central, **no va en el MVP** aunque sea "rápida".
+
+---
+
+## Cuenta las features: el límite del MVP
+
+Un MVP de Proyecto 1 debería tener **entre 2 y 4 funcionalidades principales**.
+
+¿Por qué tan pocas?
+
+- **Tiempo limitado**: tienes 4-6 semanas para todo (planificación + desarrollo + documentación)
+- **Calidad > cantidad**: mejor 2 features perfectas que 5 a medias
+- **Aprendizaje**: con pocas features puedes feedback real
+- **Terminado**: necesitas **entregar algo completo**
+
+| Número de features | ¿Es un buen MVP? |
+|-------------------|-------------------|
+| 1-2 | Demasiado simple, pero viable |
+| 3-4 | **Óptimo** — suficiente para demostrar la idea |
+| 5-6 | Posible si son muy sencillas |
+| 7+ | Probablemente demasiado para un proyecto FP |
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cómo clasificas las features por prioridad?</summary>
+
+Respuesta: Usa el test de la pregunta mágica: "Si esta feature no está, ¿la app sigue resolviendo el problema?" NO → MVP, SÍ pero peor → deseable, SÍ igual → futuro.
+</details>
+
+<details>
+<summary>¿Qué es MoSCoW?</summary>
+
+Respuesta: Un método de priorización: Must (imprescindible), Should (importante), Could (deseable), Won't (futuro). Solo las Must van en el MVP.
+</details>
+
+<details>
+<summary>¿Cuántas features debería tener tu MVP?</summary>
+
+Respuesta: Entre 2 y 4 funcionalidades principales. Más de 6 probablemente es demasiado para un proyecto FP.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Primero **lista todo** lo que se te ocurra sin filtrar, luego clasifica por prioridad con MoSCoW.
+2. Usa el test de la pregunta mágica: "¿Sin esta feature, la app resuelve el problema?" Si la respuesta es sí, **no es MVP**.
+3. Un buen MVP tiene **2-4 funcionalidades principales** que funcionen perfectamente.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-1-mvp) · Anterior: [02 — Identificar el problema](./02-identificar-problema) · Siguiente: [04 — Cortar sin piedad](./04-cortar-sin-piedad)

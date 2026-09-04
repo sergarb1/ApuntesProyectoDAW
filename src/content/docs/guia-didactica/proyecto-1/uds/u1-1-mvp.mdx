@@ -1,153 +1,42 @@
 ---
 title: "🔍 UD 1.1: MVP — Producto Mínimo Viable"
-description: Concepto, alcance y definición de core features
+description: "Concepto, alcance y definición de core features para tu primer proyecto"
 ---
 
 import StoryIntro from '../../../../../components/StoryIntro.astro';
-import Aclaracion from '../../../../../components/Aclaracion.astro';
 
 <StoryIntro icono="🔍" titulo="MVP: la versión más pequeña que aún tiene sentido">
   Un MVP no es un proyecto a medias. Es la versión más pequeña de tu idea
   que **resuelve un problema real**. Si no puedes explicar tu MVP en una
-  frase, es demasiado grande.
+  frase, es demasiado grande. Esta unidad te enseña a encontrar esa versión
+  mínima que tiene sentido.
 </StoryIntro>
 
-## 📬 La idea en una frase
+## Objetivos de la unidad
 
-> **Un MVP es la versión más simple de tu producto que funciona y enseña algo.**
+Al finalizar esta unidad serás capaz de:
 
-No es "hacer menos". Es hacer **solo lo que importa** y dejarlo terminado.
+- 🎯 Definir qué es un MVP y por qué importa
+- 🔍 Identificar un problema real que merezca la pena resolver
+- 📋 Listar y priorizar funcionalidades con criterio
+- ✂️ Cortar el alcance sin miedo para tener algo terminado
 
-## 🃏 El algoritmo
+## Mapa de la unidad
 
-El proceso para definir tu MVP tiene 5 pasos:
+| Punto | Tema | Idea clave |
+|-------|------|------------|
+| 01 | [¿Qué es un MVP?](./u1-1-mvp/01-que-es-un-mvp) | Definición, origen y mitos |
+| 02 | [Identificar el problema](./u1-1-mvp/02-identificar-problema) | Cómo encontrar problemas reales |
+| 03 | [Definir features](./u1-1-mvp/03-definir-features) | Listar, clasificar y priorizar |
+| 04 | [Cortar sin piedad](./u1-1-mvp/04-cortar-sin-piedad) | Reglas de alcance y cuándo parar |
+| 05 | [Ejemplos reales](./u1-1-mvp/05-ejemplos-reales) | Ideas que funcionaron y por qué |
+| 06 | [Errores comunes](./u1-1-mvp/06-errores-comunes) | Los 7 pecados del MVP |
+| 07 | [Herramientas](./u1-1-mvp/07-herramientas) | Qué usar para organizar tu MVP |
+| 08 | [Template](./u1-1-mvp/08-template-mvp) | Plantilla rellenable para tu proyecto |
+| 09 | [Cierre](./u1-1-mvp/09-cierre) | Mini-chequeo + resumen |
 
-1. **Identifica el problema central** — ¿Qué problema resuelves?
-2. **Define el usuario** — ¿Para quién lo haces?
-3. **Lista todas las features** — ¿Qué se te ocurre?
-4. **Clasifica por prioridad** — ¿Qué es imprescindible?
-5. **Corta sin piedad** — ¿Qué puedes quitar y seguir siendo útil?
+## ¿Por dónde empiezo?
 
-## 👣 Paso a paso
-
-### Paso 1: Identifica el problema central
-
-No digas "quiero hacer una app". Di **qué problema resuelves**:
-
-| Malo | Bueno |
-|------|-------|
-| "Una app de recetas" | "No sé qué cocinar con lo que tengo en la nevera" |
-| "Una red social" | "Mis compañeros pierden apuntes por WhatsApp" |
-| "Un gestor de tareas" | "Siempre olvido qué tengo que hacer para el institutes" |
-
-### Paso 2: Define el usuario objetivo
-
-Un solo usuario claro. No "todo el mundo":
-
-- "Estudiantes de DAW que necesitan organizar apuntes"
-- "Mi madre, que gestiona citas de su peluquería"
-- "Mi club deportivo, que no tiene web de reservas"
-
-### Paso 3: Lista TODAS las features
-
-Escribe todo lo que se te ocurra, sin filtrar:
-
-```
-- Añadir libros
-- Buscar por título
-- Buscar por autor
-- Filtrar por género
-- Valorar libros
-- Crear listas
-- Compartir listas
-- Estadísticas
-- Modo oscuro
-- Notificaciones
-```
-
-### Paso 4: Clasifica por prioridad
-
-| Prioridad | Significado | Ejemplo |
-|-----------|-------------|---------|
-| **MVP** | Sin esto, la app no tiene sentido | Añadir libros, buscar, filtrar, eliminar |
-| **Deseable** | Mejora la experiencia si hay tiempo | Valoraciones, listas, favoritos |
-| **Futuro** | Ideas para evolución | Compartir, notificaciones, estadísticas |
-
-### Paso 5: Corta sin piedad
-
-Si tu MVP tiene más de 3-4 funcionalidades principales, probablemente
-estás intentando hacer demasiado.
-
-> **Regla de oro**: Si tu MVP tiene más de 4 features, quita la mitad.
-> Lo que quede será más sólido.
-
-<Aclaracion pregunta="¿Y si mi profesor dice que es poco?">
-  Mejor 3 funcionalidades **completas y funcionales** que 10 a medias.
-  Un proyecto con un CRUD bien hecho, validación y documentación supera
-  a un proyecto con 10 features rotas. La calidad gana siempre.
-</Aclaracion>
-
-## 📊 El análisis: ¿cuándo es bueno un MVP?
-
-Un MVP es bueno cuando cumple estas 4 condiciones:
-
-| Condición | Pregunta clave |
-|-----------|----------------|
-| **Resuelve** | ¿El usuario resuelve su problema con esto? |
-| **Funciona** | ¿Se puede usar sin que se rompa? |
-| **Terminado** | ¿Está completo (aunque sea simple)? |
-| **Aprendes** | ¿Descubres algo nuevo del usuario al usarlo? |
-
-### Ejemplo: De idea a MVP
-
-| Idea original | MVP |
-|---------------|-----|
-| "Red social para compañeros" | Directorio de compañeros con perfil y búsqueda |
-| "Gestor de tareas con IA" | CRUD de tareas con prioridades y estados |
-| "Plataforma de cursos online" | Catálogo de cursos con inscripción |
-| "App de reservas con pagos" | Calendario de reservas con confirmación |
-
-## ⭐ Sé el Código, my friend…
-
-```python
-# Ejemplo: MVP en Python con SQLite
-import sqlite3
-
-# Conexión a BD (un solo archivo)
-conn = sqlite3.connect('coleccion.db')
-cursor = conn.cursor()
-
-# Crear tabla
-cursor.execute('''
-    CREATE TABLE IF NOT EXISTS libros (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        titulo TEXT NOT NULL,
-        autor TEXT NOT NULL,
-        genero TEXT
-    )
-''')
-
-# Función MVP: añadir un libro
-def add_libro(titulo, autor, genero):
-    cursor.execute('INSERT INTO libros (titulo, autor, genero) VALUES (?, ?, ?)',
-                   (titulo, autor, genero))
-    conn.commit()
-    print(f"Libro '{titulo}' añadido.")
-```
-
-**¿Qué ves aquí?** Un archivo de BD, una tabla, una función para añadir.
-Eso es un MVP: lo mínimo que funciona.
-
-## 🎯 Mini-chequeo
-
-- [ ] ¿Puedo explicar mi MVP en una frase?
-- [ ] ¿Tiene menos de 4 funcionalidades principales?
-- [ ] ¿Resuelve un problema concreto para un usuario definido?
-- [ ] ¿Está terminado (no "a medias")?
-- [ ] ¿He clasificado las features por prioridad?
-
-## ✅ Resumen en 3 frases
-
-1. Un MVP es la versión más pequeña de tu producto que **resuelve un problema real**.
-2. Clasifica tus ideas en MVP (imprescindible), deseable y futuro, y **corta sin piedad**.
-3. Mejor 3 features **completas** que 10 rotas: la calidad siempre gana.
+- **Si tienes prisa**: ve directamente al [punto 08 (template)](./u1-1-mvp/08-template-mvp) y empieza a rellenar
+- **Si no tienes idea**: empieza por el [punto 02 (identificar problema)](./u1-1-mvp/02-identificar-problema)
+- **Si quieres entender bien**: ve los puntos en orden del 01 al 09

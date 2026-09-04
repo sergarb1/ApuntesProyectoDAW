@@ -1,0 +1,48 @@
+﻿rtk : [rtk] /!\ No hook installed ÔÇö run `rtk init -g` for automatic token savings
+En línea: 1 Carácter: 1
++ rtk npm run build 2>&1 | Out-File -FilePath "C:\Users\serga\Desktop\A ...
++ ~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([rtk] /!\ No ho...c token savings:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2m17:07:03[22m [34m[content][39m Syncing content
+[2m17:07:03[22m [34m[content][39m Synced content
+[2m17:07:03[22m [34m[types][39m Generated [2m1.10s[22m
+[2m17:07:03[22m [34m[build][39m output: [34m"static"[39m
+[2m17:07:03[22m [34m[build][39m mode: [34m"static"[39m
+[2m17:07:03[22m [34m[build][39m directory: [34mC:\Users\serga\Desktop\ApuntesProyectoDAW\dist\[39m
+[2m17:07:03[22m [34m[build][39m Collecting build info...
+[2m17:07:03[22m [34m[build][39m [32mÔ£ô Completed in 1.47s.[39m
+[2m17:07:03[22m [34m[build][39m Building static entrypoints...
+[33m[1m17:07:06[22m [WARN] [astro-expressive-code][39m Error while highlighting code block using language "gitignore" in markdown/MDX document. The language could not be found. Using "txt" instead. Ensure that all required languages are either part of the bundle or custom languages provided in the "langs" config option.
+[33m[1m17:07:06[22m [WARN] [astro-expressive-code][39m Error while highlighting code block using language "gitignore" in markdown/MDX document. The language could not be found. Using "txt" instead. Ensure that all required languages are either part of the bundle or custom languages provided in the "langs" config option.
+[33m[1m17:07:06[22m [WARN] [astro-expressive-code][39m Error while highlighting code block using language "env" in markdown/MDX document. The language could not be found. Using "txt" instead. Ensure that all required languages are either part of the bundle or custom languages provided in the "langs" config option.
+[33m[1m17:07:06[22m [WARN] [astro-expressive-code][39m Error while highlighting code block using language "gitignore" in markdown/MDX document. The language could not be found. Using "txt" instead. Ensure that all required languages are either part of the bundle or custom languages provided in the "langs" config option.
+[33m[1m17:07:06[22m [WARN] [astro-expressive-code][39m Error while highlighting code block using language "env" in markdown/MDX document. The language could not be found. Using "txt" instead. Ensure that all required languages are either part of the bundle or custom languages provided in the "langs" config option.
+[31m[1m17:07:09[22m [ERROR] [vite][39m [31mÔ£ù[39m Build failed in 5.11s
+[UNRESOLVED_IMPORT] Could not resolve '../../../../components/StoryIntro.astro' in src/content/docs/guia-didactica/proyecto-1/uds/u1-1-mvp/01-que-es-un-mvp.mdx
+   Ôò¡ÔöÇ[ src/content/docs/guia-didactica/proyecto-1/uds/u1-1-mvp/01-que-es-un-mvp.mdx:2:24 ]
+   Ôöé
+ 2 Ôöé import StoryIntro from "../../../../components/StoryIntro.astro";
+   Ôöé                        ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö¼ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ  
+   Ôöé                                            Ôò░ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ Module not found.
+   Ôöé 
+   Ôöé Help: 'src/content/docs/guia-didactica/proyecto-1/uds/u1-1-mvp/01-que-es-un-mvp.mdx' is imported by the following path:
+   Ôöé         - src/content/docs/guia-didactica/proyecto-1/uds/u1-1-mvp/01-que-es-un-mvp.mdx
+   Ôöé         - src/content/docs/guia-didactica/proyecto-1/uds/u1-1-mvp/01-que-es-un-mvp.mdx?astroPropagatedAssets
+   Ôöé         - .astro/content-modules.mjs
+   Ôöé         - node_modules/astro/dist/content/runtime.js
+   Ôöé         - \0astro:content
+   Ôöé         - node_modules/@astrojs/starlight/utils/translations.ts
+   Ôöé         - node_modules/@astrojs/starlight/locals.ts
+   Ôöé         - \0virtual:astro:middleware
+   Ôöé         - \0virtual:astro:manifest
+   Ôöé         - node_modules/astro/dist/entrypoints/prerender.js
+ÔöÇÔöÇÔöÇÔò»
+  [1mStack trace:[22m
+[2m    at aggregateBindingErrorsIntoJsError (file:///C:/Users/serga/Desktop/ApuntesProyectoDAW/node_modules/rolldown/dist/shared/error-HDibX49O.mjs:48:18)
+    at #build (file:///C:/Users/serga/Desktop/ApuntesProyectoDAW/node_modules/rolldown/dist/shared/rolldown-C9Hfg50O.mjs:133:34)
+    at async Object.build (file:///C:/Users/serga/Desktop/ApuntesProyectoDAW/node_modules/vite/dist/node/chunks/node.js:34242:19)
+    at async Object.buildApp (file:///C:/Users/serga/Desktop/ApuntesProyectoDAW/node_modules/vite/dist/node/chunks/node.js:34234:6)
+    at async viteBuild (file:///C:/Users/serga/Desktop/ApuntesProyectoDAW/node_modules/astro/dist/core/build/static-build.js:68:3)[22m
+Assertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\win\async.c, line 94
