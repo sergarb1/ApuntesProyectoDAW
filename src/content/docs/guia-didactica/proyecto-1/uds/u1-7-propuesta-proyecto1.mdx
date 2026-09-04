@@ -1,0 +1,173 @@
+---
+title: "🎯 UD 1.7: Propuesta de Proyecto 1"
+description: Ejemplos de proyectos de consola con persistencia en base de datos local
+---
+
+import StoryIntro from '../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../components/Aclaracion.astro';
+
+<StoryIntro icono="🎯" titulo="Tu primer proyecto completo">
+  En Proyecto 1 vas a construir una aplicación de consola interactiva con persistencia
+  en base de datos. Aquí tienes ideas para inspirarte — elige la que más te motive
+  o propón la tuya propia.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Tu proyecto es una aplicación de consola (CLI) que gestiona una colección de algo, con menú interactivo y persistencia en SQLite.**
+
+No es una web. No es una app móvil. Es una app de **consola** que se ejecuta en un terminal.
+
+## 🃏 El algoritmo
+
+El proceso para crear tu proyecto tiene 5 pasos:
+
+1. **Elige tu dominio** — ¿Qué colección quieres gestionar?
+2. **Diseña la BD** — ¿Qué tablas necesitas?
+3. **Estructura el código** — Separa en capas
+4. **Implementa** — CRUD completo con menú
+5. **Documenta** — README + documentación técnica
+
+## 👣 Paso a paso
+
+### Paso 1: Elige tu dominio
+
+| Colección | Campos clave | Complejidad |
+|-----------|--------------|-------------|
+| **Libros** | título, autor, género, valoración | ⭐⭐ |
+| **Películas** | título, director, año, género, valoración | ⭐⭐ |
+| **Videojuegos** | título, plataforma, género, horas_jugadas | ⭐⭐ |
+| **Tareas** | nombre, fecha_limite, prioridad, estado | ⭐⭐ |
+| **Recetas** | nombre, ingredientes, dificultad, tiempo | ⭐⭐⭐ |
+| **Contactos** | nombre, teléfono, email, organización | ⭐ |
+| **Inventario** | producto, cantidad, precio, categoría | ⭐⭐ |
+
+**Consejo**: Elige algo que te interese. Si te gustan los libros, haz un gestor de libros. La motivación importa.
+
+### Paso 2: Diseña la base de datos
+
+```sql
+-- Ejemplo: Gestor de Libros
+CREATE TABLE IF NOT EXISTS libros (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titulo TEXT NOT NULL,
+    autor TEXT NOT NULL,
+    genero TEXT,
+    valoracion INTEGER CHECK (valoracion BETWEEN 1 AND 5),
+    leido BOOLEAN DEFAULT 0,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### Paso 3: Estructura el código en capas
+
+```
+mi-proyecto/
+├── src/
+│   ├── Main.java              # Menú interactivo
+│   ├── model/
+│   │   └── Libro.java         # Entidad
+│   ├── repository/
+│   │   └── LibroRepository.java  # CRUD en BD
+│   ├── service/
+│   │   └── LibroService.java  # Lógica de negocio
+│   └── util/
+│       └── DatabaseUtil.java  # Conexión a BD
+├── data/
+│   └── coleccion.db           # SQLite
+├── README.md
+└── doc/
+    ├── analisis.md
+    └── diseno.md
+```
+
+### Paso 4: Implementa el CRUD
+
+Tu aplicación debe tener un menú como este:
+
+```
+=== Gestor de Libros ===
+1. Añadir libro
+2. Listar libros
+3. Buscar por título
+4. Actualizar libro
+5. Eliminar libro
+6. Salir
+Elige una opción:
+```
+
+### Paso 5: Documenta
+
+- **README.md**: Qué es, cómo ejecutar, estructura
+- **doc/analisis.md**: Requisitos, historias de usuario
+- **doc/diseno.md**: Arquitectura, modelo de datos, decisiones
+
+<Aclaracion pregunta="¿Y si mi idea es más compleja?">
+  Perfecto. Puedes ampliar cualquier idea con features adicionales si el tiempo lo permite:
+  - Exportar datos a CSV/JSON
+  - Búsqueda por múltiples criterios
+  - Estadísticas y reportes
+  - Validación avanzada de datos
+
+  Pero asegúrate de tener el **CRUD básico funcionando primero** antes de añadir extras.
+</Aclaracion>
+
+## 📊 El análisis: ¿cuándo es buena tu propuesta?
+
+| Característica | ❌ Propuesta débil | ✅ Propuesta fuerte |
+|----------------|-------------------|---------------------|
+| **Dominio** | "Gestor de cosas" | "Gestor de libros personales" |
+| **Complejidad** | 10 funcionalidades | 3-4 funcionalidades bien hechas |
+| **Tecnología** | "No sé qué usar" | "Java + SQLite porque lo conozco" |
+| **Diferenciador** | CRUD genérico | CRUD + validación + exportación |
+
+## ⭐ Sé el Código, my friend…
+
+### Ejemplo: Menú en Java
+
+```java
+public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
+    LibroService service = new LibroService();
+
+    while (true) {
+        System.out.println("\n=== Gestor de Libros ===");
+        System.out.println("1. Añadir libro");
+        System.out.println("2. Listar libros");
+        System.out.println("3. Buscar por título");
+        System.out.println("4. Actualizar libro");
+        System.out.println("5. Eliminar libro");
+        System.out.println("6. Salir");
+        System.out.print("Elige una opción: ");
+
+        int opcion = scanner.nextInt();
+        scanner.nextLine(); // Limpiar buffer
+
+        switch (opcion) {
+            case 1: service.addLibro(scanner); break;
+            case 2: service.listLibros(); break;
+            case 3: service.searchLibro(scanner); break;
+            case 4: service.updateLibro(scanner); break;
+            case 5: service.deleteLibro(scanner); break;
+            case 6: System.out.println("¡Hasta luego!"); return;
+            default: System.out.println("Opción no válida");
+        }
+    }
+}
+```
+
+**¿Qué ves aquí?** Un menú simple que llama a funciones del service. Eso es todo.
+
+## 🎯 Mini-chequeo
+
+- [ ] ¿Has elegido un dominio concreto?
+- [ ] ¿Tienes diseño de la BD (al menos 1 tabla)?
+- [ ] ¿Tienes estructura de carpetas por capas?
+- [ ] ¿Tu menú tiene al menos 4 opciones (añadir, listar, buscar, eliminar)?
+- [ ] ¿Tienes README con instrucciones de ejecución?
+
+## ✅ Resumen en 3 frases
+
+1. Elige un **dominio concreto** (libros, películas, tareas) y diseña la BD antes de codificar.
+2. Separa el código en **capas** (model, repository, service, main) aunque sea un proyecto pequeño.
+3. Implementa un **menú interactivo** con CRUD completo y documenta con README + doc técnica.

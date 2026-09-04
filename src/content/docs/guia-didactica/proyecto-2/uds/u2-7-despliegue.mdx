@@ -1,0 +1,215 @@
+---
+title: "☁️ UD 2.7: Despliegue y Puesta en Producción"
+description: Contenedores (Docker), automatización, VPS y despliegues sin tiempo de inactividad (Zero-downtime)
+---
+
+import StoryIntro from '../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../components/Aclaracion.astro';
+
+<StoryIntro icono="☁️" titulo="De localhost a producción en 3 pasos">
+  Tu aplicación funciona en tu máquina. Pero el mundo no tiene tu máquina.
+  Desplegar es hacer que tu app esté accesible para cualquiera con un
+  navegador y una URL.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Desplegar es empaquetar tu aplicación con todo lo que necesita y ponerla en un servidor donde cualquiera pueda usarla.**
+
+No es copiar archivos. Es configurar un **entorno de producción** estable.
+
+## 🃏 El algoritmo
+
+El proceso de despliegue tiene 4 pasos:
+
+1. **Empaqueta con Docker** — Tu app + dependencias en un contenedor
+2. **Automatiza con CI/CD** — Que se despliegue solo al hacer push
+3. **Elige una plataforma** — Donde ejecutar tu contenedor
+4. **Verifica** — Prueba que funciona en producción
+
+## 👣 Paso a paso
+
+### Paso 1: Docker (contenedores)
+
+#### Qué es Docker
+
+Docker empaqueta tu aplicación con **todas sus dependencias** en un
+"contenedor" que funciona igual en cualquier máquina.
+
+#### Dockerfile (ejemplo Node.js)
+
+```dockerfile
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci --only=production
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["node", "src/index.js"]
+```
+
+#### docker-compose.yml
+
+```yaml
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://user:pass@db:5432/mydb
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: mydb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+```
+
+#### Comandos esenciales
+
+| Comando | Qué hace |
+|---------|----------|
+| `docker build -t mi-app .` | Construye la imagen |
+| `docker run -p 3000:3000 mi-app` | Ejecuta el contenedor |
+| `docker-compose up -d` | Levanta todos los servicios |
+| `docker-compose down` | Para todos los servicios |
+| `docker logs <id>` | Muestra logs del contenedor |
+
+### Paso 2: CI/CD con GitHub Actions
+
+#### Flujo básico
+
+```
+Push a main → GitHub Actions → Build → Test → Deploy → Producción
+```
+
+#### Archivo `.github/workflows/deploy.yml`
+
+```yaml
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and test
+        run: |
+          npm ci
+          npm test
+          npm run build
+      - name: Deploy to Render
+        uses: johnbeyren/render-deploy-action@v1
+        with:
+          api-key: ${{ secrets.RENDER_API_KEY }}
+          service-id: ${{ secrets.RENDER_SERVICE_ID }}
+```
+
+### Paso 3: Plataformas de despliegue
+
+| Plataforma | Tipo | Ventaja | Desventaja |
+|------------|------|---------|------------|
+| **Render** | Cloud managed | Fácil, free tier, auto-deploy | Cold start en free tier |
+| **Railway** | Cloud managed | Muy fácil, BD incluida | Free tier limitado |
+| **Vercel** | Cloud managed | Ideal para frontend + serverless | Backend limitado |
+| **DigitalOcean** | VPS | Control total, barato | Requiere más conocimiento |
+| **Hetzner** | VPS | Muy barato, buena calidad | Menos managed |
+
+#### Recomendación para Proyecto 2
+
+**Render** o **Railway** son las más fáciles para empezar:
+- Auto-deploy desde GitHub
+- HTTPS incluido
+- Free tier suficiente para proyectos de FP
+- Soporte para PostgreSQL
+
+### Paso 4: Zero-downtime
+
+#### Qué es
+
+Desplegar **sin que la aplicación deje de funcionar**. Mientras una
+versión se apaga, la otra ya está arrancada.
+
+#### Estrategias
+
+| Estrategia | Cómo funciona |
+|------------|---------------|
+| **Blue-Green** | Dos servidores idénticos. Uno activo, otro en standby. Se cambia el tráfico. |
+| **Rolling** | Se actualizan instancias una a una |
+| **Canary** | Se despliega a un 10% de usuarios primero, luego al resto |
+
+#### En la práctica
+
+Plataformas como Render, Railway o Vercel manejan zero-downtime
+automáticamente. Solo necesitas configurar health check.
+
+## 📊 El análisis: ¿cuándo es bueno tu despliegue?
+
+| Característica | ❌ Mala práctica | ✅ Buena práctica |
+|----------------|-----------------|-------------------|
+| **HTTPS** | Sin HTTPS, advertencias del navegador | HTTPS obligatorio |
+| **Variables** | Contraseñas en el código | Variables de entorno |
+| **Documentación** | "No sé cómo desplegar" | README con pasos exactos |
+| **Automatización** | Despliegue manual cada vez | CI/CD automático al push |
+| **Verificación** | "Creo que funciona" | Tests + health check |
+
+## ⭐ Sé el Código, my friend…
+
+### Checklist de despliegue
+
+```markdown
+## Antes de desplegar
+
+- [ ] HTTPS configurado
+- [ ] Variables de entorno en el servidor (no en código)
+- [ ] Base de datos conectada
+- [ ] Tests pasando
+- [ ] README con instrucciones actualizadas
+
+## Después de desplegar
+
+- [ ] URL probada en diferentes navegadores
+- [ ] Responsive probado en móvil
+- [ ] Errores manejados (no 500s sin mensaje)
+- [ ] Logs funcionando
+```
+
+<Aclaracion pregunta="¿Necesito zero-downtime para Proyecto 2?">
+  No es obligatorio, pero saber qué es demuestra conocimiento profesional.
+  Para Proyecto 2, un despliegue normal con HTTPS es suficiente. Si tu
+  plataforma lo ofrece automáticamente, mejor.
+</Aclaracion>
+
+## 🎯 Mini-chequeo
+
+- [ ] ¿Tu app está desplegada con HTTPS?
+- [ ] ¿Las variables de entorno están fuera del código?
+- [ ] ¿Tienes CI/CD configurado (al menos build + test)?
+- [ ] ¿El README tiene instrucciones de despliegue?
+- [ ] ¿Has probado la app en producción?
+
+## ✅ Resumen en 3 frases
+
+1. Docker **empaqueta** tu app con todas sus dependencias para que funcione igual en cualquier máquina.
+2. CI/CD **automatiza** el despliegue: cada push a main ejecuta tests y despliega automáticamente.
+3. Usa plataformas **managed** (Render, Railway) para no tener que configurar servidores manualmente.

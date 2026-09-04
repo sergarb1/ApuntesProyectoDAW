@@ -1,0 +1,182 @@
+---
+title: "⚙️ UD 1.4: Elección de Tecnologías"
+description: Criterios arquitectónicos, stack tecnológico y viabilidad
+---
+
+import StoryIntro from '../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../components/Aclaracion.astro';
+
+<StoryIntro icono="⚙️" titulo="Elegir bien es más importante que elegir lo último">
+  No necesitas el framework más moderno ni la base de datos más potente.
+  Necesitas la tecnología que **mejor se adapte** a tu proyecto, a tu
+  nivel y al tiempo disponible.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Elige la tecnología que mejor conoces para que el proyecto salga, no la que suene "guay".**
+
+Un proyecto bien hecho con Python gana a uno mal hecho con el framework "mejor".
+
+## 🃏 El algoritmo
+
+El proceso para elegir tecnologías tiene 3 pasos:
+
+1. **Evalúa qué sabes** — Tu nivel real, no el que te gustaría tener
+2. **Evalúa qué necesitas** — Complejidad, rendimiento, ecosistema
+3. **Elige y justifica** — Documenta por qué elegiste cada cosa
+
+## 👣 Paso a paso
+
+### Paso 1: Evalúa tu conocimiento
+
+| Nivel | Lenguaje | Ventaja |
+|-------|----------|---------|
+| **Básico** | Python | Fácil, sintaxis clara, sqlite3 incluido |
+| **Intermedio** | Java | POO completa, muy usado en FP, JDBC |
+| **Intermedio** | C# | Fuerte tipado, ecosistema .NET |
+| **Avanzado** | TypeScript/Node | JavaScript universal, npm |
+
+### Paso 2: Evalúa con criterios técnicos
+
+No basta con "que sea fácil". Evalúa cada tecnología contra estos criterios:
+
+| Criterio | Pregunta clave | Python | Java | C# | Node/TS |
+|----------|----------------|--------|------|-----|---------|
+| **Rendimiento** | ¿Es rápido para lo que necesito? | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ |
+| **Curva de aprendizaje** | ¿Cuánto tiempo tardo en ser productivo? | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
+| **Ecosistema** | ¿Tiene librerías para lo que necesito? | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| **Comunidad** | ¿Hay gente que resuelve mis dudas? | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| **Documentación** | ¿Es fácil encontrar docs oficiales? | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| **Mercado laboral** | ¿Lo piden las empresas? | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| **Deployment** | ¿Es fácil desplegar/producción? | ⭐⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ |
+| **Testing** | ¿Tiene herramientas de test integradas? | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+
+### Paso 3: Evalúa la base de datos
+
+| BD | Tipo | Ventaja | Inconveniente |
+|----|------|---------|---------------|
+| **SQLite** | Archivo local | Sin configuración, un solo archivo, SQL estándar | No soporta concurrencia alta |
+| **H2** | Archivo local (Java) | Embebida, buena para JVM | Menos compatible con MySQL |
+| **MySQL** | Servidor | Muy usado, gran comunidad | Requiere instalación de servidor |
+| **PostgreSQL** | Servidor | El más potente, extensiones | Más complejo de configurar |
+| **MongoDB** | NoSQL | Flexible, sin esquema fijo | No es relacional, más complejo |
+
+### Paso 4: Elige y justifica
+
+Documenta tus decisiones en un documento técnico:
+
+```markdown
+## Decisiones Técnicas
+
+### Lenguaje: Java 17
+- **Por qué**: Lo uso en Programación, conozco POO
+- **Rendimiento**: Suficiente para una app de consola
+- **Ecosistema**: JDBC para SQLite, JUnit para tests
+- **Comunidad**: Stack Overflow, documentación oficial amplia
+- **Alternativas descartadas**: Python (menos estricto), C# (menos experiencia)
+
+### Base de datos: SQLite
+- **Por qué**: Sin configuración, un solo archivo, SQL estándar
+- **Rendimiento**: Suficiente para miles de registros locales
+- **Despliegue**: El archivo .db se distribuye con la app
+- **Alternativas descartadas**: MySQL (requiere servidor), MongoDB (no es relacional)
+
+### Arquitectura: 3 capas
+- **Por qué**: Separación de responsabilidades, más mantenible
+- **Capas**: Main (presentación) → Service (lógica) → Repository (datos)
+```
+
+## 📊 El análisis: ¿cuándo es buena una elección?
+
+### Matriz de decisión rápida
+
+| Si necesitas... | Elige... | Por qué |
+|-----------------|----------|---------|
+| Aprender rápido | Python | Sintaxis simple, docs excelentes |
+| POO completa | Java | Ecosistema enterprise, testing integrado |
+| Desplegar fácil | Node + Vercel/Railway | Deploy en 1 click, sin servidor |
+| Máximo rendimiento | Java o C# | JVM/.NET optimizados |
+| Mercado laboral fuerte | Java o JavaScript | Los más demandados en España |
+| Máxima flexibilidad | TypeScript + Node | Frontend y backend con el mismo lenguaje |
+
+### Evaluación de ecosistema
+
+| Aspecto | Python | Java | Node/TS |
+|---------|--------|------|---------|
+| **Librerías BD** | sqlite3 (built-in), SQLAlchemy | JDBC, Hibernate | better-sqlite3, Knex, Prisma |
+| **Testing** | pytest, unittest | JUnit, Mockito | Jest, Vitest, Mocha |
+| **Linters** | flake8, pylint | Checkstyle, SpotBugs | ESLint, Prettier |
+| **Build tools** | pip, poetry | Maven, Gradle | npm, pnpm, yarn |
+| **IDE** | VS Code, PyCharm | IntelliJ, VS Code | VS Code, WebStorm |
+
+### Evaluación de comunidad y ayuda
+
+| Pregunta | Python | Java | Node/TS |
+|----------|--------|------|---------|
+| **¿Hay tutoriales en español?** | ✅ Muchos | ✅ Muchos | ✅ Muchos |
+| **¿Stack Overflow tiene respuestas?** | ✅ Miles | ✅ Miles | ✅ Miles |
+| **¿Hay cursos gratuitos?** | ✅ Muchos | ✅ Muchos | ✅ Muchos |
+| **¿La doc oficial es clara?** | ✅ Muy clara | ✅ Clara | ✅ Clara |
+| **¿Hay templates/starter kits?** | ✅ Sí | ✅ Sí | ✅ Sí |
+
+## ⭐ Sé el Código, my friend…
+
+### Estructura de carpetas (Java + SQLite)
+
+```
+mi-proyecto/
+├── src/
+│   ├── main/
+│   │   ├── Main.java                  # Punto de entrada, menú
+│   │   ├── model/
+│   │   │   └── Libro.java             # Entidad de dominio
+│   │   ├── repository/
+│   │   │   └── LibroRepository.java   # Acceso a datos (CRUD)
+│   │   ├── service/
+│   │   │   └── LibroService.java      # Lógica de negocio
+│   │   └── util/
+│   │       └── DatabaseUtil.java      # Conexión a BD
+│   └── resources/
+│       └── schema.sql                 # Script de creación de tablas
+├── data/
+│   └── coleccion.db                   # Base de datos SQLite
+├── README.md
+└── .gitignore
+```
+
+**¿Por qué esta estructura?** Cada carpeta tiene una responsabilidad:
+- `model/` — Los datos (qué guardas)
+- `repository/` — Cómo accedes a los datos (queries)
+- `service/` — La lógica (qué haces con los datos)
+- `main/` — La interfaz (cómo interactúa el usuario)
+
+<Aclaracion pregunta="¿Puedo hacer todo en un solo archivo?">
+  Puedes, pero no deberías. Un archivo con 500 líneas donde todo está
+  mezclado es imposible de mantener. Incluso en un proyecto pequeño,
+  separar en 2-3 archivos te ahorra dolores de cabeza.
+</Aclaracion>
+
+<Aclaracion pregunta="¿Y si cambio de opinión durante el proyecto?">
+  Puedes cambiar, pero con cabeza. Cambiar de lenguaje a mitad de proyecto
+  es como derribar una casa y volver a construirla. Cambiar de librería
+  de testing o de herramienta de linting es mucho más sencillo.
+  
+  **Regla**: Si el cambio te hace reescribir más del 30% del código, probablemente
+  no merece la pena. Si es menos del 10%, adelante.
+</Aclaracion>
+
+## 🎯 Mini-chequeo
+
+- [ ] ¿Has evaluado al menos 2 lenguajes con los mismos criterios?
+- [ ] ¿Has considerado rendimiento, curva de aprendizaje y ecosistema?
+- [ ] ¿Has elegido una BD adecuada a la complejidad?
+- [ ] ¿Tienes estructura de carpetas por capas?
+- [ ] ¿Has documentado por qué elegiste cada tecnología?
+- [ ] ¿Puedes explicar la arquitectura en 1 minuto?
+
+## ✅ Resumen en 3 frases
+
+1. Evalúa tecnologías con **criterios objetivos**: rendimiento, curva de aprendizaje, ecosistema, comunidad y mercado laboral.
+2. Elige la tecnología que **mejor conoces**, no la más potente — un proyecto bien hecho con Python gana a uno mal hecho con Java.
+3. **Documenta tus decisiones**: por qué elegiste cada cosa es tan importante como qué elegiste.

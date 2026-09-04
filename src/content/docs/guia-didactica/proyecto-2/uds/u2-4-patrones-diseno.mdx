@@ -1,0 +1,195 @@
+---
+title: "🏗️ UD 2.4: Patrones de Diseño"
+description: Patrones creacionales, estructurales y de comportamiento aplicados a web
+---
+
+import StoryIntro from '../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../components/Aclaracion.astro';
+
+<StoryIntro icono="🏗️" titulo="No reinventes la rueda">
+  Los patrones de diseño son soluciones reutilizables a problemas
+  comunes. No los uses por usar, pero conocerlos te hará escribir mejor código
+  y comunicarte mejor con otros desarrolladores.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un patrón de diseño es una solución probada a un problema que aparece una y otra vez en desarrollo.**
+
+No es código copiable. Es una **idea** que se adapta a cada proyecto.
+
+## 🃏 El algoritmo
+
+Los patrones se dividen en 3 familias:
+
+1. **Creacionales** — Cómo se crean los objetos (Singleton, Factory, Builder)
+2. **Estructurales** — Cómo se organizan los objetos (MVC, Adapter, Facade)
+3. **De comportamiento** — Cómo interactúan los objetos (Strategy, Observer, Command)
+
+## 👣 Paso a paso
+
+### Patrones Creacionales
+
+**Problema**: ¿Cómo creo objetos de forma flexible?
+
+#### Singleton
+
+**¿Qué es?** Solo permite UNA instancia de algo en toda la aplicación.
+
+```
+Solo UNA conexión a BD en toda la aplicación
+    │
+    ▼
+┌─────────────┐
+│  Database    │
+│  getInstance()│
+└─────────────┘
+```
+
+**Cuándo usarlo**: Conexión a BD, logger, configuración global.
+**Cuándo NO**: Cuando necesitas múltiples instancias.
+
+#### Factory Method
+
+**¿Qué es?** Crea diferentes tipos de objetos según una condición.
+
+```
+¿Qué tipo de notificación enviar?
+    │
+    ├── Email → EmailNotification
+    ├── SMS → SMSNotification
+    └── Push → PushNotification
+```
+
+**Cuándo usarlo**: Cuando el tipo de objeto depende de una condición.
+**Ejemplo real**: Crear diferentes tipos de export (CSV, PDF, Excel).
+
+#### Builder
+
+**¿Qué es?** Construye objetos complejos paso a paso.
+
+```
+User.builder()
+    .name("Ana")
+    .email("ana@mail.com")
+    .role("admin")
+    .build();
+```
+
+**Cuándo usarlo**: Objetos con muchos parámetros opcionales.
+
+### Patrones Estructurales
+
+**Problema**: ¿Cómo organizo los objetos?
+
+#### MVC (Model-View-Controller)
+
+El patrón más usado en web:
+
+```
+┌─────────┐     ┌───────────┐     ┌─────────┐
+│  VISTA   │◄────│ CONTROLADOR│────►│ MODELO  │
+│ (HTML)   │     │ (Lógica)   │     │ (Datos) │
+└─────────┘     └───────────┘     └─────────┘
+```
+
+**En tu proyecto**:
+- **Model**: Entidades, Repository
+- **View**: CLI, menú, salida
+- **Controller**: Service, lógica de negocio
+
+#### Adapter
+
+**¿Qué es?** Convierte una interfaz incompatible en otra compatible.
+
+**Ejemplo real**: Un servicio de email que solo acepta XML pero tu app usa JSON → creas un adaptador que convierta JSON a XML.
+
+#### Facade
+
+**¿Qué es?** Simplifica un sistema complejo detrás de una interfaz simple.
+
+**Ejemplo real**: Un `UserService` que internamente usa `AuthRepository`, `EmailService`, `Logger` pero el controlador solo llama a `userService.register()`.
+
+### Patrones de Comportamiento
+
+**Problema**: ¿Cómo interactúan los objetos?
+
+#### Strategy
+
+**¿Qué es?** Permite cambiar el algoritmo en tiempo de ejecución.
+
+**Ejemplo real**: Distintas estrategias de búsqueda (por nombre, por género, por autor) que se seleccionan dinámicamente.
+
+#### Observer
+
+**¿Qué es?** Cuando algo cambia, varios objetos necesitan enterarse.
+
+**Ejemplo real**: Cuando se crea un pedido, se notifica al almacén, se envía email al cliente y se actualiza el stock.
+
+## 📊 El análisis: ¿cuándo usar cada patrón?
+
+| Patrón | Cuándo usarlo | Ejemplo en tu proyecto |
+|--------|---------------|------------------------|
+| **Singleton** | Solo necesitas 1 instancia | Conexión a BD |
+| **Factory** | Tipo de objeto variable | Exportar a CSV/PDF/Excel |
+| **MVC** | Arquitectura web | Tu proyecto completo |
+| **Repository** | Acceso a datos | Ya lo usas en Proyecto 1 |
+| **Strategy** | Algoritmos intercambiables | Búsqueda por diferentes campos |
+| **Observer** | Notificaciones | Email al crear pedido |
+
+## ⭐ Sé el Código, my friend…
+
+### Repository Pattern (ya lo usas)
+
+```java
+// El patrón Repository ya lo conoces:
+public class LibroRepository {
+    public void save(Libro libro) { ... }
+    public List<Libro> findAll() { ... }
+    public Libro findById(int id) { ... }
+    public void delete(int id) { ... }
+}
+```
+
+**¿Por qué es un patrón?** Porque separa el acceso a datos de la lógica de negocio. El service no necesita saber si los datos están en SQLite, MySQL o un archivo.
+
+### Strategy Pattern
+
+```java
+// Estrategias de búsqueda
+public interface SearchStrategy {
+    List<Libro> search(String query);
+}
+
+public class SearchByTitle implements SearchStrategy {
+    public List<Libro> search(String query) {
+        // Buscar por título
+    }
+}
+
+public class SearchByAuthor implements SearchStrategy {
+    public List<Libro> search(String query) {
+        // Buscar por autor
+    }
+}
+```
+
+<Aclaracion pregunta="¿Necesito memorizar todos los patrones?">
+  No. Conoce los **más usados** (MVC, Repository, Singleton, Strategy)
+  y entiende **cuándo aplicarlos**. Los demás los conocerás con
+  la experiencia. No fuerces un patrón donde no hace falta.
+</Aclaracion>
+
+## 🎯 Mini-chequeo
+
+- [ ] ¿Conoces al menos 3 patrones creacionales?
+- [ ] ¿Entiendes MVC y lo aplicas en tu proyecto?
+- [ ] ¿Usas el patrón Repository para acceso a datos?
+- [ ] ¿Puedes explicar por qué usas cada patrón?
+- [ ] ¿Evitas patrones donde no hacen falta?
+
+## ✅ Resumen en 3 frases
+
+1. Los patrones **creacionales** (Singleton, Factory) controlan cómo se crean objetos.
+2. Los patrones **estructurales** (MVC, Repository) organizan el código en capas claras.
+3. No fuerces patrones: **úsalos donde resuelven un problema real**, no por usarlos.

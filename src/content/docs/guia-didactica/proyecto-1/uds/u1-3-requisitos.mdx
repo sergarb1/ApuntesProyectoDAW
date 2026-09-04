@@ -1,0 +1,141 @@
+---
+title: "📋 UD 1.3: Requisitos e Historias de Usuario"
+description: Captura de requisitos y redacción efectiva
+---
+
+import StoryIntro from '../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../components/Aclaracion.astro';
+
+<StoryIntro icono="📋" titulo="Antes de programar, hay que escribir qué necesitas">
+  Los requisitos son el puente entre "tengo una idea" y "sé qué tengo que
+  construir". Si no defines bien los requisitos, construirás algo que
+  nadie pidió.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los requisitos son una lista concreta de TODO lo que tu aplicación debe hacer, escrito para que cualquiera lo entienda.**
+
+No es "que sea bonito". Es "que tenga un botón de login que valide email y contraseña".
+
+## 🃏 El algoritmo
+
+El proceso para definir requisitos tiene 4 pasos:
+
+1. **Identifica qué debe hacer el sistema** (requisitos funcionales)
+2. **Identifica cómo debe funcionar** (requisitos no funcionales)
+3. **Escríbelo como historias de usuario** (desde la perspectiva del usuario)
+4. **Prioriza** (¿qué es imprescindible?)
+
+## 👣 Paso a paso
+
+### Paso 1: Requisitos Funcionales (RF)
+
+Son las **funcionalidades** que tiene tu aplicación. Se expresan como:
+
+| ID | Requisito | Prioridad |
+|----|-----------|-----------|
+| RF-01 | El usuario puede añadir un libro con título, autor y género | Mínimo |
+| RF-02 | El usuario puede buscar libros por título o autor | Mínimo |
+| RF-03 | El usuario puede filtrar por género | Deseable |
+| RF-04 | El usuario puede valorar libros del 1 al 5 | Futuro |
+
+**Formato**: `RF-XX` + verbo en infinitivo + descripción concreta.
+
+### Paso 2: Requisitos No Funcionales (RNF)
+
+Son **cómo** funciona el sistema (calidad, rendimiento, seguridad):
+
+| ID | Requisito | Criterio |
+|----|-----------|----------|
+| RNF-01 | Persistencia | Datos en SQLite, sobreviven al reinicio |
+| RNF-02 | Arquitectura | Separación en capas (presentación → lógica → datos) |
+| RNF-03 | Usabilidad | Menú intuitivo, mensajes de error claros |
+
+### Paso 3: Historias de Usuario
+
+Las historias de usuario expresan requisitos **desde la perspectiva del usuario**:
+
+#### Formato
+
+```
+Como [tipo de usuario],
+quiero [funcionalidad concreta],
+para [beneficio/razón].
+```
+
+#### Ejemplos
+
+| Historia | Criterio de aceptación |
+|----------|------------------------|
+| Como usuario, quiero añadir libros para organizar mi colección | Se guarda con título, autor y género. Se confirma con mensaje. |
+| Como usuario, quiero buscar por título para encontrar rápido | La búsqueda es case-insensitive. Muestra resultados parciales. |
+| Como usuario, quiero eliminar libros para mantener la colección limpia | Pide confirmación antes de borrar. Muestra mensaje de éxito. |
+
+**¿Qué es un criterio de aceptación?** Es **cómo sabes que la historia está terminada**.
+Si no puedes probar que se cumple, el criterio está mal escrito.
+
+### Paso 4: Priorización
+
+| Prioridad | Significado |
+|-----------|-------------|
+| **MVP** | Sin esto, la app no tiene sentido |
+| **Deseable** | Mejora la experiencia, se puede añadir después |
+| **Futuro** | Ideas para evolución, fuera de alcance actual |
+
+<Aclaracion pregunta="¿Cuántos requisitos necesito?">
+  Los justos para cubrir tu proyecto. Como mínimo:
+  - Las funcionalidades principales (CRUD de tu entidad principal)
+  - Búsqueda o filtrado
+  - Manejo de errores básicos
+
+  Mejor 10 requisitos **bien definidos** que 30 que no se entienden.
+</Aclaracion>
+
+## 📊 El análisis: ¿cuándo son buenos los requisitos?
+
+| Característica | Mal requisito | Buen requisito |
+|----------------|---------------|----------------|
+| **Concreto** | "Que sea rápido" | "Responde en menos de 2 segundos" |
+| **Probable** | "Que use IA" | "Que busque por título y autor" |
+| **Testable** | "Que sea fácil" | "Que un usuario nuevo lo use en 2 minutos" |
+| **Priorizado** | Todo es urgente | 3 son MVP, 2 son deseables, 1 es futuro |
+
+## ⭐ Sé el Código, my friend…
+
+```markdown
+# Ejemplo: Documento de requisitos para Gestor de Libros
+
+## Requisitos Funcionales
+
+| ID | Requisito | Prioridad |
+|----|-----------|-----------|
+| RF-01 | Añadir libro (título, autor, género, valoración) | MVP |
+| RF-02 | Listar todos los libros | MVP |
+| RF-03 | Buscar por título (case-insensitive) | MVP |
+| RF-04 | Eliminar libro con confirmación | MVP |
+| RF-05 | Filtrar por género | Deseable |
+| RF-06 | Exportar a CSV | Futuro |
+
+## Requisitos No Funcionales
+
+| ID | Requisito | Criterio |
+|----|-----------|----------|
+| RNF-01 | Persistencia | SQLite, datos en archivo coleccion.db |
+| RNF-02 | Arquitectura | 3 capas: Main → Service → Repository |
+| RNF-03 | Entrada | Validar que título y autor no estén vacíos |
+```
+
+## 🎯 Mini-chequeo
+
+- [ ] ¿Tienes al menos 4-5 requisitos funcionales con ID?
+- [ ] ¿Cada requisito usa un verbo en infinitivo?
+- [ ] ¿Tienes al menos 2-3 requisitos no funcionales?
+- [ ] ¿Cada historia de usuario tiene criterio de aceptación?
+- [ ] ¿Has priorizado en MVP, deseable y futuro?
+
+## ✅ Resumen en 3 frases
+
+1. Los requisitos funcionales describen **qué hace** tu app; los no funcionales describen **cómo funciona**.
+2. Las historias de usuario expresan requisitos como **"Como usuario, quiero X para Y"** con criterios de aceptación.
+3. Prioriza siempre: **MVP** (imprescindible), **deseable** (si hay tiempo), **futuro** (no ahora).

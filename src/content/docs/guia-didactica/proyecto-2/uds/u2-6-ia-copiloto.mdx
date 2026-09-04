@@ -1,0 +1,163 @@
+---
+title: "🤖 UD 2.6: IA como Copiloto"
+description: Uso de LLMs en desarrollo, prompt engineering, generación de testing y auditoría de seguridad
+---
+
+import StoryIntro from '../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../components/Aclaracion.astro';
+
+<StoryIntro icono="🤖" titulo="La IA no reemplaza al desarrollador, lo potencia">
+  Los LLMs como ChatGPT, Copilot o Claude son herramientas poderosas, pero
+  tienen límites. Saber usarlos bien multiplica tu productividad. Usarlos
+  mal te da código roto que no entiendes.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **La IA es un copiloto que te ayuda a volar más rápido, pero tú llevas los mandos.**
+
+No es "que haga todo". Es "que me ayude a hacerlo mejor y más rápido".
+
+## 🃏 El algoritmo
+
+El proceso para usar IA eficientemente tiene 4 pasos:
+
+1. **Entiende qué hace bien** — Explicar, generar boilerplate, refactorizar
+2. **Escribe buenos prompts** — Contexto + requisitos + restricciones
+3. **Revisa siempre** — Nunca aceptes código sin entenderlo
+4. **Usa como aprendizaje** — Pregunta "por qué" tanto como "cómo"
+
+## 👣 Paso a paso
+
+### Paso 1: Qué hace la IA BIEN
+
+| Tarea | Ejemplo de prompt |
+|-------|-------------------|
+| **Explicar código** | "Explica qué hace esta función en lenguaje sencillo" |
+| **Generar boilerplate** | "Genera un CRUD básico con Express y PostgreSQL" |
+| **Refactorizar** | "Refactoriza esta función para que sea más legible" |
+| **Tests** | "Genera tests unitarios para esta función" |
+| **Documentar** | "Genera el README de este proyecto" |
+| **Debugear** | "Este error sale al ejecutar [error]. ¿Por qué?" |
+
+### Paso 2: Qué hace la IA MAL
+
+| Tarea | Por qué |
+|-------|---------|
+| **Decisiones de arquitectura** | No conoce tu contexto completo |
+| **Lógica de negocio compleja** | Puede generar código que "parece" correcto pero no lo es |
+| **Seguridad** | Puede generar código vulnerable |
+| **Optimización** | A veces genera soluciones más complejas de lo necesario |
+
+### Paso 3: Prompt Engineering para desarrolladores
+
+#### Buen prompt
+
+```
+Quiero un endpoint REST con Express.js que:
+- Acepte GET /api/libros con query params: busqueda, genero
+- Conecte a PostgreSQL con pg
+- Devuelva JSON con { data: [], total: N }
+- Maneje errores con status codes adecuados
+- Incluya validación de parámetros
+
+Usa arquitectura por capas: routes → controller → service → repository
+```
+
+#### Mal prompt
+
+```
+Hazme una API de libros
+```
+
+#### Componentes de un buen prompt
+
+1. **Contexto**: qué tecnología usas, qué arquitectura
+2. **Requisitos**: qué debe hacer exactamente
+3. **Restricciones**: qué NO debe hacer
+4. **Formato**: cómo quieres la salida
+
+### Paso 4: Flujo de trabajo con IA
+
+```
+1. Comentario: // Función para buscar libros por título (case-insensitive)
+2. Copilot sugiere código
+3. Revisas: ¿maneja errores? ¿es eficiente? ¿es correcto?
+4. Ajustas lo que haga falta
+5. Añades tests
+```
+
+## 📊 El análisis: ¿cuándo usar IA?
+
+| Situación | ¿Usar IA? | Cómo |
+|-----------|-----------|------|
+| No sé cómo empezar | ✅ Sí | "Genera el esqueleto de un CRUD con..." |
+| No entiendo un error | ✅ Sí | "Este error significa [X]. ¿Por qué?" |
+| Necesito refactorizar | ✅ Sí | "Refactoriza esta función para..." |
+| Generar tests | ✅ Sí | "Genera tests para esta función" |
+| Decidir arquitectura | ⚠️ Con cuidado | Usa como punto de partida, decide tú |
+| Lógica de negocio compleja | ⚠️ Con cuidado | Genera ideas, implementa tú |
+| Seguridad | ⚠️ Con cuidado | Usa para revisar, no para generar |
+
+## ⭐ Sé el Código, my friend…
+
+### Copilot / Cursor / Windsurf
+
+#### Tips para usarlos bien
+
+- **Escribe comentarios descriptivos** antes del código
+- **Revisa siempre** lo que genera (no es perfecto)
+- **Usa sugerencias como punto de partida**, no como solución final
+- **Divide en pasos pequeños**: mejor una función a la vez
+
+### Testing con IA
+
+Puedes pedir a la IA que genere tests:
+
+```
+Genera tests unitarios para esta función de búsqueda:
+- Test con resultado encontrado
+- Test con resultado vacío
+- Test con búsqueda parcial
+- Test con caracteres especiales
+```
+
+**IMPORTANTE**: Siempre ejecuta los tests. La IA puede generar tests que pasan sin assertions reales.
+
+### Auditoría de seguridad con IA
+
+```
+Revisa este código en busca de vulnerabilidades:
+- SQL Injection
+- XSS
+- Autenticación déble
+- Exposición de datos sensibles
+Da recomendaciones concretas de mejora.
+```
+
+<Aclaracion pregunta="¿Es hacer trampa usar IA?">
+  No si la usas como **herramienta**. Es como usar Stack Overflow:
+  buscas ayuda, entiendes la solución, la adaptas a tu caso.
+  
+  Lo que SÍ es trampa:
+  - Copiar código sin entenderlo
+  - Dejar que la IA haga todo el proyecto
+  - Presentar como tuyo algo que no comprendes
+  
+  El tribunal preguntará **por qué** tomaste decisiones. Si no puedes
+  responderlo, el código no es tuyo.
+</Aclaracion>
+
+## 🎯 Mini-chequeo
+
+- [ ] ¿Usas IA para explicar, refactorizar y generar tests?
+- [ ] ¿Escribes prompts con contexto, requisitos y restricciones?
+- [ ] ¿Revisas siempre el código antes de aceptarlo?
+- [ ] ¿Puedes explicar cada línea de código que generaste?
+- [ ] ¿Usas IA como aprendizaje ("por qué") no solo como generador ("haz")?
+
+## ✅ Resumen en 3 frases
+
+1. La IA es un **copiloto**: te ayuda a explicar, refactorizar y generar tests, pero **tú llevas los mandos**.
+2. Los buenos prompts tienen **contexto + requisitos + restricciones** — "Hazme una API" es un mal prompt.
+3. **Revisa siempre** el código que genera: si no lo entiendes, no lo guardes — el tribunal preguntará por qué.

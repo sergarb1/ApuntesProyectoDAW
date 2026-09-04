@@ -1,0 +1,117 @@
+---
+title: "📋 UD 2.1: Requisitos e Historias de Usuario (Avanzado)"
+description: Refinamiento, criterios de aceptación y priorización
+---
+
+import StoryIntro from '../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../components/Aclaracion.astro';
+
+<StoryIntro icono="📋" titulo="De 'lo que quiero' a 'lo que necesito'">
+  En Proyecto 1 aprendiste a definir requisitos básicos. Ahora toca ir más
+  allá: refinar historias de usuario, definir criterios de aceptación
+  claros y priorizar con criterio profesional.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los requisitos avanzados convierten ideas vagas en instrucciones concretas que un equipo puede implementar sin preguntar.**
+
+No es "que tenga un login". Es "como usuario quiero registrarme con email y contraseña para acceder a funcionalidades privadas".
+
+## 🃏 El algoritmo
+
+El proceso de refinamiento tiene 4 pasos:
+
+1. **Escribe historias INVEST** — Independientes, Negotiables, Valiosas, Estimables, Small, Testable
+2. **Define criterios de aceptación** — Cómo sabes que está terminada
+3. **Estima en puntos** — Esfuerzo relativo, no horas
+4. **Prioriza con MoSCoW** — Must, Should, Could, Won't
+
+## 👣 Paso a paso
+
+### Paso 1: Historias INVEST
+
+Las buenas historias de usuario son:
+
+| Letra | Significado | Pregunta |
+|-------|-------------|----------|
+| **I** | Independiente | ¿Depende de otra historia? |
+| **N** | Negotiable | ¿Se puede simplificar sin perder valor? |
+| **V** | Valiosa | ¿Aporta algo al usuario? |
+| **E** | Estimable | ¿Puedo estimar cuánto tarda? |
+| **S** | Small | ¿Se puede hacer en un sprint? |
+| **T** | Testable | ¿Tiene criterios de aceptación claros? |
+
+### Paso 2: Criterios de aceptación
+
+Para cada historia, define **cómo sabes que está terminada**:
+
+| Historia | Criterio de aceptación |
+|----------|------------------------|
+| Como admin, quiero eliminar usuarios | - Se muestra confirmación antes de borrar |
+| | - El usuario se elimina de la BD |
+| | - Se muestra mensaje de éxito |
+| | - Si hay error, se muestra mensaje informativo |
+
+**Regla de oro**: Si no puedes probar que se cumple, el criterio está mal escrito.
+
+### Paso 3: Estimación en puntos
+
+| Puntos | Significado |
+|--------|-------------|
+| 1 | Trivial, menos de 1 hora |
+| 2 | Pequeño, un par de horas |
+| 3 | Medio, un día |
+| 5 | Grande, varios días |
+| 8 | Muy grande, necesita dividirse |
+| 13 | Enorme, dividir en subtareas |
+
+**No estimes en horas** (incertidumbre), estima en **puntos** (relativo).
+
+### Paso 4: Priorización MoSCoW
+
+| Prioridad | Significado | Ejemplo |
+|-----------|-------------|---------|
+| **Must have** | Sin esto, no funciona | Login, CRUD principal |
+| **Should have** | Importante pero no vital | Búsqueda avanzada, paginación |
+| **Could have** | Mejora la experiencia | Exportar CSV, estadísticas |
+| **Won't have** | Fuera de alcance este sprint | Chat en tiempo real, notificaciones push |
+
+## 📊 El análisis: ¿cuándo es buena una historia?
+
+| Característica | ❌ Historia mala | ✅ Historia buena |
+|----------------|-----------------|-------------------|
+| **Tamaño** | "Implementar todo el sistema de usuarios" | "Registrar un nuevo usuario" |
+| **Claridad** | "Que sea fácil de usar" | "Un usuario nuevo puede registrarse en 2 minutos" |
+| **Independiente** | "Depende de que esté el login" | "Se puede implementar sin dependencias" |
+| **Testable** | "Que funcione bien" | "Si introduzco datos válidos, se registra correctamente" |
+
+## ⭐ Sé el Código, my friend…
+
+### Backlog de producto
+
+Un backlog es la lista priorizada de todo lo que queda por hacer:
+
+| ID | Historia | Prioridad | Estimación | Estado |
+|----|----------|-----------|------------|--------|
+| H-01 | Login de usuario | Must | 3 puntos | En progreso |
+| H-02 | CRUD de productos | Must | 5 puntos | Pendiente |
+| H-03 | Búsqueda avanzada | Should | 2 puntos | Pendiente |
+| H-04 | Exportar a CSV | Could | 1 punto | Pendiente |
+| H-05 | Dashboard con gráficos | Could | 5 puntos | Pendiente |
+
+**¿Cómo se usa?** Arrancas el sprint con las historias "Must" y las que quepan según tu velocity.
+
+## 🎯 Mini-chequeo
+
+- [ ] ¿Cada historia es INVEST (independiente, estimable, small...)?
+- [ ] ¿Tienes criterios de aceptación para cada historia?
+- [ ] ¿Has estimado en puntos, no en horas?
+- [ ] ¿Has priorizado con MoSCoW?
+- [ ] ¿Tu backlog está en un tablero visible?
+
+## ✅ Resumen en 3 frases
+
+1. Las historias INVEST son **independientes, estimables y testables** — si no lo son, divídelas.
+2. Los criterios de aceptación dicen **cómo sabes que está terminada** — si no puedes probarlo, está mal escrito.
+3. Prioriza con MoSCoW: **Must** (imprescindible), **Should** (importante), **Could** (deseable), **Won't** (no ahora).

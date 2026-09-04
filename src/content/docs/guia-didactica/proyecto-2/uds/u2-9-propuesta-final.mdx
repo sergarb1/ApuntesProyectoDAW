@@ -1,0 +1,186 @@
+---
+title: "🚀 UD 2.9: Propuesta de Proyecto Final (DAW)"
+description: Ejemplos de proyectos Full-Stack para el proyecto final del ciclo
+---
+
+import StoryIntro from '../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../components/Aclaracion.astro';
+
+<StoryIntro icono="🚀" titulo="Tu proyecto de graduation">
+  El Proyecto Final es una aplicación web completa, desplegada y monitorizada.
+  Aquí tienes ideas para inspirarte — elige la que mejor se adapte a tus
+  intereses y al stack tecnológico que quieras demostrar.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Tu proyecto final es una app web Full-Stack que demuestra que sabes construir, desplegar y mantener un producto real.**
+
+No es solo un CRUD. Es **Frontend + Backend + BD + Testing + Despliegue + Monitorización**.
+
+## 🃏 El algoritmo
+
+El proceso para elegir tu proyecto tiene 5 pasos:
+
+1. **Elige un dominio** — ¿Qué problema resuelves?
+2. **Define el stack** — ¿Con qué tecnologías lo construyes?
+3. **Planifica features** — ¿Qué funcionalidades tendrá?
+4. **Estima el esfuerzo** — ¿Cuánto tardarás?
+5. **Prepara la defensa** — ¿Cómo lo presentas?
+
+## 👣 Paso a paso
+
+### Paso 1: Elige un dominio
+
+| Dominio | Ejemplo | Complejidad |
+|---------|---------|-------------|
+| **E-commerce** | Tienda online con carrito y pagos | ⭐⭐⭐ |
+| **Gestión de tareas** | Tablero tipo Trello | ⭐⭐ |
+| **Biblioteca** | Préstamos, reservas, catálogo | ⭐⭐⭐ |
+| **CRM** | Clientes, oportunidades, pipeline | ⭐⭐⭐ |
+| **Reservas** | Espacios, calendario, disponibilidad | ⭐⭐⭐ |
+| **Red social** | Perfiles, publicaciones, comentarios | ⭐⭐⭐⭐ |
+| **Inventario** | Productos, movimientos, alertas | ⭐⭐⭐ |
+| **Plataforma de cursos** | Cursos, lecciones, progreso | ⭐⭐⭐⭐ |
+
+### Paso 2: Define el stack
+
+#### Opción 1: JavaScript/TypeScript Full-Stack
+
+```
+Frontend:  Vue 3 + Tailwind CSS + Pinia
+Backend:   Node.js + Express o Fastify
+BD:        PostgreSQL o MySQL
+Testing:   Vitest + Supertest + Playwright
+DevOps:    Docker + GitHub Actions
+Monitor:   Prometheus + Grafana
+```
+
+#### Opción 2: Java Full-Stack
+
+```
+Frontend:  Angular o React + Tailwind CSS
+Backend:   Spring Boot (Java)
+BD:        PostgreSQL o MySQL
+Testing:   JUnit 5 + Mockito + TestContainers
+DevOps:    Docker + GitHub Actions
+Monitor:   Spring Actuator + Prometheus + Grafana
+```
+
+#### Opción 3: Python Full-Stack
+
+```
+Frontend:  React o Vue + Tailwind CSS
+Backend:   Django o FastAPI
+BD:        PostgreSQL o MySQL
+Testing:   pytest + httpx
+DevOps:    Docker + GitHub Actions
+Monitor:   structlog + Prometheus + Grafana
+```
+
+### Paso 3: Define features
+
+| Prioridad | Features |
+|-----------|----------|
+| **Must have** | Auth, CRUD principal, API REST, responsive |
+| **Should have** | Dashboard, paginación, búsqueda avanzada, tests |
+| **Could have** | Exportación, notificaciones, chat, gráficos |
+| **Won't have** | Pagos reales, IA, mobile app |
+
+### Paso 4: Estima el esfuerzo
+
+| Fase | Semana | Objetivo |
+|------|--------|----------|
+| Planificación | 1-2 | Backlog, estimación, arquitectura |
+| Backend | 3-5 | API completa, auth, validación |
+| Frontend | 6-8 | Componentes, páginas, integración |
+| Testing | 9 | Unitarios, integración, CI |
+| Despliegue | 10 | Docker, CI/CD, producción |
+| Monitorización | 11 | Logs, métricas, dashboard |
+| Pulido | 12-14 | Accesibilidad, doc, defensa |
+
+## 📊 El análisis: ¿cuándo es bueno tu proyecto?
+
+| Característica | ❌ Proyecto débil | ✅ Proyecto fuerte |
+|----------------|------------------|-------------------|
+| **Alcance** | 15 features a medias | 8 features completas |
+| **Arquitectura** | Todo junto | Separado en capas |
+| **Testing** | Sin tests | Unitarios + integración |
+| **Despliegue** | Solo en localhost | Desplegado con HTTPS |
+| **Monitorización** | Sin logs | Logs + métricas + dashboard |
+| **Documentación** | Sin README | README + doc técnica + manual |
+
+## ⭐ Sé el Código, my friend…
+
+### Estructura de carpetas
+
+```
+proyecto-final/
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── views/
+│   │   ├── router/
+│   │   ├── stores/
+│   │   └── services/
+│   └── package.json
+├── backend/
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── services/
+│   │   ├── repositories/
+│   │   ├── models/
+│   │   └── middleware/
+│   └── tests/
+├── database/
+│   ├── migrations/
+│   └── schema.sql
+├── docker/
+│   ├── Dockerfile.frontend
+│   ├── Dockerfile.backend
+│   └── docker-compose.yml
+├── .github/workflows/
+│   ├── ci.yml
+│   └── deploy.yml
+├── docs/
+│   ├── arquitectura.md
+│   └── api.md
+└── README.md
+```
+
+### Entregables
+
+| Entregable | Formato | Descripción |
+|------------|---------|-------------|
+| **Código fuente** | Repositorio Git | Frontend + Backend + Docker + CI/CD |
+| **App desplegada** | URL pública | Accesible con HTTPS |
+| **Documentación** | Markdown | Arquitectura, API, despliegue |
+| **Manual de usuario** | Markdown o PDF | Guía de uso con capturas |
+| **Tablero** | GitHub Projects | Backlog, sprints |
+| **Presentación** | Slides o video | 10-15 minutos, demo en vivo |
+
+<Aclaracion pregunta="¿Necesito saber todas las tecnologías antes de empezar?">
+  No. Empieza por lo que mejor conoces y aprende lo demás sobre la marcha. La idea no es
+  dominar 20 tecnologías, sino demostrar que puedes **aprender y aplicar** lo que el
+  proyecto necesite. Eso es lo que valoran en el mercado laboral.
+</Aclaracion>
+
+<Aclaracion pregunta="¿Puedo combinar ideas?">
+  Sí. Por ejemplo: "Gestor de tareas con panel de estadísticas y exportación a PDF"
+  combina tres ideas simples en un proyecto más completo. Lo importante es que tengas
+  **claro el alcance** antes de empezar y que no te quedes a medias.
+</Aclaracion>
+
+## 🎯 Mini-chequeo
+
+- [ ] ¿Tienes un dominio concreto y un stack definido?
+- [ ] ¿Tienes features priorizadas (Must/Should/Could/Won't)?
+- [ ] ¿Tienes un cronograma realista (12-14 semanas)?
+- [ ] ¿Tu proyecto incluye Frontend + Backend + BD + Testing + Despliegue?
+- [ ] ¿Tienes un plan para la defensa (presentación + demo)?
+
+## ✅ Resumen en 3 frases
+
+1. Elige un **dominio concreto** y un stack que conozcas — no intentes aprender todo de golpe.
+2. Tu proyecto debe cubrir **todo el ciclo**: Frontend, Backend, BD, Testing, Despliegue y Monitorización.
+3. **Mejor 8 features completas** que 15 a medias — la calidad siempre gana en la defensa.

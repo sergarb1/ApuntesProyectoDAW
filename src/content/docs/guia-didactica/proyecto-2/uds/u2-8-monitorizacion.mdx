@@ -1,0 +1,197 @@
+---
+title: "📊 UD 2.8: Operación, Monitorización y Observabilidad"
+description: Integración de stacks de monitorización (Prometheus, Grafana, Loki/Promtail), logs estructurados y alertas
+---
+
+import StoryIntro from '../../../../../components/StoryIntro.astro';
+import Aclaracion from '../../../../../components/Aclaracion.astro';
+
+<StoryIntro icono="📊" titulo="Lo que no se mide, no se puede mejorar">
+  Lanzar tu app a producción es solo el principio. Necesitas saber
+  si funciona bien, si hay errores y si los usuarios la están usando.
+  Eso es monitorización.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Monitorización es recoger datos de tu app en producción para saber qué pasa y actuar antes de que se rompa.**
+
+No es "mirar logs cuando falla". Es **tener dashboards** que te avisen.
+
+## 🃏 El algoritmo
+
+La observabilidad tiene 3 pilares:
+
+1. **Logs** — Qué ha pasado (eventos)
+2. **Métricas** — Cuánto (números)
+3. **Alertas** — Cuándo actuar (umbrales)
+
+## 👣 Paso a paso
+
+### Paso 1: Logs estructurados
+
+#### Qué son
+
+Logs en formato **JSON** en vez de texto plano, para que sean fáciles
+de buscar y analizar.
+
+#### Malo (texto plano)
+
+```
+2024-01-15 ERROR: No se pudo conectar a la base de datos
+```
+
+#### Bueno (JSON estructurado)
+
+```json
+{
+  "timestamp": "2024-01-15T10:30:00Z",
+  "level": "error",
+  "message": "Database connection failed",
+  "service": "api",
+  "error": {
+    "type": "ConnectionError",
+    "message": "ECONNREFUSED 127.0.0.1:5432"
+  },
+  "requestId": "abc-123"
+}
+```
+
+#### Por qué son mejores
+
+- Se pueden **filtrar** por nivel, servicio, fecha
+- Se pueden **agregar** automáticamente
+- Son **indexables** en herramientas de búsqueda
+- Permiten **alertas** basadas en patrones
+
+### Paso 2: Métricas con Prometheus
+
+#### Métricas clave a monitorizar
+
+| Métrica | Tipo | Qué mide |
+|---------|------|----------|
+| `http_requests_total` | Counter | Total de peticiones HTTP |
+| `http_request_duration_seconds` | Histogram | Latencia de respuestas |
+| `http_requests_by_status` | Counter | Peticiones por status (200, 404, 500) |
+| `process_cpu_seconds` | Gauge | Uso de CPU |
+| `process_resident_memory_bytes` | Gauge | Uso de memoria |
+
+### Paso 3: Dashboards con Grafana
+
+Crea dashboards con gráficos de las métricas:
+
+```
+┌─────────────────────────────────────────┐
+│  Request Rate          │  Error Rate    │
+│  ▁▃▅▇█▇▅▃▁           │  ▁▁▁▁█▁▁▁▁    │
+│  120 req/s             │  0.5% errors   │
+├─────────────────────────────────────────┤
+│  Latency (p95)         │  Memory        │
+│  ▁▁▃▅▇▇▅▃▁▁           │  ▃▃▃▃▃▃▃▃▃    │
+│  120ms                 │  256MB         │
+└─────────────────────────────────────────┘
+```
+
+### Paso 4: Alertas
+
+| Condición | Acción |
+|-----------|--------|
+| Error rate > 5% | Alerta: possible bug |
+| Latencia p95 > 2s | Alerta: rendimiento bajo |
+| CPU > 80% durante 5 min | Alerta: posible saturación |
+| Disponibilidad < 99% | Alerta: caída del servicio |
+
+## 📊 El análisis: ¿cuándo es buena tu monitorización?
+
+| Característica | ❌ Mala práctica | ✅ Buena práctica |
+|----------------|-----------------|-------------------|
+| **Logs** | `console.log("error")` | JSON con timestamp, level, message |
+| **Métricas** | "La app va rápida" | "Latencia p95: 120ms" |
+| **Dashboards** | No tengo | Al menos 1 con request rate y errors |
+| **Alertas** | Me entero cuando los usuarios se quejan | Alerta automática si error rate > 5% |
+
+## ⭐ Sé el Código, my friend…
+
+### Stack mínimo para Proyecto 2
+
+| Capa | Herramienta | Alternativa |
+|------|-------------|-------------|
+| **Logs** | Winston/Pino (Node) o structlog (Python) | Console.log con formato JSON |
+| **Métricas** | prom-client (Node) o prometheus_client (Python) | Métricas básicas en endpoint |
+| **Visualización** | Grafana Cloud (free tier) | Dashboard en la app |
+| **Alertas** | Grafana Alerting | Email manual |
+
+### Snippet: Logs JSON con Winston (Node.js)
+
+```javascript
+const winston = require('winston');
+
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' })
+  ]
+});
+
+// Uso
+logger.info('User registered', { userId: 123, email: 'ana@mail.com' });
+logger.error('Database connection failed', { error: 'ECONNREFUSED' });
+```
+
+### Snippet: Métricas con prom-client (Node.js)
+
+```javascript
+const client = require('prom-client');
+
+// Crear métricas
+const httpRequestDuration = new client.Histogram({
+  name: 'http_request_duration_seconds',
+  help: 'Duration of HTTP requests in seconds',
+  labelNames: ['method', 'route', 'status_code'],
+  buckets: [0.01, 0.05, 0.1, 0.5, 1, 5]
+});
+
+// Middleware para medir peticiones
+app.use((req, res, next) => {
+  const end = httpRequestDuration.startTimer();
+  res.on('finish', () => {
+    end({ method: req.method, route: req.route?.path || req.path, status_code: res.statusCode });
+  });
+  next();
+});
+
+// Endpoint /metrics para Prometheus
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', client.register.contentType);
+  res.end(await client.register.metrics());
+});
+```
+
+<Aclaracion pregunta="¿Es obligatorio todo esto para Proyecto 2?">
+  No todo. Lo mínimo recomendado:
+  - **Logs estructurados** en la aplicación
+  - **Un dashboard básico** que muestre que la app funciona
+  - **Al menos 1 métrica** de negocio o rendimiento
+  
+  Si tu plataforma ya ofrece métricas (Render, Railway), úsalas.
+  Lo importante es que sepas **qué es** y **por qué importa**.
+</Aclaracion>
+
+## 🎯 Mini-chequeo
+
+- [ ] ¿Tus logs son JSON estructurados (no texto plano)?
+- [ ] ¿Tienes un endpoint /metrics funcionando?
+- [ ] ¿Tienes al menos 1 dashboard en Grafana?
+- [ ] ¿Tienes alertas configuradas para errores críticos?
+- [ ] ¿Puedes explicar la diferencia entre logs, métricas y traces?
+
+## ✅ Resumen en 3 frases
+
+1. Los **logs estructurados** (JSON) te permiten buscar y filtrar errores eficientemente.
+2. Las **métricas** (Prometheus) te dan números objetivos: latencia, throughput, errores.
+3. Los **dashboards** (Grafana) visualizan todo: si tu app funciona, lo ves en un gráfico.
