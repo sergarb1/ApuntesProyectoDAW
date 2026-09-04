@@ -1,0 +1,220 @@
+---
+title: "02 — README"
+description: "La puerta de entrada a tu proyecto: qué incluir y cómo escribirlo"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📚 **UD 1.6 · Documentación** → 02 · README
+
+<StoryIntro icono="📖" titulo="El README es lo primero que ven — y lo último que escriben">
+  El archivo `README.md` es la **puerta de entrada** a tu proyecto. Es lo
+  primero que ve el tribunal, lo primero que ve un compañero y lo primero
+  que vería un reclutador. Un README malo da mala impresión aunque el
+  código sea excelente.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un buen README responde en 30 segundos: qué es, cómo se instala y cómo se usa.**
+
+---
+
+## Estructura de un README completo
+
+```markdown
+# Nombre del Proyecto
+
+Breve descripción de una línea.
+
+## 🚀 Características
+- Funcionalidad 1
+- Funcionalidad 2
+- Funcionalidad 3
+
+## 🛠️ Tecnologías
+- Vue 3
+- Tailwind CSS
+- Vite
+
+## 📦 Instalación
+1. Clonar el repositorio
+2. Instalar dependencias
+3. Ejecutar en desarrollo
+
+## 🎮 Uso
+Cómo usar la aplicación (capturas, pasos).
+
+## 📁 Estructura del proyecto
+Árbol de carpetas.
+
+## 👥 Equipo
+Nombre y rol de cada miembro.
+
+## 📄 Licencia
+Tipo de licencia.
+```
+
+---
+
+## Secciones detalladas
+
+### 1. Nombre y descripción
+
+```markdown
+# GestorTareas
+
+Aplicación web para gestionar tareas de clase
+con sistema de prioridades y recordatorios.
+```
+
+**Regla**: Si en 2 líneas no se entiende qué hace, la descripción es mala.
+
+### 2. Características
+
+Lista con viñetas de las funcionalidades principales:
+
+```markdown
+## Características
+- CRUD de tareas con prioridades (alta, media, baja)
+- Filtro por estado y fecha
+- Vista de calendario
+- Exportación a PDF
+- Modo oscuro
+```
+
+### 3. Tecnologías
+
+```markdown
+## Tecnologías
+- **Frontend**: Vue 3, Composition API
+- **Estilos**: Tailwind CSS
+- **Build**: Vite
+- **Despliegue**: GitHub Pages
+```
+
+### 4. Instalación
+
+```markdown
+## Instalación
+
+1. Clonar el repositorio
+   ```bash
+   git clone https://github.com/usuario/proyecto.git
+   ```
+
+2. Instalar dependencias
+   ```bash
+   npm install
+   ```
+
+3. Ejecutar en desarrollo
+   ```bash
+   npm run dev
+   ```
+```
+
+### 5. Uso
+
+```markdown
+## Uso
+
+1. Abrir la aplicación en el navegador
+2. Añadir una tarea con el botón "+"
+3. Asignar prioridad y fecha límite
+4. Marcar como completada cuando termines
+```
+
+Incluye capturas de pantalla si es posible.
+
+### 6. Estructura del proyecto
+
+```markdown
+## Estructura del proyecto
+
+src/
+├── components/    # Componentes reutilizables
+├── views/         # Vistas principales
+├── stores/        # Estado global
+├── utils/         # Funciones auxiliares
+└── assets/        # Imágenes y estilos
+```
+
+---
+
+## Comparativa: README bueno vs malo
+
+<Comparativa
+  dialogos={[
+    { quien: "README malo", texto: "Nombre del proyecto. Hecho con Vue. Para instalar npm install. El profesor lo entenderá." },
+    { quien: "README bueno", texto: "Nombre + descripción clara. 5 características. 3 tecnologías. 4 pasos de instalación con código. 3 capturas. Estructura de carpetas. Equipo. Licencia." },
+  ]}
+  titulo="El tribunal nota la diferencia al instante"
+/>
+
+---
+
+## Aclaración: "¿Y si mi proyecto es sencillo?"
+
+<Aclaracion icono="😅" pregunta="¿Necesito un README largo si mi app es sencilla?">
+No. Un proyecto sencillo puede tener un README de 20 líneas. Lo
+importante es que tenga:
+
+- Nombre y qué hace (2 líneas)
+- Cómo se instala (3 pasos)
+- Cómo se usa (1 párrafo o captura)
+
+Un README corto y claro es mejor que uno largo y confuso.
+</Aclaracion>
+
+---
+
+## Los 5 errores del README
+
+1. **Sin descripción** — Solo pone el nombre. ¿Qué hace?
+2. **Sin instrucciones de instalación** — "npm install" no es suficiente
+3. **Sin capturas** — El tribunal quiere ver la app, no imaginarla
+4. **Sin equipo** — ¿Quién hizo qué?
+5. **Sin licencia** — ¿Es open source? ¿Se puede copiar?
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las secciones mínimas de un README?</summary>
+
+**Respuesta**: Nombre + descripción, instrucciones de instalación, cómo se usa y quiénes lo hicieron.
+
+**Para qué sirve**: Para que el tribunal entienda tu proyecto en menos de 1 minuto.
+</details>
+
+<details>
+<summary>¿Qué formatos puede tener un README?</summary>
+
+**Respuesta**: Markdown (`.md`), que GitHub renderiza automáticamente. También puede ser `.rst` (reStructuredText), pero Markdown es más común.
+
+**Para qué sirve**: Para elegir el formato correcto según la plataforma.
+</details>
+
+<details>
+<summary>¿Cuánto debe medir un README?</summary>
+
+**Respuesta**: Tanto como necesite. Ni más (relleno) ni menos (vacío). Un proyecto sencillo: 30-50 líneas. Un proyecto complejo: 100-200 líneas.
+
+**Para qué sirve**: Para no escribir por escribir.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El README es la **puerta de entrada** a tu proyecto: el tribunal lo lee primero.
+2. Debe responder en 30 segundos: **qué es, cómo se instala y cómo se usa**.
+3. Incluye siempre: descripción, tecnologías, instalación, uso, estructura, equipo y licencia.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-6-documentacion) · Anterior: [01 — ¿Por qué documentar?](./01-por-que-documentar) · Siguiente: [03 — Doc técnica](./03-doc-tecnica)

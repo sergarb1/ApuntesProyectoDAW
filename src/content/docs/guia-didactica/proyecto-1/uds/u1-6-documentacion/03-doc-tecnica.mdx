@@ -1,0 +1,206 @@
+---
+title: "03 — Documentación técnica"
+description: "Arquitectura, setup, API y cómo documentar lo técnico de tu proyecto"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📚 **UD 1.6 · Documentación** → 03 · Doc técnica
+
+<StoryIntro icono="🏗️" titulo="Lo técnico se entiende mejor con un mapa">
+  Tu proyecto tiene componentes, rutas, estados, servicios, dependencias...
+  Sin documentación técnica, todo eso vive solo en la cabeza del que lo
+  programó. La doc técnica es el **plano de tu proyecto**: cómo está
+  construido y cómo funciona por dentro.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **La documentación técnica explica CÓMO está hecho tu proyecto, no QUÉ hace.**
+
+---
+
+## Tipos de documentación técnica
+
+### 1. Arquitectura del proyecto
+
+Describe cómo se organizan las partes:
+
+```
+┌─────────────────────────────────────┐
+│            Interfaz (UI)            │
+│    Componentes Vue + Tailwind       │
+├─────────────────────────────────────┤
+│          Estado (Store)             │
+│     Pinia / localStorage            │
+├─────────────────────────────────────┤
+│          Lógica (Logic)             │
+│   Composables / Funciones puras     │
+├─────────────────────────────────────┤
+│          Datos (Data)               │
+│    JSON / IndexedDB / API           │
+└─────────────────────────────────────┘
+```
+
+### 2. Guía de setup
+
+Cómo levantar el proyecto desde cero:
+
+```markdown
+## Requisitos previos
+- Node.js 18+
+- npm o pnpm
+
+## Instalación
+1. Clonar: `git clone <url>`
+2. Instalar: `npm install`
+3. Variables de entorno: copiar `.env.example` a `.env`
+4. Ejecutar: `npm run dev`
+```
+
+### 3. Documentación de API (si aplica)
+
+Si tu app consume una API externa o expone endpoints:
+
+```markdown
+## Endpoints
+
+### GET /api/tareas
+Devuelve todas las tareas del usuario.
+
+**Parámetros:**
+- `page` (número, opcional): Página a mostrar
+- `limit` (número, opcional): Resultados por página (máx. 50)
+
+**Respuesta:**
+{
+  "data": [...],
+  "total": 42,
+  "page": 1
+}
+```
+
+### 4. Decisiones de diseño
+
+Por qué tomaste ciertas decisiones:
+
+```markdown
+## Decisiones de diseño
+
+### ¿Por qué Vue y no React?
+- Equipo conocía mejor Vue
+- Comunidad en español más activa
+- Mejor documentación oficial en castellano
+
+### ¿Por qué Tailwind y no CSS puro?
+- Desarrollo más rápido
+- Consistencia visual automática
+- Soporte oscuro incluido
+```
+
+---
+
+## Comparativa: doc técnica vs doc de usuario
+
+<Comparativa
+  dialogos={[
+    { quien: "Doc técnica", texto: "Para el desarrollador: arquitectura, dependencias, estructura de código, APIs, decisiones de diseño." },
+    { quien: "Doc de usuario", texto: "Para el usuario final: qué hace la app, cómo usarla, pasos con capturas, soluciones a problemas comunes." },
+  ]}
+  titulo="Mismo proyecto, dos audiencias diferentes"
+/>
+
+---
+
+## Aclaración: "Mi proyecto es sencillo, ¿necesito doc técnica?"
+
+<Aclaracion icono="🤔" pregunta="¿Y si mi app solo tiene 3 pantallas?">
+Incluso un proyecto sencillo tiene decisiones técnicas:
+
+- ¿Por qué esa estructura de carpetas?
+- ¿Cómo funciona el estado?
+- ¿Qué librerías usas y por qué?
+
+Una página de doc técnica de 30-40 líneas es suficiente. Lo importante es
+que alguien pueda entender la estructura sin leer todo el código.
+</Aclaracion>
+
+---
+
+## Plantilla de doc técnica
+
+```markdown
+# Documentación Técnica — [Nombre del Proyecto]
+
+## Arquitectura
+[Diagrama o descripción de capas]
+
+## Tecnologías
+| Tecnología | Versión | Propósito |
+|-----------|---------|-----------|
+| Vue | 3.x | Framework UI |
+| Tailwind | 3.x | Estilos |
+| Vite | 5.x | Build tool |
+
+## Estructura del proyecto
+[Árbol de carpetas con descripción]
+
+## Instalación
+[Pasos detallados]
+
+## Variables de entorno
+| Variable | Descripción | Ejemplo |
+|----------|-------------|---------|
+| VITE_API_URL | URL del backend | http://localhost:3000 |
+
+## Decisiones de diseño
+[Por qué cada tecnología y patrón]
+
+## Dependencias principales
+| Paquete | Uso |
+|---------|-----|
+| axios | Peticiones HTTP |
+| pinia | Estado global |
+```
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son los 4 tipos de documentación técnica?</summary>
+
+**Respuesta**: Arquitectura del proyecto, guía de setup, documentación de API y decisiones de diseño.
+
+**Para qué sirve**: Para cubrir todos los aspectos técnicos que otro desarrollador necesitaría.
+</details>
+
+<details>
+<summary>¿Cuál es la diferencia entre doc técnica y doc de usuario?</summary>
+
+**Respuesta**: La doc técnica explica CÓMO está hecho (para desarrolladores). La doc de usuario explica QUÉ hace y cómo usarla (para usuarios finales).
+
+**Para qué sirve**: Para no mezclar audiencias ni escribir para todos a la vez.
+</details>
+
+<details>
+<summary>¿Qué es una decisión de diseño?</summary>
+
+**Respuesta**: Una explicación de por qué elegiste una tecnología, patrón o enfoque concreto en vez de otra opción.
+
+**Para qué sirve**: Para que el tribunal vea que razonas, no solo copias tutoriales.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. La documentación técnica explica **cómo está construido** tu proyecto: arquitectura, setup, APIs y decisiones.
+2. Incluso proyectos sencillos necesitan doc técnica: **una página con la estructura y las razones** es suficiente.
+3. Usa plantillas y escribe para un **desarrollador que no conoce tu proyecto** — no para ti mismo.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-6-documentacion) · Anterior: [02 — README](./02-readme) · Siguiente: [04 — Manual de usuario](./04-manual-usuario)

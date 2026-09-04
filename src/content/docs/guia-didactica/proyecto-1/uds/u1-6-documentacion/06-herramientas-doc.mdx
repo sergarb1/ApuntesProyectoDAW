@@ -1,0 +1,148 @@
+---
+title: "06 — Herramientas de documentación"
+description: "Markdown, GitBook, Notion, draw.io y otras herramientas para documentar"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📚 **UD 1.6 · Documentación** → 06 · Herramientas doc
+
+<StoryIntro icono="🛠️" titulo="La herramienta correcta para cada tipo de doc">
+  No toda la documentación se escribe igual. Un README va en Markdown, un
+  diagrama va en draw.io, una wiki colaborativa va en Notion. Elegir la
+  herramienta correcta te ahorra tiempo y mejora el resultado.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **No existe una herramienta perfecta: usa la adecuada para cada tipo de documentación.**
+
+---
+
+## Mapa de herramientas
+
+| Herramienta | Tipo | Ideal para | Coste |
+|------------|------|-----------|-------|
+| **Markdown** | Texto plano | READMEs, doc técnica, notas | Gratis |
+| **GitHub Wiki** | Wiki versionada | Wiki del proyecto | Gratis |
+| **Notion** | Wiki colaborativa | Equipo, notas, databases | Freemium |
+| **GitBook** | Doc técnica | Documentación de API, guías | Freemium |
+| **draw.io** | Diagramas | Arquitectura, flujos, UML | Gratis |
+| **Excalidraw** | Bocetos | Wireframes, diagramas rápidos | Gratis |
+| **VitePress** | S estática | Doc técnica generada desde MD | Gratis |
+| **Docusaurus** | S estática | Doc de Facebook, open source | Gratis |
+
+---
+
+## Detalle de cada herramienta
+
+### Markdown (`.md`)
+
+El estándar. Funciona en GitHub, VS Code, Obsidian y casi cualquier editor.
+
+**Ventajas**: Simple, universal, versionable con Git.
+**Inconvenientes**: Sin formato visual, sin colaboración en tiempo real.
+
+### GitHub Wiki
+
+Wiki integrada en cada repositorio de GitHub.
+
+**Ventajas**: Integrada con el repo, Markdown, gratis.
+**Inconvenientes**: Fuera del repo (no versionada con el código), menos conocida.
+
+### Notion
+
+Wiki colaborativa con bases de datos, tablas y galerías.
+
+**Ventajas**: Muy visual, colaborativa, múltiples vistas.
+**Inconvenientes**: No versionable con Git, depende de internet, coste en equipo.
+
+### GitBook
+
+Plataforma de documentación técnica con Markdown y UI bonita.
+
+**Ventajas**: Resultado profesional, búsqueda, versionado.
+**Inconvenientes**: Coste en planes avanzados, menos flexible.
+
+### draw.io (diagrams.net)
+
+Editor de diagramas online y de escritorio.
+
+**Ventajas**: Gratis, muchas plantillas, exporta PNG/SVG/PDF.
+**Inconvenientes**: Curva de aprendizaje, diagramas pueden quedar pesados.
+
+### Excalidraw
+
+Bocetos y diagramas estilo "dibujado a mano".
+
+**Ventajas**: Rápido, intuitivo, estilo informal.
+**Inconvenientes**: No es profesional, limitado para diagramas complejos.
+
+---
+
+## Comparativa: Notion vs GitHub Wiki
+
+<Comparativa
+  dialogos={[
+    { quien: "Notion", texto: "Visual, colaborativo, bases de datos, múltiples vistas. Pero no se versiona con Git y depende de internet." },
+    { quien: "GitHub Wiki", texto: "Integrada con el repo, Markdown, gratis, versionable. Pero menos visual y menos conocida." },
+  ]}
+  titulo="Depende de tu necesidad"
+/>
+
+---
+
+## Aclaracion: "¿Cuál uso para mi proyecto?"
+
+<Aclaracion icono="🤔" pregunta="¿Qué herramienta elijo?">
+Para un proyecto intermodular, la combinación recomendada es:
+
+- **Markdown** para README y doc técnica (en el repo)
+- **draw.io** para diagramas de arquitectura
+- **Notion** si el equipo necesita una wiki colaborativa
+- **GitHub Pages** si quieres publicar la doc como web
+
+No necesitas todas. Elige las que se adapten a tu equipo y proyecto.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué herramienta es la mejor para diagramas de arquitectura?</summary>
+
+**Respuesta**: draw.io (diagrams.net). Es gratis, tiene plantillas de UML y flujos, y exporta en múltiples formatos.
+
+**Para qué sirve**: Para crear diagramas claros de la arquitectura de tu proyecto.
+</details>
+
+<details>
+<summary>¿Qué ventaja tiene Markdown sobre Word?</summary>
+
+**Respuesta**: Markdown es texto plano, se versiona con Git, se renderiza en web y es el estándar para documentación técnica.
+
+**Para qué sirve**: Para elegir el formato correcto para tu documentación.
+</details>
+
+<details>
+<summary>¿Cuándo usar Notion vs GitHub Wiki?</summary>
+
+**Respuesta**: Notion para equipos que necesitan colaboración visual y bases de datos. GitHub Wiki para documentación técnica versionada con el código.
+
+**Para qué sirve**: Para no usar la herramienta equivocada.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Cada tipo de documentación necesita una herramienta: **Markdown para texto, draw.io para diagramas, Notion para wikis**.
+2. Para un proyecto intermodular, la combinación básica es **Markdown + draw.io + GitHub**.
+3. No uses Word para documentación técnica: **Markdown es el estándar** de la industria.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-6-documentacion) · Anterior: [05 — Markdown](./05-markdown) · Siguiente: [07 — Errores de documentación](./07-errores-doc)

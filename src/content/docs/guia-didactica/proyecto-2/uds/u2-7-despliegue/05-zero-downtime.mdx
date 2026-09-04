@@ -1,0 +1,180 @@
+---
+title: "05 — Zero-downtime deployments"
+description: "Cómo desplegar sin que la aplicación deje de estar disponible"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** ☁️ **UD 2.7 · Despliegue** → 05 · Zero-downtime deployments
+
+<StoryIntro icono="⚡" titulo="El despliegue perfecto es el que el usuario no nota">
+  Imagina que estás usando una web y, de repente, aparece un error 502
+  o la página no carga. Eso es downtime: el tiempo en que tu aplicación
+  no está disponible. Zero-downtime significa que el usuario nunca
+  ve ese error, incluso durante un despliegue.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Zero-downtime es desplegar la nueva versión sin que el usuario note ningún corte de servicio.**
+
+---
+
+## Por qué hay downtime
+
+Durante un despliegue tradicional:
+
+```
+1. Paras el servidor antiguo        → ❌ La app no responde
+2. Subes el código nuevo             → ❌ La app no responde
+3. Instalas dependencias             → ❌ La app no responde
+4. Arrancas el servidor nuevo        → ✅ La app vuelve
+```
+
+El usuario ve un error durante los pasos 1-3. Con zero-downtime, **nunca** deja de responder.
+
+---
+
+## Estrategias de zero-downtime
+
+### 1. Rolling update (actualización gradual)
+
+El servidor ejecuta la versión antigua y la nueva simultáneamente:
+
+```
+Estado 1: [v1] [v1] [v1] [v1]    → Todo tráfico a v1
+Estado 2: [v1] [v1] [v1] [v2]    → 75% v1, 25% v2
+Estado 3: [v1] [v1] [v2] [v2]    → 50% v1, 50% v2
+Estado 4: [v1] [v2] [v2] [v2]    → 25% v1, 75% v2
+Estado 5: [v2] [v2] [v2] [v2]    → Todo tráfico a v2
+```
+
+**Ventaja**: Si la v2 tiene un bug, solo afecta a una parte del tráfico.
+
+### 2. Blue-green deployment (despliegue azul-verde)
+
+Tienes dos entornos idénticos: uno activo (azul) y uno en espera (verde):
+
+```
+1. Verde tiene la v2 lista
+2. Cambias el tráfico de azul a verde
+3. Si hay problemas, vuelves a azul
+4. Si todo va bien, eliminas azul
+```
+
+**Ventaja**: Rollback instantáneo si algo falla.
+
+### 3. Canary deployment (despliegue canario)
+
+Envías un porcentaje pequeño de tráfico a la nueva versión:
+
+```
+1. 5% del tráfico va a v2 (canario)
+2. Si no hay errores, subes a 25%
+3. Si no hay errores, subes a 100%
+4. Si hay errores, vuelves a v1
+```
+
+**Ventaja**: Detectas problemas antes de afectar a todos los usuarios.
+
+---
+
+## Cómo funciona en la práctica
+
+### Con Docker + nginx
+
+```nginx
+upstream backend {
+    server app-v1:3000;
+    server app-v2:3000;
+}
+
+server {
+    listen 80;
+    
+    location / {
+        proxy_pass http://backend;
+    }
+}
+```
+
+nginx distribuye el tráfico entre v1 y v2 automáticamente.
+
+### Con Vercel/Netlify
+
+Estas plataformas hacen zero-downtime automáticamente:
+1. Despliegan la nueva versión en un entorno aislado
+2. Verifican que funciona
+3. Cambian el tráfico a la nueva versión
+4. Eliminan la versión antigua
+
+### Con Kubernetes
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1        # Máximo 1 pod adicional
+      maxUnavailable: 0  # Nunca menos pods de los deseados
+```
+
+---
+
+## ¿Cuándo necesitas zero-downtime?
+
+| Situación | ¿Necesario? | Prioridad |
+|-----------|-------------|-----------|
+| Proyecto de clase | No | Baja |
+| Portfolio personal | No | Baja |
+| App con pocos usuarios | Recomendado | Media |
+| App con muchos usuarios | Obligatorio | Alta |
+| E-commerce / pagos | Obligatorio | Crítica |
+
+---
+
+## Aclaración: "¿Mi proyecto necesita zero-downtime?"
+
+<Aclaracion icono="🤔" pregunta="¿Para un proyecto de clase necesito zero-downtime?">
+Para un proyecto académico o portfolio, probablemente no. El tribunal no va a estar usando tu app mientras la despliegas.
+
+Pero si quieres **demostrar conocimientos avanzados**, puedes configurar un despliegue con zero-downtime usando Vercel o Netlify (lo hacen automáticamente). Eso te diferencia de otros alumnos.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué es zero-downtime?</summary>
+
+Respuesta: Es desplegar la nueva versión de una aplicación sin que el usuario note ningún corte de servicio. La app nunca deja de responder.
+</details>
+
+<details>
+<summary>¿Cuáles son las 3 estrategias principales?</summary>
+
+Respuesta: Rolling update (gradual), Blue-green (dos entornos) y Canary (porcentaje pequeño de tráfico).
+</details>
+
+<details>
+<summary>¿Qué plataformas hacen zero-downtime automáticamente?</summary>
+
+Respuesta: Vercel y Netlify. Despliegan la nueva versión, verifican que funciona y cambian el tráfico sin intervención manual.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Zero-downtime significa que **el usuario nunca ve errores** durante un despliegue.
+2. Las 3 estrategias son **rolling update** (gradual), **blue-green** (dos entornos) y **canary** (porcentaje de tráfico).
+3. Plataformas como **Vercel y Netlify** lo hacen automáticamente; para más control usa Docker + nginx.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-7-despliegue) · Anterior: [04 — Plataformas](./04-plataformas) · Siguiente: [06 — Checklist](./06-checklist-despliegue)

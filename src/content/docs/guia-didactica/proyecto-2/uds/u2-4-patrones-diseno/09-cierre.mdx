@@ -1,0 +1,142 @@
+---
+title: "09 — Cierre"
+description: "Mini-chequeo, vocabulario y resumen de la unidad de Patrones de Diseño"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🏗️ **UD 2.4 · Patrones de Diseño** → 09 · Cierre
+
+<StoryIntro icono="🎉" titulo="Los patrones son herramientas, no religión">
+  Has recorrido toda la unidad: desde qué son los patrones hasta cuándo
+  usar cada uno, pasando por creacionales, estructurales, comportamiento,
+  MVC y Repository. Ahora toca **verificar que lo entiendes** y
+  **aplicarlo a tu proyecto**.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los patrones resuelven problemas. Si no tienes el problema, no necesitas el patrón. El mejor código es el que no tiene complejidad innecesaria.**
+
+Usa patrones cuando los necesites, no para impresionar.
+
+---
+
+## 🎯 Mini-chequeo final
+
+### Preguntas de comprensión
+
+<details>
+<summary>¿Cuáles son los 3 grupos de patrones?</summary>
+
+**Creacionales** (cómo se crean: Singleton, Factory, Builder), **Estructurales** (cómo se combinan: Adapter, Facade, Composite), **Comportamiento** (cómo interactúan: Observer, Strategy, Command).
+</details>
+
+<details>
+<summary>¿Qué hace Singleton?</summary>
+
+Asegura que solo **exista una instancia** de una clase. Útil para configuración global, logger o cache.
+</details>
+
+<details>
+<summary>¿Qué diferencia hay entre Factory y Builder?</summary>
+
+**Factory** crea diferentes tipos de objetos (elige entre tipos). **Builder** construye un objeto complejo paso a paso (con parámetros opcionales).
+</details>
+
+<details>
+<summary>¿Qué hace MVC?</summary>
+
+Separa la app en 3 capas: **Model** (datos), **View** (interfaz), **Controller** (lógica). Cambiar una capa no rompe las otras.
+</details>
+
+<details>
+<summary>¿Qué es Repository?</summary>
+
+**Encapsula el acceso a datos**: tu lógica no sabe si los datos vienen de localStorage, IndexedDB o una API. Solo llama al Repository.
+</details>
+
+<details>
+<summary>¿Cuándo NO usar patrones?</summary>
+
+Cuando el código es **simple**, no hay problema que resolver, o el equipo no lo entiende. El mejor patrón es el que no usas si no lo necesitas.
+</details>
+
+---
+
+### Ejercicio práctico
+
+**En 2 horas, aplica patrones a tu proyecto:**
+
+1. **Identifica** (20 min): ¿Qué patrones necesitas? Usa la tabla guía del punto 07
+2. **MVC** (30 min): Separa tu código en Model, View y Controller (o verifica que tu framework ya lo hace)
+3. **Repository** (30 min): Crea un Repository para tus datos principales
+4. **Un patrón específico** (20 min): Implementa Observer, Strategy o el que necesites
+5. **Documenta** (20 min): Rellena `PATRONES.md` con tus decisiones
+
+**Si consigues tener MVC + Repository + al menos 1 patrón específico documentado → has entendido la unidad.**
+
+---
+
+## 📊 Tabla resumen de la unidad
+
+| Concepto | Idea clave |
+|----------|------------|
+| **Patrones** | Soluciones reutilizables a problemas comunes de diseño |
+| **Singleton** | Una sola instancia global (Config, Logger) |
+| **Factory** | Crear diferentes tipos de objetos |
+| **Builder** | Construir objetos complejos paso a paso |
+| **Adapter** | Convertir una interfaz incompatible en otra |
+| **Facade** | Simplificar una interfaz compleja |
+| **Composite** | Tratar individuos y compuestos igual |
+| **Observer** | Notificar cambios a múltiples objetos |
+| **Strategy** | Intercambiar algoritmos en tiempo de ejecución |
+| **Command** | Encapsular acciones con execute() y undo() |
+| **MVC** | Model-View-Controller: datos, interfaz, lógica |
+| **Repository** | Separar acceso a datos de la lógica de negocio |
+
+---
+
+## 📖 Vocabulario rápido
+
+| Término | Definición |
+|---------|-----------|
+| **Patrón de diseño** | Solución reutilizable a un problema de diseño frecuente |
+| **Creacional** | Patrones que controlan la creación de objetos |
+| **Estructural** | Patrones que combinan clases y objetos |
+| **Comportamiento** | Patrones que distribuyen responsabilidades |
+| **Singleton** | Asegura una sola instancia de una clase |
+| **Factory** | Crea objetos de diferentes tipos según la entrada |
+| **Builder** | Construye objetos complejos paso a paso |
+| **Adapter** | Convierte una interfaz incompatible en otra |
+| **Facade** | Simplifica una interfaz compleja con un punto de entrada |
+| **Composite** | Trata objetos individuales y compuestos igual |
+| **Observer** | Notifica cambios a múltiples suscriptores |
+| **Strategy** | Intercambia algoritmos en tiempo de ejecución |
+| **Command** | Encapsula acciones como objetos con undo |
+| **MVC** | Model-View-Controller: arquitectura de 3 capas |
+| **Repository** | Capa de abstracción para acceso a datos |
+
+---
+
+## 🔗 Conexión con las siguientes unidades
+
+| Unidad | Qué aprenderás | Cómo se conecta |
+|--------|---------------|-----------------|
+| **UD 2.5 Diagramas** | C4, UML, secuencia | Modelarás la arquitectura que diseñaste con patrones |
+| **UD 2.6 IA como Copiloto** | LLMs, prompt engineering | Usarás IA para implementar patrones en tu código |
+| **UD 2.7 Despliegue** | Docker, CI/CD | Desplegarás la arquitectura que diseñaste |
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los patrones son **soluciones reutilizables**: Singleton (una instancia), Factory (crear tipos), Builder (construir paso a paso), Observer (notificar), Strategy (intercambiar), Command (deshacer).
+2. **MVC** separa datos, interfaz y lógica; **Repository** separa lógica de almacenamiento: son los patrones más usados en desarrollo web.
+3. **No uses patrones donde no los necesitas**: si tu código es simple y funciona, no le añadas complejidad innecesaria.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-4-patrones-diseno) · Anterior: [08 — Template patrones](./08-template-patrones) · Siguiente: [UD 2.5 — Diagramas](../../guia-didactica/proyecto-2/uds/u2-5-diagramas/u2-5-diagramas)

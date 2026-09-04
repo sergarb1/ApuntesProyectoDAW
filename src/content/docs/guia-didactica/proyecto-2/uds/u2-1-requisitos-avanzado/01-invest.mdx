@@ -1,0 +1,158 @@
+---
+title: "01 — Criterios INVEST"
+description: "Las 6 cualidades que separan una buena historia de usuario de una mala"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 2.1 · Requisitos Avanzado** → 01 · Criterios INVEST
+
+<StoryIntro icono="🔍" titulo="No todas las historias de usuario son iguales">
+  En Proyecto 1 escribiste historias con "Como... quiero... para que...".
+  Pero ¿cómo saber si una historia es **buena**? Los criterios INVEST son
+  un checklist rápido para evaluar la calidad de cada historia antes de
+  meterla en un sprint.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Una buena historia de usuario debe ser Independiente, Negociable, Valiosa, Estimable, Small y Testable (INVEST).**
+
+Si una historia falla en algún criterio, necesita ser reescrita antes de estimarla.
+
+---
+
+## ¿Qué es INVEST?
+
+INVEST es un acrónimo creado por Bill Wake que define **6 cualidades** de una historia de usuario bien escrita:
+
+| Letra | Criterio | Pregunta clave |
+|-------|----------|----------------|
+| **I** | Independiente | ¿Puedo hacerla sin dependencias de otras historias? |
+| **N** | Negociable | ¿Se puede discutir el cómo sin cambiar el qué? |
+| **V** | Valiosa | ¿Aporta valor real al usuario o al negocio? |
+| **E** | Estimable | ¿Puedo estimar cuánto esfuerzo requiere? |
+| **S** | Small | ¿Puedo terminarla en un solo sprint? |
+| **T** | Testable | ¿Puedo verificar que funciona con criterios objetivos? |
+
+---
+
+## Detalle de cada criterio
+
+### I — Independiente
+
+La historia no debe depender de otras para completarse.
+
+| Dependiente ✗ | Independiente ✓ |
+|---------------|-----------------|
+| "Como admin, quiero gestionar usuarios para que el profesor pueda ver sus datos" | "Como profesor, quiero ver la lista de alumnos de mi clase" |
+| Requiere que exista la gestión de usuarios primero | Se puede implementar directamente |
+
+**Consejo**: Si dos historias siempre van juntas, considéral como una sola.
+
+### N — Negociable
+
+La historia no es un contrato. El equipo y el producto pueden negociar detalles.
+
+- **Historia negociable**: "Como alumno, quiero guardar mi progreso para no perderlo"
+- **Historia no negociable**: "Como alumno, quiero un botón azul de 40px que diga 'Guardar' en la esquina superior derecha"
+
+La segunda especifica el **cómo** en vez del **qué**.
+
+### V — Valiosa
+
+Cada historia debe aportar valor a alguien: el usuario, el negocio o el equipo.
+
+| Sin valor ✗ | Con valor ✓ |
+|-------------|-------------|
+| "Como desarrollador, quiero refactorizar el código" | "Como usuario, quiero que la app cargue rápido" |
+| Solo beneficia al equipo técnico | Beneficia al usuario final |
+
+**Excepción**: Historias técnicas (seguridad, rendimiento) pueden ser válidas si explican el valor.
+
+### E — Estimable
+
+El equipo debe poder estimar el esfuerzo aproximado.
+
+- Si no puedes estimar, falta información: investiga antes de estimar
+- Si es demasiado grande para estimar, divídela en historias más pequeñas
+
+### S — Small
+
+La historia debe poder completarse en un sprint (1-2 semanas).
+
+| Demasiado grande ✗ | Small ✓ |
+|---------------------|---------|
+| "Como alumno, quiero gestionar todo el módulo de tareas" | "Como alumno, quiero crear una tarea con nombre y fecha" |
+
+**Regla**: Si tardas más de 3-4 días, probablemente es demasiado grande.
+
+### T — Testable
+
+Deben existir criterios de aceptación objetivos para verificar que funciona.
+
+- **Testable**: "DADO que estoy en tareas, CUANDO pulso crear, ENTONCES la tarea aparece en mi lista"
+- **No testable**: "Que la app sea fácil de usar" (subjetivo)
+
+---
+
+## Comparativa: historia INVEST vs historia que falla
+
+<Comparativa
+  dialogos={[
+    { quien: "Historia INVEST", texto: "Como alumno, quiero marcar tareas como completadas para ver mi progreso. Independiente, clara, estimable en 2 puntos, testeable con 3 criterios." },
+    { quien: "Historia que falla", texto: "Como usuario, quiero que todo funcione bien. No es independiente (depende de todo), no es estimable (¿qué es 'todo'?), no es testeable (¿qué es 'bien'?)." },
+  ]}
+  titulo="La diferencia entre una historia buena y una mala"
+/>
+
+---
+
+## Aclaración: "¿Y si una historia no cumple INVEST?"
+
+<Aclaracion icono="🤔" pregunta="¿Qué hago cuando una historia no cumple algún criterio de INVEST?">
+Depende de cuál falle:
+
+- **No es Small** → Divídela en 2-3 historias más pequeñas
+- **No es Independiente** → Combínala con la historia de la que depende, o reescribe ambas
+- **No es Estimable** → Necesitas más información. Investiga antes de estimar
+- **No es Testable** → Reescribe con criterios de aceptación concretos (Given/When/Then)
+- **No es Valiosa** → Pregunta "¿para qué sirve?" Si no tienes respuesta, elimínala
+- **No es Negociable** → Elimina los detalles de implementación de la historia
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué significa INVEST?</summary>
+
+**Independiente** (no depende de otras), **Negociable** (se puede discutir), **Valiosa** (aporta valor), **Estimable** (se puede estimar), **Small** (un sprint), **Testable** (se puede verificar).
+</details>
+
+<details>
+<summary>¿Cuál es el error más común con INVEST?</summary>
+
+Olvidar el criterio de **Small**. Las historias tienden a ser demasiado grandes. Si algo tarda más de 3-4 días, divídelo.
+</details>
+
+<details>
+<summary>¿Qué hacer cuando una historia no es independiente?</summary>
+
+Combínala con la historia de la que depende, o reescribe ambas para que cada una aporte valor por sí sola.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los criterios **INVEST** evalúan la calidad de una historia de usuario: Independiente, Negociable, Valiosa, Estimable, Small y Testable.
+2. Si una historia no cumple algún criterio, **reescríbela** antes de estimarla: no la metas en un sprint "a ver qué pasa".
+3. El error más común es crear historias **demasiado grandes** o **demasiado dependientes**: divide y conquista.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-1-requisitos-avanzado) · Siguiente: [02 — MoSCoW avanzado y Kano](./02-moscow-avanzado)

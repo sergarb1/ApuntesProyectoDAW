@@ -1,0 +1,150 @@
+---
+title: "04 — Bloqueos y dependencias"
+description: "Qué hacer cuando algo se atasca y cómo evitar que te destruya el sprint"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🔄 **UD 2.2 · SCRUM Avanzado** → 04 · Bloqueos y dependencias
+
+<StoryIntro icono="🚧" titulo="Un bloqueo a tiempo salva un sprint entero">
+  Todo sprint tiene obstáculos. La diferencia entre un equipo bueno y uno
+  excelente es **cuándo detecta** los bloqueos. Un bloqueo descubierto el
+  lunes se resuelve en horas. Uno descubierto el viernes destruye el sprint.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un bloqueo es cualquier cosa que impida a un miembro del equipo avanzar en su trabajo. Detectarlo antes de que te destruya es responsabilidad de todo el equipo.**
+
+No esperes a la retrospectiva para hablar de problemas.
+
+---
+
+## Tipos de bloqueos
+
+### Bloqueos internos (dentro del equipo)
+
+| Tipo | Ejemplo | Solución |
+|------|---------|----------|
+| **Técnico** | "No sé cómo usar esta librería" | Pair programming, investigar juntos |
+| **Dependencia interna** | "Necesito que Ana termine la API antes" | Reorganizar tareas, ayudar a Ana |
+| **Decisión pendiente** | "No nos ponemos de acuerdo en el diseño" | Votar, decidir rápido, avanzar |
+| **Falta de información** | "No sé qué formato tiene el JSON" | Preguntar al PO, revisar documentación |
+
+### Bloqueos externos (fuera del equipo)
+
+| Tipo | Ejemplo | Solución |
+|------|---------|----------|
+| **Dependencia externa** | "Esperando la API del instituto" | Identificar y planificar con antelación |
+| **Herramienta** | "El servidor de pruebas está caído" | Tener alternativas, testear en local |
+| **Persona** | "El PO no responde a mis preguntas" | Establecer horarios de respuesta |
+| **Requisito** | "El profesor cambió los requisitos" | Documentar y priorizar de nuevo |
+
+---
+
+## El tablero de bloqueos
+
+Añade una columna visible en tu Kanban:
+
+```
+┌──────────┬──────────┬──────────┬──────────┬──────────┐
+│ Backlog  │ To Do    │ In Prog  │ Bloqueado│  Done    │
+├──────────┼──────────┼──────────┼──────────┼──────────┤
+│          │          │ US-003   │ US-002   │ US-001   │
+│          │          │          │ 🔴 API   │          │
+│          │          │          │ externa  │          │
+└──────────┴──────────┴──────────┴──────────┴──────────┘
+```
+
+### Regla de oro
+
+**Si una tarea lleva más de 1 día bloqueada, hay que actuar.** No esperar.
+
+---
+
+## Cómo gestionar dependencias
+
+### Paso 1: Identificar antes del sprint
+
+En el sprint planning, pregunta: **"¿Esta historia depende de algo que no está hecho?"**
+
+| Dependencia | Riesgo | Plan |
+|-------------|--------|------|
+| API externa | Alta | Testear con mock, luego conectar |
+| Diseño del PO | Media | Pedir diseño antes del sprint |
+| Otro miembro | Baja | Ayudar al compañero primero |
+
+### Paso 2: Visualizar en el tablero
+
+Marca las dependencias con colores o etiquetas:
+
+- 🔴 **Rojo**: dependencia externa (no controlas cuándo se resuelve)
+- 🟡 **Amarillo**: dependencia interna (puedes ayudar a resolverla)
+- 🟢 **Verde**: sin dependencias
+
+### Paso 3: Resolver proactivamente
+
+No esperes a que tu compañero termine. Si puedes **ayudar**, ayuda. Si puedes **investigar**, investiga. El equipo avanza junto o no avanza.
+
+---
+
+## Comparativa: gestionar bloqueos vs ignorarlos
+
+<Comparativa
+  dialogos={[
+    { quien: "Ignorar bloqueos", texto: "El sprint planning: 'Esto depende de la API, ya se resolverá'. Sprint day 3: 'La API no está'. Sprint day 7: 'No hemos avanzado en esta historia'. Retrospectiva: sorpresa." },
+    { quien: "Gestionar bloqueos", texto: "El sprint planning: 'Esta historia depende de la API. Plan: usar mock el lunes, conectar el miércoles'. Sprint day 3: 'Mock funcionando, avanzando'. Sprint day 7: 'Historia terminada con mock + API real'." },
+  ]}
+  titulo="Un bloqueo gestionado no es un problema. Un bloqueo ignorado es un desastre."
+/>
+
+---
+
+## Aclaración: "¿Y si el bloqueo no depende de mí?"
+
+<Aclaracion icono="🤔" pregunta="¿Qué hago si estoy bloqueado por algo que no controlo?">
+Tres opciones, en orden de prioridad:
+
+1. **Investiga una alternativa**: ¿puedes hacer un mock, un workaround, una versión simplificada?
+2. **Pide ayuda al equipo**: ¿alguien puede desbloquear la situación? (ej: hablar con el PO, contactar al proveedor)
+3. **Cambia de tarea**: mientras se resuelve, trabaja en otra historia que no tenga esa dependencia
+
+**Nunca esperes pasivamente.** Siempre hay algo que puedas hacer.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son los 4 tipos de bloqueos internos?</summary>
+
+1) **Técnico** (no sé cómo hacerlo), 2) **Dependencia interna** (necesito que otro termine), 3) **Decisión pendiente** (no nos ponemos de acuerdo), 4) **Falta de información** (no sé qué hacer).
+</details>
+
+<details>
+<summary>¿Cuándo actuar sobre un bloqueo?</summary>
+
+Si lleva **más de 1 día** bloqueado. No esperes a la retrospectiva. Actúa ya.
+</details>
+
+<details>
+<summary>¿Qué hacer si estoy bloqueado y no depende de mí?</summary>
+
+1) Investiga una alternativa (mock, workaround), 2) Pide ayuda al equipo, 3) Cambia a otra tarea mientras se resuelve.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los bloqueos son **cualquier cosa que impida avanzar**: técnicos, dependencias, decisiones pendientes, falta de información.
+2. **Identifícalos en el sprint planning** y visualízalos en el tablero con una columna "Bloqueado".
+3. Si un bloqueo lleva **más de 1 día**, actúa: busca alternativas, pide ayuda o cambia de tarea.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-2-scrum-avanzado) · Anterior: [03 — Burndown y burnup](./03-burndown-burnup) · Siguiente: [05 — Retrospectivas avanzadas](./05-retrospectivas-avanzadas)

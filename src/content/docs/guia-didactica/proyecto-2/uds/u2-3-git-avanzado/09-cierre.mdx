@@ -1,0 +1,145 @@
+---
+title: "09 — Cierre"
+description: "Mini-chequeo, vocabulario y resumen de la unidad de Git Avanzado"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🌿 **UD 2.3 · Git Avanzado** → 09 · Cierre
+
+<StoryIntro icono="🎉" titulo="Git ya no es un misterio: es tu herramienta de trabajo diario">
+  Has recorrido toda la unidad: desde GitFlow hasta CI/CD, pasando por
+  hooks, convenciones de commit y code review. Ahora toca **verificar que
+  lo entiendes** y **aplicarlo a tu proyecto**.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Git no es solo guardar código: es una estrategia de trabajo que, bien usada, te ahorra horas de conflicto y errores.**
+
+Si tu historial de Git es "cosas", algo va mal.
+
+---
+
+## 🎯 Mini-chequeo final
+
+### Preguntas de comprensión
+
+<details>
+<summary>¿Cuáles son las 5 ramas de GitFlow?</summary>
+
+**main** (producción), **develop** (desarrollo integrado), **feature/** (nueva funcionalidad), **release/** (preparar versión), **hotfix/** (arreglo urgente).
+</details>
+
+<details>
+<summary>¿Cuándo usar Trunk-Based vs GitFlow?</summary>
+
+**Trunk-Based** para deploy continuo y equipos maduros. **GitFlow** para proyectos con versiones y equipos que necesitan más estructura.
+</details>
+
+<details>
+<summary>¿Qué significan los marcadores de conflicto?</summary>
+
+`<<<<<<< HEAD` = tu versión, `=======` = separador, `>>>>>>> feature` = la otra versión. Decides cuál usar y quitas los marcadores.
+</details>
+
+<details>
+<summary>¿Qué verifica un hook pre-commit?</summary>
+
+Depende de la configuración: **console.log**, **linter**, **secrets**, tests... Lo que tú le pidas.
+</details>
+
+<details>
+<summary>¿Qué es CI/CD?</summary>
+
+**CI**: ejecuta tests y build automáticamente en cada push. **CD**: despliega automáticamente cuando todo pasa. GitHub Actions lo hace todo.
+</details>
+
+<details>
+<summary>¿Cuál es el formato de Conventional Commits?</summary>
+
+`tipo(alcance): descripción`. Tipos: feat, fix, docs, style, refactor, test, chore, perf.
+</details>
+
+<details>
+<summary>¿Qué buscar en un code review?</summary>
+
+**Correctitud** (¿hace lo que debe?), **legibilidad**, **seguridad**, **rendimiento** y **mantenibilidad**. No revises estilo personal.
+</details>
+
+---
+
+### Ejercicio práctico
+
+**En 2 horas, configura tu workflow de Git:**
+
+1. **Estructura** (15 min): Crea main y develop. Crea tu primer branch de feature
+2. **Convenciones** (10 min): Añade un `GIT-WORKFLOW.md` con las reglas
+3. **Hook** (20 min): Configura un pre-commit que ejecute el linter
+4. **CI** (30 min): Crea `.github/workflows/ci.yml` con lint + test + build
+5. **Code review** (15 min): Crea un PR y pide revisión a un compañero
+6. **Prueba** (30 min): Haz push, verifica que CI funciona, merge el PR
+
+**Si consigues tener CI ejecutándose en cada push → has entendido la unidad.**
+
+---
+
+## 📊 Tabla resumen de la unidad
+
+| Concepto | Idea clave |
+|----------|------------|
+| **GitFlow** | 5 branches: main, develop, feature, release, hotfix |
+| **Trunk-Based** | Branches cortos, integración frecuente, deploy continuo |
+| **Conflictos** | Dos personas cambiaron lo mismo: lee, decide, resuelve |
+| **Git Hooks** | Scripts automáticos: pre-commit, commit-msg, pre-push |
+| **CI/CD** | Automatizar: tests → build → deploy en cada push |
+| **Conventional Commits** | `tipo(alcance): descripción` para historial legible |
+| **Code Review** | Revisión de código: correctitud, legibilidad, seguridad |
+| **Pull Request** | Solicitud de merge: código revisado antes de integrar |
+
+---
+
+## 📖 Vocabulario rápido
+
+| Término | Definición |
+|---------|-----------|
+| **GitFlow** | Estrategia de branching con 5 tipos de ramas |
+| **Trunk-Based** | Desarrollo en main con branches de vida corta |
+| **Feature branch** | Branch para una nueva funcionalidad |
+| **Hotfix** | Branch para arreglar un bug urgente en producción |
+| **Merge** | Integrar los cambios de un branch en otro |
+| **Conflict** | Choque cuando dos personas cambiaron la misma línea |
+| **Git Hook** | Script que Git ejecuta automáticamente |
+| **Pre-commit** | Hook que se ejecuta antes de cada commit |
+| **CI** | Continuous Integration: tests y build automáticos |
+| **CD** | Continuous Deployment: deploy automático |
+| **GitHub Actions** | Herramienta de GitHub para pipelines CI/CD |
+| **Conventional Commits** | Estándar de mensajes de commit: tipo(alcance): descripción |
+| **Pull Request** | Solicitud de merge en GitHub con revisión de código |
+| **Code Review** | Revisión de código por un compañero antes de merge |
+| **Changelog** | Registro automático de cambios por versión |
+
+---
+
+## 🔗 Conexión con las siguientes unidades
+
+| Unidad | Qué aprenderás | Cómo se conecta |
+|--------|---------------|-----------------|
+| **UD 2.4 Patrones de Diseño** | MVC, Repository, Observer | Implementarás features usando patrones en tu workflow |
+| **UD 2.5 Diagramas** | C4, UML, secuencia | Documentarás la arquitectura que estás construyendo |
+| **UD 2.6 IA como Copiloto** | LLMs, prompt engineering | Usarás IA para acelerar el desarrollo en tu workflow |
+| **UD 2.7 Despliegue** | Docker, CI/CD avanzado | Tu pipeline CI/CD se extenderá con Docker |
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **GitFlow** separa producción de desarrollo con 5 tipos de branches; **Trunk-Based** integra en main cada pocas horas con branches cortos.
+2. Los **hooks** verifican calidad antes de commit, **Conventional Commits** hace el historial legible y **CI/CD** automatiza tests + build + deploy.
+3. El **code review** no es un examen: es una conversación donde el autor explica y el revisor aprende. Ambos mejoran el código.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-3-git-avanzado) · Anterior: [08 — Template Git](./08-template-git) · Siguiente: [UD 2.4 — Patrones de Diseño](../../guia-didactica/proyecto-2/uds/u2-4-patrones-diseno/u2-4-patrones-diseno)

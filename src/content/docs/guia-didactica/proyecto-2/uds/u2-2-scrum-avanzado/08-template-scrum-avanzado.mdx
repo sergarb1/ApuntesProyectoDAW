@@ -1,0 +1,214 @@
+---
+title: "08 — Template SCRUM avanzado"
+description: "Planning, retrospectiva y métricas listos para usar"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 🔄 **UD 2.2 · SCRUM Avanzado** → 08 · Template SCRUM avanzado
+
+<StoryIntro icono="📋" titulo="Los formatos que te organizan sin burocracia">
+  Este template incluye los formatos esenciales de SCRUM avanzado:
+  sprint planning, daily standup, retrospectiva y dashboard de métricas.
+  Cópialos, adapta los tiempos a tu proyecto y úsalos cada sprint.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Copia estos formatos en tu repositorio, rellénalos en cada sprint y tendrás un registro completo de la evolución de tu proyecto.**
+
+La organización no es burocracia. Es la base del trabajo profesional.
+
+---
+
+## Template 1: Sprint Planning
+
+```markdown
+# Sprint Planning — Sprint [N]
+
+**Fecha**: [DD/MM/YYYY]
+**Duración**: 2 horas
+**Participantes**: [Nombres]
+
+## Objetivo del sprint
+
+¿Qué queremos conseguir este sprint? (1 frase concreta)
+
+> [Escribir el objetivo aquí]
+
+## Historias aceptadas
+
+| ID | Historia | Puntos | Responsable | Estado |
+|----|----------|--------|-------------|--------|
+| US-001 | [Título] | 5 | [Nombre] | 📋 |
+| US-002 | [Título] | 3 | [Nombre] | 📋 |
+| US-003 | [Título] | 8 | [Nombre] | 📋 |
+| **Total** | | **16** | | |
+
+## Velocidad del equipo
+
+| Sprint anterior | Velocidad | Puntos aceptados este sprint |
+|-----------------|-----------|------------------------------|
+| Sprint [N-1] | [X] pts | [Y] pts (máximo: velocidad promedio) |
+
+## Dependencias y bloqueos conocidos
+
+| Historia | Dependencia | Plan |
+|----------|-------------|------|
+| US-003 | API externa | Mock hasta día 3, conectar día 4 |
+
+## Definition of Ready (checklist)
+
+- [ ] Cumple INVEST
+- [ ] Tiene criterios de aceptación (Given/When/Then)
+- [ ] No tiene dependencias pendientes
+- [ ] Está estimada en story points
+- [ ] Cabe en un sprint (≤ 8 puntos)
+```
+
+---
+
+## Template 2: Daily Standup
+
+```markdown
+# Daily Standup — Sprint [N] — Día [X]
+
+**Fecha**: [DD/MM/YYYY]
+**Hora**: [HH:MM] (máximo 15 minutos)
+
+| Miembro | Ayer hice | Hoy haré | ¿Estoy bloqueado? |
+|---------|-----------|----------|-------------------|
+| [Nombre 1] | [Tarea] | [Tarea] | No / [Descripción] |
+| [Nombre 2] | [Tarea] | [Tarea] | No / [Descripción] |
+| [Nombre 3] | [Tarea] | [Tarea] | No / [Descripción] |
+
+## Bloqueos activos
+
+| Bloqueo | Responsable | Acción | Fecha límite |
+|---------|-------------|--------|-------------|
+| [Descripción] | [Nombre] | [Qué hacer] | [Fecha] |
+
+## Acciones de la daily
+
+- [ ] [Acción concreta] — Responsable: [Nombre]
+```
+
+---
+
+## Template 3: Retrospectiva (Start/Stop/Continue)
+
+```markdown
+# Retrospectiva — Sprint [N]
+
+**Fecha**: [DD/MM/YYYY]
+**Duración**: 60 minutos
+**Técnica**: Start / Stop / Continue
+
+## Start (empezar a hacer)
+
+| Acción | Responsable | Sprint objetivo |
+|--------|-------------|----------------|
+| [Acción] | [Nombre] | Sprint [N+1] |
+
+## Stop (dejar de hacer)
+
+| Acción | Responsable | Sprint objetivo |
+|--------|-------------|----------------|
+| [Acción] | [Nombre] | Sprint [N+1] |
+
+## Continue (mantener)
+
+| Acción | ¿Por qué funciona? |
+|--------|-------------------|
+| [Acción] | [Razón] |
+
+## Revisión de acciones del sprint anterior
+
+| Acción del sprint [N-1] | ¿Se hizo? | Notas |
+|------------------------|-----------|-------|
+| [Acción] | ✅ / ❌ | [Comentario] |
+```
+
+---
+
+## Template 4: Dashboard de métricas
+
+```markdown
+# Dashboard — Sprint [N]
+
+## Métricas clave
+
+| Métrica | Valor | Tendencia | Objetivo |
+|---------|-------|-----------|----------|
+| Velocity | [X] pts | ↑↓↔ | Estable |
+| Lead time | [X] días | ↑↓↔ | < 5 días |
+| Sprint goal | ✅/❌ | ↑↓ | ✅ siempre |
+| WIP | [X] tareas/persona | ↑↓↔ | ≤ 2 |
+| Defect rate | [X]% | ↑↓ | < 10% |
+
+## Resumen del sprint
+
+### Lo que salió bien
+- [Punto 1]
+- [Punto 2]
+
+### Lo que mejorar
+- [Punto 1]
+- [Punto 2]
+
+### Acciones para el próximo sprint
+- [Acción 1] — Responsable: [Nombre]
+- [Acción 2] — Responsable: [Nombre]
+```
+
+---
+
+## Aclaración: "¿No es mucho paperwork?"
+
+<Aclaracion icono="🤔" pregunta="¿Necesito rellenar todo esto cada sprint?">
+No todo, no todo. Elige lo que te sirva:
+
+| Si necesitas... | Usa... | Tiempo |
+|-----------------|--------|--------|
+| Organizar el sprint | Template 1 (Planning) | 30 min |
+| Coordinar diariamente | Template 2 (Daily) | 15 min/día |
+| Mejorar como equipo | Template 3 (Retrospectiva) | 20 min |
+| Ver la salud del proyecto | Template 4 (Dashboard) | 15 min/sprint |
+
+**Mínimo absoluto**: Planning + Retrospectiva. Son las dos ceremonias que más valor aportan.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuántos templates hay?</summary>
+
+4: **Sprint Planning** (planificar el sprint), **Daily Standup** (coordinación diaria), **Retrospectiva** (mejora continua), **Dashboard** (métricas).
+</details>
+
+<details>
+<summary>¿Cuál es el mínimo necesario?</summary>
+
+**Planning + Retrospectiva**. Son las dos ceremonias que más valor aportan. La daily es útil pero opcional en equipos pequeños.
+</details>
+
+<details>
+<summary>¿Dónde guardo los templates?</summary>
+
+En tu repositorio, como `SCRUM-TEMPLATES/` o dentro de la carpeta `docs/`. Así todo el equipo puede acceder a ellos.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El template incluye **4 formatos**: Planning, Daily, Retrospectiva y Dashboard de métricas.
+2. El **mínimo necesario** es Planning + Retrospectiva: las dos ceremonias que más valor aportan.
+3. Adapta los templates a tu proyecto: no rellenes lo que no necesites, pero **no te saltes el Planning ni la Retrospectiva**.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-2-scrum-avanzado) · Anterior: [07 — SCRUM Master estudiante](./07-scrum-master-estudiante) · Siguiente: [09 — Cierre](./09-cierre)

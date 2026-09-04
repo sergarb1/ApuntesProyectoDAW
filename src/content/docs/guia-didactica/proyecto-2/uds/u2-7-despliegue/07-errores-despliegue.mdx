@@ -1,0 +1,221 @@
+---
+title: "07 — Errores comunes de despliegue"
+description: "Los fallos más frecuentes al desplegar y cómo resolverlos"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** ☁️ **UD 2.7 · Despliegue** → 07 · Errores comunes de despliegue
+
+<StoryIntro icono="⚠️" titulo="Los errores de despliegue son predecibles y evitables">
+  Casi todo el mundo comete los mismos errores la primera vez que
+  despliega. Conocerlos de antemano te ahorra horas de frustración.
+  Son errores que suenan complicados pero tienen soluciones simples.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **El 90% de los errores de despliegue se resuelven con: variables de entorno, dependencias y configuración de puertos.**
+
+---
+
+## Los 10 errores más comunes
+
+### Error 1: Variables de entorno no configuradas
+
+**Síntoma**: La app falla con "Cannot read property of undefined" o "DATABASE_URL not set".
+
+**Causa**: Las variables de entorno que tienes en `.env` local no están en el servidor.
+
+**Solución**: Configura las variables en la plataforma (Settings → Environment Variables).
+
+---
+
+### Error 2: Dependencias de desarrollo en producción
+
+**Síntoma**: "Module not found" o "Command not found" durante el build.
+
+**Causa**: Dependencias como `typescript`, `vite` o `jest` están en `devDependencies` y no se instalan en producción.
+
+**Solución**: Asegúrate de que las dependencias necesarias para el build estén en `dependencies`, o ejecuta `npm ci` en vez de `npm ci --only=production`.
+
+---
+
+### Error 3: Puerto incorrecto
+
+**Síntoma**: "EADDRINUSE" o la app no responde.
+
+**Causa**: Tu app escucha en el puerto 3000, pero la plataforma espera otro puerto.
+
+**Solución**: Usa `process.env.PORT || 3000` en tu servidor.
+
+```javascript
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+```
+
+---
+
+### Error 4: Rutas absolutas rotas
+
+**Síntoma**: Los assets (CSS, JS, imágenes) no cargan, 404.
+
+**Causa**: Usas rutas absolutas como `/assets/style.css` pero la app está en un subdirectorio.
+
+**Solución**: Configura la base URL en tu framework:
+- Vite: `base: '/tu-repo/'`
+- Next.js: `basePath: '/tu-repo'`
+- React Router: `<BrowserRouter basename="/tu-repo">`
+
+---
+
+### Error 5: Archivos case-sensitive
+
+**Síntoma**: "Module not found" pero el archivo existe.
+
+**Causa**: En tu Mac funciona `import User from './User'` pero en Linux el archivo se llama `user.js`.
+
+**Solución**: Usa siempre minúsculas en nombres de archivos y sé consistente con las importaciones.
+
+---
+
+### Error 6: Build que no es reproducible
+
+**Síntoma**: El build funciona en tu máquina pero falla en el servidor.
+
+**Causa**: Versión de Node.js diferente, dependencias sin lock file, o sistema operativo distinto.
+
+**Solución**: Especifica la versión de Node en `.nvmrc` o `package.json`:
+
+```json
+{
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
+```
+
+---
+
+### Error 7: Gitignore incompleto
+
+**Síntoma**: El build falla porque intenta compilar archivos que no deberían estar.
+
+**Causa**: `.env`, `node_modules` o archivos del sistema están commiteados.
+
+**Solución**: Verifica tu `.gitignore`:
+
+```
+node_modules/
+.env
+.env.local
+dist/
+coverage/
+.DS_Store
+```
+
+---
+
+### Error 8: CORS en producción
+
+**Síntoma**: "Access-Control-Allow-Origin" error en el navegador.
+
+**Causa**: Tu backend tiene CORS configurado para `localhost:3000` pero en producción la URL es diferente.
+
+**Solución**: Configura CORS con la URL de producción:
+
+```javascript
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000'
+}));
+```
+
+---
+
+### Error 9: Base de datos no accesible
+
+**Síntoma**: "Connection refused" o "ECONNREFUSED".
+
+**Causa**: La base de datos es local y el servidor no puede acceder a ella.
+
+**Solución**: Usa un servicio de BD en la nube (Supabase, PlanetScale, MongoDB Atlas) y configura la URL en variables de entorno.
+
+---
+
+### Error 10: Archivos grandes en el repo
+
+**Síntoma**: El deploy es lento o falla por timeout.
+
+**Causa**: Imágenes, videos o `node_modules` están en el repo.
+
+**Solución**: Usa Git LFS para archivos grandes, comprime imágenes y asegúrate de que `node_modules` está en `.gitignore`.
+
+---
+
+## Tabla resumen
+
+| # | Error | Síntoma | Solución rápida |
+|---|-------|---------|-----------------|
+| 1 | Variables de entorno | "Cannot read property" | Configurar en la plataforma |
+| 2 | Dependencias dev | "Module not found" | Mover a dependencies |
+| 3 | Puerto | "EADDRINUSE" | Usar process.env.PORT |
+| 4 | Rutas | Assets 404 | Configurar base URL |
+| 5 | Case-sensitive | "Module not found" | Usar minúsculas |
+| 6 | Build no reproducible | Falla en servidor | Especificar versión Node |
+| 7 | Gitignore | Build falla | Actualizar .gitignore |
+| 8 | CORS | Access-Control error | Configurar origin URL |
+| 9 | BD inaccesible | "Connection refused" | BD en la nube |
+| 10 | Archivos grandes | Deploy lento | Git LFS, comprimir |
+
+---
+
+## Aclaración: "¿Cómo depuro errores de despliegue?"
+
+<Aclaracion icono="🤔" pregunta="¿Qué hago cuando el despliegue falla?">
+Sigue este proceso:
+
+1. **Lee el log completo**: el error exacto está en los logs de la plataforma
+2. **Busca el primer error**: los errores en cadena empiezan por uno primero
+3. **Compara entornos**: ¿qué diferencia hay entre local y producción?
+4. **Googlea el error exacto**: copia el mensaje de error y búscalo
+5. **Pregunta a la IA**: pega el error y el contexto, la IA suele acertar
+
+**Los errores de despliegue más comunes son fáciles de resolver** si lees el log con calma.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es el error más común en despliegue?</summary>
+
+Respuesta: Variables de entorno no configuradas. La app funciona en local porque tiene `.env`, pero en producción esas variables no existen.
+</details>
+
+<details>
+<summary>¿Cómo evitas el error de "puerto incorrecto"?</summary>
+
+Respuesta: Usa `process.env.PORT || 3000` para que tu app escuche en el puerto que la plataforma le asigne.
+</details>
+
+<details>
+<summary>¿Qué hago si el build funciona en mi máquina pero falla en el servidor?</summary>
+
+Respuesta: Especifica la versión de Node en `.nvmrc` o `package.json` y asegúrate de que `package-lock.json` está commiteado.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El 90% de los errores de despliegue son **variables de entorno, dependencias y configuración de puertos**.
+2. Usa `process.env.PORT` para puertos, `.env.example` para documentar variables y `.gitignore` completo.
+3. Cuando algo falle, **lee el log completo** y busca el primer error: la cadena de errores empieza por uno solo.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-7-despliegue) · Anterior: [06 — Checklist](./06-checklist-despliegue) · Siguiente: [08 — Template](./08-template-despliegue)

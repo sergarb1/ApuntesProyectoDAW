@@ -1,0 +1,179 @@
+---
+title: "03 — Conflictos de merge"
+description: "Cómo resolverlos sin perder trabajo ni mucho tiempo"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🌿 **UD 2.3 · Git Avanzado** → 03 · Conflictos de merge
+
+<StoryIntro icono="🔀" titulo="Los conflictos no son errores. Son señales de que el equipo trabaja junto">
+  Un conflicto de merge aparece cuando **dos personas cambiaron la misma
+  línea** de un archivo. No es dramático: Git te dice exactamente dónde
+  está el problema y tú decides qué versión es la correcta.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un conflicto de merge es Git diciéndote: "Dos personas tocaron esto. Necesito que decidas cuál es la versión correcta."**
+
+No le tengas miedo. Léelo, entiéndelo, resuélvelo.
+
+---
+
+## ¿Cuándo aparecen conflictos?
+
+```
+Ana modifica: src/App.vue (línea 10)
+Pedro modifica: src/App.vue (línea 15)
+
+Ambos hacen push
+Git: "¡Choque! No sé cuál es la versión correcta"
+```
+
+### Qué ves en el archivo
+
+```
+<<<<<<< HEAD
+function loginUser(email, password) {
+  // Código de Ana
+}
+=======
+function authenticateUser(email, password) {
+  // Código de Pedro
+}
+>>>>>>> feature/login
+```
+
+| Símbolo | Significado |
+|---------|-------------|
+| `<<<<<<< HEAD` | Inicio de tu versión (la que tienes local) |
+| `=======` | Separador |
+| `>>>>>>> feature/login` | Fin de la versión que intentas mergear |
+
+---
+
+## Paso a paso para resolver un conflicto
+
+### Paso 1: Identificar el conflicto
+
+```bash
+git status
+# M  src/App.vue (both modified)
+```
+
+### Paso 2: Abrir el archivo y ver los marcadores
+
+Busca las líneas `<<<<<<<`, `=======` y `>>>>>>>`.
+
+### Paso 3: Decidir qué versión usar
+
+Tres opciones:
+
+| Opción | Cuándo usarla |
+|--------|---------------|
+| **Quitar tu versión** | La otra es mejor |
+| **Quitar la otra versión** | La tuya es mejor |
+| **Combinar ambas** | Las dos aportan algo |
+
+### Paso 4: Guardar y hacer commit
+
+```bash
+git add src/App.vue
+git commit -m "fix: resolve merge conflict in App.vue"
+```
+
+---
+
+## Ejemplo resuelto
+
+**Antes** (con conflicto):
+```
+<<<<<<< HEAD
+function loginUser(email, password) {
+=======
+function authenticateUser(email, password) {
+>>>>>>> feature/login
+```
+
+**Decisión**: Usar `loginUser` (nombre más claro) pero con la lógica de validación de Pedro.
+
+**Después** (resuelto):
+```
+function loginUser(email, password) {
+  // Lógica de validación de Pedro aquí
+}
+```
+
+---
+
+## Comparativa: conflictos frecuentes vs infrecuentes
+
+<Comparativa
+  dialogos={[
+    { quien: "Conflictos frecuentes", texto: "Cada merge tiene 5 conflictos. Resolvemos 30 minutos. Nadie sabe qué versión es la buena. A veces perdemos código." },
+    { quien: "Conflictos infrecuentes", texto: "Un conflicto al mes. Lo resolvemos en 5 minutos. Siempre sabemos qué versión elegir porque el equipo se comunica." },
+  ]}
+  titulo="La frecuencia de conflictos dice mucho del equipo"
+/>
+
+---
+
+## Cómo prevenir conflictos
+
+| Estrategia | Cómo | Efecto |
+|------------|------|--------|
+| **Branches cortos** | Merge cada pocas horas | Menos tiempo para chocar |
+| **Comunicación** | "Voy a tocar App.vue" en la daily | Evita que dos personas toquen lo mismo |
+| **Archivos pequeños** | Dividir en componentes | Menos probabilidad de choque |
+| **Integración frecuente** | Pull antes de empezar | Tienes los cambios de los demás |
+
+---
+
+## Aclaración: "¿Y si no sé qué versión es la correcta?"
+
+<Aclaracion icono="🤔" pregunta="¿Qué hago si no sé si quedarme con mi versión o con la del otro?">
+Tres pasos:
+
+1. **Pregunta al autor**: "¿Por qué cambiaste esto?" La respuesta te dará contexto
+2. **Revisa el historial**: `git log --follow src/App.vue` para ver qué versiones hubo
+3. **Piensa en el usuario**: ¿Qué versión es mejor para el producto final?
+
+**Si todavía no sabes**: combina ambas versiones de la forma más lógica y pide revisión al equipo.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué significan los marcadores de conflicto?</summary>
+
+`<<<<<<< HEAD` = tu versión, `=======` = separador, `>>>>>>> feature` = la otra versión. Decides cuál usar y quitas los marcadores.
+</details>
+
+<details>
+<summary>¿Cuántas opciones tengo para resolver un conflicto?</summary>
+
+3: 1) Quitar tu versión, 2) Quitar la otra, 3) Combinar ambas. La decisión depende de cuál es mejor para el producto.
+</details>
+
+<details>
+<summary>¿Cómo prevenir conflictos?</summary>
+
+Branches cortos, comunicación en la daily, archivos pequeños e integración frecuente. Menos tiempo = menos probabilidad de choque.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Un conflicto de merge es Git diciéndote que **dos personas cambiaron la misma línea**: lee los marcadores, decide y resuelve.
+2. Tres opciones: **quitar tu versión**, **quitar la otra** o **combinar ambas**. Si no sabes, pregunta al autor.
+3. **Prevención**: branches cortos, comunicación, archivos pequeños e integración frecuente = menos conflictos.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-3-git-avanzado) · Anterior: [02 — Trunk-Based](./02-trunk-based) · Siguiente: [04 — Git Hooks](./04-hooks)

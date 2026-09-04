@@ -1,0 +1,192 @@
+---
+title: "01 — GitFlow"
+description: "La estrategia de branching para proyectos con versiones"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🌿 **UD 2.3 · Git Avanzado** → 01 · GitFlow
+
+<StoryIntro icono="🌿" titulo="Sin una estrategia de branches, Git se convierte en caos">
+  GitFlow es la estrategia de branching más popular para proyectos con
+  **versiones y releases definidos**. Define qué branch usar para cada
+  cosa: features, hotfixes, releases. Sin ella, tu repositorio se convierte
+  en un laberinto de ramas que nadie entiende.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **GitFlow define 5 tipos de branches: main, develop, feature, release y hotfix. Cada uno tiene un propósito y un flujo claro.**
+
+No todas las ramas son iguales. Cada tipo de cambio tiene su branch.
+
+---
+
+## Las 5 ramas de GitFlow
+
+```
+main (producción estable)
+  ↑
+  ├── release/v1.0 (preparando release)
+  │
+  ├── develop (desarrollo integrado)
+  │   ↑
+  │   ├── feature/login (nueva funcionalidad)
+  │   ├── feature/dashboard (nueva funcionalidad)
+  │   └── feature/api (nueva funcionalidad)
+  │
+  └── hotfix/bug-login (arreglo urgente)
+```
+
+### Definición de cada branch
+
+| Branch | Propósito | Quién usa | Se fusiona con |
+|--------|-----------|-----------|----------------|
+| **main** | Código en producción estable | Nadie trabaja directamente | — |
+| **develop** | Última versión funcional | Todo el equipo | → main (en release) |
+| **feature/** | Nueva funcionalidad | 1 desarrollador | → develop |
+| **release/** | Preparar una release | SM / tech lead | → main Y develop |
+| **hotfix/** | Arreglo urgente en producción | Quien lo detecta | → main Y develop |
+
+---
+
+## Flujo completo de GitFlow
+
+### Feature (funcionalidad nueva)
+
+```bash
+# 1. Crear feature desde develop
+git checkout develop
+git checkout -b feature/login
+
+# 2. Trabajar y hacer commits
+git add .
+git commit -m "feat: add login form"
+
+# 3. Merge a develop
+git checkout develop
+git merge --no-ff feature/login
+git push origin develop
+
+# 4. Eliminar el branch de feature
+git branch -d feature/login
+```
+
+### Release (preparar versión)
+
+```bash
+# 1. Crear release desde develop
+git checkout develop
+git checkout -b release/v1.0
+
+# 2. Últimos ajustes (sin features nuevas)
+git commit -m "chore: bump version to 1.0.0"
+
+# 3. Merge a main
+git checkout main
+git merge --no-ff release/v1.0
+git tag -a v1.0.0 -m "Release v1.0.0"
+git push origin main --tags
+
+# 4. Merge a develop
+git checkout develop
+git merge --no-ff release/v1.0
+
+# 5. Eliminar release
+git branch -d release/v1.0
+```
+
+### Hotfix (arreglo urgente)
+
+```bash
+# 1. Crear hotfix desde main
+git checkout main
+git checkout -b hotfix/bug-login
+
+# 2. Arreglar el bug
+git commit -m "fix: correct login validation"
+
+# 3. Merge a main
+git checkout main
+git merge --no-ff hotfix/bug-login
+git tag -a v1.0.1 -m "Hotfix v1.0.1"
+
+# 4. Merge a develop
+git checkout develop
+git merge --no-ff hotfix/bug-login
+```
+
+---
+
+## Comparativa: sin GitFlow vs con GitFlow
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin GitFlow", texto: "Todos trabajamos en main. Alguien hace merge de algo roto. Nadie sabe qué es producción y qué es desarrollo. El profesor pregunta '¿qué está desplegado?' y nadie responde." },
+    { quien: "Con GitFlow", texto: "Features en feature/, producción en main. El release es un branch de preparación. Si hay un bug urgente, hotfix desde main. Todo claro, todo trazable." },
+  ]}
+  titulo="GitFlow no es burocracia. Es orden."
+/>
+
+---
+
+## ¿Cuándo usar GitFlow vs no usarlo?
+
+| Situación | GitFlow | Trunk-Based |
+|-----------|---------|-------------|
+| **Proyecto con versiones** (v1.0, v2.0) | ✅ Ideal | ⚠️ Posible |
+| **Deploy continuo** (varias veces al día) | ❌ Pesado | ✅ Ideal |
+| **Equipo pequeño** (2-4 personas) | ⚠️ OK pero pesado | ✅ Más ligero |
+| **Proyecto de módulo** (6 semanas) | ✅ Recomendado | ⚠️ Posible |
+
+---
+
+## Aclaración: "¿GitFlow no es demasiado para un proyecto de módulo?"
+
+<Aclaracion icono="🤔" pregunta="¿Necesito 5 tipos de branches para un proyecto de 6 semanas?">
+Puedes **simplificar GitFlow** para proyectos pequeños:
+
+- **main**: producción (desplegado)
+- **develop**: última versión funcional
+- **feature/**: cada funcionalidad
+
+Omite `release/` y `hotfix/` si no los necesitas. Lo importante es que **separes producción de desarrollo**.
+
+**Mínimo**: nunca trabajes directamente en main. Siempre crea un branch para cada cosa.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las 5 ramas de GitFlow?</summary>
+
+**main** (producción), **develop** (desarrollo integrado), **feature/** (nueva funcionalidad), **release/** (preparar versión), **hotfix/** (arreglo urgente).
+</details>
+
+<details>
+<summary>¿Desde dónde se crea un branch de feature?</summary>
+
+Desde **develop**: `git checkout develop && git checkout -b feature/nombre`. Se fusiona de vuelta a develop.
+</details>
+
+<details>
+<summary>¿Cuándo usar GitFlow?</summary>
+
+En proyectos con **versiones definidas** (v1.0, v2.0) y releases periódicas. Para deploy continuo, usa Trunk-Based.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. GitFlow define **5 tipos de branches**: main, develop, feature, release y hotfix, cada uno con un propósito claro.
+2. **Nunca trabajes directamente en main**: siempre crea un branch (feature, release o hotfix) y mézclalo cuando esté listo.
+3. Para proyectos pequeños, **simplifica** a main + develop + feature: lo importante es separar producción de desarrollo.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-3-git-avanzado) · Siguiente: [02 — Trunk-Based Development](./02-trunk-based)

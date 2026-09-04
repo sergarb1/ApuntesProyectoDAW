@@ -1,0 +1,161 @@
+---
+title: "06 — Trazabilidad de requisitos"
+description: "De requisito a código y viceversa: la matriz que no te deja perder nada"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 2.1 · Requisitos Avanzado** → 06 · Trazabilidad de requisitos
+
+<StoryIntro icono="🔗" titulo="Si no sabes de dónde viene un requisito, no sabes por qué existe">
+  La **trazabilidad** es la capacidad de seguir un requisito desde su origen
+  (¿quién lo pidió?) hasta el código que lo implementa. Es como un hilo
+  que conecta al usuario con la funcionalidad. Sin ese hilo, pierdes el
+  contexto y tomas decisiones a ciegas.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **La trazabilidad conecta el origen del requisito (quién lo pidió y por qué) con el código que lo implementa y los tests que lo verifican.**
+
+Sin trazabilidad, no sabes si construiste lo que pedían.
+
+---
+
+## ¿Qué es la trazabilidad?
+
+Es la relación **rastreable** entre:
+
+```
+Usuario/Necesidad → Requisito → Historia → Código → Test
+```
+
+### Ejemplo concreto
+
+| Origen | Requisito | Historia | Código | Test |
+|--------|-----------|----------|--------|------|
+| Profesor necesita ver notas de alumnos | RF-003: Consulta de calificaciones | "Como profesor, quiero ver las notas de mis alumnos" | `src/components/GradeList.vue` | `tests/GradeList.spec.js` |
+
+Si el profesor pregunta "¿por qué se ve así?", puedes rastrear hasta el código y entender la decisión.
+
+---
+
+## La matriz de trazabilidad
+
+Una tabla que conecta todo:
+
+| ID Requisito | Historia | Sprint | Archivo código | Test | Estado |
+|--------------|----------|--------|----------------|------|--------|
+| RF-001 | US-001: Login | S1 | `auth/login.ts` | `auth.test.ts` | ✅ Hecho |
+| RF-002 | US-002: CRUD tareas | S1-S2 | `tasks/` | `tasks.test.ts` | 🔄 En progreso |
+| RF-003 | US-003: Notas | S3 | Pendiente | Pendiente | 📋 Pendiente |
+| RNF-001 | — | S2 | `config/performance.ts` | `perf.test.ts` | ✅ Hecho |
+
+### QuéColumns de la matriz
+
+| Columna | Qué indica | Ejemplo |
+|---------|-----------|---------|
+| **ID Requisito** | Identificador único del requisito | RF-001, RNF-003 |
+| **Historia** | User story que lo implementa | US-001 |
+| **Sprint** | En qué sprint se trabaja | S1, S2 |
+| **Archivo código** | Dónde está la implementación | `src/auth/login.ts` |
+| **Test** | Dónde se verifica | `tests/auth.test.ts` |
+| **Estado** | Hecho / En progreso / Pendiente | ✅ 🔄 📋 |
+
+---
+
+## ¿Por qué importa la trazabilidad?
+
+### Sin trazabilidad
+
+- El profesor pide un cambio: ¿qué archivos afectan?
+- Un test falla: ¿qué requisito viola?
+- Un compañero se va: ¿qué hacía él?
+- El cliente pregunta "¿por qué hicisteis esto?": no hay respuesta
+
+### Con trazabilidad
+
+- Cambio de requisito: buscas la fila, identificas el código afectado
+- Test falla: sabes qué requisito está en riesgo
+- Nuevo miembro: entiende qué hace cada parte y por qué
+- Auditoría: puedes demostrar que todo lo pedido está implementado
+
+---
+
+## Cómo crear tu matriz (formato ligero)
+
+Para Proyecto 2, no necesitas una herramienta especial. Un archivo Markdown basta:
+
+```markdown
+# Matriz de Trazabilidad
+
+| ID | Requisito | Historia | Código | Test | Sprint | Estado |
+|----|-----------|----------|--------|------|--------|--------|
+| RF-001 | Login email/contraseña | US-001 | src/auth/ | tests/auth/ | S1 | ✅ |
+| RF-002 | CRUD tareas | US-002 | src/tasks/ | tests/tasks/ | S1-S2 | 🔄 |
+| RNF-001 | Carga < 2s | — | src/config/ | tests/perf/ | S2 | ✅ |
+```
+
+Guarda esto como `TRAZABILIDAD.md` en la raíz de tu repositorio.
+
+---
+
+## Comparativa: con trazabilidad vs sin trazabilidad
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin trazabilidad", texto: "El profesor: 'Cambia el login para usar Google'. Tú: '¿Qué archivos tengo que tocar?'. Silencio incómodo. Miras el código durante 30 minutos." },
+    { quien: "Con trazabilidad", texto: "El profesor: 'Cambia el login para usar Google'. Tú: 'RF-001 - US-001 - src/auth/login.ts - tests/auth.test.ts'. En 5 minutos sabes exactamente qué tocar." },
+  ]}
+  titulo="La trazabilidad te convierte en un profesional, no en un adivino"
+/>
+
+---
+
+## Aclaración: "¿No es mucho trabajo mantener la trazabilidad?"
+
+<Aclaracion icono="🤔" pregunta="¿Merece la pena el esfuerzo de mantener una matriz de trazabilidad?">
+Para un proyecto de 6 semanas con 20-30 historias, **sí, merece la pena**. Pero hazlo ligero:
+
+1. **Crea la matriz al principio** del proyecto (15 minutos)
+2. **Actualízala en cada sprint planning** (5 minutos por sprint)
+3. **Úsala cuando haya cambios** de requisitos (para ver impacto)
+
+**No la hipertrofies**. Un archivo Markdown con 30 filas es suficiente. No necesitas herramientas de gestión de requisitos para un proyecto de módulo.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué conecta la trazabilidad?</summary>
+
+Conecta: **origen del requisito** (quién lo pidió) → **requisito** (qué se pide) → **historia** (cómo se describe) → **código** (dónde está) → **test** (cómo se verifica).
+</details>
+
+<details>
+<summary>¿Qué formato usar para la matriz?</summary>
+
+Un archivo **Markdown** (`TRAZABILIDAD.md`) con una tabla. Suficiente para proyectos de módulo. No necesitas herramientas especializadas.
+</details>
+
+<details>
+<summary>¿Cuándo actualizar la matriz?</summary>
+
+En cada **sprint planning** (cuando aceptas historias) y cuando haya **cambios de requisitos** (para ver qué código se ve afectado).
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. La **trazabilidad** conecta el origen del requisito con el código y los tests que lo implementan y verifican.
+2. Una **matriz simple** en Markdown (`TRAZABILIDAD.md`) es suficiente para proyectos de módulo: actualízala en cada sprint.
+3. La trazabilidad te permite **responder rápidamente** a cambios de requisitos y entender el impacto de cada decisión.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-1-requisitos-avanzado) · Anterior: [05 — Criterios de aceptación avanzado](./05-criterios-aceptacion-avanzado) · Siguiente: [07 — Errores avanzados de requisitos](./07-errores-requisitos-avanzado)

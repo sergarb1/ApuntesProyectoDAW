@@ -1,0 +1,168 @@
+---
+title: "07 — Errores comunes"
+description: "Los fallos más frecuentes al usar IA en desarrollo y cómo evitarlos"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 🤖 **UD 2.6 · IA como Copiloto** → 07 · Errores comunes
+
+<StoryIntro icono="⚠️" titulo="Los errores que comete todo el mundo (y cómo evitarlos)">
+  Todos cometen los mismos errores cuando empiezan a usar IA. Conocerlos
+  de antemano te ahorrará horas de frustración. Son errores predecibles
+  y evitables si sabes buscarlos.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los errores más peligrosos con IA son los que no detectas: código que funciona pero que no entiendes.**
+
+---
+
+## Los 8 errores más comunes
+
+### Error 1: Copiar sin leer
+
+**El problema**: Copias el código de IA y lo pegas directamente.
+
+**La consecuencia**: Tienes código que compila pero que puede tener bugs, vulnerabilidades o lógica incorrecta.
+
+**Cómo evitarlo**: Lee cada línea antes de aceptar. Si no entiendes algo, pregunta a la IA que te lo explique.
+
+---
+
+### Error 2: Dependencias inventadas
+
+**El problema**: La IA sugiere un paquete que no existe o está abandonado.
+
+**Ejemplo**:
+```bash
+npm install super-ultimate-validator
+# Error: 404 Not Found
+```
+
+**Cómo evitarlo**: Verifica siempre en npm, PyPI o la documentación oficial que la dependencia existe y está activa.
+
+---
+
+### Error 3: Contexto perdido
+
+**El problema**: Le pides a la IA que modifique una función, pero olvida el resto del archivo.
+
+**La consecuencia**: La modificación rompe código existente que la IA no vio.
+
+**Cómo evitarlo**: Incluye en el prompt el contexto relevante: "Ten en cuenta que esta función se usa en el componente X y espera un parámetro de tipo Y".
+
+---
+
+### Error 4: Variables inventadas
+
+**El problema**: La IA usa variables o funciones que no existen en tu código.
+
+**Ejemplo**:
+```javascript
+// La IA asume que existe una función validarPermisos
+if (validarPermisos(usuario)) {
+  mostrarDashboard();
+}
+// Pero validarPermisos no está definida en ningún lado
+```
+
+**Cómo evitarlo**: Verifica que todo lo que la IA referencia exista en tu código.
+
+---
+
+### Error 5: Lógica aparentemente correcta
+
+**El problema**: El código parece correcto pero falla en edge cases.
+
+**Ejemplo**:
+```javascript
+function promedio(numeros) {
+  return numeros.reduce((a, b) => a + b) / numeros.length;
+}
+// ¿Qué pasa con un array vacío? → NaN
+// ¿Qué pasa con [1, 2, "3"]? → "123/3" (concatenación, no suma)
+```
+
+**Cómo evitarlo**: Piensa en edge cases: arrays vacíos, tipos mixtos, valores nulos, límites numéricos.
+
+---
+
+### Error 6: Soluciones genéricas
+
+**El problema**: La IA da una solución genérica que no se adapta a tu caso específico.
+
+**Ejemplo**: Le pides un sistema de autenticación y te da JWT básico, pero tu proyecto necesita OAuth con Google.
+
+**Cómo evitarlo**: Sé específico en tus prompts: "Autenticación con OAuth 2.0 de Google, no JWT básico".
+
+---
+
+### Error 7: No testear cambios
+
+**El problema**: Aceptas cambios de IA sin ejecutar tests.
+
+**La consecuencia**: Introduces bugs que no detectas hasta producción.
+
+**Cómo evitarlo**: Ejecuta los tests después de cada cambio generado por IA. Si no hay tests, escríbelos primero.
+
+---
+
+### Error 8: Demasiada confianza
+
+**El problema**: Confías en que la IA siempre tiene razón.
+
+**La consecuencia**: No cuestionas decisiones de arquitectura, patrones o prácticas que pueden ser incorrectas.
+
+**Cómo evitarlo**: Recuerda que la IA es una herramienta, no un experto. Siempre verifica con documentación oficial y buenas prácticas reconocidas.
+
+---
+
+## Tabla resumen de errores
+
+| # | Error | Consecuencia | Prevención |
+|---|-------|--------------|------------|
+| 1 | Copiar sin leer | Bugs y vulnerabilidades | Lee cada línea |
+| 2 | Dependencias inventadas | npm install falla | Verifica en npm |
+| 3 | Contexto perdido | Código roto | Incluye contexto en prompt |
+| 4 | Variables inventadas | Runtime errors | Verifica que existan |
+| 5 | Lógica incorrecta | Bugs en edge cases | Testea edge cases |
+| 6 | Soluciones genéricas | No se adapta a tu caso | Sé específico |
+| 7 | No testear | Bugs en producción | Ejecuta tests siempre |
+| 8 | Demasiada confianza | Malas prácticas | Verifica con docs |
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es el error más peligroso al usar IA?</summary>
+
+Respuesta: Copiar sin leer. Es la raíz de la mayoría de los demás errores: si lees y entiendes el código, detectas dependencias inventadas, variables que no existen, lógica incorrecta y problemas de seguridad.
+</details>
+
+<details>
+<summary>¿Cómo evitas el error de "contexto perdido"?</summary>
+
+Respuesta: Incluyendo en el prompt información sobre el resto del código: qué funciones se relacionan, qué tipos de datos se esperan, qué componentes usan esa función.
+</details>
+
+<details>
+<summary>¿Qué hago si la IA usa una variable que no existe en mi código?</summary>
+
+Respuesta: Pregunta a la IA: "¿De dónde sale esta variable? ¿Está definida en mi código?" y luego verifica manualmente que exista.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los errores más comunes son **copiar sin leer**, **dependencias inventadas** y **contexto perdido**: todos evitables con atención.
+2. Siempre **verifica** que lo que la IA genera existe, funciona y se adapta a tu caso específico.
+3. **Ejecuta tests** después de cada cambio de IA y no confíes ciegamente: **tú eres el responsable del código**.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-6-ia-copiloto) · Anterior: [06 — Ética de la IA](./06-etica-ia) · Siguiente: [08 — Template de uso](./08-template-ia)

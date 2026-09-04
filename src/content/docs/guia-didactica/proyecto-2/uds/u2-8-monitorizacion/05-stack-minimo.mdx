@@ -1,0 +1,183 @@
+---
+title: "05 — Stack mínimo de monitorización"
+description: "Qué necesitas para empezar a monitorizar tu app sin complejidad excesiva"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📊 **UD 2.8 · Monitorización** → 05 · Stack mínimo de monitorización
+
+<StoryIntro icono="🎯" titulo="No necesitas Prometheus y Grafana para empezar">
+  El stack completo de monitorización puede ser overkill para un
+  proyecto pequeño. Hay opciones más simples que te dan el 80% de
+  la información con el 20% del esfuerzo. Empieza pequeño y escala
+  cuando lo necesites.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Empieza con la solución más simple que te dé la información que necesitas, y complica solo cuando sea necesario.**
+
+---
+
+## Niveles de monitorización
+
+### Nivel 1: Básico (0 configuración)
+
+**Herramientas**: `console.log`, `console.error`, logs en archivo
+
+**Qué mides**: Errores visibles en la terminal o en archivos
+
+**Cuándo usarlo**: Desarrollo local, proyectos muy pequeños
+
+```javascript
+// Lo más básico que puedes hacer
+app.use((err, req, res, next) => {
+  console.error(`[${new Date().toISOString()}] ERROR: ${err.message}`);
+  res.status(500).json({ error: 'Internal Server Error' });
+});
+```
+
+---
+
+### Nivel 2: Servicio externo gratuito
+
+**Herramientas**: UptimeRobot, Better Stack (gratuito)
+
+**Qué mides**: Uptime, tiempo de respuesta, caídas
+
+**Cuándo usarlo**: Cualquier proyecto desplegado
+
+| Servicio | Plan gratuito | Qué ofrece |
+|----------|---------------|------------|
+| **UptimeRobot** | 50 monitors | Uptime, response time, alertas |
+| **Better Stack** | 5 monitors | Uptime, logs, métricas |
+| **Freshping** | 50 checks | Uptime, alertas |
+
+**Configuración** (2 minutos):
+1. Crear cuenta en UptimeRobot
+2. Añadir monitor con la URL de tu app
+3. Configurar alertas por email
+
+---
+
+### Nivel 3: Docker Compose simple
+
+**Herramientas**: Prometheus + Grafana en Docker
+
+**Qué mides**: Métricas completas, dashboards, alertas
+
+**Cuándo usarlo**: Cuando necesitas métricas de aplicación (no solo uptime)
+
+```yaml
+# docker-compose.monitoring.yml
+version: '3.8'
+services:
+  prometheus:
+    image: prom/prometheus
+    ports: ["9090:9090"]
+    volumes: ["./prometheus.yml:/etc/prometheus/prometheus.yml"]
+  
+  grafana:
+    image: grafana/grafana
+    ports: ["3001:3000"]
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    depends_on: [prometheus]
+```
+
+---
+
+### Nivel 4: Stack completo
+
+**Herramientas**: Prometheus + Grafana + Loki + Alertmanager
+
+**Qué mides**: Logs, métricas y trazas (observabilidad completa)
+
+**Cuándo usarlo**: Producción con múltiples servicios
+
+---
+
+## Comparativa: qué necesitas según tu proyecto
+
+<Comparativa
+  dialogos={[
+    { who: "Proyecto de clase", texto: "Nivel 1-2: console.log + UptimeRobot. Suficiente para demostrar que monitorizas." },
+    { who: "Portfolio / proyecto personal", texto: "Nivel 2-3: UptimeRobot + Grafana básico. Demuestra conocimientos reales." },
+    { who: "Producción real", texto: "Nivel 3-4: Prometheus + Grafana + Loki. Observabilidad completa." },
+  ]}
+  titulo="Elige según tu contexto"
+/>
+
+---
+
+## Stack mínimo recomendado
+
+Para un proyecto de clase o portfolio:
+
+```
+Tu app (Node.js/Python)
+    │
+    ├── Logs estructurados (Winston/logging)
+    │       └── Archivo local o servicio externo
+    │
+    ├── Métricas básicas (prom-client)
+    │       └── Endpoint /metrics
+    │
+    ├── Uptime monitoring (UptimeRobot)
+    │       └── Alertas por email
+    │
+    └── Dashboard básico (Grafana)
+            └── Conecta con Prometheus
+```
+
+---
+
+## Aclaración: "¿Cuándo debo complicar mi stack de monitorización?"
+
+<Aclaracion icono="🤔" pregunta="¿Cuándo paso del nivel 1 al nivel 2 o 3?">
+Cambia de nivel cuando:
+
+1. **Necesitas alertas automáticas** → Nivel 2 (UptimeRobot)
+2. **Necesitas métricas de aplicación** (no solo uptime) → Nivel 3 (Grafana)
+3. **Necesitas logs centralizados** → Nivel 4 (Loki)
+4. **Tu proyecto tiene múltiples servicios** → Nivel 3+
+
+**No compliques por complicar**. Si con UptimeRobot te basta, quédate ahí.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son los 4 niveles de monitorización?</summary>
+
+Respuesta: 1) Básico (console.log), 2) Servicio externo (UptimeRobot), 3) Docker Compose (Prometheus + Grafana), 4) Stack completo (+ Loki + Alertmanager).
+</details>
+
+<details>
+<summary>¿Qué servicio gratuito monitorea uptime?</summary>
+
+Respuesta: **UptimeRobot** (50 monitors gratis) o **Better Stack** (5 monitors gratis). Configuración en 2 minutos.
+</details>
+
+<details>
+<summary>¿Cuándo necesito Prometheus y Grafana?</summary>
+
+Respuesta: Cuando necesitas métricas de aplicación (latencia, errores, throughput), no solo uptime. Para un proyecto de clase, UptimeRobot puede ser suficiente.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **Empieza simple**: console.log + UptimeRobot te dan el 80% de la información con el 20% del esfuerzo.
+2. **Escalas cuando lo necesites**: Prometheus + Grafana cuando necesites métricas de aplicación.
+3. **No compliques por complicar**: elige el nivel según las necesidades reales de tu proyecto.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-8-monitorizacion) · Anterior: [04 — Alertas](./04-alertas) · Siguiente: [06 — Configuración](./06-configuracion)

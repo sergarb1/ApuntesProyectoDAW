@@ -1,0 +1,275 @@
+---
+title: "03 — Prometheus y Grafana"
+description: "El stack estándar de monitorización: recopilar métricas y visualizarlas"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 📊 **UD 2.8 · Monitorización** → 03 · Prometheus y Grafana
+
+<StoryIntro icono="🔧" titulo="Prometheus recopila, Grafana visualiza">
+  Prometheus y Grafana son las herramientas de monitorización más usadas
+  en la industria. Prometheus **recopila métricas** de tu aplicación y
+  Grafana las **visualiza en dashboards**. Juntas, forman el stack
+  estándar de observabilidad.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Prometheus es la base de datos de métricas, Grafana es el panel de control que las muestra en tiempo real.**
+
+---
+
+## Qué es Prometheus
+
+Prometheus es un sistema de **recopilación y almacenamiento de métricas**. Funciona con un modelo pull: Prometheus **pregunta** a tu aplicación cada X segundos "¿cuáles son tus métricas?".
+
+### Cómo funciona
+
+```
+Tu app expone métricas en /metrics
+         │
+         ▼
+Prometheus las recoge cada 15s
+         │
+         ▼
+Almacena en su base de datos
+         │
+         ▼
+Grafana consulta y visualiza
+```
+
+### Ejemplo de endpoint /metrics
+
+```
+# HELP http_requests_total Total de peticiones HTTP
+# TYPE http_requests_total counter
+http_requests_total{method="GET",path="/api/users",status="200"} 1523
+http_requests_total{method="POST",path="/api/users",status="201"} 89
+http_requests_total{method="GET",path="/api/users",status="500"} 12
+
+# HELP http_request_duration_seconds Duración de peticiones HTTP
+# TYPE http_request_duration_seconds histogram
+http_request_duration_seconds_bucket{method="GET",path="/api/users",le="0.1"} 1200
+http_request_duration_seconds_bucket{method="GET",path="/api/users",le="0.5"} 1450
+http_request_duration_seconds_bucket{method="GET",path="/api/users",le="1"} 1500
+```
+
+---
+
+## Qué es Grafana
+
+Grafana es una plataforma de **visualización de datos**. Conecta con Prometheus (y otras fuentes) y crea dashboards interactivos con gráficas, tablas y alertas.
+
+### Características principales
+
+- Dashboards en tiempo real
+- Múltiples fuentes de datos (Prometheus, MySQL, etc.)
+- Alertas visuales y por email
+- Plugins para diferentes tipos de gráficas
+- Acceso multi-usuario con permisos
+
+---
+
+## Configuración básica con Docker Compose
+
+```yaml
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+
+volumes:
+  prometheus-data:
+  grafana-data:
+```
+
+---
+
+## Configuración de Prometheus
+
+```yaml
+# prometheus.yml
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'mi-app'
+    static_configs:
+      - targets: ['app:3000']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+```
+
+---
+
+## Integración con Node.js (prom-client)
+
+```javascript
+const client = require('prom-client');
+
+// Recopilar métricas del sistema
+client.collectDefaultMetrics();
+
+// Métrica personalizada: peticiones HTTP
+const httpRequestsTotal = new client.Counter({
+  name: 'http_requests_total',
+  help: 'Total de peticiones HTTP',
+  labelNames: ['method', 'path', 'status'],
+});
+
+const httpRequestDuration = new client.Histogram({
+  name: 'http_request_duration_seconds',
+  help: 'Duración de peticiones HTTP en segundos',
+  labelNames: ['method', 'path'],
+  buckets: [0.01, 0.05, 0.1, 0.5, 1, 2, 5],
+});
+
+// Middleware para registrar métricas
+app.use((req, res, next) => {
+  const end = httpRequestDuration.startTimer({ method: req.method, path: req.path });
+  res.on('finish', () => {
+    httpRequestsTotal.inc({ method: req.method, path: req.path, status: res.statusCode });
+    end();
+  });
+  next();
+});
+
+// Endpoint /metrics para Prometheus
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', client.register.contentType);
+  res.end(await client.register.metrics());
+});
+```
+
+---
+
+## Integración con Python (prometheus_client)
+
+```python
+from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
+from flask import Flask, request, Response
+
+app = Flask(__name__)
+
+# Métricas
+http_requests_total = Counter(
+    'http_requests_total',
+    'Total de peticiones HTTP',
+    ['method', 'path', 'status']
+)
+
+http_request_duration = Histogram(
+    'http_request_duration_seconds',
+    'Duración de peticiones HTTP',
+    ['method', 'path'],
+    buckets=[0.01, 0.05, 0.1, 0.5, 1, 2, 5]
+)
+
+@app.before_request
+def before_request():
+    request.start_time = time.time()
+
+@app.after_request
+def after_request(request):
+    duration = time.time() - request.start_time
+    http_requests_total.labels(
+        method=request.method,
+        path=request.path,
+        status=response.status_code
+    ).inc()
+    http_request_duration.labels(
+        method=request.method,
+        path=request.path
+    ).observe(duration)
+    return response
+
+@app.route('/metrics')
+def metrics():
+    return Response(generate_latest(), mimetype=CONTENT_TYPE_LATEST)
+```
+
+---
+
+## Queries útiles en Prometheus
+
+```promql
+# Tasa de errores (errores por segundo)
+rate(http_requests_total{status=~"5.."}[5m])
+
+# Latencia P95
+histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))
+
+# Peticiones por segundo
+sum(rate(http_requests_total[5m]))
+
+# Endpoints más lentos
+topk(5, histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])))
+```
+
+---
+
+## Aclaración: "¿Prometheus y Grafana son complicados?"
+
+<Aclaracion icono="🤔" pregunta="¿Merece la pena configurar Prometheus y Grafana para un proyecto de clase?">
+Para un proyecto de clase, probablemente no necesitas el stack completo. Pero:
+
+1. **Saber que existen** te diferencia de otros alumnos
+2. Puedes usar una versión **simplificada** con solo Grafana + SQLite
+3. La alternativa más simple es un **servicio externo** como UptimeRobot o Better Stack
+
+**Consejo**: Si quieres demostrar conocimientos avanzados, configura Docker Compose con Prometheus + Grafana. Son ~20 líneas de YAML y un Dockerfile.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué hace Prometheus?</summary>
+
+Respuesta: Recopila métricas de tu aplicación cada X segundos (pull model), las almacena y permite hacer consultas con PromQL.
+</details>
+
+<details>
+<summary>¿Qué hace Grafana?</summary>
+
+Respuesta: Visualiza las métricas de Prometheus (y otras fuentes) en dashboards interactivos con gráficas, tablas y alertas.
+</details>
+
+<details>
+<summary>¿Qué endpoint expone las métricas de Node.js?</summary>
+
+Respuesta: `/metrics`. Con `prom-client`, registras métricas personalizadas y las sirves en ese endpoint para que Prometheus las recoja.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **Prometheus** recopila métricas de tu app cada X segundos con el modelo pull y las almacena para consultas.
+2. **Grafana** conecta con Prometheus y crea **dashboards interactivos** con gráficas y alertas en tiempo real.
+3. Para Node.js usa `prom-client` para exponer métricas en `/metrics`, y Docker Compose para levantar el stack completo.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-8-monitorizacion) · Anterior: [02 — Métricas clave](./02-metricas) · Siguiente: [04 — Alertas](./04-alertas)

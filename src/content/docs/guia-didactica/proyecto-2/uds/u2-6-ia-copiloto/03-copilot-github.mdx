@@ -1,0 +1,225 @@
+---
+title: "03 — GitHub Copilot"
+description: "Cómo usar GitHub Copilot como herramienta de desarrollo diaria"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 🤖 **UD 2.6 · IA como Copiloto** → 03 · GitHub Copilot
+
+<StoryIntro icono="💻" titulo="Tu compañero de código siempre disponible">
+  GitHub Copilot es el asistente de IA de GitHub que sugiere código
+  mientras escribes. No reemplaza tu criterio, pero acelera enormemente
+  el desarrollo rutinario. Aprender a usarlo bien es como tener un
+  copiloto que nunca se cansa.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Copilot sugiere, tú decides. Nunca aceptes una sugerencia sin entender qué hace.**
+
+---
+
+## Qué es GitHub Copilot
+
+GitHub Copilot es un asistente de IA que se integra directamente en tu editor (VS Code, JetBrains, etc.) y sugiere código en tiempo real mientras escribes.
+
+### Cómo funciona
+
+1. Escribes un comentario o código
+2. Copilot analiza el contexto
+3. Sugiere una o varias opciones de código
+4. Tú aceptas, modifies o rechazas
+
+### Dónde funciona
+
+| Editor | Soporte |
+|--------|---------|
+| VS Code | ✅ Excelente |
+| JetBrains (WebStorm, etc.) | ✅ Bueno |
+| Neovim | ✅ Básico |
+| GitHub.com | ✅ En el editor web |
+
+---
+
+## Cómo obtenerlo
+
+1. Ve a [github.com/features/copilot](https://github.com/features/copilot)
+2. Activa la prueba gratuita (30 días para estudiantes)
+3. Instala la extensión en VS Code
+4. Inicia sesión con tu cuenta de GitHub
+5. Empieza a escribir código
+
+---
+
+## Comandos básicos de Copilot
+
+### En VS Code
+
+| Acción | Atajo |
+|--------|-------|
+| Aceptar sugerencia | `Tab` |
+| Rechazar sugerencia | `Esc` |
+| Ver siguientes sugerencias | `Alt + ]` |
+| Ver sugerencias anteriores | `Alt + [` |
+| Abrir panel de sugerencias | `Ctrl + Enter` |
+
+---
+
+## Estrategias de uso
+
+### 1. Comentarios como instrucciones
+
+Escribe un comentario claro y Copilot generará el código:
+
+```javascript
+// Función que valida un email con expresión regular
+function validarEmail(email) {
+  // Copilot sugiere el código completo
+}
+```
+
+### 2. Firmas de función
+
+Escribe la firma y deja que Copilot complete el cuerpo:
+
+```python
+def calcular_precio_total(precios, iva=0.21):
+    # Copilot implementa la función
+```
+
+### 3. Nombres descriptivos
+
+El nombre de la función o variable es un prompt:
+
+```typescript
+// Copilot entiende qué quieres por el nombre
+const filtrarUsuariosActivos = (usuarios) => {
+  // ...
+}
+```
+
+### 4. Código existente como contexto
+
+Copilot mira el resto de tu archivo para sugerir código coherente:
+
+```python
+# Si ya tienes definida una clase Usuario...
+class Usuario:
+    def __init__(self, nombre, email):
+        self.nombre = nombre
+        self.email = email
+
+# Copilot sugerirá funciones relacionadas con Usuario
+def buscar_usuario_por_email(usuarios, email):
+    # ...
+```
+
+---
+
+## Ejemplo práctico: CRUD con Copilot
+
+### Paso 1: Modelo
+
+```typescript
+// models/Task.ts
+interface Task {
+  id: number;
+  titulo: string;
+  completada: boolean;
+  fechaCreacion: Date;
+}
+```
+
+### Paso 2: Copilot sugiere la función de crear
+
+```typescript
+// function to create a new task
+function crearTarea(titulo: string): Task {
+  // Copilot sugiere:
+  return {
+    id: Date.now(),
+    titulo,
+    completada: false,
+    fechaCreacion: new Date()
+  };
+}
+```
+
+### Paso 3: Copilot sugiere el filtrado
+
+```typescript
+// filter tasks by status
+function filtrarPorEstado(tareas: Task[], completada: boolean): Task[] {
+  // Copilot sugiere:
+  return tareas.filter(t => t.completada === completada);
+}
+```
+
+---
+
+## Qué NO hacer con Copilot
+
+### 1. No aceptes sin leer
+
+Copilot puede sugerir código que compila pero que tiene bugs lógicos o problemas de seguridad. **Siempre lee lo que aceptas.**
+
+### 2. No confíes en dependencias
+
+Copilot a veces sugiere paquetes que no existen o están abandonados. Verifica siempre en npm o PyPI.
+
+### 3. No uses para código sensible
+
+Nunca pegues en Copilot:
+- Contraseñas o API keys
+- Datos de clientes reales
+- Código propietario de tu empresa
+
+### 4. No esperes arquitectura
+
+Copilot genera líneas y funciones, no diseña la arquitectura de tu aplicación. Eso es tu trabajo.
+
+---
+
+## Aclaración: "¿Es copiar si uso Copilot?"
+
+<Aclaracion icono="🤔" pregunta="¿Usar Copilot es hacer trampas o copiar?">
+No. Usar Copilot es como usar Stack Overflow, documentación o un IDE con autocompletado: es una herramienta. Lo que importa es que **entiendas el código** que generas y puedas **explicarlo, modificarlo y mantenerlo**.
+
+Si Copilot te genera una función y tú sabes qué hace, por qué funciona y cómo mejorarla, estás desarrollando. Si simplemente aceptas sin entender, estás creando deuda técnica.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué atajo acepta una sugerencia en VS Code?</summary>
+
+Respuesta: `Tab`. Para rechazar: `Esc`. Para ver más sugerencias: `Alt + ]`.
+</details>
+
+<details>
+<summary>¿Qué información le da contexto a Copilot?</summary>
+
+Respuesta: El nombre de la función, los comentarios, el código existente en el archivo y los archivos relacionados del proyecto.
+</details>
+
+<details>
+<summary>¿Qué NUNCA deberías pegar en Copilot?</summary>
+
+Respuesta: Contraseñas, API keys, datos de clientes reales y código propietario de tu empresa.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Copilot sugiere código en tiempo real basándose en **comentarios, nombres y contexto** del archivo.
+2. Usa **comentarios descriptivos** y **nombres claros** para obtener mejores sugerencias.
+3. **Siempre lee y entiende** lo que Copilot genera antes de aceptarlo: tú eres el responsable del código.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-6-ia-copiloto) · Anterior: [02 — Prompts efectivos](./02-prompts-efectivos) · Siguiente: [04 — Testing con IA](./04-testing-ia)

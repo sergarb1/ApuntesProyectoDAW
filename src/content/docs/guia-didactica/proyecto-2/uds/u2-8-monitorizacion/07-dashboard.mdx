@@ -1,0 +1,215 @@
+---
+title: "07 — Construir dashboards"
+description: "Cómo crear dashboards en Grafana que muestren el estado de tu aplicación"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 📊 **UD 2.8 · Monitorización** → 07 · Construir dashboards
+
+<StoryIntro icono="📊" titulo="Un buen dashboard te dice todo de un vistazo">
+  Un dashboard es un panel visual que muestra el estado de tu aplicación
+  en tiempo real. Con un vistazo deberías saber si todo va bien o si
+  algo falla. Grafana te permite crear dashboards potentes con pocas
+  líneas de configuración.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un buen dashboard muestra en una pantalla lo esencial: uptime, errores, latencia y tráfico.**
+
+---
+
+## Qué mostrar en tu dashboard
+
+### Panel 1: Estado general (stat)
+
+```json
+{
+  "title": "Estado de la aplicación",
+  "type": "stat",
+  "targets": [{
+    "expr": "up{job=\"mi-app\"}",
+    "legendFormat": "{{instance}}"
+  }],
+  "fieldConfig": {
+    "defaults": {
+      "mappings": [
+        { "type": "value", "options": { "0": { "text": "CAÍDA", "color": "red" }, "1": { "text": "OPERATIVO", "color": "green" } } }
+      ]
+    }
+  }
+}
+```
+
+### Panel 2: Peticiones por segundo (graph)
+
+```json
+{
+  "title": "Peticiones por segundo",
+  "type": "timeseries",
+  "targets": [{
+    "expr": "sum(rate(app_http_requests_total[1m]))",
+    "legendFormat": "req/s"
+  }]
+}
+```
+
+### Panel 3: Tasa de errores (gauge)
+
+```json
+{
+  "title": "Tasa de errores",
+  "type": "gauge",
+  "targets": [{
+    "expr": "sum(rate(app_http_requests_total{status_code=~\"5..\"}[5m])) / sum(rate(app_http_requests_total[5m])) * 100",
+    "legendFormat": "Errores %"
+  }],
+  "fieldConfig": {
+    "defaults": {
+      "min": 0,
+      "max": 100,
+      "thresholds": {
+        "steps": [
+          { "value": 0, "color": "green" },
+          { "value": 1, "color": "yellow" },
+          { "value": 5, "color": "red" }
+        ]
+      }
+    }
+  }
+}
+```
+
+### Panel 4: Latencia P95 (graph)
+
+```json
+{
+  "title": "Latencia P95 (ms)",
+  "type": "timeseries",
+  "targets": [{
+    "expr": "histogram_quantile(0.95, sum(rate(app_http_request_duration_seconds_bucket[5m])) by (le)) * 1000",
+    "legendFormat": "P95"
+  }]
+}
+```
+
+### Panel 5: Errores por endpoint (table)
+
+```json
+{
+  "title": "Errores por endpoint",
+  "type": "table",
+  "targets": [{
+    "expr": "topk(10, sum(rate(app_http_requests_total{status_code=~\"5..\"}[5m])) by (path, method))",
+    "instant": true
+  }]
+}
+```
+
+### Panel 6: Uso de CPU y memoria (graph)
+
+```json
+{
+  "title": "CPU y Memoria",
+  "type": "timeseries",
+  "targets": [
+    {
+      "expr": "100 - (avg(rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
+      "legendFormat": "CPU %"
+    },
+    {
+      "expr": "(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100",
+      "legendFormat": "Memoria %"
+    }
+  ]
+}
+```
+
+---
+
+## Layout recomendado
+
+```
+┌─────────────────────────────────────────────────┐
+│  [Estado]  [Req/s]  [Errores %]  [P95 Latency] │  ← Fila 1: KPIs principales
+├─────────────────────────────┬───────────────────┤
+│  Peticiones por segundo     │  Latencia P95     │  ← Fila 2: Tendencias
+├─────────────────────────────┼───────────────────┤
+│  Errores por endpoint       │  CPU y Memoria    │  ← Fila 3: Detalles
+└─────────────────────────────┴───────────────────┘
+```
+
+---
+
+## Variables del dashboard
+
+Las variables permiten filtrar por servicio, endpoint o timeframe:
+
+```json
+{
+  "templating": {
+    "list": [
+      {
+        "name": "service",
+        "type": "query",
+        "query": "label_values(app_http_requests_total, service)",
+        "refresh": 2
+      },
+      {
+        "name": "interval",
+        "type": "interval",
+        "options": ["1m", "5m", "15m", "1h"],
+        "current": { "text": "5m", "value": "5m" }
+      }
+    ]
+  }
+}
+```
+
+---
+
+## Aclaracion: "¿Cuántos paneles necesito?"
+
+<Aclaracion icono="🤔" pregunta="¿Debería llenar el dashboard de gráficas?">
+No. Un buen dashboard tiene **6-8 paneles** como máximo. Más paneles significan más ruido visual.
+
+**Regla**: Si no puedes ver el problema de un vistazo en 5 segundos, tu dashboard tiene demasiados paneles o no está bien organizado.
+
+**Empieza con 4 paneles**: Estado, Throughput, Errores, Latencia. Añade más solo si los necesitas.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuántos paneles debería tener un dashboard básico?</summary>
+
+Respuesta: 6-8 paneles como máximo. Los esenciales son: Estado, Peticiones/segundo, Errores %, Latencia P95, Errores por endpoint y CPU/Memoria.
+</details>
+
+<details>
+<summary>¿Qué es una variable en Grafana?</summary>
+
+Respuesta: Un filtro dinámico que te permite cambiar el rango de tiempo, el servicio o el endpoint mostrado en todos los paneles a la vez.
+</details>
+
+<details>
+<summary>¿Qué tipo de panel usar para el estado de la app?</summary>
+
+Respuesta: Un **stat** con mappings de color: verde para "operativo", rojo para "caído". Se ve de un vistazo.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Un dashboard básico tiene **6-8 paneles**: Estado, Throughput, Errores, Latencia, Errores por endpoint y Recursos.
+2. Usa **variables** para filtrar por servicio y timeframe, y **thresholds** de color para detectar problemas de un vistazo.
+3. **No llenes el dashboard de gráficas**: menos paneles, más claridad. Si no ves el problema en 5 segundos, reorganiza.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-8-monitorizacion) · Anterior: [06 — Configuración](./06-configuracion) · Siguiente: [08 — Template](./08-template-monitorizacion)

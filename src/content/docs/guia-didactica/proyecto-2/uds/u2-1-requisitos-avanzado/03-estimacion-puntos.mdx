@@ -1,0 +1,164 @@
+---
+title: "03 — Story Points y Planning Poker"
+description: "Estimar esfuerzo relativo sin morir en el intento"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 2.1 · Requisitos Avanzado** → 03 · Story Points y Planning Poker
+
+<StoryIntro icono="🃏" titulo="Estimar no es adivinar, es comparar">
+  "¿Cuánto tarda esto?" es la pregunta que más miedo da en un proyecto.
+  Los **story points** no miden tiempo, miden **esfuerzo relativo**.
+  Y el **Planning Poker** es el juego que convierte la estimación en una
+  conversación de equipo en vez de una pelea.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los story points miden el esfuerzo RELATIVO entre historias, no el tiempo exacto. Planning Poker es el juego que usa el equipo para estimar juntos.**
+
+No cuentes horas. Compara tamaños.
+
+---
+
+## ¿Qué son los Story Points?
+
+Son una medida **abstracta** del esfuerzo, complejidad y trabajo involucrado en una historia. No son horas ni días.
+
+### La escala Fibonacci modificada
+
+| Puntos | Significado | Referencia |
+|--------|-------------|------------|
+| **1** | Trivial | Un campo de formulario |
+| **2** | Pequeño | Un CRUD básico con 1 tabla |
+| **3** | Medio-pequeño | Login con validación |
+| **5** | Medio | Dashboard con 3 gráficos |
+| **8** | Medio-grande | Sistema de notificaciones |
+| **13** | Grande | Autenticación completa con roles |
+| **21** | Muy grande | Dividir en historias más pequeñas |
+
+**¿Por qué Fibonacci?** Porque a medida que algo crece, la incertidumbre crece también. La diferencia entre 8 y 13 es más borrosa que entre 1 y 2.
+
+### ¿Por qué no horas?
+
+| Horas ✗ | Story Points ✓ |
+|---------|----------------|
+| "Esto tarda 6 horas" → depende de quién lo haga | "Esto vale 5 puntos" → es igual para todos |
+| El novato tarda 3x más que el senior | Los puntos son relativos al equipo |
+| Se convierte en una predicción imposible | Comparas con cosas que ya hiciste |
+
+---
+
+## Planning Poker: el juego de la estimación
+
+### Cómo funciona
+
+1. El **Product Owner** presenta una historia
+2. Cada miembro del equipo **elige una carta** con sus puntos (en secreto)
+3. Todos **revelan las cartas** a la vez
+4. Si hay **discrepancia grande** (ej: 2 vs 8), los extremos **explican por qué**
+5. Se **votan otra vez** hasta llegar a consenso
+6. El número que gana es la **estimación oficial**
+
+### Las cartas del Planning Poker
+
+```
+  1    2    3    5    8    13    21    ?    ☕
+  ●    ●    ●    ●    ●     ●     ●    ?    ☕
+```
+
+| Carta | Significado |
+|-------|-------------|
+| **1-21** | Puntos de esfuerzo |
+| **?** | No tengo información suficiente |
+| **☕** | Necesito una pausa / no puedo estimar |
+
+### Ejemplo de una ronda
+
+| Miembro | Carta | Razón |
+|---------|-------|-------|
+| Ana | 5 | "He hecho algo parecido, tardé 2 sprints atrás" |
+| Pedro | 8 | "La parte de validación es más compleja de lo que parece" |
+| Luis | 3 | "Yo lo veo más sencillo, es solo un formulario" |
+
+**Discusión**: Pedro explica que la validación requiere verificar 3 condiciones. Ana confirma que ella tuvo problemas similares. Luis acepta que no había pensado en eso.
+
+**Segunda ronda**: Todos votan 5. Consenso alcanzado.
+
+---
+
+## Comparativa: estimar solo vs Planning Poker
+
+<Comparativa
+  dialogos={[
+    { quien: "Estimar solo", texto: "Yo digo 5 puntos. Pero no sé que Pedro no ha usado esa librería antes, ni que Ana ya hizo algo parecido. La estimación es mía, no del equipo." },
+    { quien: "Planning Poker", texto: "Revelamos cartas: 3, 5, 8. Discutimos. Pedro explica la complejidad. Ana aporta experiencia. Llegamos a 5 juntos. La estimación es del equipo." },
+  ]}
+  titulo="El conocimiento colectivo siempre gana"
+/>
+
+---
+
+## La velocidad del equipo (velocity)
+
+La **velocidad** es la suma de story points completados en un sprint.
+
+```
+Sprint 1: 5 + 3 + 2 + 5 + 3 = 18 puntos
+Sprint 2: 8 + 3 + 5 + 2 + 3 = 21 puntos
+Sprint 3: 5 + 5 + 8 + 3     = 21 puntos
+
+Velocidad promedio: (18 + 21 + 21) / 3 ≈ 20 puntos/sprint
+```
+
+Con esto puedes predecir: "Si tengo 80 puntos pendientes, necesito ~4 sprints".
+
+---
+
+## Aclaración: "¿Y si no somos expertos en estimar?"
+
+<Aclaracion icono="🤔" pregunta="¿Cómo estimar bien cuando no tenemos experiencia?">
+Es normal al principio. Algunos consejos:
+
+1. **Estimad historias similares a las que ya hiciste**. Si ya hiciste un login de 3 puntos, otro login parecido será 3 o 5
+2. **Usad la escala relativa**: "¿Es más grande o más pequeña que la última historia?"
+3. **Después de 3 sprints**, tu velocidad será más precisa. Las primeras estimaciones serán malas, y eso está bien
+4. **No os obsesionéis con la precisión**. El objetivo es detectar historias demasiado grandes, no predecir el futuro al minuto
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué miden los story points?</summary>
+
+Miden **esfuerzo relativo**: complejidad, trabajo y riesgo. No miden tiempo. Una historia de 5 puntos no son 5 horas ni 5 días.
+</details>
+
+<details>
+<summary>¿Por qué se usa la serie de Fibonacci?</summary>
+
+Porque la **incertidumbre crece** con el tamaño. La diferencia entre 1 y 2 es clara. La diferencia entre 13 y 21 es borrosa. Fibonacci refleja esa realidad.
+</details>
+
+<details>
+<summary>¿Qué es la velocidad del equipo?</summary>
+
+Es la **suma de story points completados** en un sprint. Sirve para predecir cuánto durará el proyecto: "Si mi velocidad es 20 puntos/sprint y me quedan 80 puntos, necesito 4 sprints".
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los **story points** miden esfuerzo relativo (no tiempo) usando la escala de Fibonacci: 1, 2, 3, 5, 8, 13, 21.
+2. **Planning Poker** es el juego donde el equipo vota en secreto y discute las diferencias: la estimación es del grupo, no de uno solo.
+3. La **velocidad** (points/sprint) te permite predecir cuánto durará el proyecto basándote en datos reales, no en suposiciones.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-1-requisitos-avanzado) · Anterior: [02 — MoSCoW avanzado y Kano](./02-moscow-avanzado) · Siguiente: [04 — Refinamiento de backlog](./04-refinamiento-backlog)

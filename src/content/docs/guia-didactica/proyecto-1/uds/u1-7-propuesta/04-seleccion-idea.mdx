@@ -1,0 +1,124 @@
+---
+title: "04 — Selección de idea"
+description: "Cómo elegir la mejor idea según criterios claros y viabilidad"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 1.7 · Propuesta de Proyecto** → 04 · Selección de idea
+
+<StoryIntro icono="✅" titulo="Tienes 20 ideas. ¿Cuál es la correcta?">
+  Generar ideas es fácil. Elegir la correcta es lo difícil. No basta con
+  que sea original o divertida: tiene que ser **viable, evaluada y
+  alineada con el briefing**. Esta sección te da criterios objetivos para
+  tomar esa decisión.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **La mejor idea no es la más ambiciosa: es la que mejor equilibra originalidad, viabilidad y utilidad.**
+
+---
+
+## Criterios de selección
+
+Evalúa cada idea del 1 al 5 en estos criterios:
+
+| Criterio | Pregunta | Peso |
+|----------|----------|------|
+| **Viabilidad técnica** | ¿Podemos hacerlo con lo que sabemos? | 25% |
+| **Alineación con el briefing** | ¿Cumple los requisitos obligatorios? | 25% |
+| **Originalidad** | ¿Es diferente a lo que ya existe? | 15% |
+| **Utilidad** | ¿Resuelve un problema real? | 15% |
+| **Esfuerzo** | ¿Es realista en el tiempo disponible? | 20% |
+
+### Fórmula de puntuación
+
+```
+Puntuación = (Viabilidad × 0.25) + (Briefing × 0.25) + 
+              (Originalidad × 0.15) + (Utilidad × 0.15) + 
+              (Esfuerzo × 0.20)
+```
+
+---
+
+## Ejemplo de evaluación
+
+| Idea | Viab. | Briefing | Orig. | Util. | Esf. | **Total** |
+|------|-------|----------|-------|-------|------|-----------|
+| App de tareas escolares | 5 | 5 | 2 | 3 | 5 | **4.05** |
+| Generador de horarios | 4 | 4 | 3 | 4 | 4 | **3.85** |
+| Simulador de laboratorio | 2 | 4 | 5 | 3 | 2 | **3.15** |
+| Portfolio gamificado | 5 | 4 | 4 | 4 | 4 | **4.25** |
+
+**Ganadora**: Portfolio gamificado — equilibra viabilidad, originalidad y utilidad.
+
+---
+
+## Comparativa: idea ambiciosa vs realista
+
+<Comparativa
+  dialogos={[
+    { quien: "Idea ambiciosa", texto: "Simulador de laboratorio de química en 3D con física real. Suena increíble. Pero necesitas WebGL, físicas, modelos 3D... No lo harás en 3 meses." },
+    { quien: "Idea realista", texto: "Portfolio gamificado con logros y niveles. Usa Vue + Tailwind, lo que ya sabes. Original, útil y terminable. Puntuación: 4.25." },
+  ]}
+  titulo="Lo que suena mejor no siempre es lo que mejor funciona"
+/>
+
+---
+
+## Aclaracion: "¿Y si mi idea ya existe?"
+
+<Aclaracion icono="🤔" pregunta="¿Puedo hacer algo que ya existe?">
+Sí, pero **con un enfoque diferente**. No se trata de copiar, sino de
+mejorar o adaptar:
+
+- ¿Qué le falta a la app existente?
+- ¿Para quién no está pensada?
+- ¿Qué función podría añadir?
+- ¿Cómo lo harías más simple?
+
+"Ya existe" no es un impedimento. "Ya existe y lo hago igual" sí lo es.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son los 5 criterios de selección?</summary>
+
+**Respuesta**: Viabilidad técnica, alineación con el briefing, originalidad, utilidad y esfuerzo.
+
+**Para qué sirve**: Para evaluar ideas de forma objetiva, no por capricho.
+</details>
+
+<details>
+<summary>¿Qué peso tiene la viabilidad técnica?</summary>
+
+**Respuesta**: 25%. Es uno de los criterios con mayor peso porque si no puedes hacerlo, da igual lo buena que sea la idea.
+
+**Para qué sirve**: Para no elegir ideas que luego no puedes construir.
+</details>
+
+<details>
+<summary>¿Qué hacer si mi idea ya existe?</summary>
+
+**Respuesta**: Adaptarla: ¿qué le falta? ¿Para quién no está pensada? ¿Cómo la harías diferente?
+
+**Para qué sirve**: Para no descartar buenas ideas solo porque no son 100% originales.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Evalúa cada idea con **5 criterios ponderados**: viabilidad, briefing, originalidad, utilidad y esfuerzo.
+2. **La idea ganadora equilibra todo**: no es la más ambiciosa, sino la más realista y completa.
+3. Si ya existe algo similar, **adapta y mejora**: no copies, innova.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-7-propuesta) · Anterior: [03 — Ideas de proyecto](./03-ideas-proyecto) · Siguiente: [05 — Definición de alcance](./05-definicion-alcance)

@@ -1,0 +1,168 @@
+---
+title: "07 — Errores avanzados de requisitos"
+description: "Los 7 pecados capitales que destruyen proyectos desde los requisitos"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 2.1 · Requisitos Avanzado** → 07 · Errores avanzados de requisitos
+
+<StoryIntro icono="🚫" titulo="Los errores de requisitos se pagan caros">
+  En Proyecto 1 viste errores básicos (requisitos vagos, olvidar RNF).
+  Ahora toca ver los errores **avanzados**: los que parecen correctos pero
+  que lentamente van envenenando tu proyecto hasta que es demasiado tarde
+  para arreglarlos.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los errores avanzados de requisitos no se ven al principio: se detectan cuando ya has programado 2 semanas y descubres que construiste lo que no debías.**
+
+Aprenderlos ahora te ahorra dolores de cabeza después.
+
+---
+
+## Los 7 errores avanzados
+
+### 1. El requisito ambiguo doble
+
+Parece claro, pero admite **dos interpretaciones**:
+
+| Requisito ambiguo | Interpretación A | Interpretación B |
+|-------------------|------------------|------------------|
+| "El usuario puede ver sus tareas" | Lista simple | Lista con filtros y ordenación |
+| "La app debe ser rápida" | < 1s | < 3s |
+| "El profesor puede evaluar" | Dar notas | Dar notas + comentarios |
+
+**Solución**: Añadir **criterios de aceptación específicos** que eliminen la ambigüedad.
+
+### 2. El requisito contradictorio
+
+Dos requisitos que **se excluyen mutuamente**:
+
+| Requisito A | Requisito B | Conflicto |
+|-------------|-------------|-----------|
+| "Los datos deben estar accesibles sin internet" | "Los datos deben sincronizarse con el servidor en tiempo real" | Offline + tiempo real son incompatibles |
+| "La app debe ser anónima" | "El profesor debe ver quién hizo qué" | Anonimato vs trazabilidad |
+
+**Solución**: Detectar contradictions en el refinamiento y **negociar** con el Product Owner cuál tiene prioridad.
+
+### 3. El requisito imposible técnicamente
+
+Algo que el usuario pide pero que **no se puede hacer** (o no debería):
+
+| Requisito imposible | Por qué no se puede |
+|---------------------|---------------------|
+| "Que la app funcione sin navegador" | Es una web, necesita un navegador |
+| "Que detecte si el alumno miente" | No tenemos acceso a la cámara ni IA en frontend-only |
+| "Que envíe emails sin servidor" | Sin backend, no hay envío de emails |
+
+**Solución**: Investigar la viabilidad técnica **antes** de aceptar el requisito. No prometer lo que no puedes cumplir.
+
+### 4. El requisito que nadie pidió
+
+Algo que el equipo **asumió** sin que nadie lo pidiera:
+
+- "Hicimos un sistema de notificaciones porque parecía útil" → Nadie lo pidió
+- "Añadimos modo oscuro porque está de moda" → No era una prioridad
+- "Creamos un dashboard con 10 gráficos" → El profesor solo quería una tabla
+
+**Solución**: Todo requisito debe tener un **origen claro** (¿quién lo pidió y por qué?). Si no tiene origen, no se hace.
+
+### 5. El requisito que crece (scope creep)
+
+Un requisito que **se expande** sin control:
+
+```
+Sprint 1: "Queremos un CRUD de tareas"
+Sprint 2: "Y que tenga categorías"
+Sprint 3: "Y que tenga etiquetas de color"
+Sprint 4: "Y que se pueda exportar"
+Sprint 5: "Y que tenga recordatorios"
+```
+
+**Solución**: Cada expansión es una **nueva historia** con su propia estimación. No dejes que un requisito crezca dentro de un sprint.
+
+### 6. El requisito sin origen
+
+Nadie sabe **quién lo pidió** ni **por qué** existe:
+
+- "Tenemos que hacer un chat" → ¿Quién lo pidió? No lo sé
+- "Hay que añadir un buscador" → ¿El profesor lo pidió? No recuerdo
+- "Necesitamos integración con Google" → ¿Por qué? No me lo pregunté
+
+**Solución**: Cada requisito debe tener un **ID y un origen**. Si no puedes rastrearlo, no lo hagas.
+
+### 7. El requisito "para el examen"
+
+Un requisito que **solo sirve para que el profesor vea algo bonito** pero que no aporta valor al usuario:
+
+- "El dashboard debe tener gráficos animados" → El usuario no necesita gráficos animados
+- "Hay que hacer una landing page" → El usuario ya está dentro de la app
+- "Necesitamos un PDF de 20 páginas" → El usuario quiere la info, no el PDF
+
+**Solución**: Preguntar siempre: **"¿Esto aporta valor al usuario final?"** Si la respuesta es "no", es un requisito para el examen, no para el producto.
+
+---
+
+## Comparativa: errores básicos vs avanzados
+
+<Comparativa
+  dialogos={[
+    { quien: "Errores básicos", texto: "Requisitos vagos ('que sea bonita'), olvidar RNF, todo es Must. Se ven fácilmente y se arreglan rápido." },
+    { quien: "Errores avanzados", texto: "Requisitos contradictorios, imposibles, sin origen, que crecen. No se ven hasta que ya has programado y el daño está hecho." },
+  ]}
+  titulo="Los básicos duelen. Los avanzados destruyen."
+/>
+
+---
+
+## Aclaración: "¿Cómo detectar estos errores a tiempo?"
+
+<Aclaracion icono="🤔" pregunta="¿Qué puedo hacer para detectar errores avanzados antes de programar?">
+Cinco preguntas mágicas para cada requisito:
+
+1. **¿Quién lo pidió?** (si no lo sabes, es error #6)
+2. **¿Es técnicamente posible?** (si no lo sabes, investiga antes de aceptar)
+3. **¿Contradice otro requisito?** (revisa la matriz de trazabilidad)
+4. **¿Aporta valor al usuario?** (si solo sirve para el examen, es error #7)
+5. **¿Puede crecer sin control?** (si es vago, será error #5)
+
+Si alguna respuesta te incomoda, **reescribe el requisito** antes de estimarlo.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son los 7 errores avanzados de requisitos?</summary>
+
+1) Ambigüedad doble, 2) Contradicción entre requisitos, 3) Imposibilidad técnica, 4) Nadie lo pidió, 5) Scope creep, 6) Sin origen, 7) "Para el examen".
+</details>
+
+<details>
+<summary>¿Qué es el scope creep?</summary>
+
+Es cuando un requisito **se expande sin control** durante los sprints. La solución: cada expansión es una nueva historia con su propia estimación.
+</details>
+
+<details>
+<summary>¿Cómo evitar requisitos sin origen?</summary>
+
+Cada requisito debe tener un **ID y un origen claro** (¿quién lo pidió y por qué?). Si no puedes rastrearlo, no lo hagas.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los errores avanzados de requisitos son **peor que los básicos**: no se ven al principio pero destruyen el proyecto cuando ya es tarde.
+2. Los 7 errores son: ambigüedad, contradicciones, imposibilidad técnica, nadie lo pidió, scope creep, sin origen y "para el examen".
+3. Para detectarlos, hazte **5 preguntas** antes de aceptar cada requisito: quién lo pidió, si es posible, si contradice, si aporta valor y si puede crecer.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-1-requisitos-avanzado) · Anterior: [06 — Trazabilidad](./06-trazabilidad) · Siguiente: [08 — Template avanzado](./08-template-requisitos-avanzado)

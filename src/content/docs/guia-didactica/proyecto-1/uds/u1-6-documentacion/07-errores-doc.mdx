@@ -1,0 +1,148 @@
+---
+title: "07 — Errores de documentación"
+description: "Los errores más comunes al documentar y cómo evitarlos"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📚 **UD 1.6 · Documentación** → 07 · Errores de documentación
+
+<StoryIntro icono="⚠️" titulo="Los errores de documentación son predecibles — y evitables">
+  Todos cometemos los mismos errores. La buena noticia es que, conocándolos,
+  puedes evitarlos. Esta sección enumera los errores más frecuentes que
+  cometen los proyectos intermodulares y cómo solucionarlos.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los errores de documentación no son de ortografía: son de claridad, utilidad y oportunidad.**
+
+---
+
+## Los 7 errores más comunes
+
+### 1. "Lo documento luego"
+
+El error #1. La documentación se deja para el final, cuando ya no hay
+tiempo ni ganas. Resultado: un README vacío y una memoria抄ada la noche
+antes.
+
+**Solución**: Documenta **mientras desarrollas**, no después. Cada
+funcionalidad nueva = su documentación.
+
+### 2. Demasiado técnico
+
+Llenar el manual de usuario con "ejecuta npm run build" y "configura el
+webpack". El usuario no técnico no entiende nada.
+
+**Solución**: Piensa en tu audiencia. Si es para usuarios, sin jerga. Si
+es para desarrolladores, con detalle técnico.
+
+### 3. Demasiado vago
+
+"La app hace cosas". "Funciona con bases de datos". "Se puede usar".
+
+**Solución**: Sé específico. ¿Qué hace? ¿Cómo se usa? ¿Qué problemas
+resuelve? Detalles, no generalidades.
+
+### 4. Obsoleto
+
+La documentación no se actualiza cuando el código cambia. El README dice
+"npm run dev" pero ahora es "npm run serve".
+
+**Solución**: Actualiza la documentación **en el mismo commit** que
+modificas el código. Docs as Code.
+
+### 5. Sin estructura
+
+Un párrafo largo sin encabezados, sin listas, sin separación. Nadie lee
+eso.
+
+**Solución**: Usa encabezados, listas, tablas y separadores. Organiza por
+secciones lógicas.
+
+### 6. Sin capturas
+
+Descripciones textuales de la interfaz cuando una imagen lo explicaría
+mejor.
+
+**Solución**: Incluye capturas de pantalla de cada pantalla importante.
+Señala los botones relevantes.
+
+### 7. Solo para el tribunal
+
+Documentar "para que quede bien" en vez de "para que sea útil". El
+tribunal nota la diferencia.
+
+**Solución**: Escribe documentación que tú mismo usarías si tuvieras que
+volver al proyecto en 3 meses.
+
+---
+
+## Comparativa: error vs corrección
+
+<Comparativa
+  dialogos={[
+    { quien: "Error", texto: "Lo documento luego. Ya veré eso cuando termine todo (Spoiler: nunca se documenta bien)." },
+    { quien: "Corrección", texto: "Documento cada funcionalidad cuando la termino. 10 minutos por feature = documentación siempre al día." },
+  ]}
+  titulo="La documentación incremental evita el caos final"
+/>
+
+---
+
+## Aclaracion: "¿Y si ya cometí todos estos errores?"
+
+<Aclaracion icono="😅" pregunta="¿Todo está perdido si ya hice mi proyecto sin documentar?">
+No. Aunque sea el último día, puedes:
+
+1. **Escribir un README** básico (30 min)
+2. **Crear una estructura** de carpetas clara (15 min)
+3. **Añadir capturas** de las pantallas principales (20 min)
+4. **Escribir 5 frases** por funcionalidad (30 min)
+
+No será perfecto, pero será **mejor que nada**. Y la próxima vez sabrás
+documentar mejor.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es el error #1 de documentación?</summary>
+
+**Respuesta**: "Lo documento luego". La documentación se deja para el final y nunca se hace bien.
+
+**Para qué sirve**: Para identificarlo y empezar a documentar desde el primer día.
+</details>
+
+<details>
+<summary>¿Qué significa "documentación obsoleta"?</summary>
+
+**Respuesta**: Documentación que no refleja el estado actual del código porque no se actualizó cuando el código cambió.
+
+**Para qué sirve**: Para actualizar la doc en el mismo commit que el código.
+</details>
+
+<details>
+<summary>¿Por qué es malo documentar "solo para el tribunal"?</summary>
+
+**Respuesta**: Porque el tribunal nota la diferencia entre documentación útil y documentación de relleno. Además, no sirve para tu equipo.
+
+**Para qué sirve**: Para escribir documentación genuinamente útil.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los errores más comunes son: **"lo documento luego", demasiado técnico, demasiado vago y obsoleto**.
+2. La solución es documentar **mientras desarrollas**, no al final, y actualizar en el mismo commit.
+3. Escribe documentación que **tú mismo usarías** si tuvieras que volver al proyecto.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-6-documentacion) · Anterior: [06 — Herramientas doc](./06-herramientas-doc) · Siguiente: [08 — Plantilla de doc](./08-template-doc)

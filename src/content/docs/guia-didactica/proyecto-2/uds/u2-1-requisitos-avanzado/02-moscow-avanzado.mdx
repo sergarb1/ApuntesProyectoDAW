@@ -1,0 +1,174 @@
+---
+title: "02 — MoSCoW avanzado y modelo Kano"
+description: "Priorización con criterio: qué hacer primero, qué dejar para después"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 2.1 · Requisitos Avanzado** → 02 · MoSCoW avanzado y Kano
+
+<StoryIntro icono="🎯" titulo="No todo es igual de importante. Aprende a priorizar de verdad">
+  "Esto es todo Must" es la frase más peligrosa en un proyecto. Si todo es
+  urgente, nada es urgente. MoSCoW te da un marco para clasificar. Kano te
+  dice qué genera satisfacción real. Juntos, te ayudan a **decidir qué hacer
+  primero** sin depender del capricho de nadie.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **MoSCoW clasifica la urgencia. Kano clasifica la satisfacción. Usar ambos juntos es priorizar con cabeza.**
+
+No se trata de hacer mucho, sino de hacer lo correcto.
+
+---
+
+## MoSCoW avanzado: más allá de Must/Should/Could/Won't
+
+En Proyecto 1 ya conocías MoSCoW. Ahora vamos un paso más allá:
+
+### Las 4 categorías con reglas claras
+
+| Categoría | Significado | Regla de oro | % del sprint |
+|-----------|-------------|--------------|--------------|
+| **Must** | Sin esto, la app no funciona | Máximo 60% del sprint | 60% |
+| **Should** | Importante, pero no vital | Máximo 20% del sprint | 20% |
+| **Could** | Deseable si hay tiempo | Máximo 20% del sprint | 20% |
+| **Won't** | No ahora, quizás nunca | No se incluye | 0% |
+
+### La regla del 60/20/20
+
+Si tu sprint tiene 100 puntos de esfuerzo:
+- **60 puntos** para Must (lo imprescindible)
+- **20 puntos** para Should (lo importante)
+- **20 puntos** para Could (lo deseable)
+
+**Si no puedes cumplir esta distribución, tu plan es irreal.**
+
+### Ejemplo aplicado a Proyecto 2
+
+| Requisito | MoSCoW | Justificación |
+|-----------|--------|---------------|
+| Login con email y contraseña | Must | Sin autenticación no hay app |
+| CRUD de tareas completo | Must | Funcionalidad central |
+| Dashboard con estadísticas | Should | Aporta valor pero no es vital |
+| Tema oscuro | Could | Bonito pero no imprescindible |
+| Integración con Google Calendar | Won't | Fuera del alcance del módulo |
+
+---
+
+## El modelo Kano: ¿qué genera satisfacción real?
+
+Kano clasifica los requisitos según **cómo afectan a la satisfacción del usuario**:
+
+### Las 3 categorías de Kano
+
+```
+Satisfacción
+    ↑
+    │     ╱ Excitadores
+    │   ╱   (sorpresa positiva)
+    │ ╱
+    │╱───────── Lineales
+    │           (cuanto mejor, más satisfacción)
+    │
+    ├────────────────────→ Cumplimiento
+    │
+    │╲
+    │ ╲ Básicos
+    │   (sin ellos, frustración total)
+```
+
+| Categoría | Qué son | Ejemplo | Prioridad |
+|-----------|---------|---------|-----------|
+| **Básicos** | Sin ellos, la app no sirve | Login, persistencia de datos | Must siempre |
+| **Lineales** | Cuanto mejor, más satisfacción | Rendimiento, usabilidad | Should/Could |
+| **Excitadores** | Generan sorpresa positiva | Atajos de teclado, exportación PDF | Could/Won't |
+
+### Ejemplo para una app de tareas
+
+| Requisito | Tipo Kano | Efecto |
+|-----------|-----------|--------|
+| Guardar tareas | Básico | Sin esto, la app es inútil |
+| Carga rápida | Lineal | Más rápido = más feliz |
+| Exportar a PDF | Excitador | Sorpresa positiva |
+| Tema oscuro | Excitador | Bonito, pero no esperado |
+| Sincronización en la nube | Básico hoy | Cada vez más usuarios lo dan por sentado |
+
+---
+
+## Comparativa: MoSCoW vs Kano
+
+<Comparativa
+  dialogos={[
+    { quien: "MoSCoW", texto: "Clasifica por urgencia y valor para el negocio. Pregunta: ¿es imprescindible para que la app funcione?" },
+    { quien: "Kano", texto: "Clasifica por impacto en la satisfacción del usuario. Pregunta: ¿cómo se siente el usuario cuando lo usa?" },
+  ]}
+  titulo="Dos preguntas diferentes, un mismo objetivo"
+/>
+
+| Aspecto | MoSCoW | Kano |
+|---------|--------|------|
+| **Enfoque** | Urgencia / negocio | Satisfacción / usuario |
+| **Cuándo usarlo** | Al planificar sprints | Al descubrir requisitos |
+| **Resultado** | Lista priorizada | Mapa de satisfacción |
+| **Complemento** | Kano te dice qué es emocionante | MoSCoW te dice qué es urgente |
+
+---
+
+## Cómo usar ambos juntos: el flujo
+
+1. **Descubre** todos los requisitos posibles (brainstorming)
+2. **Clasifica con Kano**: ¿básico, lineal o excitador?
+3. **Asigna MoSCoW**: básicos → Must, lineales → Should, excitadores → Could
+4. **Ajusta** según el tiempo disponible del sprint
+5. **Revisa** al final del sprint: ¿qué quedó pendiente?
+
+---
+
+## Aclaración: "¿Y si todo parece Must?"
+
+<Aclaracion icono="🤔" pregunta="¿Qué pasa si mis compañeros clasifican todo como Must?">
+Esto es un **síntoma de mal refinamiento**. Hazte estas preguntas:
+
+1. **¿La app deja de funcionar sin esto?** Si la respuesta es "no", no es Must
+2. **¿Podemos mostrar la app sin esto?** Si se puede demostrar, no es Must
+3. **¿Qué pasa si lo hacemos después?** Si el usuario se enfada, es Must. Si solo se queja, es Should
+
+**Consejo**: Pon un límite duro: "Solo el 60% puede ser Must". Si se pasa de ese límite, el equipo tiene que elegir.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es la distribución MoSCoW recomendada para un sprint?</summary>
+
+**60% Must, 20% Should, 20% Could**. Won't no se incluye. Si no puedes cumplir esta distribución, tu plan es demasiado ambicioso.
+</details>
+
+<details>
+<summary>¿Qué son los excitadores de Kano?</summary>
+
+Son requisitos que **sorprenden positivamente** al usuario. No los espera, pero cuando los ve, se emociona. Ejemplos: exportar a PDF, atajos de teclado, modo oscuro.
+</details>
+
+<details>
+<summary>¿Cuándo usar MoSCoW y cuándo usar Kano?</summary>
+
+**Kano** al descubrir requisitos (para entender qué genera satisfacción). **MoSCoW** al planificar sprints (para decidir qué entra y qué no).
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **MoSCoW** clasifica requisitos por urgencia: Must (60%), Should (20%), Could (20%), Won't (0%).
+2. **Kano** clasifica por satisfacción: básicos (imprescindibles), lineales (cuanto mejor) y excitadores (sorpresa positiva).
+3. Usa **Kano para descubrir** y **MoSCoW para priorizar**: así evitas que todo sea "Must" y haces lo que realmente importa.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-1-requisitos-avanzado) · Anterior: [01 — Criterios INVEST](./01-invest) · Siguiente: [03 — Story points y Planning Poker](./03-estimacion-puntos)

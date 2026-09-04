@@ -1,0 +1,173 @@
+---
+title: "04 — Stack tecnológico final"
+description: "Cómo elegir las tecnologías adecuadas para tu proyecto"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🚀 **UD 2.9 · Propuesta Final** → 04 · Stack tecnológico final
+
+<StoryIntro icono="🏗️" titulo="El stack correcto es el que se ajusta a tu proyecto, no al más popular">
+  Elegir tecnologías es una de las decisiones más importantes del
+  proyecto. Pero no se trata de usar la tecnología más nueva o
+  popular: se trata de elegir la que mejor se adapte a tus
+  necesidades, tu experiencia y tu tiempo.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **El stack correcto es el que conoces (o puedes aprender rápido) y que se adapta a lo que tu proyecto necesita.**
+
+---
+
+## Stack mínimo recomendado
+
+| Capa | Opción 1 (segura) | Opción 2 (moderna) |
+|------|-------------------|-------------------|
+| **Frontend** | Vue 3 + Vite + Tailwind | React + Next.js + Tailwind |
+| **Backend** | Node.js + Express | Python + FastAPI |
+| **BD** | PostgreSQL (Supabase) | MongoDB (Atlas) |
+| **Auth** | JWT manual | Supabase Auth / Clerk |
+| **Testing** | Jest/Vitest | Jest/Vitest + Cypress |
+| **Despliegue** | Vercel + Render | Netlify + Railway |
+| **CI/CD** | GitHub Actions | GitHub Actions |
+| **Monitorización** | UptimeRobot + Winston | Grafana + prom-client |
+
+---
+
+## Criterios de elección
+
+### 1. Conocimiento vs aprendizaje
+
+| Situación | Recomendación |
+|-----------|---------------|
+| Conoces bien la tecnología | Úsala |
+| La has usado poco | Úsala si es fácil de aprender |
+| No la conoces pero es similar a algo que sabes | Úsala con tiempo de aprendizaje |
+| Es completamente nueva | Evítala en el proyecto final |
+
+### 2. Complejidad del proyecto
+
+| Proyecto | Stack recomendado |
+|----------|-------------------|
+| CRUD simple | Vue + Express + PostgreSQL |
+| Tiempo real (chat, notificaciones) | React + Socket.io + MongoDB |
+| Dashboard con gráficas | Vue + D3.js/Chart.js + PostgreSQL |
+| E-commerce | Next.js + Stripe + PostgreSQL |
+
+### 3. Despliegue
+
+| Stack | Despliegue más fácil |
+|-------|---------------------|
+| Frontend puro | Vercel / Netlify / GitHub Pages |
+| Full-Stack Node.js | Render / Railway |
+| Full-Stack Python | Render / Railway |
+| Con Docker | Cualquier VPS (DigitalOcean, Hetzner) |
+
+---
+
+## Stack según el tipo de proyecto
+
+### CRUD básico (gestor de tareas, biblioteca, recetas)
+
+```
+Frontend: Vue 3 + Vite + Tailwind
+Backend:  Node.js + Express
+BD:       PostgreSQL (Supabase)
+Auth:     JWT
+Deploy:   Vercel (FE) + Render (BE)
+```
+
+### Tiempo real (chat, collaborative editing)
+
+```
+Frontend: React + Socket.io-client
+Backend:  Node.js + Socket.io
+BD:       MongoDB (Atlas)
+Auth:     JWT
+Deploy:   Render + MongoDB Atlas
+```
+
+### Dashboard con métricas
+
+```
+Frontend: Vue 3 + Chart.js/D3.js
+Backend:  Node.js + Express + prom-client
+BD:       PostgreSQL
+Auth:     JWT
+Deploy:   Vercel (FE) + Render (BE)
+Monitor:  Prometheus + Grafana
+```
+
+---
+
+## Justificación del stack
+
+En tu documentación, justifica cada elección:
+
+```markdown
+## Stack tecnológico
+
+### Frontend: Vue 3 + Vite + Tailwind
+- **Por qué Vue**: Conocimiento previo, documentación clara, Composition API
+- **Por qué Vite**: Rápido, configuración mínima, hot reload instantáneo
+- **Por qué Tailwind**: CSS utility-first, responsive rápido, sin CSS custom
+
+### Backend: Node.js + Express
+- **Por qué Node.js**: JavaScript en todo el stack, no necesito cambiar de lenguaje
+- **Por qué Express**: Simple, flexibles, mucha documentación
+
+### BD: PostgreSQL (Supabase)
+- **Por qué PostgreSQL**: Relacional, escalable, gratis en Supabase
+- **Por qué Supabase**: Dashboard incluido, auth, real-time, sin configurar servidor
+```
+
+---
+
+## Aclaracion: "¿Debo usar lo último de lo último?"
+
+<Aclaracion icono="🤔" pregunta="¿Debo usar la tecnología más nueva o la más popular?">
+No. En un proyecto final, **lo importante es que funcione y que lo entiendas**. Usar tecnología nueva puede parecer impresionante, pero:
+
+1. Si no la dominas, perderás tiempo depurando
+2. Puede que tenga bugs o documentación escasa
+3. El tribunal valora que **entiendas lo que usas**, no que uses lo último
+
+**Regla**: Usa tecnologías que conozcas o que puedas aprender en &lt;1 semana. Si algo te lleva más de 2 semanas aprenderlo, no es viable para un proyecto final.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las capas del stack mínimo?</summary>
+
+Respuesta: Frontend (framework + CSS), Backend (API), Base de datos, Autenticación, Testing, Despliegue, CI/CD y Monitorización.
+</details>
+
+<details>
+<summary>¿Cuál es el criterio más importante al elegir stack?</summary>
+
+Respuesta: **Conocimiento y tiempo de aprendizaje**. Usa tecnologías que conozcas o que puedas aprender rápido. No arriesgues en el proyecto final.
+</details>
+
+<details>
+<summary>¿Qué hacer si no conozco ninguna tecnología del stack?</summary>
+
+Respuesta: Elige la que sea más similar a algo que ya sepas. Si conoces JavaScript, Node.js es más fácil que Python. Si conoces HTML/CSS, Tailwind es más fácil que CSS custom.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El stack correcto es el que **conoces o puedes aprender rápido** y se adapta a lo que tu proyecto necesita.
+2. Justifica cada elección: **por qué ese framework, por qué esa BD, por qué ese despliegue**.
+3. No uses tecnología nueva solo por novedad: en el proyecto final, **lo importante es que funcione y que lo entiendas**.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-9-propuesta-final) · Anterior: [03 — Selección](./03-seleccion-idea-final) · Siguiente: [05 — Features](./05-features-finales)

@@ -1,0 +1,149 @@
+---
+title: "08 — Evaluación"
+description: "Cómo se evalúa el proyecto y qué criterios se valoran"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 🚀 **UD 2.9 · Propuesta Final** → 08 · Evaluación
+
+<StoryIntro icono="🎯" titulo="Saber cómo se evalúa te permite enfocar tu esfuerzo">
+  No es lo mismo "hacer un proyecto" que "hacer un proyecto que cumple
+  los criterios de evaluación". Conocer qué se valora te permite
+  distribuir tu tiempo en lo que realmente puntúa.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Conoce los criterios de evaluación y enfoca tu esfuerzo en lo que realmente puntúa.**
+
+---
+
+## Desglose de evaluación
+
+| Criterio | Peso | Qué se valora |
+|----------|------|---------------|
+| **Funcionalidad** | 25% | Que las features principales funcionen correctamente |
+| **Calidad técnica** | 20% | Arquitectura, patrones, código limpio, buenas prácticas |
+| **Testing** | 15% | Tests unitarios, integración, cobertura |
+| **Despliegue** | 15% | Docker, CI/CD, HTTPS, producción funcionando |
+| **Documentación** | 10% | README, memoria, diagramas |
+| **Monitorización** | 5% | Logs, métricas, uptime |
+| **Presentación** | 10% | Demo fluida, explicación clara, respuestas |
+
+---
+
+## Cómo maximizar cada criterio
+
+### Funcionalidad (25%)
+
+- Las features **Must** funcionan sin errores visibles
+- Los formularios **validan** datos
+- Los errores se **muestran** al usuario (no 500 genérico)
+- La app es **responsive** (móvil y escritorio)
+
+### Calidad técnica (20%)
+
+- **Patrones de diseño** aplicados (Factory, Strategy, etc.)
+- **Separación de capas** (controllers, services, routes)
+- **Código limpio** (nombres descriptivos, funciones pequeñas)
+- **Sin código duplicado** (DRY)
+- **Manejo de errores** consistente
+
+### Testing (15%)
+
+- Tests para cada feature Must
+- Tests de integración para la API
+- Cobertura >60%
+- Tests ejecutándose en CI/CD
+
+### Despliegue (15%)
+
+- App accesible con **HTTPS**
+- **CI/CD** configurado (GitHub Actions)
+- **Docker** funcional (si aplica)
+- Variables de entorno **no hardcodeadas**
+
+### Documentación (10%)
+
+- README con instrucciones claras
+- Memoria con decisiones justificadas
+- Diagrama C4 mínimo
+- Diagrama ER completo
+
+### Monitorización (5%)
+
+- Logs estructurados (Winston o similar)
+- Uptime monitoring (UptimeRobot o similar)
+- Dashboard básico (Grafana o similar)
+
+### Presentación (10%)
+
+- Demo **preparada y probada**
+- Explicación **clara y concisa** (5-10 minutos)
+- Respuestas a preguntas del tribunal
+- **Comparativa con Proyecto 1**
+
+---
+
+## Errores que penalizan
+
+| Error | Consecuencia |
+|-------|--------------|
+| App no desplegada | -15% (despliegue) |
+| Sin tests | -15% (testing) |
+| Código sin documentar | -10% (documentación) |
+| Variables hardcodeadas | -5% (calidad) |
+| Demo que no funciona | -10% (presentación) |
+| No explicar decisiones | -10% (calidad) |
+
+---
+
+## Aclaracion: "¿Qué se valora más, la cantidad o la calidad?"
+
+<Aclaracion icono="🤔" pregunta="¿Es mejor tener muchas features o pocas bien hechas?">
+**Pocas bien hechas, siempre.** Un proyecto con 3 features perfectas (con tests, validación, despliegue) se valora **mucho más** que uno con 8 features a medias.
+
+El tribunal prefiere ver:
+- 3 features que funcionen perfectamente
+- Tests que pasen
+- App desplegada y accesible
+- Documentación clara
+
+A ver 8 features con bugs, sin tests y sin desplegar.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son los 7 criterios de evaluación?</summary>
+
+Respuesta: Funcionalidad (25%), Calidad técnica (20%), Testing (15%), Despliegue (15%), Documentación (10%), Monitorización (5%) y Presentación (10%).
+</details>
+
+<details>
+<summary>¿Qué error penaliza más?</summary>
+
+Respuesta: **App no desplegada** (-15%) y **sin tests** (-15%). Son los dos errores que más puntos quitan.
+</details>
+
+<details>
+<summary>¿Qué es lo más importante en la presentación?</summary>
+
+Respuesta: Una **demo que funcione** y poder **explicar tus decisiones técnicas** con claridad. El tribunal valora que entiendas lo que hiciste.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los criterios principales son **funcionalidad (25%), calidad técnica (20%), testing (15%) y despliegue (15%)**.
+2. **Pocas features bien hechas** se valora más que muchas a medias: el tribunal prefiere calidad sobre cantidad.
+3. Los errores que más penalizan son **no desplegar la app** y **no tener tests**: evítalos a toda costa.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-9-propuesta-final) · Anterior: [07 — Entregables](./07-entregables) · Siguiente: [09 — Cierre](./09-cierre)

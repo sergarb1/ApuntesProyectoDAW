@@ -1,0 +1,236 @@
+---
+title: "04 — Git Hooks"
+description: "Automatizar calidad antes de cada commit con scripts de Git"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🌿 **UD 2.3 · Git Avanzado** → 04 · Git Hooks
+
+<StoryIntro icono="🪝" titulo="Los hooks son el guardián automático de tu código">
+  Los **Git hooks** son scripts que se ejecutan automáticamente antes o
+  después de ciertas acciones de Git. El más útil es **pre-commit**:
+  ejecuta linting, tests o formateo ANTES de permitirte hacer commit.
+  Si algo falla, no puedes commitear. Punto.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los Git hooks ejecutan scripts automáticamente en momentos clave: pre-commit verifica calidad, commit-msg valida el formato del mensaje.**
+
+Si no pasa el hook, no pasa el commit.
+
+---
+
+## ¿Qué son los Git hooks?
+
+Son scripts en la carpeta `.git/hooks/` que Git ejecuta automáticamente:
+
+```
+.git/hooks/
+├── pre-commit      ← Se ejecuta ANTES de cada commit
+├── commit-msg      ← Se ejecuta DESPUÉS de escribir el mensaje
+├── pre-push        ← Se ejecuta ANTES de cada push
+└── post-merge      ← Se ejecuta DESPUÉS de cada merge
+```
+
+---
+
+## Hook 1: pre-commit (verificar calidad)
+
+Este hook se ejecuta **antes** de cada commit. Si falla, el commit no se crea.
+
+### Archivo `.git/hooks/pre-commit`:
+
+```bash
+#!/bin/sh
+# pre-commit hook: verifica calidad antes de permitir commit
+
+echo "🔍 Ejecutando pre-commit checks..."
+
+# 1. Verificar que no hay console.log en el código
+if git diff --cached --name-only | xargs grep -l "console.log" 2>/dev/null; then
+  echo "❌ Error: Hay console.log en el código. Elimínalo antes de commitear."
+  exit 1
+fi
+
+# 2. Ejecutar linter (si existe)
+if [ -f "package.json" ]; then
+  echo "📋 Ejecutando linter..."
+  npm run lint 2>/dev/null
+  if [ $? -ne 0 ]; then
+    echo "❌ Error: El linter ha encontrado problemas. Arréglalos antes de commitear."
+    exit 1
+  fi
+fi
+
+# 3. Verificar que no hay archivos de configuración con secrets
+if git diff --cached --name-only | xargs grep -l "password\|secret\|api_key" 2>/dev/null; then
+  echo "❌ Error: Parece que hay secrets en el código. No los commitees."
+  exit 1
+fi
+
+echo "✅ Pre-commit checks pasados."
+exit 0
+```
+
+### Cómo activarlo:
+
+```bash
+# Hacer el script ejecutable
+chmod +x .git/hooks/pre-commit
+```
+
+---
+
+## Hook 2: commit-msg (validar formato)
+
+Este hook verifica que el mensaje de commit sigue la convención.
+
+### Archivo `.git/hooks/commit-msg`:
+
+```bash
+#!/bin/sh
+# commit-msg hook: verifica que el mensaje sigue Conventional Commits
+
+commit_msg=$(cat "$1")
+
+# Patrón: tipo(alcance): descripción
+# Tipos válidos: feat, fix, docs, style, refactor, test, chore, perf
+pattern="^(feat|fix|docs|style|refactor|test|chore|perf)(\(.+\))?: .{1,72}"
+
+if ! echo "$commit_msg" | grep -qE "$pattern"; then
+  echo "❌ Error: El mensaje de commit no sigue Conventional Commits."
+  echo ""
+  echo "Formato esperado: tipo(alcance): descripción"
+  echo ""
+  echo "Ejemplos:"
+  echo "  feat: add login form"
+  echo "  fix: correct password validation"
+  echo "  docs: update README"
+  echo "  feat(auth): add Google login"
+  echo ""
+  echo "Tu mensaje: $commit_msg"
+  exit 1
+fi
+
+echo "✅ Formato de commit válido."
+exit 0
+```
+
+---
+
+## Hook 3: pre-push (verificar antes de enviar)
+
+```bash
+#!/bin/sh
+# pre-push hook: ejecuta tests antes de push
+
+echo "🧪 Ejecutando tests antes de push..."
+
+if [ -f "package.json" ]; then
+  npm test 2>/dev/null
+  if [ $? -ne 0 ]; then
+    echo "❌ Error: Hay tests fallando. Arréntalos antes de push."
+    exit 1
+  fi
+fi
+
+echo "✅ Tests pasados. Push permitido."
+exit 0
+```
+
+---
+
+## Comparativa: con hooks vs sin hooks
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin hooks", texto: "Hago commit con console.log. Push. El linter falla en CI. El profesor ve mi código con console.log. Vergüenza." },
+    { quien: "Con hooks", texto: "Hago commit. El hook detecta console.log. No me deja commitear. Lo elimino, commiteo limpio. CI pasa." },
+  ]}
+  titulo="El hook te detiene ANTES de que hagas el ridículo"
+/>
+
+---
+
+## Instalación con Husky (alternativa moderna)
+
+En vez de scripts en `.git/hooks/`, puedes usar **Husky** (para proyectos Node.js):
+
+```bash
+# Instalar Husky
+npm install husky --save-dev
+
+# Inicializar Husky
+npx husky init
+
+# Crear hook pre-commit
+npx husky add .husky/pre-commit "npm run lint"
+
+# Crear hook commit-msg
+npx husky add .husky/commit-msg "npx commitlint --edit $1"
+```
+
+### Archivo `.husky/pre-commit`:
+
+```bash
+npm run lint
+```
+
+### Archivo `.husky/commit-msg`:
+
+```bash
+npx commitlint --edit $1
+```
+
+---
+
+## Aclaración: "¿Los hooks son obligatorios?"
+
+<Aclaracion icono="🤔" pregunta="¿Puedo saltarme un hook?">
+Técnicamente sí, con `git commit --no-verify`. Pero **no lo hagas** a menos que sea una emergencia real:
+
+```bash
+# Esto saltara todos los hooks (NO recomendado)
+git commit --no-verify -m "chore: emergency fix"
+```
+
+Los hooks existen para **protegerte**. Si te los saltas constantemente, están mal configurados o estás evitando calidad.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué es un Git hook?</summary>
+
+Un **script** que Git ejecuta automáticamente en ciertos momentos: pre-commit (antes de commit), commit-msg (después del mensaje), pre-push (antes de push).
+</details>
+
+<details>
+<summary>¿Qué verifica el hook pre-commit?</summary>
+
+Depende de cómo lo configures: puede verificar **console.log**, ejecutar **linter**, buscar **secrets** o cualquier cosa que puedas scriptear.
+</details>
+
+<details>
+<summary>¿Qué es Husky?</summary>
+
+Una herramienta que **gestiona Git hooks** en proyectos Node.js. Es más fácil que crear scripts manualmente en `.git/hooks/`.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los **Git hooks** ejecutan scripts automáticamente: pre-commit verifica calidad, commit-msg valida el formato, pre-push ejecuta tests.
+2. Un **pre-commit** que busque `console.log`, ejecute linter y detecte secrets te ahorra problemas en CI y en la revisión del profesor.
+3. Usa **Husky** si tu proyecto es Node.js: gestiona los hooks de forma más sencilla que los scripts manuales.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-3-git-avanzado) · Anterior: [03 — Conflictos](./03-conflictos) · Siguiente: [05 — CI/CD](./05-ci-cd)

@@ -1,0 +1,148 @@
+---
+title: "04 — Manual de usuario"
+description: "Cómo escribir documentación para personas no técnicas"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📚 **UD 1.6 · Documentación** → 04 · Manual de usuario
+
+<StoryIntro icono="👤" titulo="El usuario no quiere saber cómo está hecho, quiere saber cómo se usa">
+  Tu app puede usar Vue, Pinia y 15 librerías más. Al usuario le da igual.
+  El usuario quiere saber: **¿qué hago para conseguir lo que quiero?**. El
+  manual de usuario es la documentación que responde esa pregunta.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Escribe como si le explicaran a alguien que nunca ha visto una computadora.**
+
+---
+
+## Estructura del manual
+
+```markdown
+# Manual de usuario — [Nombre]
+
+## Introducción
+Qué es la app y para qué sirve.
+
+## Primeros pasos
+Cómo empezar: registrarse, configurar, etc.
+
+## Funcionalidades principales
+Una por una, con capturas y pasos.
+
+## Preguntas frecuentes
+Problemas comunes y soluciones.
+
+## Contacto
+Cómo pedir ayuda.
+```
+
+---
+
+## Reglas de escritura para no técnicos
+
+### 1. Evita la jerga técnica
+
+| ❌ Mal | ✅ Bien |
+|--------|---------|
+| "Haz clic en el botón de submit" | "Pulsa el botón Enviar" |
+| "El endpoint retorna un 404" | "No se ha encontrado la página" |
+| "La cookie ha expirado" | "Tu sesión ha caducado, vuelve a iniciar sesión" |
+| "Configura las variables de entorno" | "Abre el archivo .env y escribe la dirección del servidor" |
+
+### 2. Un paso por línea
+
+```markdown
+❌ Mal:
+Abre la app, ve a ajustes y cambia el tema.
+
+✅ Bien:
+1. Abre la aplicación
+2. Pulsa el icono de ajustes (engranaje)
+3. Selecciona "Tema oscuro"
+4. Pulsa "Guardar"
+```
+
+### 3. Capturas de pantalla
+
+Una imagen vale más que mil palabras. Incluye:
+- Captura de cada pantalla importante
+- Flechas o recuadros señalando los botones
+- Texto alternativo descriptivo
+
+### 4. Lenguaje amigable
+
+```markdown
+❌ "Error: el campo email es obligatorio"
+✅ "¿Olvidaste poner tu correo? Escríbelo para continuar"
+```
+
+---
+
+## Comparativa: manual para técnicos vs no técnicos
+
+<Comparativa
+  dialogos={[
+    { quien: "Para técnicos", texto: "Configura el archivo .env con VITE_API_URL=http://localhost:3000. Ejecuta npm run build. Despliega en /dist." },
+    { quien: "Para no técnicos", texto: "1. Abre el archivo de configuración. 2. Escribe la dirección del servidor. 3. Pulsa el botón Guardar. 4. La app está lista para usar." },
+  ]}
+  titulo="Misma tarea, lenguaje completamente diferente"
+/>
+
+---
+
+## Aclaracion: "¿Y si mi usuario es técnico?"
+
+<Aclaracion icono="🤔" pregunta="¿Necesito simplificar si sé que mis usuarios son programadores?">
+Depende del contexto. Si tu usuario es un programador, puede entender
+jerga técnica. Pero incluso para programadores, un manual claro es mejor
+que uno confuso.
+
+**Regla**: Escribe para el usuario **menos experto** que puede usar tu
+app. Si alguien que no programa puede usarla, cualquiera puede.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las secciones de un manual de usuario?</summary>
+
+**Respuesta**: Introducción, primeros pasos, funcionalidades principales (con capturas), preguntas frecuentes y contacto.
+
+**Para qué sirve**: Para que el usuario encuentre lo que necesita sin buscar.
+</details>
+
+<details>
+<summary>¿Qué es "jerga técnica"?</summary>
+
+**Respuesta**: Palabras o expresiones que solo entienden los programadores: endpoint, variable de entorno, build, deploy, etc.
+
+**Para qué sirve**: Para evitarlas en documentación dirigida a usuarios no técnicos.
+</details>
+
+<details>
+<summary>¿Por qué son importantes las capturas de pantalla?</summary>
+
+**Respuesta**: Porque una imagen muestra exactamente dónde está algo, eliminando ambigüedades del texto.
+
+**Para qué sirve**: Para que el usuario nunca se pierda en la interfaz.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El manual de usuario escribe para **personas no técnicas**: evita jerga, usa pasos claros e incluye capturas.
+2. **Un paso por línea** y lenguaje amigable hacen que el usuario no se pierda.
+3. Incluye siempre: introducción, primeros pasos, funcionalidades, FAQ y contacto.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-6-documentacion) · Anterior: [03 — Doc técnica](./03-doc-tecnica) · Siguiente: [05 — Markdown](./05-markdown)

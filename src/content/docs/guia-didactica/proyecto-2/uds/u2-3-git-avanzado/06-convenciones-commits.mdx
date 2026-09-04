@@ -1,0 +1,181 @@
+---
+title: "06 — Convenciones de commit"
+description: "Conventional Commits para un historial de Git legible y profesional"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🌿 **UD 2.3 · Git Avanzado** → 06 · Convenciones de commit
+
+<StoryIntro icono="📝" titulo="Un commit sin convención es un mensaje inútil">
+  "arreglo", "cosas", "funciona", "WIP"... Estos mensajes no le dicen
+  a nadie qué cambió ni por qué. **Conventional Commits** es un estándar
+  que hace tu historial de Git **legible, buscable y profesional**.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Conventional Commits usa un formato fijo: tipo(alcance): descripción. Así el historial de Git cuenta la historia de tu proyecto.**
+
+Tu historial de Git es documentación. Trátalo como tal.
+
+---
+
+## El formato
+
+```
+tipo(alcance): descripción corta
+
+[corpo opcional]
+
+[f풋er opcional]
+```
+
+### Ejemplos reales
+
+```bash
+feat: add login form with email validation
+fix: correct password length validation
+docs: update README with setup instructions
+style: format code with Prettier
+refactor: extract auth logic to separate module
+test: add unit tests for login component
+chore: update dependencies to latest versions
+perf: optimize image loading with lazy loading
+```
+
+---
+
+## Los 8 tipos de commit
+
+| Tipo | Significado | Cuándo usarlo | Ejemplo |
+|------|-------------|---------------|---------|
+| **feat** | Nueva funcionalidad | Algo nuevo que antes no existía | `feat: add task filtering` |
+| **fix** | Corrección de bug | Algo que no funcionaba bien | `fix: correct date validation` |
+| **docs** | Documentación | Cambios en README, docs, comentarios | `docs: add API documentation` |
+| **style** | Formato | Espacios, sangría, Prettier (no cambia lógica) | `style: format with Prettier` |
+| **refactor** | Refactorización | Reestructurar código sin cambiar comportamiento | `extract auth to module` |
+| **test** | Tests | Añadir o modificar tests | `test: add login tests` |
+| **chore** | Mantenimiento | Dependencias, CI, configuración | `chore: update npm packages` |
+| **perf** | Rendimiento | Mejoras de rendimiento | `perf: add image lazy loading` |
+
+---
+
+## El alcance (opcional)
+
+El alcance indica qué parte del código afecta:
+
+```bash
+feat(auth): add Google login
+fix(api): correct user endpoint
+docs(readme): update setup instructions
+feat(ui): add dark mode toggle
+```
+
+---
+
+## El footer (opcional)
+
+Parareferencias a issues o breaking changes:
+
+```bash
+feat: add password reset
+
+Closes #42
+```
+
+```bash
+feat!: change authentication API
+
+BREAKING CHANGE: the login endpoint now requires email instead of username
+```
+
+---
+
+## Comparativa: commits sin convención vs con convención
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin convención", texto: "git log: 'arreglo', 'cosas', 'funciona', 'WIP', 'update', 'fix', 'more changes'. No sé qué hizo nadie en qué sprint." },
+    { quien: "Con convención", texto: "git log: 'feat: add login', 'fix: correct validation', 'docs: update README'. Sé exactamente qué se hizo, en qué parte y por qué." },
+  ]}
+  titulo="El historial de Git es documentación. Trátalo como tal."
+/>
+
+---
+
+## Generadores de commit messages
+
+### Commitlint (automático)
+
+```bash
+# Instalar
+npm install @commitlint/cli @commitlint/config-conventional --save-dev
+
+# Crear commitlint.config.js
+module.exports = {
+  extends: ['@commitlint/config-conventional']
+};
+```
+
+### Git-cz (interactive)
+
+```bash
+# Instalar
+npm install commitizen cz-conventional-changelog --save-dev
+
+# Usar
+npx cz
+# Te hace preguntas y genera el mensaje automáticamente
+```
+
+---
+
+## Aclaración: "¿Es obligatorio usar Conventional Commits?"
+
+<Aclaracion icono="🤔" pregunta="¿Tengo que usar Conventional Commits en mi proyecto?">
+No es obligatorio, pero es **altamente recomendado**:
+
+1. **El profesor** puede revisar tu historial de Git: mensajes claros = mejor nota
+2. **Tu equipo** puede entender qué se hizo en cada sprint
+3. **Las herramientas** (Changelog, semantic-release) pueden generar changelogs automáticos
+4. **Tú mismo** puedes entender tu código dentro de 3 meses
+
+**Mínimo absoluto**: al menos describe **qué** hiciste y **por qué**. No pongas "cosas".
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es el formato de Conventional Commits?</summary>
+
+`tipo(alcance): descripción`. Ejemplo: `feat: add login form`. El alcance es opcional.
+</details>
+
+<details>
+<summary>¿Cuáles son los 8 tipos de commit?</summary>
+
+**feat** (nueva funcionalidad), **fix** (bug), **docs** (documentación), **style** (formato), **refactor** (reestructurar), **test** (tests), **chore** (mantenimiento), **perf** (rendimiento).
+</details>
+
+<details>
+<summary>¿Qué es Commitlint?</summary>
+
+Una herramienta que **verifica automáticamente** que los mensajes de commit siguen Conventional Commits. Se integra con Git hooks.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **Conventional Commits** usa el formato `tipo(alcance): descripción` para hacer el historial de Git legible y buscable.
+2. Los 8 tipos son **feat, fix, docs, style, refactor, test, chore, perf**: cada uno tiene un propósito claro.
+3. Usa **Commitlint** para verificar automáticamente los mensajes: si no cumple el formato, no deja commitear.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-3-git-avanzado) · Anterior: [05 — CI/CD](./05-ci-cd) · Siguiente: [07 — Code Review](./07-code-review)

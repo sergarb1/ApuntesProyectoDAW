@@ -1,0 +1,149 @@
+---
+title: "05 — Definición de alcance"
+description: "Qué entra en el proyecto y qué queda fuera"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 1.7 · Propuesta de Proyecto** → 05 · Definición de alcance
+
+<StoryIntro icono="📐" titulo="Decidir qué NO hacer es tan importante como decidir qué hacer">
+  El error más común en proyectos es querer hacer **demasiado**. El alcance
+  define los límites de tu proyecto: qué funcionalidades incluye, cuáles
+  quedan para después y cuáles no entran en absoluto. Sin alcance claro,
+  el proyecto crece hasta explotar.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un proyecto pequeño bien terminado vale más que uno grande a medias.**
+
+---
+
+## ¿Qué es el alcance?
+
+El alcance es la **frontera** de tu proyecto. Divide todo en tres zonas:
+
+```
+┌─────────────────────────────────────┐
+│         DENTRO del alcance          │
+│  Funcionalidades que SÍ haremos     │
+│  ┌───────────────────────────────┐  │
+│  │   MVP (Mínimo Viable)         │  │
+│  │   Lo que DEBE funcionar       │  │
+│  └───────────────────────────────┘  │
+├─────────────────────────────────────┤
+│         FUERA del alcance           │
+│  Funcionalidades que NO haremos     │
+│  (ni ahora ni en el futuro)         │
+├─────────────────────────────────────┤
+│         POST-entrega                │
+│  Funcionalidades que nos gustaría   │
+│  pero que no caben en el plazo      │
+└─────────────────────────────────────┘
+```
+
+---
+
+## Cómo definir el alcance
+
+### 1. Lista de funcionalidades
+
+Escribe todo lo que la app podría hacer. Después, clasifícalo:
+
+| Prioridad | Funcionalidad | Estado |
+|-----------|--------------|--------|
+| 🔴 P0 | CRUD de tareas | Obligatorio |
+| 🔴 P0 | Login de usuarios | Obligatorio |
+| 🟡 P1 | Filtros y búsqueda | Importante |
+| 🟡 P1 | Exportación a PDF | Importante |
+| 🟢 P2 | Modo oscuro | Deseable |
+| 🟢 P2 | Notificaciones push | Deseable |
+| ⚪ P3 | Chat en tiempo real | Futuro |
+
+### 2. Regla del 80/20
+
+El 80% del valor viene del 20% de las funcionalidades. Identifica ese
+20% y enfócate ahí primero.
+
+### 3. Definición de "hecho"
+
+Para cada funcionalidad, define cuándo está "hecha":
+
+```markdown
+### CRUD de tareas
+- [x] Crear tarea con título y descripción
+- [x] Editar tarea existente
+- [x] Eliminar tarea con confirmación
+- [x] Marcar como completada
+- [ ] Drag and drop para reordenar (POST-entrega)
+```
+
+---
+
+## Comparativa: proyecto sin alcance vs con alcance
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin alcance", texto: "Empezamos con 10 funcionalidades. A mitad de proyecto llevamos 2 hechas y 8 a medias. El código es un caos. Entregamos algo que no funciona del todo." },
+    { quien: "Con alcance", texto: "Empezamos con 5 funcionalidades P0. Las terminamos todas. Añadimos 2 P1. Entregamos algo sólido, funcional y bien hecho." },
+  ]}
+  titulo="Menos funcionalidades, mejor resultado"
+/>
+
+---
+
+## Aclaracion: "¿Y si el tribunal pide más?"
+
+<Aclaracion icono="🤔" pregunta="¿Qué pasa si el profesor espera más funcionalidades?">
+El briefing define lo **obligatorio**. Si cumple los requisitos del
+briefing con tus funcionalidades P0, estás bien.
+
+Si el tribunal pregunta "¿por qué no hiciste X?", la respuesta es:
+"Definimos el alcance priorizando las funcionalidades core. X quedó
+en futuras mejoras porque no era esencial para el MVP."
+
+Esto demuestra **gestión profesional**, no falta de esfuerzo.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las 3 zonas del alcance?</summary>
+
+**Respuesta**: Dentro del alcance (lo que haremos), fuera del alcance (lo que no haremos) y post-entrega (lo que nos gustaría pero no caben).
+
+**Para qué sirve**: Para definir límites claros y evitar que el proyecto crezca sin control.
+</details>
+
+<details>
+<summary>¿Qué es un MVP?</summary>
+
+**Respuesta**: Mínimo Viable Product. La versión más simple de tu app que cumple los requisitos mínimos y funciona.
+
+**Para qué sirve**: Para tener algo entregable aunque no estén todas las funcionalidades.
+</details>
+
+<details>
+<summary>¿Qué es la regla del 80/20?</summary>
+
+**Respuesta**: El 80% del valor viene del 20% de las funcionalidades. Identifica ese 20% y enfócate ahí.
+
+**Para qué sirve**: Para priorizar lo que más importa.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El alcance define **qué entra, qué no y qué queda para después** en tu proyecto.
+2. **Un proyecto pequeño bien terminado** vale más que uno grande a medias.
+3. Usa prioridades (P0, P1, P2) y la **regla del 80/20** para enfocarte en lo esencial.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-7-propuesta) · Anterior: [04 — Selección de idea](./04-seleccion-idea) · Siguiente: [06 — Cronograma](./06-cronograma)

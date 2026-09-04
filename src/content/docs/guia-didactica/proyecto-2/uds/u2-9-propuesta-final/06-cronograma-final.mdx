@@ -1,0 +1,151 @@
+---
+title: "06 — Cronograma final"
+description: "Cómo planificar el tiempo del proyecto con hitos realistas"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 🚀 **UD 2.9 · Propuesta Final** → 06 · Cronograma final
+
+<StoryIntro icono="📅" titulo="Un cronograma realista te salva de la angustia de última hora">
+  El 70% de los proyectos se terminan en la última semana. Eso genera
+  estrés, errores y código chapucero. Un cronograma con hitos claros
+  te permite distributed el trabajo y entregar con calma.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Distributed el trabajo en sprints de 1-2 semanas con hitos claros, y nunca llegarás desesperado a la fecha de entrega.**
+
+---
+
+## Cronograma estándar (10 semanas)
+
+| Semana | Fase | Actividad | Entregable |
+|--------|------|-----------|------------|
+| **1** | Planificación | Definir idea, stack, features, cronograma | Propuesta escrita |
+| **2** | Backend基础 | Setup proyecto, estructura, BD | Backend arranca |
+| **3** | Backend API | CRUDs, autenticación | API funcional |
+| **4** | Backend avanzado | Lógica de negocio, validaciones | Backend completo |
+| **5** | Frontend基础 | Setup, componentes, routing | Frontend arranca |
+| **6** | Frontend integración | Conectar con API, formularios | Frontend funcional |
+| **7** | Testing | Tests unitarios, integración | Cobertura >60% |
+| **8** | Despliegue | Docker, CI/CD, HTTPS | App en producción |
+| **9** | Monitorización | Logs, métricas, dashboard | Monitorización activa |
+| **10** | Preparación | Documentación, demo, presentación | Todo listo |
+
+---
+
+## Hitos obligatorios
+
+| Hito | Semana | Qué debe funcionar |
+|------|--------|-------------------|
+| **Backend** | 3-4 | API REST completa con auth |
+| **Frontend** | 5-6 | UI conectada con API |
+| **Testing** | 7 | Tests ejecutándose en CI |
+| **Producción** | 8-9 | App accesible con HTTPS |
+| **Entrega** | 10 | Código + docs + demo |
+
+---
+
+## Consejos de planificación
+
+### 1. Estima en días, no en horas
+
+```markdown
+Feature: CRUD de tareas
+- Día 1: Modelo de datos + migración
+- Día 2: Endpoints GET/POST
+- Día 3: Endpoints PUT/DELETE
+- Día 4: Validaciones + tests
+- Día 5: Buffer (imprevistos)
+```
+
+### 2. Añade buffer
+
+Nunca planifiques al 100% del tiempo. Reserva **20% para imprevistos**:
+
+```markdown
+Tiempo total: 10 semanas
+Desarrollo: 8 semanas (80%)
+Buffer: 2 semanas (20%)
+```
+
+### 3. Define "done" para cada sprint
+
+```markdown
+Sprint 1 (Backend): DONE cuando
+- [ ] La API responde en /api/users
+- [ ] CRUD de usuarios funciona
+- [ ] Auth JWT funciona
+- [ ] Tests pasan
+```
+
+### 4. Usa un tablero visual
+
+| Pendiente | En progreso | Hecho |
+|-----------|-------------|-------|
+| Feature 3 | Feature 2 | Feature 1 |
+| Feature 4 | | Feature 0 |
+
+---
+
+## Errores de planificación
+
+| Error | Consecuencia | Cómo evitarlo |
+|-------|--------------|---------------|
+| No poner fechas | "Lo hago mañana" | Asigna fecha a cada tarea |
+| No poner buffer | Imposible terminar | Reserva 20% del tiempo |
+| Estimar en horas optimistas | Siempre te pasas | Duplica la estimación |
+| No priorizar | Todo es urgente | Usa MoSCoW |
+| Cambiar de features | Pierdes tiempo | Comprométete con la lista |
+
+---
+
+## Aclaracion: "¿Y si me atraso?"
+
+<Aclaracion icono="🤔" pregunta="¿Qué hago si voy retrasado?">
+Si ves que no vas a tiempo, **no intentes hacer todo**. Prioriza:
+
+1. **Termina las features Must**: son las que presentas
+2. **Corta features Should/Could**: documenta como "futuras mejoras"
+3. **No subas la calidad del 80% al 95%**: el 80% es suficiente
+4. **Pide ayuda**: al profesor o al equipo
+
+**Nunca** Sacrifiques testing o despliegue por añadir una feature. Un proyecto desplegado con 3 features se valora más que uno local con 6.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuántas semanas de planificación necesitas?</summary>
+
+Respuesta: 1 semana completa para definir idea, stack, features y cronograma. No empieces a codificar sin planificar.
+</details>
+
+<details>
+<summary>¿Cuánto buffer debo reservar?</summary>
+
+Respuesta: **20% del tiempo total**. En 10 semanas, eso son 2 semanas de buffer para imprevistos.
+</details>
+
+<details>
+<summary>¿Qué es un "hito" en el cronograma?</summary>
+
+Respuesta: Un punto concreto en el tiempo donde algo debe estar terminado y funcionando (ej: "Semana 4: Backend completo").
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Planifica en **10 semanas** con hitos claros: planificación → backend → frontend → testing → despliegue → monitorización → entrega.
+2. Reserva **20% del tiempo para imprevistos** y define "done" para cada sprint con criterios concretos.
+3. Si te atrasas, **corta features**, no calidad: un proyecto desplegado con 3 features se valora más que uno local con 6.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-9-propuesta-final) · Anterior: [05 — Features](./05-features-finales) · Siguiente: [07 — Entregables](./07-entregables)

@@ -1,0 +1,159 @@
+---
+title: "05 — Retrospectivas avanzadas"
+description: "Más allá de '¿qué salió bien?': técnicas que generan mejoras reales"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🔄 **UD 2.2 · SCRUM Avanzado** → 05 · Retrospectivas avanzadas
+
+<StoryIntro icono="🔄" titulo="La retrospectiva es la ceremonia más importante de SCRUM">
+  La retrospectiva no es una reunión para quejarse. Es la herramienta que
+  hace que el equipo **mejore cada sprint**. Si tu retrospectiva es siempre
+  "¿qué salió bien? ¿qué salió mal?", es hora de cambiar de técnica.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Una retrospectiva avanzada no solo identifica problemas: genera acciones concretas que se implementan en el siguiente sprint.**
+
+Hablar no es suficiente. Hay que cambiar algo.
+
+---
+
+## Por qué las retrospectivas básicas no funcionan
+
+| Retrospectiva básica | Problema |
+|---------------------|----------|
+| "¿Qué salió bien? ¿Qué salió mal?" | Siempre las mismas respuestas |
+| "Alguien tiene que mejorar" | Nadie asume responsabilidad |
+| "Hablamos de todo" | Se habla de nada en concreto |
+| "Lo apuntamos para el próximo sprint" | Nunca se revisa si se hizo |
+
+---
+
+## 5 técnicas avanzadas
+
+### 1. Start / Stop / Continue
+
+Cada miembro escribe en 3 columnas:
+
+| Start (empezar) | Stop (dejar) | Continue (mantener) |
+|-----------------|-------------|---------------------|
+| "Empezar a hacer pair programming" | "Dejar de estimar sin refinar" | "Continuar con las daily standups" |
+| "Usar mocks para APIs externas" | "Dejar tareas bloqueadas más de 1 día" | "Continuar documentando decisions" |
+
+**Por qué funciona**: Es concreto y cada acción es asignable.
+
+### 2. Mad / Sad / Glad
+
+Cada miembro expresa cómo se sintió:
+
+| Mad (enfadado) | Sad (triste) | Glad (contento) |
+|----------------|-------------|-----------------|
+| "Me enfadé porque la API cambió sin avisar" | "Triste que no terminamos la historia" | "Contento porque aprendimos GitFlow" |
+
+**Por qué funciona**: Las emociones revelan problemas que la lógica oculta.
+
+### 3. 4Ls: Liked / Learned / Lacked / Longed For
+
+| Liked (gustó) | Learned (aprendí) | Lacked (faltó) | Longed For (quería) |
+|---------------|-------------------|----------------|---------------------|
+| "Me gustó el refinamiento" | "Aprendí Planning Poker" | "Faltó comunicación con el PO" | "Quería más tiempo para testing" |
+
+**Por qué funciona**: Cubre aspectos positivos, aprendizajes, carencias y deseos.
+
+### 4. Sailboat (barco)
+
+Visual: el equipo dibuja un barco con 4 elementos:
+
+- **Islas** (meta): ¿a dónde queremos llegar?
+- **Viento** (impulso): ¿qué nos ayuda?
+- **Anclas** (freno): ¿qué nos frena?
+- **Rocas** (riesgos): ¿qué puede salir mal?
+
+**Por qué funciona**: Es visual, participativo y revela perspectives diferentes.
+
+### 5. Timer Toolbox
+
+Cada tema tiene **5 minutos**:
+1. **2 min** individual: cada uno escribe sus puntos
+2. **3 min** discusión: solo los puntos más votados
+3. **1 min** acuerdos: ¿qué hacemos concretamente?
+
+**Por qué funciona**: Evita que una persona monopolice la conversación.
+
+---
+
+## Comparativa: retrospectiva básica vs avanzada
+
+<Comparativa
+  dialogos={[
+    { quien: "Básica", texto: "¿Qué salió bien? 'El diseño'. ¿Qué salió mal? 'Todo'. ¿Alguna acción? 'Comunicarse mejor'. Resultado: mismo problema el próximo sprint." },
+    { quien: "Avanzada", texto: "Start/Stop/Continue: Empezar pair programming, dejar de estimar sin refinar, continuar con daily. Acción concreta: lunes 10:00 primer pair programming. Resultado: mejora medible." },
+  ]}
+  titulo="Hablar no es suficiente. Hay que cambiar algo."
+/>
+
+---
+
+## El checklist de la retrospectiva efectiva
+
+| Criterio | ✓ |
+|----------|---|
+| ¿Todos hablan (no solo el más ruidoso)? | ☐ |
+| ¿Hay acciones concretas asignadas? | ☐ |
+| ¿Se revisaron las acciones del sprint anterior? | ☐ |
+| ¿Se mantiene un tiempo límite? | ☐ |
+| ¿El ambiente es seguro (sin culpas)? | ☐ |
+
+---
+
+## Aclaración: "¿Cómo hacer que la gente hable?"
+
+<Aclaracion icono="🤔" pregunta="¿Qué hago si en la retrospectiva nadie dice nada?">
+Técnicas para romper el hielo:
+
+1. **Escribir en silencio** (2 min): cada uno escribe sus puntos sin hablar. Luego se comparten
+2. **Votar con puntos**: cada uno pone 3 puntos en los temas que le importan. Los más votados se discuten
+3. **El más pequeño**: empieza por la persona que menos ha hablado. Que ella diga su opinión primero
+4. **Anonymous feedback**: usa un formulario anónimo antes de la reunión
+
+**El ambiente de seguridad es clave**: nadie debe sentir que va a ser juzgado por hablar.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las 5 técnicas avanzadas?</summary>
+
+1) Start/Stop/Continue, 2) Mad/Sad/Glad, 3) 4Ls (Liked/Learned/Lacked/Longed For), 4) Sailboat (barco), 5) Timer Toolbox.
+</details>
+
+<details>
+<summary>¿Cuánto dura una retrospectiva?</summary>
+
+**60-90 minutos** para sprints de 2 semanas. Usa temporizador para cada técnica.
+</details>
+
+<details>
+<summary>¿Qué hacer después de la retrospectiva?</summary>
+
+Documentar las **acciones concretas**, asignarlas a personas y **revisarlas** al inicio de la siguiente retrospectiva.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Una retrospectiva avanzada usa **técnicas concretas** (Start/Stop/Continue, Mad/Sad/Glad, 4Ls, Sailboat, Timer Toolbox) en vez de preguntas genéricas.
+2. El objetivo no es hablar: es generar **acciones asignables** que se implementen en el siguiente sprint.
+3. Revisa las **acciones del sprint anterior** al inicio de cada retrospectiva: si nunca se revisan, no sirven de nada.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-2-scrum-avanzado) · Anterior: [04 — Bloqueos y dependencias](./04-bloqueos-dependencias) · Siguiente: [06 — Métricas y KPIs](./06-metricas-scrum)

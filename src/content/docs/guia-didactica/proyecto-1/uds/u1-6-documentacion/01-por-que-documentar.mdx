@@ -1,0 +1,146 @@
+---
+title: "01 — ¿Por qué documentar?"
+description: "La documentación como parte del desarrollo, no como castigo"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📚 **UD 1.6 · Documentación** → 01 · ¿Por qué documentar?
+
+<StoryIntro icono="🤔" titulo="¿Documentar o programar? La respuesta es: ambos">
+  "No tengo tiempo para documentar, estoy programando." Es la excusa más
+  común. Pero piénsalo: si mañana otro compañero tiene que entender tu
+  código, ¿qué prefiere ver? Un README claro o 500 líneas sin comentario
+  alguno?
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Documentar no es perder tiempo: es ahorrar tiempo a quien viene después — incluido tú mismo.**
+
+---
+
+## La filosofía Docs as Code
+
+La idea es simple: **tratar la documentación como tratamos el código**.
+
+```
+Código fuente → Repositorio → Versionado → Revisión → Despliegue
+     ↓              ↓              ↓           ↓           ↓
+Documentación → Repositorio → Versionado → Revisión → Publicación
+```
+
+¿Qué significa esto en la práctica?
+
+1. **Escribir en Markdown** (no en Word)
+2. **Versionar con Git** (mismo repositorio que el código)
+3. **Revisar con Pull Requests** (iguales que el código)
+4. **Publicar automáticamente** (con herramientas estáticas)
+
+---
+
+## ¿Por qué importa?
+
+### 1. Para ti mismo
+
+En 3 meses no recordarás por qué decidiste usar Vue en vez de React, o
+por qué esa función se llama `filtrarDatosRaros`. La documentación es tu
+memoria externa.
+
+### 2. Para tu equipo
+
+Si trabajas en equipo, la documentación evita:
+- Preguntas repetitivas ("¿cómo instalo el proyecto?")
+- Conocimiento perdido ("¿quién hizo esto y por qué?")
+- Duplicación de trabajo ("¿ya existía esto?")
+
+### 3. Para el tribunal
+
+El tribunal **evalúa la documentación** como parte del proyecto. Un README
+claro, una memoria bien estructurada y un manual de usuario suman puntos.
+
+### 4. Para la empresa real
+
+En el mundo laboral, la documentación es lo que separa un proyecto
+profesional de uno amateur. Las empresas lo saben y lo valoran.
+
+---
+
+## Comparativa: con y sin documentación
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin documentación", texto: "Nuevo joins el equipo. No sabe qué hacer. Pregunta 15 veces. Tarda 2 semanas en ser productivo. Se frustra." },
+    { quien: "Con documentación", texto: "Nuevo joins el equipo. Lee el README, sigue la guía de setup, entiende la arquitectura. Tarda 2 días en ser productivo." },
+  ]}
+  titulo="La documentación acelera la incorporación"
+/>
+
+---
+
+## Aclaración: "No sé escribir bien"
+
+<Aclaracion icono="✍️" pregunta="¿Y si no se me da bien escribir?">
+La documentación **no es literatura**. No necesitas frases bonitas ni
+párrafos perfectos. Necesitas:
+
+- **Claridad**: que se entienda qué haces
+- **Estructura**: que esté organizada por secciones
+- **Brevedad**: que no haga un rodeo para llegar al punto
+
+Si sabes escribir un mensaje de WhatsApp claro, sabes escribir
+documentación. La práctica hace al maestro.
+</Aclaracion>
+
+---
+
+## Los 4 mitos sobre la documentación
+
+| Mito | Realidad |
+|------|----------|
+| "Documentar es perder tiempo" | Ahorra más tiempo del que invierte |
+| "El código se explica solo" | Solo para quien lo escribió |
+| "Nadie lee la documentación" | El tribunal la evalúa, y los compañeros la necesitan |
+| "Es aburrido" | Puede serlo, pero es más aburrido no tenerla |
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué es Docs as Code?</summary>
+
+**Respuesta**: Filosofía que trata la documentación igual que el código: se escribe en texto plano, se versiona con Git, se revisa con PRs y se publica automáticamente.
+
+**Para qué sirve**: Para tener documentación siempre actualizada y sincronizada con el código.
+</details>
+
+<details>
+<summary>¿Por qué documentar es importante en un proyecto intermodular?</summary>
+
+**Respuesta**: Porque el tribunal evalúa la documentación (README, memoria, manual) y porque facilita el trabajo en equipo y la entrega final.
+
+**Para qué sirve**: Para que la documentación sea parte de tu nota, no un anexo olvidado.
+</details>
+
+<details>
+<summary>¿Qué formato se recomienda para documentación?</summary>
+
+**Respuesta**: Markdown (`.md` o `.mdx`), porque es legible, versionable, convertible a HTML y ampliamente soportado.
+
+**Para qué sirve**: Para escribir una vez y publicar en múltiples formatos.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Documentar no es opcional: es una **habilidad profesional** que el tribunal evalúa.
+2. La filosofía **Docs as Code** trata la documentación igual que el código: versionada, revisada, publicada.
+3. La documentación **ahorra tiempo** a tu equipo, al tribunal y a tu yo futuro.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-6-documentacion) · Siguiente: [02 — README](./02-readme)

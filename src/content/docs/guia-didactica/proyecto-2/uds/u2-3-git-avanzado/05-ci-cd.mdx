@@ -1,0 +1,251 @@
+---
+title: "05 — CI/CD con GitHub Actions"
+description: "Automatizar build, test y deploy con pipelines en la nube"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🌿 **UD 2.3 · Git Avanzado** → 05 · CI/CD con GitHub Actions
+
+<StoryIntro icono="🤖" titulo="CI/CD es como tener un asistente que verifica todo por ti">
+  **CI** (Continuous Integration) ejecuta tests automáticamente en cada push.
+  **CD** (Continuous Deployment) despliega automáticamente cuando todo pasa.
+  **GitHub Actions** es la herramienta que lo hace todo: un archivo YAML y
+  tienes un pipeline completo.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **CI/CD con GitHub Actions significa: haces push, GitHub ejecuta tests, linting y build automáticamente. Si todo pasa, se despliega. Si falla, te avisa.**
+
+No hagas manualmente lo que puede automatizarse.
+
+---
+
+## ¿Qué es un pipeline CI/CD?
+
+```
+git push → GitHub Actions ejecuta:
+  1. Install dependencies (npm install)
+  2. Run linter (npm run lint)
+  3. Run tests (npm test)
+  4. Build (npm run build)
+  5. Deploy (subir a GitHub Pages)
+  
+Si todo pasa → ✅ Desplegado
+Si algo falla → ❌ Notificación
+```
+
+---
+
+## Ejemplo 1: Pipeline básico (lint + test + build)
+
+### Archivo `.github/workflows/ci.yml`:
+
+```yaml
+name: CI
+
+# Se ejecuta en cada push y pull request
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout del código
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Configurar Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 3. Instalar dependencias
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Ejecutar linter
+      - name: Run linter
+        run: npm run lint
+
+      # 5. Ejecutar tests
+      - name: Run tests
+        run: npm test
+
+      # 6. Build
+      - name: Build
+        run: npm run build
+```
+
+---
+
+## Ejemplo 2: Deploy a GitHub Pages
+
+### Archivo `.github/workflows/deploy.yml`:
+
+```yaml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+```
+
+---
+
+## Ejemplo 3: CI con cache para ser más rápido
+
+```yaml
+name: CI with Cache
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      # Subir build como artifact
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: ./dist
+```
+
+---
+
+## Comparativa: manual vs CI/CD
+
+<Comparativa
+  dialogos={[
+    { quien: "Manual", texto: "Hago push. Olvido ejecutar tests. Subo código roto. El profesor lo ve. Me pide que lo arregle. Pierdo 2 horas." },
+    { quien: "CI/CD", texto: "Hago push. GitHub Actions ejecuta tests. Falla. Me avisa. Arrreglo antes de que nadie lo vea. Ahorro 2 horas." },
+  ]}
+  titulo="La automatización te detiene ANTES de que cometas errores públicos"
+/>
+
+| Aspecto | Manual | CI/CD |
+|---------|--------|-------|
+| **Tests** | Los ejecuto cuando me acuerdo | Se ejecutan siempre |
+| **Linter** | A veces lo salto | Obligatorio |
+| **Build** | Lo hago manualmente | Automático |
+| **Deploy** | Subo archivos a mano | Automático |
+| **Errores** | Los descubro tarde | Los descubro al instante |
+
+---
+
+## Aclaración: "¿Necesito CI/CD para un proyecto de módulo?"
+
+<Aclaracion icono="🤔" pregunta="¿Merece la pena configurar GitHub Actions para un proyecto de 6 semanas?">
+Sí, y es más fácil de lo que parece:
+
+1. **CI básico** (lint + test + build): **1 archivo YAML**, 20 minutos de configuración
+2. **Deploy automático**: **1 archivo YAML** más, 30 minutos de configuración
+
+**El retorno de inversión** es enorme: cada push se verifica automáticamente. No subes código roto. No olvidas ejecutar tests. El profesor ve un proyecto profesional.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué es CI/CD?</summary>
+
+**CI** (Continuous Integration): ejecuta tests y build automáticamente en cada push. **CD** (Continuous Deployment): despliega automáticamente cuando todo pasa.
+</details>
+
+<details>
+<summary>¿Qué es GitHub Actions?</summary>
+
+La herramienta de GitHub para crear **pipelines CI/CD**. Un archivo YAML en `.github/workflows/` define qué ejecutar en cada push.
+</details>
+
+<details>
+<summary>¿Cuántos archivos necesito para CI/CD?</summary>
+
+**1 archivo** para CI (lint + test + build). **1 archivo más** para deploy automático. Total: 2 archivos YAML.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **CI/CD** ejecuta automáticamente tests, linting y build en cada push: si falla, te avisa; si pasa, despliega.
+2. **GitHub Actions** se configura con **1-2 archivos YAML** en `.github/workflows/`: es más fácil de lo que parece.
+3. CI/CD te ahorra errores públicos, olvidos de testing y despliegues manuales: es una inversión que se paga sola.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-3-git-avanzado) · Anterior: [04 — Git Hooks](./04-hooks) · Siguiente: [06 — Convenciones de commit](./06-convenciones-commits)

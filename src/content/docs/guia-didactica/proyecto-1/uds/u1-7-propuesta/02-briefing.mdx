@@ -1,0 +1,159 @@
+---
+title: "02 — Briefing"
+description: "Cómo leer y entender el encargo del proyecto"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 1.7 · Propuesta de Proyecto** → 02 · Briefing
+
+<StoryIntro icono="🔍" titulo="El briefing es tu mapa: léelo antes de dibujar la ruta">
+  Antes de generar ideas, necesitas **entender qué te piden**. El briefing
+  (o encargo) es el documento del profesor que define las reglas del juego:
+  qué debe incluir el proyecto, qué tecnologías son obligatorias, cómo se
+  evalúa y cuándo se entrega.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un briefing bien leído evita hacer un proyecto que no cumple los requisitos.**
+
+---
+
+## Qué buscar en el briefing
+
+### 1. Requisitos funcionales
+
+¿Qué **debe hacer** la aplicación?
+
+```
+Ejemplo:
+- CRUD de tareas
+- Sistema de usuarios con login
+- Filtros por categoría y prioridad
+- Exportación a PDF
+```
+
+### 2. Requisitos no funcionales
+
+¿Cómo debe **funcionar** la aplicación?
+
+```
+Ejemplo:
+- Responsive (móvil y escritorio)
+- Tiempo de carga < 3 segundos
+- Compatible con Chrome, Firefox, Safari
+- Accesibilidad básica (WCAG 2.1 AA)
+```
+
+### 3. Restricciones técnicas
+
+¿Qué **tecnologías son obligatorias**?
+
+```
+Ejemplo:
+- Frontend: Vue 3 o React
+- Estilos: Tailwind CSS o CSS Modules
+- Build: Vite o Webpack
+- Despliegue: GitHub Pages
+```
+
+### 4. Criterios de evaluación
+
+¿Qué **valora el tribunal**?
+
+```
+Ejemplo:
+- Funcionalidad: 30%
+- Código: 25%
+- Diseño: 15%
+- Documentación: 15%
+- Presentación: 15%
+```
+
+### 5. Fechas y entregables
+
+¿Cuándo **se entrega** qué?
+
+```
+Ejemplo:
+- Propuesta: semana 3
+- Prototipo: semana 6
+- Versión alpha: semana 10
+- Entrega final: semana 14
+```
+
+---
+
+## Comparativa: briefing bien vs mal leído
+
+<Comparativa
+  dialogos={[
+    { quien: "Mal leído", texto: "El equipo empieza a programar sin leer el briefing. A mitad de proyecto descubren que necesitaban Vue (usaban React) y que faltaba la exportación a PDF." },
+    { quien: "Bien leído", texto: "El equipo lee el briefing, extrae requisitos, tecnologías y fechas. Lo pegan en un documento y lo consultan cada semana. Resultado: nada se olvida." },
+  ]}
+  titulo="El briefing previene errores costosos"
+/>
+
+---
+
+## Aclaracion: "¿Y si el briefing es ambiguo?"
+
+<Aclaracion icono="🤔" pregunta="¿Qué hago si no entiendo algo del briefing?">
+Pregunta al profesor. Es mejor preguntar **al principio** que descubrir
+un error al final. Usa un canal claro (email, foro, clase) y sé
+específico: "En el punto 3 dice 'sistema de autenticación'. ¿Implica
+login con contraseña o solo roles sin login?"
+
+No asumas. Pregunta.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las 5 cosas que debes buscar en un briefing?</summary>
+
+**Respuesta**: Requisitos funcionales, requisitos no funcionales, restricciones técnicas, criterios de evaluación y fechas/entregables.
+
+**Para qué sirve**: Para no olvidar ningún requisito al diseñar tu propuesta.
+</details>
+
+<details>
+<summary>¿Qué es un requisito funcional?</summary>
+
+**Respuesta**: Algo que la aplicación **debe hacer**: CRUD, filtros, exportación, etc.
+
+**Para qué sirve**: Para definir el alcance de tu proyecto.
+</details>
+
+<details>
+<summary>¿Qué es un requisito no funcional?</summary>
+
+**Respuesta**: Cómo debe funcionar: rendimiento, accesibilidad, compatibilidad, responsive.
+
+**Para qué sirve**: Para que la app no solo funcione, sino que funcione bien.
+</details>
+
+<details>
+<summary>¿Qué hacer si el briefing es ambiguo?</summary>
+
+**Respuesta**: Preguntar al profesor. No asumas: pregunta al principio, no al final.
+
+**Para qué sirve**: Para evitar malentendidos costosos.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El briefing define las **reglas del juego**: requisitos, tecnologías, evaluación y fechas.
+2. Léelo completo antes de generar ideas: **extrae requisitos funcionales y no funcionales**.
+3. Si algo es ambiguo, **pregunta al profesor** — no asumas.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-7-propuesta) · Anterior: [01 — ¿Qué es una propuesta?](./01-que-es-propuesta) · Siguiente: [03 — Ideas de proyecto](./03-ideas-proyecto)

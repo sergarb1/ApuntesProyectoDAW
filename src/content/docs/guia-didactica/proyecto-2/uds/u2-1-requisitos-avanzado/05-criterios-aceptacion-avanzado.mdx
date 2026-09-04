@@ -1,0 +1,214 @@
+---
+title: "05 — Criterios de aceptación avanzado"
+description: "Given/When/Then, casos extremos y cómo cubrir escenarios complejos"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 2.1 · Requisitos Avanzado** → 05 · Criterios de aceptación avanzado
+
+<StoryIntro icono="✅" titulo="De 'funciona' a 'funciona exactamente así'">
+  En Proyecto 1 aprendiste el formato Dado/Cuando/Entonces. Ahora toca
+  **dominarlo**: cubrir casos extremos, errores inesperados y escenarios
+  que nunca te imaginaste pero que el usuario sí probará.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un criterio de aceptación avanzado no solo describe el camino feliz: también cubre errores, límites y casos que parecen imposibles pero que pasan.**
+
+El diablo está en los detalles. Los detalles están en los criterios.
+
+---
+
+## Given/When/Then: la base sólida
+
+El formato BDD (Behavior-Driven Development) sigue siendo el estándar:
+
+```
+GIVEN (DADO) [precondición - el contexto]
+WHEN (CUANDO) [acción - lo que hace el usuario]
+THEN (ENTONCES) [resultado esperado - qué pasa]
+```
+
+### Ejemplo básico vs avanzado
+
+| Básico | Avanzado |
+|--------|----------|
+| DADO que estoy en login, CUANDO pongo email correcto, ENTONCES entro | DADO que estoy en login con email `ana@test.com` y contraseña válida, CUANDO pulso "Entrar", ENTONCES redirijo a `/dashboard` en menos de 2s y veo "Bienvenida, Ana" |
+
+La diferencia: el avanzado es **específico, medible y verificable**.
+
+---
+
+## Los 6 tipos de criterios que debes cubrir
+
+### 1. Happy path (camino feliz)
+
+Todo va bien, el usuario hace lo esperado:
+
+```
+DADO que estoy en la pantalla de registro
+CUANDO introduzco un email válido y una contraseña de 8+ caracteres
+Y pulso "Registrarme"
+ENTONCES se crea mi cuenta y accedo al dashboard
+```
+
+### 2. Validación de errores
+
+Qué pasa cuando algo va mal:
+
+```
+DADO que introduzco un email que ya existe en el sistema
+CUANDO pulso "Registrarme"
+ENTONCES aparece el error "Este email ya está registrado"
+Y el formulario conserva el email introducido
+```
+
+### 3. Límites y validación
+
+Los bordes del sistema:
+
+```
+DADO que escribo una contraseña de solo 3 caracteres
+CUANDO pulso "Registrarme"
+ENTONCES aparece "La contraseña debe tener al menos 8 caracteres"
+Y el botón se queda deshabilitado
+```
+
+### 4. Persistencia
+
+Los datos sobreviven al cierre:
+
+```
+DADO que he creado 3 tareas
+CUANDO cierro el navegador y lo vuelvo a abrir
+ENTONCES las 3 tareas siguen en mi lista con el mismo orden
+```
+
+### 5. Comportamiento responsive
+
+La app se adapta:
+
+```
+DADO que abro la app en un móvil de 320px de ancho
+CUANDO miro la lista de tareas
+ENTONCES se muestra en una columna, el texto es legible
+Y no hay scroll horizontal
+```
+
+### 6. Accesibilidad
+
+Todos pueden usarla:
+
+```
+DADO que navego con teclado (sin ratón)
+CUANDO pulso Tab para moverme entre campos
+ENTONCES cada campo recibe foco visible (borde resaltado)
+Y puedo activar el botón con Enter
+```
+
+---
+
+## Ejemplo completo: historia con 6 criterios
+
+### Historia: "Como alumno, quiero registrarme con email y contraseña"
+
+```
+Criterios de aceptación:
+
+1. Happy path:
+   DADO que estoy en la pantalla de registro
+   CUANDO introduzco email 'nuevo@test.com' y contraseña 'MiPass123!'
+   Y pulso "Registrarme"
+   ENTONCES se crea mi cuenta y accedo al dashboard
+
+2. Email duplicado:
+   DADO que el email 'ana@test.com' ya existe
+   CUANDO intento registrarme con ese email
+   ENTONCES aparece "Este email ya está registrado"
+
+3. Email inválido:
+   DADO que escribo 'no-es-email' en el campo de email
+   CUANDO pulso "Registrarme"
+   ENTONCES aparece "Introduce un email válido"
+
+4. Contraseña débil:
+   DADO que escribo '123' como contraseña
+   CUANDO pulso "Registrarme"
+   ENTONCES aparece "La contraseña debe tener al menos 8 caracteres"
+
+5. Persistencia:
+   DADO que me he registrado correctamente
+   CUANDO cierro el navegador y lo vuelvo a abrir
+   ENTONCES sigo logueado (la sesión persiste)
+
+6. Responsive:
+   DADO que abro el registro en un móvil de 320px
+   CUANDO miro el formulario
+   ENTONCES todos los campos son visibles sin scroll horizontal
+```
+
+---
+
+## Comparativa: criterios básicos vs avanzados
+
+<Comparativa
+  dialogos={[
+    { quien: "Criterios básicos", texto: "DADO que hago login, CUANDO meto mis datos, ENTONCES funciona. (¿Qué datos? ¿Qué es 'funciona'? ¿Qué pasa si falla?)" },
+    { quien: "Criterios avanzados", texto: "DADO que introduzco email 'ana@test.com' y contraseña '1234', CUANDO pulso 'Entrar', ENTONCES accedo al dashboard en &lt;2s. SI el email no existe, ENTONCES aparece 'Credenciales incorrectas' y el formulario conserva el email." },
+  ]}
+  titulo="La diferencia entre 'suficiente' y 'profesional'"
+/>
+
+---
+
+## Aclaración: "¿Cuántos criterios por historia es demasiados?"
+
+<Aclaracion icono="🤔" pregunta="¿No es excesivo poner 6 criterios por historia?">
+No si son necesarios. La guía:
+
+| Tamaño historia | Criterios | Tipo |
+|-----------------|-----------|------|
+| 1-2 puntos | 2-3 | Happy path + 1 error |
+| 3-5 puntos | 3-5 | Happy path + 2-3 errores/límites |
+| 8+ puntos | 5-7 | Todos los tipos: happy, errores, persistencia, responsive |
+
+**Si tienes más de 7**, la historia probablemente es demasiado grande. Divídela.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son los 6 tipos de criterios de aceptación?</summary>
+
+1) Happy path (todo va bien), 2) Errores (algo falla), 3) Límites (validación), 4) Persistencia (datos sobreviven), 5) Responsive (se adapta), 6) Accesibilidad (todos pueden usarla).
+</details>
+
+<details>
+<summary>¿Qué es BDD?</summary>
+
+**Behavior-Driven Development**: desarrollo guiado por comportamiento. Usa el formato Given/When/Then para escribir criterios de aceptación que todos entienden (producto, desarrollo, testing).
+</details>
+
+<details>
+<summary>¿Cómo sé si mis criterios son suficientes?</summary>
+
+Pregúntate: ¿cubro el happy path? ¿Los errores? ¿Los límites? ¿La persistencia? Si respondes sí a todo, están completos.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los criterios avanzados usan **Given/When/Then** para ser específicos, medibles y verificables.
+2. Debes cubrir **6 tipos**: happy path, errores, límites, persistencia, responsive y accesibilidad.
+3. Si una historia necesita **más de 7 criterios**, probablemente es demasiado grande: divídela en historias más pequeñas.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-1-requisitos-avanzado) · Anterior: [04 — Refinamiento de backlog](./04-refinamiento-backlog) · Siguiente: [06 — Trazabilidad](./06-trazabilidad)

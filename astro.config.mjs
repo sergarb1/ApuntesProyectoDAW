@@ -76,7 +76,7 @@ export default defineConfig({
                     { label: '⚙️ UD 1.4: Tecnologías', link: '/guia-didactica/proyecto-1/uds/u1-4-eleccion-tecnologias' },
                     { label: '🎤 UD 1.5: Comunicación', link: '/guia-didactica/proyecto-1/uds/u1-5-lenguaje-verbal' },
                     { label: '📄 UD 1.6: Documentación', link: '/guia-didactica/proyecto-1/uds/u1-6-documentacion' },
-                    { label: '🎯 UD 1.7: Propuesta', link: '/guia-didactica/proyecto-1/uds/u1-7-propuesta-proyecto1' },
+                    { label: '🎯 UD 1.7: Propuesta', link: '/guia-didactica/proyecto-1/uds/u1-7-propuesta' },
                   ],
                 },
                 { label: '✅ Evaluación', link: '/guia-didactica/proyecto-1/evaluacion' },

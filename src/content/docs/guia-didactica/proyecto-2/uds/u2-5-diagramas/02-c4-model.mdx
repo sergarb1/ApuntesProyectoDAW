@@ -1,0 +1,191 @@
+---
+title: "02 — Modelo C4"
+description: "Los 4 niveles de arquitectura: Contexto, Container, Componente, Código"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📐 **UD 2.5 · Diagramas** → 02 · Modelo C4
+
+<StoryIntro icono="🏗️" titulo="C4 es como un zoom: de lo general a lo específico">
+  El **modelo C4** documenta la arquitectura en **4 niveles** que van de
+  lo más general (contexto) a lo más específico (código). Es como hacer
+  zoom en Google Maps: primero ves el país, luego la ciudad, luego la
+  calle y finalmente la casa.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **C4 documenta tu arquitectura en 4 niveles: Contexto (qué hace), Container (qué tecnologías), Componente (qué partes) y Código (cómo se implementa).**
+
+Cada nivel responde una pregunta diferente.
+
+---
+
+## Los 4 niveles de C4
+
+### Nivel 1: Contexto (System Context)
+
+**Pregunta**: ¿Qué hace mi sistema y quién lo usa?
+
+```
+┌─────────────────────────────────────────┐
+│           Sistema                       │
+│  ┌─────────────────────────────────┐   │
+│  │   Tu aplicación de tareas       │   │
+│  └─────────────────────────────────┘   │
+│         ↑                ↑              │
+│    ┌────┴────┐      ┌────┴────┐        │
+│    │ Alumno  │      │Profesor │        │
+│    └─────────┘      └─────────┘        │
+└─────────────────────────────────────────┘
+```
+
+| Elemento | Descripción |
+|----------|-------------|
+| **Tu sistema** | App de tareas para gestión de alumnos |
+| **Alumno** | Crea y gestiona sus tareas |
+| **Profesor** | Ve el progreso de sus alumnos |
+
+### Nivel 2: Container
+
+**Pregunta**: ¿Qué tecnologías componen mi sistema?
+
+```
+┌─────────────────────────────────────────┐
+│         App de Tareas                   │
+│                                         │
+│  ┌───────────┐    ┌───────────────┐    │
+│  │ Frontend  │    │  Backend API  │    │
+│  │  (Vue)    │◄──►│   (Node.js)   │    │
+│  └───────────┘    └───────┬───────┘    │
+│                           │             │
+│                    ┌──────┴──────┐     │
+│                    │  Base datos │     │
+│                    │ (SQLite)    │     │
+│                    └─────────────┘     │
+└─────────────────────────────────────────┘
+```
+
+| Container | Tecnología | Responsabilidad |
+|-----------|-----------|-----------------|
+| Frontend | Vue + Tailwind | Interfaz de usuario |
+| Backend API | Node.js + Express | Lógica de negocio |
+| Base de datos | SQLite | Persistencia de datos |
+
+### Nivel 3: Componente
+
+**Pregunta**: ¿Qué partes tiene mi frontend?
+
+```
+┌─────────────────────────────────────┐
+│         Frontend (Vue)              │
+│                                     │
+│  ┌──────────┐  ┌──────────────┐   │
+│  │  Views   │  │  Components  │   │
+│  │          │  │              │   │
+│  │ Dashboard│  │ TaskList     │   │
+│  │ Login    │  │ TaskForm     │   │
+│  │ Tasks    │  │ TaskCard     │   │
+│  └──────────┘  └──────────────┘   │
+│                                     │
+│  ┌──────────┐  ┌──────────────┐   │
+│  │  Store   │  │  Services    │   │
+│  │ (Pinia)  │  │              │   │
+│  │          │  │ TaskService  │   │
+│  │ taskStore│  │ AuthService  │   │
+│  └──────────┘  └──────────────┘   │
+└─────────────────────────────────────┘
+```
+
+### Nivel 4: Código
+
+**Pregunta**: ¿Cómo se implementa un componente concreto?
+
+```
+┌─────────────────────────────────────┐
+│         TaskService                 │
+│                                     │
+│  + getAll(): Task[]                 │
+│  + getById(id): Task                │
+│  + save(task): Task                 │
+│  + delete(id): void                 │
+│  - repository: TaskRepository       │
+└─────────────────────────────────────┘
+```
+
+---
+
+## Comparativa: sin C4 vs con C4
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin C4", texto: "El profesor: '¿Cómo se estructura tu app?' Yo: 'Pues tiene componentes, y un store, y servicios...' El profesor no ve el panorama completo." },
+    { quien: "Con C4", texto: "El profesor: '¿Cómo se estructura tu app?' Yo: 'Nivel 1: contexto. Nivel 2: containers. Nivel 3: componentes.' El profesor hace zoom en el nivel que le interesa." },
+  ]}
+  titulo="C4 permite hacer zoom desde lo general hasta lo específico"
+/>
+
+---
+
+## Cuántos niveles documentar para Proyecto 2
+
+| Nivel | ¿Necesario? | Tiempo |
+|-------|-------------|--------|
+| **1 - Contexto** | ✅ Siempre | 15 min |
+| **2 - Container** | ✅ Siempre | 20 min |
+| **3 - Componente** | ⚠️ Recomendado | 30 min |
+| **4 - Código** | ❌ Solo si lo piden | 30+ min |
+
+**Mínimo**: Niveles 1 y 2. Son 35 minutos y dan una visión completa de tu arquitectura.
+
+---
+
+## Aclaración: "¿Necesito los 4 niveles?"
+
+<Aclaracion icono="🤔" pregunta="¿Tengo que documentar los 4 niveles de C4?">
+Para un proyecto de módulo, **no necesitas los 4**. Documenta:
+
+- **Nivel 1 (Contexto)**: obligatorio. Qué hace tu app y quién la usa
+- **Nivel 2 (Container)**: obligatorio. Qué tecnologías usas
+- **Nivel 3 (Componente)**: recomendado. Qué partes tiene tu frontend
+- **Nivel 4 (Código)**: opcional. Solo si el profesor lo pide
+
+**Los niveles 1 y 2 son suficientes** para demostrar que entiendes la arquitectura de tu proyecto.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué son los 4 niveles de C4?</summary>
+
+**Contexto** (qué hace y quién lo usa), **Container** (qué tecnologías), **Componente** (qué partes), **Código** (cómo se implementa).
+</details>
+
+<details>
+<summary>¿Cuántos niveles documentar?</summary>
+
+**Mínimo 2**: Contexto y Container. Recomendado 3: añadir Componente. Código solo si lo piden.
+</details>
+
+<details>
+<summary>¿Cuánto tiempo toma documentar C4?</summary>
+
+**35-65 minutos** para los 2-3 primeros niveles. Es una inversión que da una visión clara de tu arquitectura.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El **modelo C4** documenta la arquitectura en 4 niveles: **Contexto** (qué hace), **Container** (tecnologías), **Componente** (partes), **Código** (implementación).
+2. Para Proyecto 2, documenta **mínimo 2 niveles** (Contexto y Container): son 35 minutos y dan una visión completa.
+3. C4 es como un **zoom**: desde lo general hasta lo específico. El profesor puede hacer zoom en el nivel que le interese.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-5-diagramas) · Anterior: [01 — ¿Qué son los diagramas?](./01-que-son-diagramas) · Siguiente: [03 — Diagrama ER](./03-diagrama-er)

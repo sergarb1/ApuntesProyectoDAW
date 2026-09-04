@@ -1,0 +1,148 @@
+---
+title: "02 — Trunk-Based Development"
+description: "Desarrollo directo en main con branches de vida corta"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🌿 **UD 2.3 · Git Avanzado** → 02 · Trunk-Based Development
+
+<StoryIntro icono="🚀" titulo="Menos branches, más integración, menos dolor">
+  Trunk-Based Development es la estrategia opuesta a GitFlow: todos
+  trabajan en **main** (o en branches de muy corta vida) y se integra
+  constantemente. Es la base del **deploy continuo** y de equipos como
+  Google, Facebook o Netflix.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Trunk-Based Development significa integrar en main cada pocas horas: branches cortos, integración frecuente, problemas pequeños.**
+
+Si tu branch vive más de 2 días, algo va mal.
+
+---
+
+## ¿Cómo funciona?
+
+```
+main ← todos integran aquí cada pocas horas
+  ↑
+  ├── feature/login (1-2 commits, merge en 1 día)
+  ├── feature/dashboard (1-2 commits, merge en 1 día)
+  └── feature/api (1-2 commits, merge en 1 día)
+```
+
+### Las reglas
+
+1. **Branches de vida corta**: máximo 1-2 días, idealmente horas
+2. **Integración frecuente**: merge a main al menos 1 vez al día
+3. **Tests automáticos**: CI debe pasar antes de merge
+4. **Feature flags**: features incompletas se ocultan con flags, no con branches
+
+---
+
+## Trunk-Based vs GitFlow
+
+<Comparativa
+  dialogos={[
+    { quien: "GitFlow", texto: "Mi branch 'feature-completa' tiene 50 commits y 2 semanas de vida. Cuando hago merge, conflicto con 3 archivos. Resuelvo conflictos durante 2 horas." },
+    { quien: "Trunk-Based", texto: "Mi branch tiene 2 commits y 4 horas de vida. Merge limpio, CI pasa, deploy automático. Si algo falla, es pequeño y fácil de arreglar." },
+  ]}
+  titulo="Branches cortos = problemas pequeños"
+/>
+
+| Aspecto | GitFlow | Trunk-Based |
+|---------|---------|-------------|
+| **Vida del branch** | Días/semanas | Horas |
+| **Frecuencia de merge** | Por feature completa | Varias veces al día |
+| **Conflictos** | Grandes y dolorosos | Pequeños y frecuentes |
+| **Deploy** | Manual, por versiones | Automático, continuo |
+| **Feature flags** | No necesarios | Necesarios |
+
+---
+
+## Feature flags: la clave de Trunk-Based
+
+Si una feature tarda 1 semana pero debes integrar cada pocas horas, ¿cómo lo haces? Con **feature flags**:
+
+```javascript
+// En tu código
+if (featureFlags.isEnabled('dark-mode')) {
+  renderDarkMode();
+} else {
+  renderLightMode();
+}
+```
+
+```json
+// feature-flags.json
+{
+  "dark-mode": false,
+  "new-dashboard": true,
+  "beta-api": false
+}
+```
+
+La feature está en el código pero **desactivada**. Cuando esté lista, activas el flag.
+
+---
+
+## ¿Cuándo usar Trunk-Based?
+
+| Situación | Trunk-Based | GitFlow |
+|-----------|-------------|---------|
+| **Deploy continuo** | ✅ Ideal | ❌ Pesado |
+| **Equipo maduro** (con CI/CD) | ✅ Ideal | ⚠️ OK |
+| **Equipo junior** | ⚠️ Arriesgado | ✅ Más seguro |
+| **Proyecto con versiones** | ⚠️ Posible con feature flags | ✅ Natural |
+
+---
+
+## Aclaración: "¿Trunk-Based es demasiado arriesgado para nosotros?"
+
+<Aclaracion icono="🤔" pregunta="¿Podemos usar Trunk-Based si somos un equipo junior?">
+Sí, pero con precauciones:
+
+1. **Tests automáticos obligatorios**: CI debe pasar antes de cada merge
+2. **Branches de vida corta**: máximo 1-2 días
+3. **Feature flags simples**: un archivo JSON que Active/Inactive
+4. **Revisión de código**: cada merge requiere al menos 1 aprobación
+
+**Para un proyecto de módulo**: GitFlow simplificado (main + develop + feature) es más seguro. Trunk-Based es ideal cuando tengas CI/CD configurado.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es la regla principal de Trunk-Based?</summary>
+
+**Branches de vida corta** (horas, no semanas) e **integración frecuente** (mínimo 1 vez al día).
+</details>
+
+<details>
+<summary>¿Qué son los feature flags?</summary>
+
+Variables que **activan/desactivan** funcionalidades en el código. Permiten integrar features incompletas en main sin que estén visibles.
+</details>
+
+<details>
+<summary>¿Cuándo usar Trunk-Based vs GitFlow?</summary>
+
+**Trunk-Based** para deploy continuo y equipos maduros. **GitFlow** para proyectos con versiones y equipos que necesitan más estructura.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Trunk-Based Development integra en **main cada pocas horas**: branches de vida corta, integración frecuente, conflictos pequeños.
+2. Los **feature flags** permiten integrar features incompletas sin que estén visibles: la clave para hacer Trunk-Based.
+3. Es ideal para **deploy continuo** pero requiere **tests automáticos** y CI/CD configurado: sin eso, es arriesgado.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-3-git-avanzado) · Anterior: [01 — GitFlow](./01-gitflow) · Siguiente: [03 — Conflictos de merge](./03-conflictos)

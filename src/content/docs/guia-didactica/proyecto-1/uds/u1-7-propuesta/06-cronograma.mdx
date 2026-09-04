@@ -1,0 +1,157 @@
+---
+title: "06 — Cronograma"
+description: "Cómo crear un cronograma realista con hitos y deadlines"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 1.7 · Propuesta de Proyecto** → 06 · Cronograma
+
+<StoryIntro icono="⏱️" titulo="Un sin fecha es un sindeadline: nunca se termina">
+  "Lo tenemos para la semana que viene" es la frase más peligrosa de un
+  proyecto. Sin fechas claras, las tareas se expanden hasta llenar todo el
+  tiempo disponible. El cronograma es tu mecanismo de control: divide el
+  proyecto en fases, asigna fechas y cumples.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un cronograma realista se basa en hitos, no en la esperanza de que "saliendo bien".**
+
+---
+
+## Estructura de un cronograma
+
+### 1. Fases del proyecto
+
+| Fase | Duración típica | Entregable |
+|------|----------------|------------|
+| **Propuesta** | 1-2 semanas | Documento de propuesta |
+| **Diseño** | 1-2 semanas | Prototipo, wireframes |
+| **Desarrollo** | 6-8 semanas | App funcional |
+| **Testing** | 1-2 semanas | Bugs corregidos |
+| **Documentación** | 1 semana | README, memoria, manual |
+| **Presentación** | 1 semana | Pitch, diapositivas, demo |
+
+### 2. Diagrama de Gantt simplificado
+
+```
+Semana:  1   2   3   4   5   6   7   8   9  10  11  12  13  14
+         ├───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┼───┤
+Propuesta ████
+Diseño        ████
+Desarrollo        ████████████████████████
+Testing                              ████████
+Documentación                                ████
+Presentación                                     ████
+```
+
+### 3. Hitos (milestones)
+
+Los hitos son **puntos de control** donde verificas que todo va bien:
+
+| Hito | Semana | Qué debe estar listo |
+|------|--------|---------------------|
+| Hito 1 | 2 | Propuesta aprobada |
+| Hito 3 | 4 | Prototipo visual validado |
+| Hito 5 | 8 | MVP funcional |
+| Hito 7 | 12 | Versión completa |
+| Hito 8 | 14 | Entrega final |
+
+---
+
+## Cómo estimar tiempos
+
+### 1. Estimación por partes
+
+Descompón cada funcionalidad en tareas pequeñas:
+
+```
+CRUD de tareas:
+- Diseño de la vista: 2h
+- Componente de formulario: 3h
+- Lógica de crear/editar: 4h
+- Lógica de eliminar: 1h
+- Estilos y responsive: 2h
+- Testing: 2h
+Total: 14h → 2 días
+```
+
+### 2. Multiplica por 1.5
+
+Los tiempos siempre se pasan. Multiplica tu estimación por 1.5 para
+obtener un tiempo realista.
+
+### 3. Deja margen
+
+Reserva un **20% del tiempo** para imprevistos: bugs, dudas, cambios
+de última hora.
+
+---
+
+## Comparativa: cronograma vs "ya veremos"
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin cronograma", texto: "Empezamos con ganas. A mitad de proyecto llevamos un tercio. Las prisas finales generan código malo. Entregamos algo incompleto." },
+    { quien: "Con cronograma", texto: "Cada semana sabemos qué hacer. Si nos retrasamos, lo vemos en el hito siguiente. Ajustamos a tiempo. Entregamos completo." },
+  ]}
+  titulo="El cronograma evita las prisas del final"
+/>
+
+---
+
+## Aclaracion: "¿Y si no cumplimos un hito?"
+
+<Aclaracion icono="😅" pregunta="¿Qué pasa si llegamos al hito y no estamos donde queríamos?">
+Es normal. Lo importante es **detectarlo a tiempo**:
+
+1. **En el hito**, evalúa: ¿estamos donde queríamos?
+2. **Si no**, identifica la causa: ¿fue mal estimación? ¿Hubo imprevistos?
+3. **Ajusta el plan**: reordena prioridades o reduce alcance
+4. **Comunica al profesor**: es mejor decirlo a tiempo que sorprender al final
+
+Un hito que falla es una **señal de alarma**, no un fracaso.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las 6 fases de un proyecto?</summary>
+
+**Respuesta**: Propuesta, diseño, desarrollo, testing, documentación y presentación.
+
+**Para qué sirve**: Para dividir el proyecto en partes manejables y asignar tiempos.
+</details>
+
+<details>
+<summary>¿Qué es un hito?</summary>
+
+**Respuesta**: Un punto de control donde verificas que todo va bien antes de seguir. Si fallas, ajustas a tiempo.
+
+**Para qué sirve**: Para detectar problemas temprano, no al final.
+</details>
+
+<details>
+<summary>¿Por qué multiplicar por 1.5?</summary>
+
+**Respuesta**: Porque los tiempos siempre se pasan. Multiplicar por 1.5 da un estimado más realista.
+
+**Para qué sirve**: Para no crear cronogramas imposibles.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Un cronograma realista se basa en **fases, hitos y deadlines**, no en la esperanza.
+2. **Estima por partes, multiplica por 1.5 y deja margen** para imprevistos.
+3. Si fallas un hito, **detecta, ajusta y comunica** — no esperes al final.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-7-propuesta) · Anterior: [05 — Definición de alcance](./05-definicion-alcance) · Siguiente: [07 — Ejemplo de propuesta](./07-ejemplo-propuesta)

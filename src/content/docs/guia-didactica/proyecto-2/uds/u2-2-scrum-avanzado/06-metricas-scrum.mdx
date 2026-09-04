@@ -1,0 +1,188 @@
+---
+title: "06 — Métricas y KPIs de SCRUM"
+description: "Qué medir, qué NO medir y cómo usar los datos para mejorar"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🔄 **UD 2.2 · SCRUM Avanzado** → 06 · Métricas y KPIs de SCRUM
+
+<StoryIntro icono="📊" titulo="Sin métricas, estás adivinando. Con métricas, estás decidiendo">
+  Las métricas no son para castigar: son para **entender**. Un equipo que
+  mide sabe dónde está y hacia dónde va. Un equipo que no mide repite los
+  mismos errores cada sprint sin saber por qué.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Las métricas de SCRUM te dicen la salud del proyecto: velocity mide ritmo, lead time mide velocidad de entrega, defect rate mide calidad.**
+
+Mide lo correcto, no todo.
+
+---
+
+## Las 6 métricas esenciales
+
+### 1. Velocity (velocidad)
+
+**Qué mide**: Story points completados por sprint.
+
+```
+Sprint 1: 18 pts | Sprint 2: 21 pts | Sprint 3: 20 pts
+Velocidad promedio: 20 pts/sprint
+```
+
+**Para qué sirve**: Predecir cuándo terminarás.
+
+### 2. Lead Time (tiempo de entrega)
+
+**Qué mide**: Días desde que se acepta una historia hasta que está terminada.
+
+```
+US-001: aceptada lunes → terminada jueves = 4 días
+US-002: aceptada lunes → terminada miércoles = 3 días
+Lead time promedio: 3.5 días
+```
+
+**Para qué sirve**: Saber cuánto tarda una historia en llegar al usuario.
+
+### 3. Cycle Time (tiempo de ciclo)
+
+**Qué mide**: Días desde que se empieza a trabajar hasta que se termina.
+
+```
+US-001: empezada martes → terminada jueves = 3 días
+(Ciclo = Lead time - tiempo esperando en cola)
+```
+
+**Para qué sirve**: Detectar cuellos de botella en el proceso.
+
+### 4. Defect Rate (tasa de defectos)
+
+**Qué mide**: Historias que vuelven a "To Do" después de marcarse como "Done".
+
+```
+Sprint 2: 20 historias hechas, 2 vuelven = 10% defect rate
+```
+
+**Para qué sirve**: Medir la calidad del trabajo.
+
+### 5. Sprint Goal Achievement (cumplimiento del objetivo)
+
+**Qué mide**: ¿Se cumplió el objetivo del sprint?
+
+```
+Sprint 1: ✅ Objetivo cumplido
+Sprint 2: ⚠️ Objetivo parcial (70%)
+Sprint 3: ✅ Objetivo cumplido
+```
+
+**Para qué sirve**: Saber si el equipo entrega lo que promete.
+
+### 6. WIP (Work In Progress)
+
+**Qué mide**: Número de tareas en progreso simultáneamente.
+
+```
+Recomendado: máximo 2-3 tareas por persona
+Si hay 5 tareas en "In Progress" con 3 personas → problema
+```
+
+**Para qué sirve**: Detectar multitasking excesivo.
+
+---
+
+## Métricas que NO debes medir
+
+| Métrica mala | Por qué es mala |
+|-------------|-----------------|
+| **Horas trabajadas** | No mide productividad, mide presencia |
+| **Líneas de código** | Más código ≠ mejor código |
+| **Número de commits** | Muchos commits pequeños ≠ productividad |
+| **Velocidad entre equipos** | Cada equipo tiene su contexto |
+
+---
+
+## Comparativa: métricas útiles vs métricas tóxicas
+
+<Comparativa
+  dialogos={[
+    { quien: "Métrica tóxica", texto: "Pedro hizo 15 commits esta semana. Ana solo 5. Pedro es mejor. - Error: los commits no miden calidad ni valor. Ana puede haber hecho 1 commit con 200 líneas perfectas." },
+    { quien: "Métrica útil", texto: "El lead time promedio es 4 días. Si bajamos a 3, entregamos antes al usuario. - Correcto: mide valor al usuario, no actividad individual." },
+  ]}
+  titulo="Mide valor, no actividad"
+/>
+
+---
+
+## El dashboard del equipo
+
+Un lugar donde ver todas las métricas de un vistazo:
+
+```markdown
+# Dashboard Sprint 3
+
+| Métrica | Valor | Tendencia |
+|---------|-------|-----------|
+| Velocity | 20 pts | ↔️ Estable |
+| Lead time | 3.5 días | ↓ Mejorando |
+| Defect rate | 5% | ↓ Mejorando |
+| Sprint goal | ✅ Cumplido | ↑ |
+| WIP | 2.5 tareas/persona | ↔️ OK |
+
+## Acciones del sprint
+- Reducir WIP a 2 tareas/persona
+- Mantener pair programming en historias complejas
+```
+
+---
+
+## Aclaración: "¿No es demasiado medir todo esto?"
+
+<Aclaracion icono="🤔" pregunta="¿Necesito medir las 6 métricas?">
+No. Empieza con **3 métricas clave**:
+
+1. **Velocity** (para predecir)
+2. **Lead time** (para saber cuánto tarda una historia)
+3. **Sprint goal** (para saber si cumplís lo que prometéis)
+
+Las otras 3 (cycle time, defect rate, WIP) las añades cuando las primeras estén estabilizadas.
+
+**No midas por medir.** Mide para **tomar decisiones**. Si una métrica no te dice qué hacer differently, no la midas.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las 3 métricas más importantes?</summary>
+
+**Velocity** (points/sprint), **Lead time** (días de entrega) y **Sprint goal** (se cumplió el objetivo). Empieza con estas tres.
+</details>
+
+<details>
+<summary>¿Qué métrica NO debo medir?</summary>
+
+**Horas trabajadas**, **líneas de código** y **número de commits**. No miden valor ni calidad, solo actividad superficial.
+</details>
+
+<details>
+<summary>¿Qué es el WIP?</summary>
+
+**Work In Progress**: número de tareas en progreso simultáneamente. Máximo recomendado: 2-3 por persona. Más indica multitasking excesivo.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Las 6 métricas esenciales son **velocity**, **lead time**, **cycle time**, **defect rate**, **sprint goal** y **WIP**.
+2. Empieza con **3**: velocity (predecir), lead time (tiempo de entrega) y sprint goal (cumplimiento). Añade las otras después.
+3. **Nunca midas** horas, líneas de código o commits: miden actividad, no valor. Mide para decidir, no para castigar.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-2-scrum-avanzado) · Anterior: [05 — Retrospectivas avanzadas](./05-retrospectivas-avanzadas) · Siguiente: [07 — SCRUM Master estudiante](./07-scrum-master-estudiante)

@@ -1,0 +1,152 @@
+---
+title: "09 — Cierre"
+description: "Mini-chequeo, vocabulario y resumen de la unidad de Requisitos Avanzado"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 2.1 · Requisitos Avanzado** → 09 · Cierre
+
+<StoryIntro icono="🎉" titulo="Ya sabes escribir requisitos como un profesional">
+  Has recorrido toda la unidad: desde INVEST hasta trazabilidad, pasando
+  por Kano, Planning Poker y los 7 errores avanzados. Ahora toca
+  **verificar que lo entiendes** y **aplicarlo a tu proyecto**.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los requisitos son el mapa de tu proyecto: sin ellos, estás programando a ciegas. Con ellos, construyes lo que importa.**
+
+Si recuerdas esto, has entendido la unidad.
+
+---
+
+## 🎯 Mini-chequeo final
+
+Responde estas preguntas antes de seguir:
+
+### Preguntas de comprensión
+
+<details>
+<summary>¿Qué significa INVEST?</summary>
+
+**Independiente** (no depende de otras), **Negociable** (se puede discutir), **Valiosa** (aporta valor), **Estimable** (se puede estimar), **Small** (un sprint), **Testable** (se puede verificar). Si una historia no cumple alguno, reescríbela.
+</details>
+
+<details>
+<summary>¿Qué diferencia hay entre MoSCoW y Kano?</summary>
+
+**MoSCoW** clasifica por urgencia (Must/Should/Could/Won't). **Kano** clasifica por satisfacción (básicos/lineales/excitadores). Usa Kano para descubrir y MoSCoW para priorizar.
+</details>
+
+<details>
+<summary>¿Qué son los story points?</summary>
+
+Miden **esfuerzo relativo** (no tiempo) usando la escala de Fibonacci: 1, 2, 3, 5, 8, 13, 21. Compara historias entre sí, no cuentes horas.
+</details>
+
+<details>
+<summary>¿Qué es Planning Poker?</summary>
+
+El juego donde el equipo **vota en secreto** con cartas de puntos, revela a la vez y discute las diferencias hasta llegar a consenso. La estimación es del grupo, no de uno solo.
+</details>
+
+<details>
+<summary>¿Qué es el refinamiento de backlog?</summary>
+
+La sesión donde el equipo **revisa, aclara y divide** historias antes de que entren en un sprint. Dedica el 10% del tiempo del sprint a refinamiento.
+</details>
+
+<details>
+<summary>¿Qué tipos de criterios de aceptación debo cubrir?</summary>
+
+6 tipos: **happy path** (todo va bien), **errores** (algo falla), **límites** (validación), **persistencia** (datos sobreviven), **responsive** (se adapta), **accesibilidad** (todos pueden usarla).
+</details>
+
+<details>
+<summary>¿Qué es la trazabilidad?</summary>
+
+Conectar el **origen del requisito** (quién lo pidió) con el **código** que lo implementa y los **tests** que lo verifican. Usa una matriz simple en Markdown.
+</details>
+
+<details>
+<summary>¿Cuáles son los 7 errores avanzados?</summary>
+
+1) Ambigüedad doble, 2) Contradicciones, 3) Imposibilidad técnica, 4) Nadie lo pidió, 5) Scope creep, 6) Sin origen, 7) "Para el examen".
+</details>
+
+---
+
+### Ejercicio práctico
+
+**En 3 horas, prepara tu documento de requisitos avanzado:**
+
+1. **Visión** (15 min): Nombre, descripción, usuario principal, problema que resuelve
+2. **RF + RNF** (30 min): Lista 8-12 RF y 4-6 RNF con IDs, MoSCoW y Kano
+3. **Historias** (60 min): Escribe 10-15 historias con INVEST, story points y criterios Given/When/Then
+4. **Trazabilidad** (15 min): Crea la matriz con ID, historia, código y test
+5. **Revisión** (30 min): Revisa con el equipo que todo cumple INVEST y DoR
+
+**Si consigues tener un `REQUISITOS.md` completo → has entendido la unidad.**
+
+---
+
+## 📊 Tabla resumen de la unidad
+
+| Concepto | Idea clave |
+|----------|------------|
+| **INVEST** | Independiente, Negociable, Valiosa, Estimable, Small, Testable |
+| **MoSCoW avanzado** | 60% Must, 20% Should, 20% Could |
+| **Kano** | Básicos (imprescindibles), lineales (cuanto mejor), excitadores (sorpresa) |
+| **Story points** | Esfuerzo relativo con escala Fibonacci (1, 2, 3, 5, 8, 13, 21) |
+| **Planning Poker** | Vota en secreto, revela, discute, consenso |
+| **Refinamiento** | Revisar, aclara, dividir historias antes del sprint (10% del tiempo) |
+| **Definition of Ready** | Checklist que una historia debe cumplir para entrar en sprint |
+| **Given/When/Then** | Formato BDD para criterios de aceptación |
+| **Trazabilidad** | Conectar requisito → historia → código → test |
+| **Errores avanzados** | Ambigüedad, contradicciones, imposibles, sin origen, scope creep |
+
+---
+
+## 📖 Vocabulario rápido
+
+| Término | Definición |
+|---------|-----------|
+| **INVEST** | Acrónimo para evaluar calidad de historias de usuario |
+| **MoSCoW** | Método de priorización: Must, Should, Could, Won't |
+| **Kano** | Modelo de satisfacción: básicos, lineales, excitadores |
+| **Story Points** | Medida abstracta de esfuerzo relativo (escala Fibonacci) |
+| **Planning Poker** | Juego de estimación colectiva con cartas de puntos |
+| **Velocity** | Suma de story points completados por sprint |
+| **Refinamiento** | Sesión de preparación de historias antes del sprint |
+| **Definition of Ready** | Checklist de "lista para trabajar" |
+| **BDD** | Behavior-Driven Development: desarrollo guiado por comportamiento |
+| **Given/When/Then** | Formato estándar para criterios de aceptación |
+| **Trazabilidad** | Capacidad de rastrear un requisito hasta el código |
+| **Scope Creep** | Expansión no controlada de requisitos durante el proyecto |
+| **Traceability Matrix** | Tabla que conecta requisitos con código y tests |
+
+---
+
+## 🔗 Conexión con las siguientes unidades
+
+| Unidad | Qué aprenderás | Cómo se conecta |
+|--------|---------------|-----------------|
+| **UD 2.2 SCRUM Avanzado** | Métricas, burndown, retrospectivas | Usarás los story points y velocity que estimaste aquí |
+| **UD 2.3 Git Avanzado** | GitFlow, hooks, CI/CD | Los branches seguirán la estructura de sprints |
+| **UD 2.4 Patrones de Diseño** | MVC, Repository, Observer | Implementarás los requisitos usando patrones |
+| **UD 2.5 Diagramas** | C4, UML, secuencia | Modelarás la arquitectura de los requisitos |
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los requisitos avanzados usan **INVEST** para calidad, **Kano** para satisfacción y **MoSCoW** para priorizar con criterio.
+2. **Planning Poker** estima en equipo, el **refinamiento** prepara historias y la **trazabilidad** conecta requisito con código.
+3. Evita los **7 errores avanzados** (ambigüedad, contradicciones, imposibles, sin origen, scope creep, para el examen) y tendrás un proyecto sólido.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-1-requisitos-avanzado) · Anterior: [08 — Template avanzado](./08-template-requisitos-avanzado) · Siguiente: [UD 2.2 — SCRUM Avanzado](../../guia-didactica/proyecto-2/uds/u2-2-scrum-avanzado/u2-2-scrum-avanzado)

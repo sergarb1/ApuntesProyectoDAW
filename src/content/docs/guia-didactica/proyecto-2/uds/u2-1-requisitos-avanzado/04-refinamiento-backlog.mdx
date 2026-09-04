@@ -1,0 +1,140 @@
+---
+title: "04 — Refinamiento de backlog"
+description: "La sesión que salva sprints: preparar historias antes de estimarlas"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 2.1 · Requisitos Avanzado** → 04 · Refinamiento de backlog
+
+<StoryIntro icono="🔍" titulo="Refinar no es burocracia, es prevenir desastres">
+  El **refinamiento** (o backlog grooming) es la sesión donde el equipo
+  revisa las historias pendientes antes de que entren en un sprint. Es como
+  repasar el guion antes de actuar: cuesta 30 minutos y te ahorra un desastre
+  de 2 semanas.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **El refinamiento es la sesión donde el equipo prepara, aclara y divide las historias ANTES de que entren en un sprint.**
+
+Sin refinamiento, entráis a ciegas en cada sprint.
+
+---
+
+## ¿Qué es el refinamiento?
+
+Es una reunión **periódica** (semanal o cada sprint) donde el equipo revisa las historias del backlog para que estén **listas para ser estimadas y trabajadas**.
+
+### Qué se hace en el refinamiento
+
+| Acción | Objetivo | Ejemplo |
+|--------|----------|---------|
+| **Revisar** | ¿La historia cumple INVEST? | "Esta historia no es Small, hay que dividirla" |
+| **Aclara** | ¿Hay dudas sobre la historia? | "¿Qué pasa si el usuario no está logueado?" |
+| **Estimar** | Asignar story points | Planning Poker después de aclarar |
+| **Dividir** | Historias demasiado grandes | "Gestionar usuarios" → crear, listar, editar |
+| **Añadir criterios** | ¿Está testeable? | Añadir casos extremos |
+
+---
+
+## El checklist de "Definition of Ready" (DoR)
+
+Una historia está **lista** para entrar en un sprint cuando:
+
+| Criterio | Pregunta | ✗ | ✓ |
+|----------|----------|---|---|
+| **INVEST** | ¿Cumple los 6 criterios? | "El usuario puede hacer cosas" | "Como alumno, quiero crear tareas" |
+| **Criterios de aceptación** | ¿Tiene Given/When/Then? | Sin criterios | 3-5 criterios concretos |
+| **Dependencias** | ¿Depende de algo pendiente? | "Primero hay que hacer el login" | Independiente o la dependencia está hecha |
+| **Estimación** | ¿Se puede estimar? | "No sé cuánto tarda" | 5 puntos con consenso |
+| **Tamaño** | ¿Cabe en un sprint? | "Tarda 3 semanas" | "Tarda 3-4 días" |
+| **Información** | ¿Tiene todo lo necesario? | "Habrá que ver el diseño" | Mockup adjunto |
+
+---
+
+## Flujo completo del refinamiento
+
+```
+Backlog (todo lo pendiente)
+    ↓
+Revisión: ¿es INVEST? → No → Reescribir o dividir
+    ↓ Sí
+Aclaración: ¿hay dudas? → Sí → Responder y documentar
+    ↓ No
+Criterios: ¿tiene Given/When/Then? → No → Añadir
+    ↓ Sí
+Estimación: Planning Poker → Asignar puntos
+    ↓
+Listo para sprint planning
+```
+
+---
+
+## Comparativa: con refinamiento vs sin refinamiento
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin refinamiento", texto: "Sprint planning: 'Esta historia... no sé qué es esto'. Estimáis a ciegas. Mitad del sprint descubrís que no teníais toda la información. Caos." },
+    { quien: "Con refinamiento", texto: "Sprint planning: 'Esta historia ya la revisamos, tiene criterios, está estimada en 5 puntos'. Empezáis a trabajar el lunes. Calma." },
+  ]}
+  titulo="30 minutos de refinamiento ahorran 3 días de caos"
+/>
+
+| Sin refinamiento | Con refinamiento |
+|------------------|------------------|
+| Historias vagas entran al sprint | Historias claras y testeadas |
+| Sorpresas a mitad de sprint | Sorpresas mínimas |
+| Estimaciones imprecisas | Estimaciones razonables |
+| El equipo se bloquea frecuentemente | El equipo avanza fluido |
+
+---
+
+## Aclaración: "¿Cuánto tiempo dedicar al refinamiento?"
+
+<Aclaracion icono="🤔" pregunta="¿No es perder tiempo reunirse para hablar de historias?">
+No. Es **invertir tiempo para no perder más después**. La regla general:
+
+- **10% del tiempo del sprint** dedicado a refinamiento
+- En un sprint de 2 semanas: **~4 horas** totales
+- Se puede hacer en 1 sesión de 45 min o 2 sesiones de 20 min
+- Participan: Product Owner + todo el equipo de desarrollo
+
+**El coste de NO refinar** es mucho mayor: historias mal entendidas, rehacer trabajo, estimaciones erróneas.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué es el Definition of Ready (DoR)?</summary>
+
+Es un **checklist** que una historia debe cumplir antes de entrar en un sprint. Incluye: INVEST, criterios de aceptación, dependencias resueltas, estimación y tamaño adecuado.
+</details>
+
+<details>
+<summary>¿Cuánto tiempo dedicar al refinamiento?</summary>
+
+Aproximadamente el **10% del tiempo del sprint**. En un sprint de 2 semanas, unas 4 horas repartidas en 1-2 sesiones.
+</details>
+
+<details>
+<summary>¿Quién participa en el refinamiento?</summary>
+
+El **Product Owner** (que presenta y aclara las historias) y todo el **equipo de desarrollo** (que pregunta, discute y estima).
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El **refinamiento** es la sesión donde el equipo revisa, aclara y divide historias **antes** de que entren en un sprint.
+2. Usa el **Definition of Ready** (DoR) como checklist: una historia que no cumple el DoR no está lista para ser trabajada.
+3. Dedica el **10% del tiempo** del sprint a refinamiento: 30 minutos de preparación ahorran días de caos.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-1-requisitos-avanzado) · Anterior: [03 — Story points y Planning Poker](./03-estimacion-puntos) · Siguiente: [05 — Criterios de aceptación avanzado](./05-criterios-aceptacion-avanzado)

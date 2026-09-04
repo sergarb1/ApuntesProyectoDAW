@@ -1,0 +1,164 @@
+---
+title: "07 — Code Review"
+description: "Cómo revisar código sin destruir relaciones ni motivación"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🌿 **UD 2.3 · Git Avanzado** → 07 · Code Review
+
+<StoryIntro icono="👀" titulo="Code review no es buscar errores: es aprender juntos">
+  El **code review** (revisión de código) es cuando un compañero revisa
+  tu código antes de que se fusion con main. No es un examen: es una
+  oportunidad para **aprender, detectar errores antes** de producción
+  y mejorar la calidad del código del equipo.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **El code review es una conversación sobre el código: el autor explica por qué, el revisor pregunta por qué no de otra manera. Ambos aprenden.**
+
+No es juzgar. Es mejorar juntos.
+
+---
+
+## ¿Cómo funciona un code review?
+
+### Flujo básico
+
+```
+1. Autor crea un Pull Request (PR)
+2. Revisor(es) revisan el código
+3. Comentarios → Autor responde/cambia
+4. Aprobación → Merge a main
+```
+
+### En GitHub
+
+```bash
+# 1. Crear branch y trabajar
+git checkout -b feature/login
+# ... hacer cambios ...
+git push origin feature/login
+
+# 2. En GitHub: crear Pull Request
+# → Seleccionar main como destino
+# → Añadir descripción
+# → Asignar revisor
+
+# 3. Revisor comenta en el PR
+# → Comentarios inline en líneas específicas
+# → Sugerencias de cambios
+# → Aprobación o solicitud de cambios
+
+# 4. Autor responde y hace cambios
+# → Push de nuevos commits
+# → Revisor re-ve
+# → Merge cuando esté listo
+```
+
+---
+
+## Qué buscar en un code review
+
+### Lo que SÍ revisar
+
+| Categoría | Qué mirar | Ejemplo |
+|-----------|----------|---------|
+| **Correctitud** | ¿Hace lo que debe? | "Esta función no valida email vacío" |
+| **Legibilidad** | ¿Se entiende el código? | "Este nombre de variable no es claro" |
+| **Seguridad** | ¿Expone datos? | "Esto tiene un console.log con la contraseña" |
+| **Rendimiento** | ¿Es eficiente? | "Este bucle carga todo en memoria" |
+| **Mantenibilidad** | ¿Es fácil de cambiar? | "Esto debería ser una función separada" |
+
+### Lo que NO revisar
+
+| Categoría | Por qué no |
+|-----------|-----------|
+| **Estilo personal** | "A mí me gusta con espacios" → Usa Prettier |
+| **Preferencias** | "Yo lo habría hecho así" → Si funciona, no toques |
+| **Cosas triviales** | "Falta un punto y coma" → Usa linter automático |
+
+---
+
+## Cómo dar feedback efectivo
+
+### El modelo SBI (Situación-Comportamiento-Impacto)
+
+| Parte | Qué decir | Ejemplo |
+|-------|-----------|---------|
+| **Situación** | Dónde está el problema | "En la función login()..." |
+| **Comportamiento** | Qué hace mal | "...estás guardando la contraseña en texto plano..." |
+| **Impacto** | Por qué importa | "...esto es un problema de seguridad" |
+
+### Formas de commentar
+
+| Malo ✗ | Bueno ✓ |
+|--------|---------|
+| "Esto está mal" | "¿Por qué no usas validación aquí?" |
+| "Cambia esto" | "Podrías considerar extraer esto a una función" |
+| "No entiendo" | "¿Puedes explicarme por qué usas estalibrabería?" |
+| "Esto es horrible" | "Hay una oportunidad de mejorar la legibilidad aquí" |
+
+---
+
+## Comparativa: code review como ataque vs como aprendizaje
+
+<Comparativa
+  dialogos={[
+    { quien: "Como ataque", texto: "¿Por qué has hecho esto así? Está mal. Cambia todo. No sé por qué usaste esta librería. -> El autor se defiende, el ambiente se tense, nadie aprende." },
+    { quien: "Como aprendizaje", texto: "¿Por qué elegiste estalibrabería? Ah, no conocía esa opción. Podrías considerar X porque Y. -> El autor aprende, el revisor aprende, el código mejora." },
+  ]}
+  titulo="El code review es una conversación, no un examen"
+/>
+
+---
+
+## Aclaración: "¿Y si me da vergüenza que revisen mi código?"
+
+<Aclaracion icono="🤔" pregunta="¿Cómo superar la vergüenza del code review?">
+Es normal al principio. Recuerda:
+
+1. **Todo el equipo tiene código malo**: no eres el único. El code review mejora a todos
+2. **Los comentarios no son personales**: son sobre el código, no sobre ti
+3. **Aprender de los comentarios** te hace mejor programador: cada feedback es una lección
+4. **Tú también revisas** el código de los demás: es un intercambio, no un examen
+
+**El code review es la mejor escuela de programación que existe.** Aprovecha cada comentario.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué es un Pull Request?</summary>
+
+Una **solicitud de merge** en GitHub donde propones fusionar los cambios de un branch en otro (normalmente main). El equipo revisa antes de aceptar.
+</details>
+
+<details>
+<summary>¿Qué buscar en un code review?</summary>
+
+**Correctitud** (¿hace lo que debe?), **legibilidad** (¿se entiende?), **seguridad** (¿expone datos?), **rendimiento** (¿es eficiente?), **mantenibilidad** (¿es fácil de cambiar?).
+</details>
+
+<details>
+<summary>¿Cómo dar feedback constructivo?</summary>
+
+Usa el modelo **SBI**: Situación (dónde), Comportamiento (qué hace mal), Impacto (por qué importa). Pregunta en vez de ordenar.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El **code review** es cuando un compañero revisa tu código antes de merge: no es un examen, es una oportunidad de aprender juntos.
+2. Revisa **correctitud, legibilidad, seguridad, rendimiento y mantenibilidad**. No revises estilo personal ni preferencias.
+3. Da feedback con el modelo **SBI** (Situación-Comportamiento-Impacto): pregunta en vez de ordenar, sugiere en vez de imponer.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-3-git-avanzado) · Anterior: [06 — Convenciones de commit](./06-convenciones-commits) · Siguiente: [08 — Template Git](./08-template-git)

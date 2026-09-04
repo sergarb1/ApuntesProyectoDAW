@@ -1,0 +1,169 @@
+---
+title: "03 — Burndown y Burnup"
+description: "Gráficos que muestran el progreso real del sprint y del proyecto"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🔄 **UD 2.2 · SCRUM Avanzado** → 03 · Burndown y Burnup
+
+<StoryIntro icono="📉" titulo="Un gráfico dice más que mil palabras en una reunión">
+  Los gráficos de **burndown** y **burnup** son las herramientas visuales
+  más poderosas de SCRUM. Te muestran en tiempo real si vas por buen camino
+  o si te vas a quedarte corto. Son el semáforo del proyecto.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **El burndown muestra cuánto queda por hacer. El burnup muestra cuánto se ha hecho. Los dos juntos cuentan la historia completa del proyecto.**
+
+Si no lo ves en un gráfico, no lo estás midiendo.
+
+---
+
+## El gráfico de Burndown (sprint)
+
+Muestra **cuántos puntos quedan por hacer** cada día del sprint.
+
+```
+Puntos
+  20 ┤●
+     │ ╲
+  15 ┤  ●───●
+     │       ╲
+  10 ┤        ●───●
+     │             ╲
+   5 ┤              ●───●
+     │                   ╲
+   0 ┤                    ●
+     └──┬──┬──┬──┬──┬──┬──┬──
+       L  M  X  J  V  L  M
+       
+  ── Ideal (línea recta)
+  ●── Real (lo que realmente pasa)
+```
+
+### Cómo leerlo
+
+| Situación | Significado | Acción |
+|-----------|-------------|--------|
+| **Real por debajo de ideal** | Vas bien, o incluso adelantado | Mantener ritmo |
+| **Real por encima de ideal** | Vas con retraso | Identificar bloqueos |
+| **Plano** | El equipo está atascado | Intervenir ya |
+| **Sube** | Se añadieron historias al sprint | Evitar (scope creep) |
+
+---
+
+## El gráfico de Burnup (proyecto)
+
+Muestra **cuántos puntos se han completado** a lo largo del tiempo.
+
+```
+Puntos
+  80 ┤                        ●───●───●  ← Completado
+     │                   ●───●
+  60 ┤              ●───●
+     │         ●───●
+  40 ┤    ●───●
+     │●───●
+  20 ┤
+     │─────────────────────────────── ← Total del proyecto
+   0 ┤
+     └──┬──┬──┬──┬──┬──┬──┬──┬──┬──
+       S1 S2 S3 S4 S5 S6 S7 S8 S9 S10
+```
+
+### Qué te dice
+
+- **Línea superior** (completado): va subiendo con el tiempo
+- **Línea inferior** (total): se mantiene estable (o sube si añades requisitos)
+- **Distancia entre ambas**: lo que queda por hacer
+
+---
+
+## Burndown vs Burnup
+
+<Comparativa
+  dialogos={[
+    { quien: "Burndown", texto: "Te muestra cuánto queda. Es útil para ver si vas a tiempo en un sprint. Pero si añades trabajo, la línea sube y confunde." },
+    { quien: "Burnup", texto: "Te muestra cuánto has hecho. Es más claro: la línea de completado siempre sube. Si añades trabajo, se ve en la línea de total." },
+  ]}
+  titulo="Burndown para sprints, burnup para el proyecto"
+/>
+
+| Aspecto | Burndown | Burnup |
+|---------|----------|--------|
+| **Qué muestra** | Cuánto queda | Cuánto se ha hecho |
+| **Útil para** | Sprints (1-2 semanas) | Proyecto completo |
+| **Problema** | Scope creep distorsiona | Menos intuitivo al principio |
+| **Claridad** | Menos clara con cambios | Más clara siempre |
+
+---
+
+## Cómo crear tu propio burndown
+
+### Datos que necesitas
+
+| Día | Puntos restantes |
+|-----|-----------------|
+| Lunes | 20 |
+| Martes | 17 |
+| Miércoles | 14 |
+| Jueves | 10 |
+| Viernes | 6 |
+
+### Herramientas sencillas
+
+1. **Google Sheets**: crea una tabla y un gráfico de líneas
+2. **GitHub Issues**: usa labels de puntos y cuenta los pendientes
+3. **Trello/Jira**: ya generan burndown automáticamente
+
+---
+
+## Aclaración: "¿Y si mi burndown sube en vez de bajar?"
+
+<Aclaracion icono="🤔" pregunta="¿Qué significa que la línea de burndown suba?">
+Significa que se **añadieron historias al sprint** después de empezarlo (scope creep). Esto es un problema porque:
+
+1. El equipo planificó un ritmo y ahora tiene más trabajo
+2. La predicción de cuándo terminarás se rompe
+3. Puede indicar falta de disciplina en el sprint planning
+
+**Solución**: Si necesitas añadir algo, retira otro de igual tamaño. Mantén el compromiso del sprint.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué muestra el burndown?</summary>
+
+**Cuántos puntos quedan por hacer** cada día del sprint. Si la línea real está por encima de la ideal, vas con retraso.
+</details>
+
+<details>
+<summary>¿Qué muestra el burnup?</summary>
+
+**Cuántos puntos se han completado** a lo largo del tiempo. La línea de completado siempre sube. Es más claro que el burndown cuando hay cambios de alcance.
+</details>
+
+<details>
+<summary>¿Qué hago si mi burndown sube?</summary>
+
+Significa que se añadieron historias al sprint. **Evita el scope creep**: si añades algo, retira otro de igual tamaño. Mantén el compromiso.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El **burndown** muestra cuánto queda por hacer cada día: si la línea real está por encima de la ideal, vas con retraso.
+2. El **burnup** muestra cuánto se ha completado: es más claro cuando hay cambios de alcance porque se ve en la línea de total.
+3. Usa burndown para **sprints** y burnup para el **proyecto completo**: así siempre sabes dónde estás.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-2-scrum-avanzado) · Anterior: [02 — Velocidad del equipo](./02-velocity) · Siguiente: [04 — Bloqueos y dependencias](./04-bloqueos-dependencias)

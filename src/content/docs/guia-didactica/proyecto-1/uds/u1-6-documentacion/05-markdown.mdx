@@ -1,0 +1,209 @@
+---
+title: "05 — Markdown"
+description: "Sintaxis, formato y consejos para escribir en Markdown"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📚 **UD 1.6 · Documentación** → 05 · Markdown
+
+<StoryIntro icono="✍️" titulo="Markdown es el lenguaje de la documentación moderna">
+  Si vas a escribir documentación, necesitas Markdown. Es el formato
+  estándar para READMEs, wikis, documentación técnica y notas. Es simple,
+  legible y se convierte a HTML, PDF y casi cualquier cosa.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Markdown es texto plano con reglas: lo escribes en cualquier editor y lo lees en cualquier plataforma.**
+
+---
+
+## Sintaxis básica
+
+### Encabezados
+
+```markdown
+# H1 — Título principal
+## H2 — Sección
+### H3 — Subsección
+#### H4 — Sub-subsección
+```
+
+**Regla**: No saltes de H1 a H3. Usa en orden.
+
+### Texto con formato
+
+```markdown
+**Negrita** → <strong>Negrita</strong>
+*Cursiva* → <em>Cursiva</em>
+~~Tachado~~ → <del>Tachado</del>
+`código inline` → código inline
+```
+
+### Listas
+
+```markdown
+- Elemento 1
+- Elemento 2
+  - Sub-elemento
+
+1. Paso 1
+2. Paso 2
+3. Paso 3
+```
+
+### Enlaces e imágenes
+
+```markdown
+[Texto del enlace](https://ejemplo.com)
+![Texto alternativo](imagen.png)
+```
+
+### Bloques de código
+
+````markdown
+```javascript
+const x = 10;
+console.log(x);
+```
+````
+
+### Citas
+
+```markdown
+> Esto es una cita
+> Puede ocupar varias líneas
+```
+
+### Tablas
+
+```markdown
+| Columna 1 | Columna 2 | Columna 3 |
+|-----------|-----------|-----------|
+| Dato 1    | Dato 2    | Dato 3    |
+| Dato 4    | Dato 5    | Dato 6    |
+```
+
+### Separadores
+
+```markdown
+---
+```
+
+---
+
+## Comparativa: Markdown vs Word
+
+<Comparativa
+  dialogos={[
+    { quien: "Word / Google Docs", texto: "Formato binario, pesado, depende de un programa, difícil de versionar, mal para código." },
+    { quien: "Markdown", texto: "Texto plano, ligero, funciona en cualquier editor, se versiona con Git, perfecto para código y documentación técnica." },
+  ]}
+  titulo="Markdown gana para documentación de proyectos"
+/>
+
+---
+
+## Aclaracion: "¿Markdown es difícil?"
+
+<Aclaracion icono="😅" pregunta="¿Necesito aprender mucho para usar Markdown?">
+No. En 15 minutos dominas el 80% de lo que necesitas:
+
+- `#` para títulos
+- `**texto**` para negrita
+- `-` para listas
+- `>` para citas
+- `[texto](url)` para enlaces
+
+El otro 20% (tablas, código, imágenes) lo aprendes cuando lo necesites.
+</Aclaracion>
+
+---
+
+## Consejos avanzados
+
+### 1. Tabla de contenido
+
+```markdown
+## Contenido
+- [Introducción](#introducción)
+- [Instalación](#instalación)
+- [Uso](#uso)
+```
+
+### 2. Checkboxes
+
+```markdown
+- [x] Tarea completada
+- [ ] Tarea pendiente
+```
+
+### 3. Emoji con código
+
+```markdown
+:rocket: → 🚀
+:warning: → ⚠️
+:white_check_mark: → ✅
+```
+
+### 4. HTML inline
+
+```markdown
+<details>
+<summary>Clic para expandir</summary>
+
+Contenido colapsable aquí.
+
+</details>
+```
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué symbolo crea un encabezado H2?</summary>
+
+**Respuesta**: Dos almohadillas: `## Título`
+
+**Para qué sirve**: Para estructurar documentos con secciones claras.
+</details>
+
+<details>
+<summary>¿Cómo se escribe negrita en Markdown?</summary>
+
+**Respuesta**: Entre dos asteriscos dobles: `**texto**`
+
+**Para qué sirve**: Para resaltar palabras o frases importantes.
+</details>
+
+<details>
+<summary>¿Cómo se inserta un enlace?</summary>
+
+**Respuesta**: `[texto del enlace](https://url.com)`
+
+**Para qué sirve**: Para referenciar recursos externos o internos.
+</details>
+
+<details>
+<summary>¿Qué es un bloque de código en Markdown?</summary>
+
+**Respuesta**: Texto entre tres backticks: ` ``` lenguaje ... ``` `. Muestra el código con formato sin interpretarlo.
+
+**Para qué sirve**: Para documentar fragmentos de código de forma legible.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Markdown es **texto plano con reglas**: se escribe en cualquier editor y se publica en múltiples formatos.
+2. Dominar `#`, `**`, `-`, `>` y `[texto](url)` cubre el **80% de lo que necesitas**.
+3. Usa Markdown para READMEs, documentación técnica, wikis y notas: es el **estándar de la industria**.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-6-documentacion) · Anterior: [04 — Manual de usuario](./04-manual-usuario) · Siguiente: [06 — Herramientas doc](./06-herramientas-doc)

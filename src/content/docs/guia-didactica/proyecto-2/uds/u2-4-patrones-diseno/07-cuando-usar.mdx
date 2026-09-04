@@ -1,0 +1,154 @@
+---
+title: "07 — Cuándo usar cada patrón"
+description: "Guía práctica: qué patrón necesitas según el problema que tengas"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🏗️ **UD 2.4 · Patrones de Diseño** → 07 · Cuándo usar cada patrón
+
+<StoryIntro icono="🎯" titulo="No uses un patrón solo porque existe. Úsalo cuando lo necesites">
+  El peor error con los patrones es **usarlos donde no hace falta**.
+  Un patrón se usa cuando hay un **problema concreto** que resuelve.
+  Si no tienes el problema, no necesitas el patrón.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los patrones son herramientas: úsalos cuando el problema lo justifica. No añadas complejidad donde no la necesitas.**
+
+El mejor código es el que no tiene patrones innecesarios.
+
+---
+
+## La tabla guía
+
+| Problema que tienes | Patrón | Ejemplo |
+|---------------------|--------|---------|
+| "Solo quiero UNA instancia de configuración" | **Singleton** | Config, Logger |
+| "Necesito crear diferentes tipos de objetos" | **Factory** | Notificaciones, Exportaciones |
+| "Quiero construir objetos con muchos parámetros" | **Builder** | Queries, Configuraciones |
+| "Tengo una interfaz incompatible" | **Adapter** | API vieja vs nueva |
+| "Necesito simplificar una interfaz compleja" | **Facade** | Coordinar auth + DB + cache |
+| "Quiero tratar individuos y grupos igual" | **Composite** | Menús, Tareas con subtareas |
+| "Necesito notificar cambios a múltiples objetos" | **Observer** | Eventos, Notificaciones |
+| "Quiero intercambiar algoritmos" | **Strategy** | Filtros, Ordenación |
+| "Necesito deshacer/rehacer acciones" | **Command** | Editor, Historial |
+| "Quiero separar datos de interfaz" | **MVC** | Cualquier app web |
+| "Quiero separar lógica de almacenamiento" | **Repository** | Acceso a datos |
+
+---
+
+## Flujo de decisión
+
+```
+¿Necesitas UNA instancia global?
+  → Sí: Singleton
+  → No ↓
+
+¿Creas diferentes tipos de objetos?
+  → Sí: Factory
+  → No ↓
+
+¿El objeto tiene muchos parámetros opcionales?
+  → Sí: Builder
+  → No ↓
+
+¿Necesitas notificar cambios?
+  → Sí: Observer
+  → No ↓
+
+¿Necesitas intercambiar algoritmos?
+  → Sí: Strategy
+  → No ↓
+
+¿Necesitas deshacer acciones?
+  → Sí: Command
+  → No ↓
+
+¿Tienes múltiples subsistemas que coordinar?
+  → Sí: Facade
+  → No ↓
+
+¿Tu interfaz no es compatible con algo?
+  → Sí: Adapter
+  → No ↓
+
+No necesitas un patrón. Código simple.
+```
+
+---
+
+## Ejemplo de decisión real
+
+### Problema: "Necesito filtrar tareas por nombre, fecha y categoría"
+
+| Opción | Patrón | ¿Por qué? |
+|--------|--------|-----------|
+| `if (filtro === 'nombre') ... else if ...` | Ninguno | Si son solo 3 opciones, un if/else basta |
+| `list.setFilter(new NameFilter())` | **Strategy** | Si quieres intercambiar filtros sin modificar el código |
+
+**Decisión**: Si son 3 filtros fijos, no necesitas Strategy. Si van a crecer o quieres flexibilidad, Strategy.
+
+---
+
+## Comparativa: patrón innecesario vs patrón necesario
+
+<Comparativa
+  dialogos={[
+    { quien: "Patrón innecesario", texto: "Usé Factory para crear un objeto que solo tiene 2 tipos. El código tiene 200 líneas más de lo necesario. Nadie lo entiende. Nadie lo necesita." },
+    { quien: "Patrón necesario", texto: "Usé Observer para notificar a 3 componentes cuando cambia el carrito. Sin Observer, tendría 3 llamadas directas acopladas. Con Observer, es limpio y extensible." },
+  ]}
+  titulo="El mejor patrón es el que no usas si no lo necesitas"
+/>
+
+---
+
+## Aclaración: "¿Cuándo NO usar un patrón?"
+
+<Aclaracion icono="🤔" pregunta="¿Hay situaciones donde NO debo usar ningún patrón?">
+Sí. **No uses patrones cuando**:
+
+1. **El código es simple**: un if/else basta, no necesitas Strategy
+2. **Solo hay una instancia posible**: no necesitas Singleton si solo hay un archivo
+3. **No hay problema que resolver**: si tu código funciona bien sin patrón, no lo añadas
+4. **El equipo no lo entiende**: un patrón que nadie entiende es peor que código simple
+
+**La regla de oro**: si tu código es claro, mantenible y funciona, **no le añadas patrones**. Los patrones son para resolver problemas, no para impresionar.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuándo usar Singleton?</summary>
+
+Cuando necesitas **una sola instancia global** de una clase (configuración, logger, cache). No lo uses si no necesitas una instancia compartida.
+</details>
+
+<details>
+<summary>¿Cuándo usar Strategy?</summary>
+
+Cuando tienes **múltiples algoritmos** para hacer lo mismo y quieres poder **intercambiarlos** en tiempo de ejecución (filtros, ordenación, validación).
+</details>
+
+<details>
+<summary>¿Cuándo NO usar patrones?</summary>
+
+Cuando el código es **simple**, no hay problema que resolver, o el equipo no lo entiende. El mejor patrón es el que no usas si no lo necesitas.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Usa **Singleton** para instancias globales, **Factory** para crear diferentes tipos, **Builder** para objetos complejos paso a paso.
+2. Usa **Observer** para notificar cambios, **Strategy** para intercambiar algoritmos, **Command** para deshacer acciones.
+3. **No uses patrones** donde no los necesitas: si tu código es simple y funciona, no le añadas complejidad innecesaria.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-4-patrones-diseno) · Anterior: [06 — Repository](./06-repository) · Siguiente: [08 — Template patrones](./08-template-patrones)

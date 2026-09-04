@@ -1,0 +1,153 @@
+---
+title: "08 — Template de requisitos avanzado"
+description: "Documento listo para Proyecto 2 con INVEST, Kano, trazabilidad y más"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 2.1 · Requisitos Avanzado** → 08 · Template de requisitos avanzado
+
+<StoryIntro icono="📄" titulo="El documento que te ahorra semanas de caos">
+  Este template incluye todo lo aprendido en la unidad: INVEST, Kano,
+  trazabilidad, criterios avanzados y Definition of Ready. Cópialo,
+  rellénalo y tendrás un documento de requisitos profesional para tu
+  Proyecto 2.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Copia este template en tu repositorio como `REQUISITOS.md`, rellénalo en 2-3 horas y tendrás la base documental de tu proyecto.**
+
+No empieces a programar sin rellenar esto.
+
+---
+
+## Template completo
+
+```markdown
+# REQUISITOS — [Nombre de tu app]
+
+## 1. Visión del producto
+
+- **Nombre**: [Nombre de la app]
+- **Descripción**: [Una frase que explique qué hace]
+- **Usuario principal**: [Quién la usa]
+- **Problema que resuelve**: [Qué necesidad satisface]
+- **Tecnologías clave**: [Stack principal]
+
+## 2. Requisitos funcionales
+
+| ID | Requisito | Actor | Prioridad (MoSCoW) | Kano | Estado |
+|----|-----------|-------|---------------------|------|--------|
+| RF-001 | [Descripción] | [Quién] | Must/Should/Could | Básico/Lineal/Excitador | 📋 |
+| RF-002 | [Descripción] | [Quién] | Must/Should/Could | Básico/Lineal/Excitador | 📋 |
+
+## 3. Requisitos no funcionales
+
+| ID | Requisito | Métrica | Prioridad | Estado |
+|----|-----------|---------|-----------|--------|
+| RNF-001 | [Carga rápida] | < 2s en móvil gama baja | Must | 📋 |
+| RNF-002 | [Accesibilidad] | WCAG 2.1 nivel A | Should | 📋 |
+
+## 4. Historias de usuario
+
+### US-001: [Título]
+
+**Como** [tipo de usuario], **quiero** [acción], **para** [beneficio].
+
+**INVEST**: ✅ Independiente | ✅ Negociable | ✅ Valiosa | ✅ Estimable | ✅ Small | ✅ Testable
+
+**Puntos**: [1-21]
+
+**Criterios de aceptación**:
+
+```
+DADO que [contexto]
+CUANDO [acción]
+ENTONCES [resultado]
+```
+
+**Origen**: [Quién lo pidió y por qué]
+
+**Trazabilidad**: [Archivos de código afectados]
+
+**Estado**: 📋 Pendiente / 🔄 En progreso / ✅ Hecho
+
+### US-002: [Título]
+
+[Repetir formato]
+
+## 5. Matriz de trazabilidad
+
+| ID Requisito | Historia | Sprint | Código | Test | Estado |
+|--------------|----------|--------|--------|------|--------|
+| RF-001 | US-001 | S1 | src/... | tests/... | 📋 |
+
+## 6. Definition of Ready
+
+Una historia está lista para sprint planning cuando:
+
+- [ ] Cumple INVEST
+- [ ] Tiene criterios de aceptación (Given/When/Then)
+- [ ] No tiene dependencias pendientes
+- [ ] Está estimada en story points
+- [ ] Cabe en un sprint (≤ 8 puntos)
+- [ ] Tiene origen claro (quién lo pidió)
+
+## 7. Decisiones pendientes
+
+| Decisión | Opciones | Fecha límite | Responsable |
+|----------|----------|-------------|-------------|
+| [Qué decidir] | [Opción A / Opción B] | [Fecha] | [Quién] |
+```
+
+---
+
+## Aclaración: "¿Cuánto tiempo me toma rellenarlo?"
+
+<Aclaracion icono="🤔" pregunta="¿No me va a quitar mucho tiempo rellenar todo esto?">
+**2-3 horas** para tenerlo completo. Y te ahorra:
+
+| Sin template | Con template |
+|--------------|--------------|
+| 1-2 días discutiendo qué hacer | 2-3 horas definiendo todo |
+| Sorpresas en cada sprint | Historias claras y testeadas |
+| Rehacer trabajo | Trabajo bien enfocado |
+
+**El template no es burocracia. Es una inversión que se paga sola.**
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué secciones tiene el template?</summary>
+
+7 secciones: 1) Visión, 2) Requisitos funcionales, 3) Requisitos no funcionales, 4) Historias de usuario (con INVEST y criterios), 5) Matriz de trazabilidad, 6) Definition of Ready, 7) Decisiones pendientes.
+</details>
+
+<details>
+<summary>¿Cuánto tiempo toma rellenarlo?</summary>
+
+Aproximadamente **2-3 horas** para tener un documento completo. Es una inversión que ahorra días de trabajo despistado.
+</details>
+
+<details>
+<summary>¿Dónde guardo el documento?</summary>
+
+En la **raíz de tu repositorio** como `REQUISITOS.md`. Así todo el equipo puede acceder a él y actualizarlo.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El template incluye **7 secciones**: visión, RF, RNF, historias (con INVEST + Kano), trazabilidad, DoR y decisiones pendientes.
+2. Cópialo como `REQUISITOS.md` en la raíz de tu repositorio y rellénalo en **2-3 horas**.
+3. Actualízalo en cada sprint planning: es un **documento vivo**, no un trámite de una vez.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-1-requisitos-avanzado) · Anterior: [07 — Errores avanzados](./07-errores-requisitos-avanzado) · Siguiente: [09 — Cierre](./09-cierre)

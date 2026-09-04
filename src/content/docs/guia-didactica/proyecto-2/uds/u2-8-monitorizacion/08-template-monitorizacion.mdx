@@ -1,0 +1,160 @@
+---
+title: "08 — Template de monitorización"
+description: "Plantilla para documentar la configuración de monitorización de tu proyecto"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 📊 **UD 2.8 · Monitorización** → 08 · Template de monitorización
+
+<StoryIntro icono="📋" titulo="Documenta tu monitorización para que cualquier persona la configure">
+  Si configuraste logs, métricas y dashboards, documenta cómo lo hiciste.
+  Esto ayuda a tu equipo (y a tu yo futuro) a entender qué monitorea
+  tu app y cómo resolver problemas.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Si no puedes explicar qué monitorizas y cómo, tu monitorización no está completa.**
+
+---
+
+## Plantilla: Documentación de monitorización
+
+### 1. Resumen
+
+| Aspecto | Detalle |
+|---------|---------|
+| **Herramientas de logs** | [Ej: Winston, console.log] |
+| **Herramientas de métricas** | [Ej: prom-client, UptimeRobot] |
+| **Dashboard** | [Ej: Grafana en localhost:3001] |
+| **Alertas** | [Ej: Email + Slack] |
+| **Nivel de monitorización** | [1: Básico / 2: Externo / 3: Docker / 4: Completo] |
+
+---
+
+### 2. Logs
+
+| Aspecto | Detalle |
+|---------|---------|
+| **Librería** | [Ej: Winston] |
+| **Niveles habilitados** | [Ej: error, warn, info] |
+| **Formato** | [Ej: JSON estructurado] |
+| **Archivos** | [Ej: logs/error.log, logs/combined.log] |
+| **Rotación** | [Ej: 5MB, 5 archivos máximo] |
+| **Transportes** | [Ej: Archivo + Consola (dev)] |
+
+**Ejemplo de log:**
+```json
+{
+  "timestamp": "2025-01-15T10:30:45.123Z",
+  "level": "error",
+  "message": "Error al conectar con la base de datos",
+  "service": "api-users",
+  "error": { "name": "ConnectionError", "message": "ECONNREFUSED" }
+}
+```
+
+---
+
+### 3. Métricas
+
+| Métrica | Tipo | Descripción |
+|---------|------|-------------|
+| `app_http_requests_total` | Counter | Total de peticiones HTTP |
+| `app_http_request_duration_seconds` | Histogram | Duración de peticiones |
+| `app_http_requests_active` | Gauge | Peticiones activas |
+| `app_errors_total` | Counter | Errores por tipo |
+
+**Endpoint de métricas:** `GET /metrics`
+
+---
+
+### 4. Dashboard de Grafana
+
+| Panel | Tipo | Métrica principal |
+|-------|------|-------------------|
+| Estado de la app | Stat | `up{job="mi-app"}` |
+| Peticiones/segundo | Timeseries | `sum(rate(app_http_requests_total[1m]))` |
+| Tasa de errores | Gauge | `rate(errores) / rate(total) * 100` |
+| Latencia P95 | Timeseries | `histogram_quantile(0.95, ...)` |
+| Erros por endpoint | Table | `topk(10, sum by (path))` |
+| CPU y Memoria | Timeseries | `node_cpu`, `node_memory` |
+
+---
+
+### 5. Alertas
+
+| Alerta | Condición | Canal | Urgencia |
+|--------|-----------|-------|----------|
+| AppDown | `up == 0` durante 1m | Email + Slack | Crítica |
+| HighErrorRate | >5% errores durante 2m | Slack | Alta |
+| HighLatency | P95 >2s durante 3m | Slack | Media |
+| HighCPU | >80% durante 5m | Email | Media |
+
+---
+
+### 6. Comandos útiles
+
+```bash
+# Ver logs en tiempo real
+tail -f logs/combined.log
+
+# Buscar errores en logs
+grep '"level":"error"' logs/combined.log
+
+# Ver métricas actuales
+curl http://localhost:3000/metrics
+
+# Levantar stack de monitorización
+docker-compose -f docker-compose.monitoring.yml up -d
+
+# Verificar que Prometheus está recogiendo métricas
+curl http://localhost:9090/api/v1/targets
+```
+
+---
+
+### 7. Troubleshooting
+
+| Problema | Causa | Solución |
+|----------|-------|----------|
+| No hay logs | Winston no está configurado | Verificar `logger.js` y ruta de archivos |
+| No hay métricas | Endpoint /metrics no existe | Verificar ruta y middleware |
+| Grafana no conecta | Prometheus apunta mal | Verificar `prometheus.yml` target |
+| Alertas no llegan | SMTP no configurado | Verificar `alertmanager.yml` |
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué secciones tiene la plantilla de monitorización?</summary>
+
+Respuesta: 7: Resumen, Logs, Métricas, Dashboard, Alertas, Comandos y Troubleshooting.
+</details>
+
+<details>
+<summary>¿Qué información documentar sobre los logs?</summary>
+
+Respuesta: Librería, niveles habilitados, formato, archivos, rotación y transports. Incluir un ejemplo de log real.
+</details>
+
+<details>
+<summary>¿Por qué documentar las métricas?</summary>
+
+Respuesta: Para que cualquier persona sepa qué se monitoriza, cómo seConsulta y qué significan los números del dashboard.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Documenta **logs** (librería, formato, rotación), **métricas** (nombres, tipos, descripción) y **dashboard** (paneles, consultas).
+2. Incluye las **alertas** configuradas con sus condiciones y canales, y un apartado de **troubleshooting** para problemas comunes.
+3. La documentación debe permitir que **cualquier persona reproduzca tu monitorización** sin preguntarte.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-8-monitorizacion) · Anterior: [07 — Dashboard](./07-dashboard) · Siguiente: [09 — Cierre](./09-cierre)

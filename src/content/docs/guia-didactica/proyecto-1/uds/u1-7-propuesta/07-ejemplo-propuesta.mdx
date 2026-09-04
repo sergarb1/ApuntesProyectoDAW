@@ -1,0 +1,199 @@
+---
+title: "07 — Ejemplo de propuesta"
+description: "Propuesta completa de ejemplo para un proyecto intermodular"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📋 **UD 1.7 · Propuesta de Proyecto** → 07 · Ejemplo de propuesta
+
+<StoryIntro icono="📝" titulo="Un ejemplo vale más que mil explicaciones">
+  Esta sección muestra una **propuesta completa de ejemplo**. Úsala como
+  referencia para estructurar la tuya. No la copies literalmente: adapta
+  los contenidos a tu proyecto real.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **La propuesta es un documento profesional: clara, completa y concisa.**
+
+---
+
+## Ejemplo de propuesta
+
+### Portada
+
+```
+PROPUESTA DE PROYECTO INTERMODULAR
+
+PortfolioQuest — Portfolio Gamificado para Estudiantes
+
+Equipo:
+- María García — Frontend + Diseño
+- Carlos López — Backend + Bases de datos
+- Ana Martínez — Documentación + Testing
+
+IES Tecnológico — Ciclo Formativo DAW
+Curso 2026-2027
+Fecha: 15 de septiembre de 2026
+```
+
+---
+
+### 1. Introducción y justificación
+
+**Problema**: Los estudiantes de FP no tienen un espacio unificado para
+recoger sus proyectos, habilidades y logros académicos. Los portfolios
+existentes son genéricos (GitHub, LinkedIn) y no reflejan la realidad
+de un estudiante.
+
+**Solución**: Una aplicación web que permita a los estudiantes crear un
+portfolio gamificado con insignias, niveles y logros que reflejen su
+progreso académico.
+
+**Beneficios**:
+- Visualización del progreso académico
+- Motivación mediante gamificación
+- Portfolio profesional para el mundo laboral
+- Herramienta transversal para cualquier materia
+
+---
+
+### 2. Objetivos
+
+**Objetivo general**: Desarrollar una aplicación web de portfolio gamificado
+que permita a los estudiantes gestionar y mostrar sus logros académicos.
+
+**Objetivos específicos**:
+1. Sistema de registro y autenticación de usuarios
+2. CRUD de proyectos con categorías y habilidades
+3. Sistema de insignias y niveles por logros
+4. Panel de progreso con estadísticas
+5. Modo oscuro y responsive
+6. Exportación del portfolio a PDF
+
+---
+
+### 3. Usuario objetivo
+
+- **Quién**: Estudiantes de ciclos formativos (DAW, DAM, ASIR)
+- **Qué necesita**: Un espacio para recoger proyectos y logros
+- **Cómo lo usa**: Web en navegador, responsive (móvil y escritorio)
+- **Por qué lo usará**: Para tener un portfolio profesional y motivador
+
+---
+
+### 4. Funcionalidades
+
+| # | Funcionalidad | Prioridad | Descripción |
+|---|--------------|-----------|-------------|
+| 1 | Registro/Login | 🔴 P0 | Autenticación con email y contraseña |
+| 2 | CRUD de proyectos | 🔴 P0 | Crear, editar, eliminar proyectos |
+| 3 | Sistema de insignias | 🔴 P0 | Logros automáticos por acciones |
+| 4 | Panel de progreso | 🟡 P1 | Estadísticas y nivel de usuario |
+| 5 | Búsqueda y filtros | 🟡 P1 | Filtrar por categoría, habilidad |
+| 6 | Modo oscuro | 🟢 P2 | Tema claro/oscuro |
+| 7 | Exportación PDF | 🟢 P2 | Generar PDF del portfolio |
+| 8 | Compartir enlace | ⚪ P3 | Link público del portfolio |
+
+---
+
+### 5. Tecnologías y metodología
+
+| Capa | Tecnología | Justificación |
+|------|-----------|---------------|
+| Frontend | Vue 3 + Composition API | Framework principal, conocido por el equipo |
+| Estilos | Tailwind CSS | Desarrollo rápido, responsive |
+| Build | Vite | Rápido, moderno, bien integrado con Vue |
+| Estado | Pinia | Estado global sencillo |
+| Datos | localStorage / IndexedDB | Sin backend, datos en cliente |
+| Despliegue | GitHub Pages | Gratuito, integrado con Git |
+
+**Metodología**: Scrum Lite con sprints de 1 semana, daily asíncrona
+por Discord, revisiones semanales.
+
+---
+
+### 6. Cronograma
+
+| Semana | Fase | Hito |
+|--------|------|------|
+| 1-2 | Propuesta + Diseño | Hito 1: Propuesta aprobada |
+| 3-4 | Prototipo + wireframes | Hito 2: Diseño validado |
+| 5-8 | Desarrollo MVP | Hito 3: MVP funcional |
+| 9-10 | Funcionalidades extra | Hito 4: Versión completa |
+| 11-12 | Testing + corrección | Hito 5: Versión estable |
+| 13 | Documentación | Hito 6: Docs completas |
+| 14 | Presentación | Hito 7: Entrega final |
+
+---
+
+### 7. Equipo
+
+| Miembro | Rol | Responsabilidades |
+|---------|-----|-------------------|
+| María | Frontend + Diseño | Componentes Vue, estilos, UX |
+| Carlos | Backend + BD | Lógica, estado, persistencia |
+| Ana | Documentación + Testing | README, memoria, tests, bugs |
+
+**Comunicación**: Discord (canal del proyecto), reunión semanal (viernes).
+
+---
+
+## Aclaracion: "¿Puedo usar esta plantilla?"
+
+<Aclaracion icono="✏️" pregunta="¿Copio la propuesta y cambio los datos?">
+Sí, pero **adapta, no copies**. La estructura es la misma, pero los
+contenidos deben ser **tuyos**:
+
+- Tu problema y tu solución
+- Tus objetivos reales
+- Tus funcionalidades
+- Tu cronograma realista
+- Tu equipo
+
+El tribunal valorará que la propuesta refleje **tu proyecto**, no un
+ejemplo genérico.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las 7 secciones de una propuesta completa?</summary>
+
+**Respuesta**: Portada, introducción/justificación, objetivos, usuario objetivo, funcionalidades, tecnologías/metodología y cronograma/equipo.
+
+**Para qué sirve**: Para que tu propuesta tenga todo lo que el tribunal espera.
+</details>
+
+<details>
+<summary>¿Qué diferencia hay entre objetivo general y específicos?</summary>
+
+**Respuesta**: El general es el "para qué" amplio. Los específicos son los "qué" concretos que se necesitan para lograrlo.
+
+**Para qué sirve**: Para que el tribunal vea que piensas en grande y en detalle.
+</details>
+
+<details>
+<summary>¿Por qué justificar cada tecnología?</summary>
+
+**Respuesta**: Porque demuestra que no las eliges por capricho, sino por una razón técnica o de equipo.
+
+**Para qué sirve**: Para que el tribunal vea que razonas tus decisiones.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Una propuesta completa tiene **7 secciones**: portada, justificación, objetivos, usuario, funcionalidades, tecnología y cronograma.
+2. **Justifica cada decisión**: por qué esa tecnología, por qué esas funcionalidades, por qué ese orden.
+3. Usa el ejemplo como **referencia, no como copia**: adapta los contenidos a tu proyecto real.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-7-propuesta) · Anterior: [06 — Cronograma](./06-cronograma) · Siguiente: [08 — Errores de propuesta](./08-errores-propuesta)

@@ -1,0 +1,146 @@
+---
+title: "09 — Cierre"
+description: "Mini-chequeo, vocabulario y resumen de la unidad de SCRUM Avanzado"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🔄 **UD 2.2 · SCRUM Avanzado** → 09 · Cierre
+
+<StoryIntro icono="🎉" titulo="SCRUM no es un conjunto de reglas, es una mentalidad de mejora">
+  Has recorrido toda la unidad: desde Planning Poker hasta las retrospectivas
+  avanzadas, pasando por velocidad, burndown y el rol del SCRUM Master.
+  Ahora toca **verificar que lo entiendes** y **aplicarlo a tu proyecto**.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **SCRUM funciona si lo practicas. No es suficiente leerlo: hay que vivirlo en cada sprint, con sus aciertos y sus errores.**
+
+La teoría sin práctica es solo opinión.
+
+---
+
+## 🎯 Mini-chequeo final
+
+Responde estas preguntas antes de seguir:
+
+### Preguntas de comprensión
+
+<details>
+<summary>¿Cuáles son las 3 reglas de oro del Planning Poker?</summary>
+
+**Silencio** al votar (no influir), los **extremos explican** (aprender), **consenso** (no imposición). Si no hay consenso tras 3 rondas, la historia necesita más refinamiento.
+</details>
+
+<details>
+<summary>¿Qué es la velocidad del equipo?</summary>
+
+Es la **suma de story points completados** por sprint. Solo cuentan historias terminadas al 100%. Sirve para predecir cuántos sprints necesitas para terminar.
+</details>
+
+<details>
+<summary>¿Qué muestra el burndown?</summary>
+
+**Cuántos puntos quedan por hacer** cada día del sprint. Si la línea real está por encima de la ideal, vas con retraso.
+</details>
+
+<details>
+<summary>¿Cuándo actuar sobre un bloqueo?</summary>
+
+Si lleva **más de 1 día** bloqueado. No esperes a la retrospectiva: busca alternativas, pide ayuda o cambia de tarea.
+</details>
+
+<details>
+<summary>¿Qué es una retrospectiva avanzada?</summary>
+
+Una reunión que usa **técnicas concretas** (Start/Stop/Continue, Mad/Sad/Glad, 4Ls) para generar **acciones asignables** que se implementan en el siguiente sprint.
+</details>
+
+<details>
+<summary>¿Cuáles son las 3 métricas más importantes?</summary>
+
+**Velocity** (points/sprint), **Lead time** (días de entrega) y **Sprint goal** (se cumplió el objetivo).
+</details>
+
+<details>
+<summary>¿Qué hace un SCRUM Master?</summary>
+
+**Facilita**: prepara ceremonias, elimina bloqueos, documenta acuerdos y protege al equipo de interrupciones. No da órdenes ni hace el trabajo del equipo.
+</details>
+
+---
+
+### Ejercicio práctico
+
+**En 2 horas, prepara tu primer sprint con SCRUM avanzado:**
+
+1. **Planning** (45 min): Presenta historias, vota con Planning Poker, acepta historias según velocidad
+2. **Kanban** (15 min): Crea la columna "Bloqueado" y visualiza dependencias
+3. **Dashboard** (15 min): Crea tu tabla de métricas con velocity, lead time y sprint goal
+4. **Retrospectiva** (30 min): Usa Start/Stop/Continue con tu equipo
+5. **Documenta** (15 min): Guarda todo en `SCRUM/` de tu repositorio
+
+**Si consigues tener un Planning + Dashboard + Retrospectiva documentados → has entendido la unidad.**
+
+---
+
+## 📊 Tabla resumen de la unidad
+
+| Concepto | Idea clave |
+|----------|------------|
+| **Planning Poker** | Estimación colectiva: silencio, extremos explican, consenso |
+| **Velocity** | Story points completados por sprint (solo 100%) |
+| **Burndown** | Puntos que quedan por hacer cada día |
+| **Burnup** | Puntos completados a lo largo del tiempo |
+| **Bloqueos** | Cualquier cosa que impida avanzar (actuar en 1 día) |
+| **Retrospectiva avanzada** | Técnicas concretas → acciones asignables |
+| **Métricas** | Velocity, lead time, sprint goal como mínimo |
+| **SCRUM Master** | Facilitador, no jefe: hace que el equipo funcione solo |
+| **WIP** | Máximo 2-3 tareas por persona en progreso |
+| **Definition of Ready** | Checklist para que una historia entre al sprint |
+
+---
+
+## 📖 Vocabulario rápido
+
+| Término | Definición |
+|---------|-----------|
+| **Planning Poker** | Juego de estimación colectiva con cartas de puntos |
+| **Velocity** | Suma de story points completados por sprint |
+| **Lead Time** | Días desde que se acepta una historia hasta que está terminada |
+| **Cycle Time** | Días desde que se empieza a trabajar hasta que se termina |
+| **Burndown** | Gráfico de puntos restantes por día del sprint |
+| **Burnup** | Gráfico de puntos completados a lo largo del tiempo |
+| **WIP** | Work In Progress: tareas en progreso simultáneamente |
+| **Defect Rate** | Porcentaje de historias que vuelven a "To Do" tras marcarse "Done" |
+| **SCRUM Master** | Facilitador del proceso SCRUM, no jefe del equipo |
+| **Retrospectiva** | Reunión de mejora continua al final de cada sprint |
+| **Definition of Ready** | Checklist de "lista para entrar en sprint" |
+| **Scope Creep** | Expansión no controlada de requisitos durante el sprint |
+| **Sprint Goal** | Objetivo concreto del sprint que el equipo se compromete a cumplir |
+
+---
+
+## 🔗 Conexión con las siguientes unidades
+
+| Unidad | Qué aprenderás | Cómo se conecta |
+|--------|---------------|-----------------|
+| **UD 2.3 Git Avanzado** | GitFlow, hooks, CI/CD | Los branches seguirán la estructura de sprints que organizaste |
+| **UD 2.4 Patrones de Diseño** | MVC, Repository, Observer | Implementarás las historias del sprint usando patrones |
+| **UD 2.5 Diagramas** | C4, UML, secuencia | Modelarás la arquitectura que planificaste en el sprint |
+| **UD 2.6 IA como Copiloto** | LLMs, prompt engineering | Usarás IA para acelerar las tareas del sprint |
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **Planning Poker** estima en equipo, la **velocidad** predice la duración y el **burndown** muestra el progreso real del sprint.
+2. Los **bloqueos** se actúan en 1 día, las **retrospectivas** generan acciones concretas y las **métricas** dicen la salud del proyecto.
+3. El **SCRUM Master** facilita, no manda: su éxito se mide por cuán poco le necesita el equipo.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-2-scrum-avanzado) · Anterior: [08 — Template SCRUM avanzado](./08-template-scrum-avanzado) · Siguiente: [UD 2.3 — Git Avanzado](../../guia-didactica/proyecto-2/uds/u2-3-git-avanzado/u2-3-git-avanzado)

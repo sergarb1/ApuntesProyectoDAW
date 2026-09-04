@@ -1,0 +1,145 @@
+---
+title: "01 — Planning Poker"
+description: "La técnica de estimación colectiva que elimina los sesgos individuales"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🔄 **UD 2.2 · SCRUM Avanzado** → 01 · Planning Poker
+
+<StoryIntro icono="🃏" titulo="Estimar no es una opinión, es una conversación">
+  El Planning Poker es la técnica más extendida en equipos SCRUM profesionales.
+  No es solo "votar un número": es un proceso que obliga al equipo a
+  **compartir conocimiento** antes de comprometerse con una estimación.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Planning Poker convierte la estimación individual en una decisión de equipo: cada miembro vota, los extremos explican y el consenso emerge.**
+
+No estás solo. Estás estimando con el conocimiento colectivo.
+
+---
+
+## El proceso paso a paso
+
+### Preparación
+
+1. El **Product Owner** presenta la historia
+2. Cada miembro recibe un **mazo de cartas**: 1, 2, 3, 5, 8, 13, 21, ?, ☕
+3. Se acuerda una **referencia**: "Esta historia vale 3 puntos" (historia base)
+
+### La ronda
+
+```
+PO presenta: "Como alumno, quiero filtrar tareas por categoría"
+
+   Ana     Pedro    Luis    Marta
+   [8]     [5]      [13]    [5]
+
+→ Revelan a la vez: 8, 5, 13, 5
+→ Discrepancia: Luis dice 13, Ana dice 8
+→ Luis: "La parte de filtrado con múltiples categorías es compleja"
+→ Ana: "Yo lo veo más sencillo con un filtro simple"
+→ PO: "El filtro debe funcionar con AND y OR"
+→ Luis acepta que con filtro simple es menos
+→ Segunda ronda: todos votan 8
+→ Consenso: 8 puntos
+```
+
+### Las cartas especiales
+
+| Carta | Cuándo usarla |
+|-------|---------------|
+| **?** | No tengo información suficiente para estimar |
+| **☕** | Necesito una pausa o estoy fuera de foco |
+| **∞** (infinito) | Esta historia es demasiado grande para estimar |
+
+---
+
+## Las 3 reglas de oro
+
+### 1. Silencio al votar
+
+Nadie habla mientras elige su carta. Si hablas, influencias a los demás.
+
+### 2. Los extremos explican
+
+Cuando hay diferencia grande (ej: 3 vs 13), los que votaron los valores extremos **explican por qué**. Esto genera aprendizaje.
+
+### 3. No hay imposición
+
+El número que gana es el del **consenso**, no el del jefe ni el del más voz alta.
+
+---
+
+## Comparativa: estimar solo vs Planning Poker
+
+<Comparativa
+  dialogos={[
+    { quien: "Estimar solo", texto: "Yo digo 5. Pedro dice 8. Marta dice 3. Cada uno con su número. La estimación final es un promedio que nadie defiende." },
+    { quien: "Planning Poker", texto: "Revelamos: 3, 5, 8, 5. Pedro explica la complejidad. Marta aporta experiencia previa. Llegamos a 5 juntos. Todos estamos comprometidos." },
+  ]}
+  titulo="El conocimiento colectivo siempre gana"
+/>
+
+---
+
+## Errores comunes con Planning Poker
+
+| Error | Consecuencia | Solución |
+|-------|-------------|----------|
+| Hablar antes de votar | El primero influye a todos | Silencio al elegir carta |
+| El jefe impone su número | El equipo no se compromete | Consenso, no imposición |
+| No explicar los extremos | Se pierde aprendizaje | Siempre explicar por qué |
+| Estimar historias vagas | Estimaciones basura | Refinar primero, estimar después |
+| Usar siempre el mismo número | Pérdida de precisión | Debatir y variar |
+
+---
+
+## Aclaración: "¿Y si siempre nos ponemos de acuerdo rápido?"
+
+<Aclaracion icono="🤔" pregunta="¿Es malo que siempre votes lo mismo?">
+Si siempre coincideis, puede significar dos cosas:
+
+1. **Buena señal**: el equipo tiene experiencia similar y comparte contexto
+2. **Mala señal**: alguien no está expresando su opinión por vergüenza o inercia
+
+**Consejo**: El SCRUM Master puede preguntar al que menos habla: "¿Qué piensas tú?" Asegúrate de que todas las voces se escuchan.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las 3 reglas de oro del Planning Poker?</summary>
+
+1) **Silencio** al votar (no influir), 2) Los **extremos explican** (aprender), 3) No hay **imposición** (consenso).
+</details>
+
+<details>
+<summary>¿Cuándo se usa la carta "?"</summary>
+
+Cuando **no tienes información suficiente** para estimar. Significa que necesitas más contexto antes de comprometerte con un número.
+</details>
+
+<details>
+<summary>¿Qué pasa si no hay consenso?</summary>
+
+Se repite la votación tras debatir. Si después de 3 rondas no hay consenso, la historia probablemente es **demasiado grande** o **demasiado vaga**: hay que dividirla o refinarla.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Planning Poker es la técnica de estimación colectiva donde el equipo **vota en secreto** y **debate las diferencias** hasta llegar a consenso.
+2. Las 3 reglas: **silencio** al votar, **extremos explican**, **consenso** (no imposición).
+3. Si siempre coincidís rápido, asegúrate de que todos opinan; si nunca coincidís, la historia necesita más refinamiento.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-2-scrum-avanzado) · Siguiente: [02 — Velocidad del equipo](./02-velocity)

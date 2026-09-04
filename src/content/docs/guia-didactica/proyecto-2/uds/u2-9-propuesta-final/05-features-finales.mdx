@@ -1,0 +1,137 @@
+---
+title: "05 — Definir features"
+description: "Cómo definir y priorizar las funcionalidades de tu proyecto final"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 🚀 **UD 2.9 · Propuesta Final** → 05 · Definir features
+
+<StoryIntro icono="📋" titulo="Menos features, más calidad: la clave del proyecto exitoso">
+  La tentación es hacer "todo lo que se me ocurra". Pero en 8 semanas
+  no puedes hacer todo. La clave es definir **pocas features bien
+  hechas** que demuestren tus habilidades, no muchas features a medias.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Define 5-8 features principales que puedas terminar con calidad, no 20 que hagas a medias.**
+
+---
+
+## Método MoSCoW para priorizar
+
+| Prioridad | Significado | Cantidad típica |
+|-----------|-------------|-----------------|
+| **Must** | Imprescindible para que el proyecto tenga sentido | 3-4 features |
+| **Should** | Importante pero no vital | 2-3 features |
+| **Could** | Deseable si sobra tiempo | 1-2 features |
+| **Won't** | Futuro, no va en el proyecto final | Las que quieras |
+
+### Regla práctica
+
+- **Must**: Lo que presentas al tribunal como "esto es mi proyecto"
+- **Should**: Lo que añades si el profesor pregunta "¿qué más?"
+- **Could**: Lo que documentas como "futuras mejoras"
+- **Won't**: Lo que no mencionas
+
+---
+
+## Ejemplo: Gestor de tareas
+
+### Must (MVP)
+1. CRUD de tareas (crear, listar, editar, eliminar)
+2. Filtrado por estado (pendiente/hecha) y prioridad
+3. Autenticación de usuarios (registro/login)
+4. Dashboard con estadísticas básicas
+
+### Should
+5. Recordatorios por fecha
+6. Exportar tareas a CSV
+7. Modo oscuro
+
+### Could
+8. Colaboración (compartir tareas)
+9. Etiquetas personalizadas
+10. Estadísticas avanzadas con gráficas
+
+### Won't
+- App móvil
+- Chat integrado
+- Pagos
+- Notificaciones push
+
+---
+
+## Criterios de calidad para cada feature
+
+Cada feature Must debe cumplir:
+
+- [ ] **Funciona**: no tiene bugs visibles
+- [ ] **Valida datos**: campos obligatorios, formatos correctos
+- [ ] **Maneja errores**: muestra mensajes claros al usuario
+- [ ] **Es responsive**: funciona en móvil y escritorio
+- [ ] **Tiene tests**: al menos tests unitarios
+- [ ] **Está documentada**: el README la menciona
+
+---
+
+## Cuántas features por area de evaluación
+
+| Área | Features necesarias |
+|------|-------------------|
+| **Funcionalidad** | 3-4 Must + 1-2 Should |
+| **Testing** | Tests para cada feature Must |
+| **Despliegue** | La app desplegada con HTTPS |
+| **Documentación** | README + memoria |
+| **Monitorización** | Logs + uptime |
+
+---
+
+## Aclaracion: "¿Y si termino antes?"
+
+<Aclaracion icono="🤔" pregunta="¿Qué hago si termino las features antes de tiempo?">
+Si terminas antes, tienes opciones (por orden de preferencia):
+
+1. **Mejora la calidad**: tests, accesibilidad, responsive, UX
+2. **Añade una feature Should**: la siguiente en prioridad
+3. **Añade monitorización**: logs, métricas, dashboard
+4. **Documenta más**: diagrams, ADR, guía de usuario
+
+**Nunca** añadas features Won't sin terminar bien las Must. Mejor 4 features perfectas que 8 rotas.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuántas features Must debería tener mi proyecto?</summary>
+
+Respuesta: 3-4 features Must. Son el mínimo que necesitas para que el proyecto tenga sentido y demuestre tus habilidades.
+</details>
+
+<details>
+<summary>¿Qué hace una feature "de calidad"?</summary>
+
+Respuesta: Funciona sin bugs, valida datos, maneja errores, es responsive, tiene tests y está documentada.
+</details>
+
+<details>
+<summary>¿Qué hago si termino antes de tiempo?</summary>
+
+Respuesta: Mejora la calidad de lo existente, añade una feature Should o amplía la monitorización. No añadas features Won't sin terminar las Must.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Define **3-4 features Must** que sean el corazón de tu proyecto, **2-3 Should** importantes y **1-2 Could** deseadas.
+2. Cada feature Must debe **funcionar, validar, manejar errores, ser responsive, tener tests** y estar documentada.
+3. **Menos features bien hechas** que muchas a medias: la calidad se valora más que la cantidad.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-9-propuesta-final) · Anterior: [04 — Stack final](./04-stack-final) · Siguiente: [06 — Cronograma](./06-cronograma-final)

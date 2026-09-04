@@ -1,0 +1,250 @@
+---
+title: "08 — Plantilla de documentación"
+description: "Template listo para usar en tu proyecto intermodular"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 📚 **UD 1.6 · Documentación** → 08 · Plantilla de doc
+
+<StoryIntro icono="📋" titulo="No empieces desde cero: usa esta plantilla">
+  La mejor forma de documentar es **partir de una estructura ya hecha**.
+  Esta plantilla incluye todo lo que el tribunal espera ver. Cópiala,
+  adapta los campos y ya tienes tu documentación lista.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Una plantilla bien diseñada te garantiza que no olvidas nada importante.**
+
+---
+
+## Plantilla completa
+
+### README.md
+
+```markdown
+# [Nombre del Proyecto]
+
+[Descripción de 1-2 líneas: qué hace la app y para quién es]
+
+## Características
+
+- [Funcionalidad 1]
+- [Funcionalidad 2]
+- [Funcionalidad 3]
+- [Funcionalidad 4]
+
+## Tecnologías utilizadas
+
+| Tecnología | Propósito |
+|-----------|-----------|
+| Vue 3 | Framework frontend |
+| Tailwind CSS | Estilos |
+| Vite | Build tool |
+| GitHub Pages | Despliegue |
+
+## Instalación
+
+### Requisitos previos
+- Node.js 18+ (https://nodejs.org)
+- npm o pnpm
+
+### Pasos
+
+1. Clonar el repositorio
+   ```bash
+   git clone https://github.com/usuario/proyecto.git
+   cd proyecto
+   ```
+
+2. Instalar dependencias
+   ```bash
+   npm install
+   ```
+
+3. Iniciar en modo desarrollo
+   ```bash
+   npm run dev
+   ```
+
+4. Abrir en el navegador
+   ```
+   http://localhost:5173
+   ```
+
+## Uso
+
+[Descripción breve de cómo usar la aplicación]
+
+[Incluir 1-2 capturas de pantalla]
+
+## Estructura del proyecto
+
+```
+src/
+├── components/     # Componentes reutilizables
+├── views/          # Vistas/páginas
+├── stores/         # Estado global (Pinia)
+├── utils/          # Funciones auxiliares
+├── assets/         # Imágenes y estilos
+└── App.vue         # Componente raíz
+```
+
+## Equipo
+
+| Nombre | Rol |
+|--------|-----|
+| [Nombre 1] | Frontend + Diseño |
+| [Nombre 2] | Backend + BD |
+| [Nombre 3] | Documentación + Testing |
+
+## Licencia
+
+Este proyecto está bajo la licencia [MIT / CC BY-SA 4.0] — mira el archivo [LICENSE](LICENSE) para detalles.
+```
+
+---
+
+## Plantilla de documentación técnica
+
+```markdown
+# Documentación Técnica — [Nombre]
+
+## Arquitectura general
+
+[Diagrama de capas o descripción]
+
+## Modelo de datos
+
+| Entidad | Campos | Tipo |
+|---------|--------|------|
+| Tarea | id, titulo, prioridad, fecha | JSON |
+
+## Funciones principales
+
+### [Nombre de la función]
+- **Propósito**: [Qué hace]
+- **Parámetros**: [Qué recibe]
+- **Retorna**: [Qué devuelve]
+- **Ejemplo**: [Código de ejemplo]
+
+## Decisiones de diseño
+
+| Decisión | Alternativa descartada | Razón |
+|----------|----------------------|-------|
+| Vue 3 | React | Equipo conocía mejor Vue |
+| Tailwind | CSS puro | Desarrollo más rápido |
+```
+
+---
+
+## Plantilla de manual de usuario
+
+```markdown
+# Manual de Usuario — [Nombre]
+
+## Introducción
+
+[Nombre] es una aplicación que [qué hace en 1 frase].
+Está dirigida a [usuarios: profesores, alumnos, etc.]
+
+## Primeros pasos
+
+1. Abre la aplicación en el navegador
+2. [Paso 2]
+3. [Paso 3]
+
+## Funcionalidades
+
+### [Funcionalidad 1]
+[Descripción]
+1. [Paso 1 con captura]
+2. [Paso 2 con captura]
+
+### [Funcionalidad 2]
+[Descripción]
+1. [Paso 1]
+2. [Paso 2]
+
+## Preguntas frecuentes
+
+### ¿No se abre la app?
+Comprueba que Node.js está instalado: `node -v`
+
+### ¿No se guardan los datos?
+[ Solución ]
+
+## Contacto
+
+Si tienes problemas, contacta con [email o GitHub].
+```
+
+---
+
+## Comparativa: plantilla vs empezar de cero
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin plantilla", texto: "Abres un archivo en blanco. No sabes qué poner. Pasas 2 horas pensando en la estructura. Olvidas secciones importantes." },
+    { quien: "Con plantilla", texto: "Copias la plantilla. Rellenas los campos. En 30 minutos tienes una documentación completa y estructurada." },
+  ]}
+  titulo="La plantilla te ahorra horas de trabajo"
+/>
+
+---
+
+## Aclaracion: "¿Puedo modificar la plantilla?"
+
+<Aclaracion icono="✏️" pregunta="¿La plantilla es fija o puedo adaptarla?">
+La plantilla es un **punto de partida**, no una camisa de fuerza. Puedes:
+
+- Añadir secciones que necesites
+- Quitar las que no apliquen
+- Reordenar el orden
+- Cambiar el formato
+
+Lo importante es mantener la **estructura lógica**: qué es → cómo se instala → cómo se usa → quiénes lo hicieron.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las 3 plantillas que ofrece esta sección?</summary>
+
+**Respuesta**: README.md, documentación técnica y manual de usuario.
+
+**Para qué sirve**: Para tener una base completa para todo tipo de documentación.
+</details>
+
+<details>
+<summary>¿Qué información debe llevar el apartado "Equipo"?</summary>
+
+**Respuesta**: Nombre de cada miembro y su rol (frontend, backend, documentación, testing).
+
+**Para qué sirve**: Para que el tribunal sepa quién hizo qué.
+</details>
+
+<details>
+<summary>¿Se puede modificar la plantilla?</summary>
+
+**Respuesta**: Sí. La plantilla es un punto de partida. Puedes añadir, quitar o reordenar secciones según tu proyecto.
+
+**Para qué sirve**: Para adaptar la documentación a las necesidades reales.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. La plantilla incluye **todo lo que el tribunal espera**: README, doc técnica y manual de usuario.
+2. **Copia, adapta y rellena**: en 30 minutos tienes una documentación completa.
+3. La plantilla es un **punto de partida**, no una camisa de fuerza: modifícala según tu proyecto.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-6-documentacion) · Anterior: [07 — Errores de documentación](./07-errores-doc) · Siguiente: [09 — Cierre](./09-cierre)

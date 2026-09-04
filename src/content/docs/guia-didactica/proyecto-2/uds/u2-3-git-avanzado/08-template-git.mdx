@@ -1,0 +1,159 @@
+---
+title: "08 — Template de workflow Git"
+description: "Workflow listo para tu proyecto con GitFlow, hooks y CI/CD"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 🌿 **UD 2.3 · Git Avanzado** → 08 · Template de workflow Git
+
+<StoryIntro icono="📋" titulo="Tu workflow de Git en un solo documento">
+  Este template incluye todo lo aprendido: GitFlow simplificado,
+  convenciones de commit, hooks y la configuración de CI/CD.
+  Cópialo, adáptalo a tu proyecto y trabaja como un equipo profesional.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Guarda este template como `GIT-WORKFLOW.md` en la raíz de tu repositorio para que todo el equipo siga las mismas reglas.**
+
+Sin reglas, cada uno hace lo que quiere. Con reglas, el equipo funciona.
+
+---
+
+## Template completo
+
+```markdown
+# Git Workflow — [Nombre del proyecto]
+
+## Estructura de branches
+
+- **main**: código en producción (desplegado)
+- **develop**: última versión funcional (integrada)
+- **feature/**: nueva funcionalidad (desde develop)
+- **hotfix/**: arreglo urgente (desde main)
+
+## Reglas
+
+### Crear un branch de feature
+
+```bash
+git checkout develop
+git checkout -b feature/nombre-descriptivo
+# Ejemplo: feature/login-form, feature/task-filter
+```
+
+### Hacer commits
+
+Usar Conventional Commits:
+
+```bash
+git commit -m "feat: add login form"
+git commit -m "fix: correct email validation"
+git commit -m "docs: update README"
+```
+
+Tipos válidos: feat, fix, docs, style, refactor, test, chore, perf
+
+### Merge a develop
+
+```bash
+git checkout develop
+git merge --no-ff feature/nombre
+git push origin develop
+git branch -d feature/nombre
+```
+
+### Crear release
+
+```bash
+git checkout develop
+git checkout -b release/v1.0
+# Últimos ajustes
+git checkout main
+git merge --no-ff release/v1.0
+git tag -a v1.0.0 -m "Release v1.0.0"
+git checkout develop
+git merge --no-ff release/v1.0
+```
+
+### Hotfix
+
+```bash
+git checkout main
+git checkout -b hotfix/bug-descriptivo
+# Arreglar el bug
+git checkout main
+git merge --no-ff hotfix/bug-descriptivo
+git tag -a v1.0.1 -m "Hotfix v1.0.1"
+git checkout develop
+git merge --no-ff hotfix/bug-descriptivo
+```
+
+## Hooks (pre-commit)
+
+El pre-commit hook verifica:
+- No hay console.log en el código
+- El linter pasa
+- No hay secrets expuestos
+
+## CI/CD (GitHub Actions)
+
+En cada push a main o develop:
+1. Install dependencies
+2. Run linter
+3. Run tests
+4. Build
+5. Deploy automático (solo main)
+```
+
+---
+
+## Aclaración: "¿Necesito todo esto para un proyecto de módulo?"
+
+<Aclaracion icono="🤔" pregunta="¿No es excesivo este workflow para 6 semanas?">
+**Adáptalo a tu realidad**. Para un proyecto de módulo, simplifica:
+
+| Completo | Simplificado |
+|----------|-------------|
+| GitFlow completo (5 branches) | main + develop + feature |
+| Husky + Commitlint | Solo pre-commit con lint |
+| CI/CD completo | Solo CI (lint + test + build) |
+
+Lo importante es que **tengas reglas** y que **todo el equipo las siga**. No necesitas la versión completa para que funcione.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las ramas mínimas necesarias?</summary>
+
+**main** (producción) + **develop** (desarrollo) + **feature/** (cada funcionalidad). Esto es suficiente para la mayoría de proyectos.
+</details>
+
+<details>
+<summary>¿Qué verifica el pre-commit?</summary>
+
+Depende de tu configuración: puede verificar **console.log**, ejecutar **linter**, detectar **secrets** o cualquier cosa que puedas scriptear.
+</details>
+
+<details>
+<summary>¿Cuándo usar hotfix?</summary>
+
+Cuando hay un **bug urgente en producción** que necesita arreglo inmediato. Se crea desde main y se merge de vuelta a main y develop.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El workflow define **ramas** (main, develop, feature), **convenciones** (Conventional Commits), **hooks** (pre-commit) y **CI/CD** (GitHub Actions).
+2. **Simplifica** para proyectos pequeños: main + develop + feature es suficiente. No necesitas GitFlow completo.
+3. Guarda el template como `GIT-WORKFLOW.md` para que **todo el equipo** siga las mismas reglas.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-3-git-avanzado) · Anterior: [07 — Code Review](./07-code-review) · Siguiente: [09 — Cierre](./09-cierre)
