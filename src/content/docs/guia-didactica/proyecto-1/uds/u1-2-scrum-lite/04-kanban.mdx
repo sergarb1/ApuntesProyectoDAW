@@ -53,6 +53,8 @@ Un tablero Kanban tiene al menos 3 columnas:
 | **In Review** | Cuando el código está listo pero falta que alguien lo revise |
 | **Testing** | Cuando la feature está implementada pero falta probarla |
 
+**La columna In Review es la más importante de las opcionales.** Si solo quien programa revisa su propio código, los bugs se escapan. La **revisión cruzada** (otra persona revisa tu código antes de moverlo a Done) es la práctica que más errores evita en equipos pequeños.
+
 ---
 
 ## Las reglas de oro del tablero
@@ -182,6 +184,17 @@ Si el tablero muestra que "Login" lleva 3 semanas en "In Progress", hay un probl
 
 ---
 
+## 📊 Métricas del tablero: Lead time y Throughput
+
+El tablero no solo organiza: también **mide**. Dos métricas sencillas:
+
+- **Lead time**: días desde que se crea una tarea hasta que se completa. Si el promedio es 3 días y una tarea lleva 7, hay un bloqueo
+- **Throughput**: tareas completadas por semana. Si baja de una semana a otra, algo está pasando
+
+No necesitas herramientas complejas: basta con mirar el tablero y contar cuántas tarjetas pasan a "Done" cada semana.
+
+---
+
 ## Aclaración: "El tablero es solo para gestión"
 
 <Aclaracion icono="🤔" pregunta="¿El tablero es solo una lista de tareas?">
@@ -213,6 +226,12 @@ Respuesta: Cuando la feature está terminada, funciona correctamente y al menos 
 </details>
 
 <details>
+<summary>¿Qué son el lead time y el throughput?</summary>
+
+Respuesta: **Lead time** = días desde que se crea una tarea hasta que se completa. **Throughput** = tareas terminadas por semana. Sirven para detectar bloqueos.
+</details>
+
+<details>
 <summary>¿Qué herramienta es mejor: Trello o GitHub Projects?</summary>
 
 Respuesta: Ambas son buenas. **Trello** es más visual y fácil. **GitHub Projects** se integra mejor con el código. Si ya usáis GitHub, usa GitHub Projects. Si no, Trello.
@@ -224,8 +243,8 @@ Respuesta: Ambas son buenas. **Trello** es más visual y fácil. **GitHub Projec
 
 1. Un tablero Kanban tiene 3 columnas: **To Do, In Progress, Done** y visualiza todo el trabajo del equipo.
 2. Usa **WIP limits** (máximo 1-2 tareas por persona) para evitar empezar muchas cosas sin terminar.
-3. El tablero es una **herramienta de comunicación**: actualízalo cada día y úsalo para responder "¿cómo vamos?".
+3. El tablero es una **herramienta de comunicación** (actualízalo cada día) y sus métricas (**lead time** y **throughput**) detectan bloqueos antes de que se conviertan en crisis.
 
 ---
 
-> 📚 Volver al [índice de la unidad](../u1-2-scrum-lite) · Anterior: [03 — El Sprint](./03-sprint) · Siguiente: [05 — User Stories](./05-user-stories)
+> 📚 Volver al [índice de la unidad](../u1-2-scrum-lite) · Anterior: [03 — El Sprint](../03-sprint) · Siguiente: [05 — User Stories](../05-user-stories)

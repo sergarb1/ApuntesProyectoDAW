@@ -190,6 +190,92 @@ jobs:
 
 ---
 
+## VPS + Nginx: la alternativa con control total
+
+Las plataformas managed son lo más cómodo, pero existe una alternativa clásica: un **VPS** (máquina virtual en la nube con acceso root). Tienes control total, pero también toda la responsabilidad.
+
+### Cuándo elegir VPS
+
+- Quieres **aprender administración de servidores** (muy valorado en entrevistas)
+- Necesitas **control total**: WebSocket, cron jobs, puertos concretos
+- Tu proyecto tiene requisitos que las plataformas managed no cubren
+
+### Flujo básico
+
+```bash
+# 1. Conectar al servidor
+ssh root@tu-servidor.com
+
+# 2. Actualizar el sistema
+apt update && apt upgrade -y
+
+# 3. Instalar Docker
+curl -fsSL https://get.docker.com | sh
+
+# 4. Clonar y configurar
+git clone https://github.com/tu-usuario/tu-proyecto.git
+cd tu-proyecto
+cp .env.example .env
+nano .env
+
+# 5. Arrancar la app
+docker-compose up -d
+```
+
+### Nginx como reverse proxy
+
+Tu app corre en el puerto 3000 dentro del contenedor, pero el usuario debe entrar por el puerto 80/443 con un dominio. **Nginx** redirige las peticiones del puerto 80 a tu contenedor:
+
+```nginx
+# /etc/nginx/sites-available/tu-app
+server {
+    listen 80;
+    server_name tu-dominio.com;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+```
+
+```bash
+# Activar la configuración
+ln -s /etc/nginx/sites-available/tu-app /etc/nginx/sites-enabled/
+nginx -t
+systemctl restart nginx
+```
+
+<Aclaracion icono="🔐" pregunta="¿Cuál es la diferencia entre plataforma managed y VPS?">
+| Aspecto | Managed (Vercel, Render) | VPS (Hetzner, DigitalOcean) |
+|---------|--------------------------|-----------------------------|
+| **Facilidad** | Muy fácil, pocos clics | Necesitas conocimientos de Linux |
+| **Control** | Limitado | Total |
+| **Coste** | Gratis (plan gratuito) | Desde ~4€/mes |
+| **Mantenimiento** | Lo hace la plataforma | Lo haces tú todo |
+| **Escalabilidad** | Automática | Manual |
+| **Para un proyecto DAW** | ✅ Recomendado | Si necesitas control total |
+
+Para la mayoría de proyectos DAW, una plataforma managed es suficiente. El VPS es la opción cuando quieres aprender a administrar un servidor real.
+</Aclaracion>
+
+---
+
+## Auto-deploy: despliega con cada push
+
+Casi todas las plataformas ofrecen **auto-deploy**: cada push a `main` despliega la nueva versión automáticamente.
+
+- **Vercel / Netlify**: conectas el repo; cada push a `main` despliega y cada PR crea una preview deployment
+- **GitHub Pages**: usas GitHub Actions; cada push a `main` ejecuta el workflow
+- **Render / Railway**: activas "Auto Deploy" en los settings del servicio
+
+Con un **VPS**, el auto-deploy también es posible: en el servidor puedes añadir un **webhook** que haga `git pull && docker-compose up -d --build` cuando llegue el push. Así, aunque uses un VPS, no tienes que entrar a mano en cada despliegue.
+
+---
+
 ## Comparativa: ¿Cuál elijo?
 
 <Comparativa
@@ -237,14 +323,26 @@ Respuesta: **Render** (gratis con limitaciones) o **Railway** (5€/mes). Ambas 
 Respuesta: Soporta serverless functions, preview deployments en PRs, analytics y frameworks modernos como Next.js.
 </details>
 
+<details>
+<summary>¿Qué es un VPS y cuándo conviene?</summary>
+
+Respuesta: Una máquina virtual en la nube con acceso root y control total. Conviene si quieres aprender administración de servidores, necesitas WebSockets, cron jobs o configuración específica que las plataformas managed no permiten.
+</details>
+
+<details>
+<summary>¿Para qué sirve Nginx en un VPS?</summary>
+
+Respuesta: Como reverse proxy: recibe las peticiones del puerto 80/443 y las redirige a tu contenedor (por ejemplo, `localhost:3000`). Permite exponer tu app con dominio y HTTPS aunque corra en un puerto interno.
+</details>
+
 ---
 
 ## ✅ Resumen en 3 frases
 
 1. **GitHub Pages** es ideal para sitios estáticos (gratis, simple). **Vercel** para frontend moderno con functions.
-2. **Render** y **Railway** sirven para Full-Stack con backend y base de datos.
-3. Elige según tus necesidades: **solo frontend → Pages/Vercel; Full-Stack → Render/Railway**.
+2. **Render** y **Railway** sirven para Full-Stack con backend y base de datos. **Un VPS + Nginx** da control total cuando necesitas administrar el servidor tú mismo.
+3. Elige según tus necesidades: **solo frontend → Pages/Vercel; Full-Stack → Render/Railway; control total → VPS**.
 
 ---
 
-> 📚 Volver al [índice de la unidad](../u2-7-despliegue) · Anterior: [03 — CI/CD](./03-ci-cd-despliegue) · Siguiente: [05 — Zero-downtime](./05-zero-downtime)
+> 📚 Volver al [índice de la unidad](../u2-7-despliegue) · Anterior: [03 — CI/CD](../03-ci-cd-despliegue) · Siguiente: [05 — Zero-downtime](../05-zero-downtime)

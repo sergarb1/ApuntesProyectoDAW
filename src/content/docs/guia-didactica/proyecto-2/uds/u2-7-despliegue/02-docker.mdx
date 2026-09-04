@@ -131,6 +131,128 @@ volumes:
 
 ---
 
+## Variables de entorno: configuración que cambia entre entornos
+
+Todo lo que cambia entre desarrollo, pruebas y producción (credenciales, URLs, puertos) debe ser una **variable de entorno**, nunca un valor fijo en el código.
+
+```javascript
+// ❌ MAL: hardcodeado
+const DB_URL = "mongodb://localhost:27017/mi_app";
+const API_KEY = "sk-1234567890abcdef";
+
+// ✅ BIEN: variables de entorno
+const DB_URL = process.env.DB_URL || "mongodb://localhost:27017/mi_app";
+const API_KEY = process.env.API_KEY;
+```
+
+### El archivo `.env` y `.env.example`
+
+En desarrollo se usa el archivo `.env`; en producción, las variables se configuran en la plataforma.
+
+```bash
+# .env (desarrollo local — NUNCA subir al repo)
+DB_HOST=localhost
+DB_PASSWORD=mipassword
+NODE_ENV=development
+PORT=3000
+```
+
+```bash
+# .env.example (sí se sube al repo — valores vacíos)
+DB_HOST=          # Host de la base de datos
+DB_PASSWORD=      # Contraseña (nunca valores reales)
+NODE_ENV=         # development o production
+PORT=             # Puerto del servidor
+```
+
+**Reglas de oro:**
+1. **Nunca subas `.env`** al repositorio. Añádelo a `.gitignore`.
+2. Crea **`.env.example`** con las variables sin valores reales, para que quien clone el repo sepa qué configurar.
+3. Usa **valores diferentes** para desarrollo y producción.
+4. No pongas **valores por defecto peligrosos** en los secrets: mejor fallar rápido si falta una variable que arrancar con configuración incompleta.
+
+```gitignore
+# .gitignore
+.env
+.env.*
+!.env.example
+```
+
+### En Docker Compose
+
+En Compose, las credenciales no van directamente en el YAML. Se referencian desde `.env`:
+
+```yaml
+backend:
+  environment:
+    - DB_HOST=${DB_HOST}
+    - DB_PASSWORD=${DB_PASSWORD}
+```
+
+> 🐛 **Vocabulario**: un **secret** es una variable de entorno sensible (credenciales, claves API). Un **.env.example** es la plantilla documentada de variables sin valores reales.
+
+---
+
+## Dockerfile en producción: endurecer la imagen
+
+Un Dockerfile no es solo "que funcione", es "que funcione bien". Cuatro reglas para producción:
+
+### 1. Usa una base ligera (alpine/slim)
+
+```dockerfile
+# ❌ MAL: imagen completa (~900 MB)
+FROM node:20
+
+# ✅ BIEN: variante alpine (~180 MB) o slim (~250 MB)
+FROM node:20-alpine
+```
+
+### 2. Usuario no-root
+
+Por defecto los contenedores ejecutan como root. Si alguien explota tu app dentro del contenedor, tiene acceso root.
+
+```dockerfile
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+```
+
+### 3. CMD en exec-form (array)
+
+```dockerfile
+# ✅ BIEN: exec-form. Node es PID 1 y recibe señales de terminación
+CMD ["node", "src/server.js"]
+
+# ❌ MAL: shell-form. El shell es PID 1; Docker no puede parar limpiamente
+CMD node src/server.js
+```
+
+### 4. Orden del COPY para aprovechar la caché
+
+Copia `package*.json` primero e instala dependencias antes de copiar el resto. Si solo cambia el código pero no las dependencias, Docker reutiliza la capa de instalación.
+
+```dockerfile
+# ✅ Copia dependencias primero → caché aprovechada
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+```
+
+### Errores comunes
+
+| Error | Problema |
+|-------|----------|
+| `COPY . .` + `npm install` | Copia dependencias de tu máquina. Instala dentro del contenedor |
+| Olvidar `.dockerignore` | `.git`, `node_modules`, `.env` se cuelan en la imagen y la inflan |
+| `FROM node:20` completo | Imagen pesada (~900 MB) e insegura |
+| Usuario root | Superficie de ataque si explotan tu app |
+| Sin multi-stage | La imagen final incluye código fuente, tests y tools de desarrollo |
+
+> **Regla de oro**: una imagen ligera sube más rápido al registro, arranca más rápido y tiene menos superficie de ataque.
+
+---
+
+
+
 ## Multi-stage build: optimizar imágenes
 
 ```dockerfile
@@ -230,14 +352,32 @@ Respuesta: Define y ejecuta múltiples contenedores a la vez: frontend, backend 
 Respuesta: Una técnica para reducir el tamaño de la imagen Docker: una etapa construye el código y otra solo copia lo necesario para producción.
 </details>
 
+<details>
+<summary>¿Por qué se copia `package*.json` antes que el resto del código?</summary>
+
+Respuesta: Para aprovechar la caché de Docker. Si `package*.json` no cambia, la capa de instalación se reutiliza y `npm ci` no se vuelve a ejecutar.
+</details>
+
+<details>
+<summary>¿Por qué usar un usuario no-root en el Dockerfile?</summary>
+
+Respuesta: Por defecto los contenedores ejecutan como root. Si explotan tu aplicación dentro del contenedor, tendrían acceso root. Un usuario no-root reduce la superficie de ataque.
+</details>
+
+<details>
+<summary>¿Qué es `.env.example` y por qué se sube al repo?</summary>
+
+Respuesta: Es la plantilla de variables de entorno sin valores reales. Se sube para que quien clone el repositorio sepa qué variables configurar, sin exponer los secretos reales que viven en `.env` (que no se sube).
+</details>
+
 ---
 
 ## ✅ Resumen en 3 frases
 
 1. Docker **empaqueta tu app en un contenedor** que funciona igual en cualquier entorno, eliminando "en mi máquina funciona".
 2. El **Dockerfile** define la imagen y **docker-compose.yml** orquesta múltiples servicios (frontend + backend + BD).
-3. Usa **multi-stage builds** para reducir el tamaño de la imagen y `.dockerignore` para excluir archivos innecesarios.
+3. Usa **multi-stage builds** para reducir el tamaño, **variables de entorno** para la configuración y **usuario no-root + alpine** para endurecer la imagen en producción.
 
 ---
 
-> 📚 Volver al [índice de la unidad](../u2-7-despliegue) · Anterior: [01 — Qué es el despliegue](./01-que-es-despliegue) · Siguiente: [03 — CI/CD](./03-ci-cd-despliegue)
+> 📚 Volver al [índice de la unidad](../u2-7-despliegue) · Anterior: [01 — Qué es el despliegue](../01-que-es-despliegue) · Siguiente: [03 — CI/CD](../03-ci-cd-despliegue)

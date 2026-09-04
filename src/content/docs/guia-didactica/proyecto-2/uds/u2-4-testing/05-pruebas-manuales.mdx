@@ -1,0 +1,149 @@
+---
+title: "05 — Pruebas manuales"
+description: "La red de seguridad antes de cada entrega: navegador limpio, flujo principal, casos borde y múltiples dispositivos"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🧪 **UD 2.4 · Testing** → 05 · Pruebas manuales
+
+<StoryIntro icono="🖐️" titulo="La app perfecta... en el portátil del desarrollador">
+  El equipo de EventApp tenía 45 tests automatizados que pasaban todos.
+  El día de la entrega, el profesor abrió la app en su portátil: el
+  formulario de registro no se veía en la pantalla del proyector, el
+  botón de "Crear evento" quedaba debajo de un banner que solo se veía
+  en pantallas anchas, y un email con caracteres especiales rompía la
+  app sin mensaje de error.
+
+  Los 45 tests no detectaron nada. **Los tests automatizados no ven
+  pantallas. Las pruebas manuales son la red de seguridad que no pueden
+  sustituir.**
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los tests automatizados verifican que el código es correcto. Las pruebas manuales verifican que la experiencia es buena.**
+
+---
+
+## Por qué los tests automatizados no bastan
+
+Los tests automatizados comprueban resultados concretos: "esta función devuelve 5", "esta API devuelve 201". Pero no pueden comprobar:
+
+- ¿El botón se ve en la pantalla?
+- ¿El color del texto tiene suficiente contraste?
+- ¿El formulario es fácil de rellenar?
+- ¿El usuario sabe qué hacer después de ver cada pantalla?
+
+Esas preguntas solo las responde una persona mirando la pantalla.
+
+<Comparativa
+  dialogos={[
+    { quien: "Solo automatizado", texto: "Los tests pasan, pero nadie ha abierto la app en un móvil, nadie ha probado el registro con un email raro y nadie sabe si los botones se ven en el proyector." },
+    { quien: "Automatizado + manual", texto: "Los tests pasan y además he recorrido la app como un usuario real: flujo principal, casos raros, móvil y navegador limpio. Sé que funciona de verdad." },
+  ]}
+  titulo="Dos visiones de 'funciona'"
+/>
+
+---
+
+## Protocolo de pruebas manuales
+
+### 1. Navegador limpio
+
+Abre la aplicación en un navegador **sin datos de sesión**:
+
+- Usa modo incógnito o privado
+- Borra cookies y caché antes de empezar
+- No uses el usuario que ya tienes guardado
+
+**¿Por qué?** Si tienes la sesión iniciada, no estás probando el flujo real de un usuario que llega por primera vez.
+
+### 2. Flujo principal (happy path)
+
+Recorre el camino que **todo usuario** hace:
+
+```
+Registro → Login → Acción principal → Confirmación → Cerrar sesión
+```
+
+Marca en una lista cada paso completado. Si el flujo principal no funciona, nada más importa.
+
+### 3. Casos borde
+
+Ahora intenta **romperla** con entradas raras:
+
+- Campos vacíos y formularios incompletos
+- Emails con caracteres especiales (ñ, +, guiones)
+- Texto muy largo o muy corto
+- Números negativos, cero, decimales
+- Fechas pasadas y fechas lejanas
+
+### 4. Otros dispositivos y tamaños
+
+- Redimensiona la ventana (o usa las herramientas del navegador)
+- Prueba en móvil y tablet (vista responsive)
+- Verifica que no haya desbordamientos ni elementos cortados
+
+### 5. Fuera de línea y conexión lenta
+
+- Prueba con la red desactivada: ¿la app se rompe o muestra un error claro?
+- Simula una conexión lenta: ¿las pantallas de carga son aceptables?
+
+---
+
+## Exploratory testing: rompe tu propia app
+
+El **exploratory testing** es probar la app sin guion, buscando fallos como lo haría un usuario descontento:
+
+| Mente | Qué buscar |
+|-------|------------|
+| **Usuario con prisa** | Clicks rápidos, doble submit, volver atrás |
+| **Usuario confundido** | ¿Hay mensajes que no se entienden? |
+| **Usuario curioso** | ¿Qué pasa si hago clic en sitios inesperados? |
+| **Usuario con datos raros** | Nombres con tildes, espacios, símbolos |
+
+<Aclaracion icono="🗓️" pregunta="¿Cuándo hacer pruebas manuales?">
+  **Antes de cada entrega** (sprint o final), y siempre antes de la
+  presentación al tribunal. Es el último filtro: automatiza lo que
+  puedas, pero nunca entregues sin una pasada manual completa.
+
+  El día de la defensa, además, prueba **en el equipo del aula o del
+  tribunal** (conexión, proyector, resolución), no solo en tu portátil.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Por qué los tests automatizados no detectan problemas de pantalla?</summary>
+
+Porque verifican resultados concretos (una función devuelve un valor), no si un botón se ve, si el texto tiene contraste o si el formulario es fácil de usar. Eso solo lo ve una persona mirando la pantalla.
+</details>
+
+<details>
+<summary>¿Cuáles son los 5 pasos del protocolo de pruebas manuales?</summary>
+
+1. **Navegador limpio** (incógnito, sin sesión), 2. **Flujo principal** (happy path), 3. **Casos borde** (campos vacíos, datos raros), 4. **Otros dispositivos** (responsive), 5. **Fuera de línea** (conexión lenta o sin red).
+</details>
+
+<details>
+<summary>¿Qué es el exploratory testing?</summary>
+
+Probar la app sin guion, buscando fallos como lo haría un usuario descontento: clicks rápidos, datos extraños, mensajes confusos. Complementa al protocolo estructurado.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los tests automatizados no ven pantallas: **las pruebas manuales son la red de seguridad** que detecta problemas de experiencia, visuales y de dispositivo.
+2. Sigue el **protocolo de 5 pasos** antes de cada entrega: navegador limpio, happy path, casos borde, dispositivos y conexión.
+3. **Prueba siempre en el entorno real del tribunal**: proyector, conexión y resolución del aula, no solo en tu portátil.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-4-testing) · Anterior: [04 — Tests en tu flujo](../04-tests-en-el-flujo) · Siguiente: [06 — Herramientas](../06-herramientas)

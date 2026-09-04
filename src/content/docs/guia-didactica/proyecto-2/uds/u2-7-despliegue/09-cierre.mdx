@@ -75,6 +75,85 @@ Responde estas preguntas antes de seguir:
 
 ---
 
+## 🧪 Laboratorio de Tortura: depura el docker-compose.yml
+
+**Duración estimada: 25-35 minutos.** Un equipo te pasa su configuración de despliegue. *Parece* correcta... y no lo es. Encuentra los 4 problemas.
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=localhost
+      - DB_PASSWORD=root123
+    depends_on:
+      - database
+
+  database:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root123
+      - MYSQL_DATABASE=mi_app
+```
+
+```dockerfile
+# Dockerfile del backend
+FROM node:20
+WORKDIR /app
+COPY . .
+RUN npm ci --only=production
+EXPOSE 3000
+CMD ["node", "src/server.js"]
+```
+
+```gitignore
+# .gitignore
+node_modules
+```
+
+Intenta encontrarlos tú primero. Si te atas, abre las pistas una a una:
+
+<details>
+<summary>Pista 1 — La red interna</summary>
+
+Revisa el punto 02 (Docker Compose): ¿cómo se comunican los servicios entre sí? ¿`localhost` funciona dentro de un contenedor para llegar a otro servicio?
+</details>
+
+<details>
+<summary>Pista 2 — Secrets</summary>
+
+Revisa las variables de entorno del punto 02: ¿la contraseña de la base de datos está escrita directamente en el YAML? ¿Y en `.gitignore` solo está `node_modules`? ¿Qué archivo falta por proteger?
+</details>
+
+<details>
+<summary>Pista 3 — Persistencia y puertos</summary>
+
+Si ejecutas `docker-compose down`, ¿qué pasa con los datos de MySQL? ¿Necesita el host acceso al puerto 3306 de la base de datos para que el backend se comunique con ella?
+</details>
+
+<details>
+<summary>...Solución completa...</summary>
+
+**Problemas detectados:**
+
+1. **`DB_HOST=localhost`** — dentro del contenedor, `localhost` es el contenedor mismo, no el servicio `database`. El backend nunca se conecta a la base de datos. Debe ser `DB_HOST=database` (el nombre del servicio en Docker Compose). Este es el **fallo intencionado** y el más grave.
+2. **Contraseña hardcodeada** — `DB_PASSWORD=root123` está escrita en el YAML. Debe ir en un `.env` y referenciarse con `${DB_PASSWORD}`. Además, `.gitignore` solo excluye `node_modules`: falta añadir `.env` para que los secretos no suban al repositorio.
+3. **Sin persistencia de datos** — no hay volúmenes para MySQL. Si ejecutas `docker-compose down`, la base de datos se pierde. Falta un volumen `db_data:/var/lib/mysql`.
+4. **Puerto 3306 expuesto innecesariamente** — el backend se comunica con la base de datos por la red interna de Compose. Mapear el puerto de MySQL al host solo lo abre al exterior sin necesidad.
+
+**Bonus (nivel extra):** el Dockerfile usa `FROM node:20` completo (~900 MB) en vez de `node:20-alpine`, y no hay usuario no-root. No rompe nada, pero es una imagen innecesariamente pesada e insegura.
+
+</details>
+
+---
+
 ## 📊 Tabla resumen de la unidad
 
 | Concepto | Idea clave |
@@ -87,6 +166,7 @@ Responde estas preguntas antes de seguir:
 | **Checklist** | Verificar todo antes y después de desplegar |
 | **Errores** | Variables de entorno, dependencias, puertos |
 | **Template** | Documentar el proceso para replicabilidad |
+| **Laboratorio** | `DB_HOST=database` (no localhost), secrets en `.env`, volúmenes y puertos mínimos |
 
 ---
 
@@ -136,4 +216,4 @@ Si vas a monitorizar tu app desplegada:
 
 ---
 
-> 📚 Volver al [índice de la unidad](../u2-7-despliegue) · Anterior: [08 — Template](./08-template-despliegue) · Siguiente: [UD 2.8 — Monitorización](../u2-8-monitorizacion)
+> 📚 Volver al [índice de la unidad](../u2-7-despliegue) · Anterior: [08 — Template](../08-template-despliegue) · Siguiente: [UD 2.8 — Monitorización](../u2-8-monitorizacion)

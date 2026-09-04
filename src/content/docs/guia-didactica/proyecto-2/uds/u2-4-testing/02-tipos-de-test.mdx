@@ -1,0 +1,254 @@
+---
+title: "02 — Tipos de test"
+description: "Unitario, integración, E2E y manual: qué prueba cada tipo, cuándo usarlo y cómo distribuir tus esfuerzos."
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🧪 **UD 2.4 · Testing** → 02 · Tipos de test
+
+<StoryIntro icono="🧅" titulo="Los tests son como las capas de una cebolla: cada una protege algo distinto">
+  Un equipo tenía 200 tests. El profesor preguntó: "¿Qué prueban?".
+  "Pues... todo". Pero 180 eran de integración de base de datos y solo
+  5 probaban la lógica de negocio. Cuando el frontend se rompió,
+  ningún test lo detectó.
+
+  Tener muchos tests no es lo mismo que tener los **tests adecuados**.
+  Cada tipo cumple una función distinta.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los tests se organizan en pirámide: muchos unitarios (base), algunos de integración (medio) y pocos E2E (cima). Si la inviertes, tus tests serán lentos y frágiles.**
+
+---
+
+## La pirámide de tests
+
+```
+┌─────────────────────────┐
+│     E2E / UI (poco)     │  ← costosos, lentos, frágiles
+├─────────────────────────┤
+│   Integración (medio)   │  ← verifican la unión de partes
+├─────────────────────────┤
+│   Unitario (mucho)      │  ← rápidos, baratos, precisos
+└─────────────────────────┘
+```
+
+En la base, **muchos tests unitarios**. En el medio, **algunos de integración**. En la cima, **pocos E2E**. Si inviertes la pirámide (muchos E2E y pocos unitarios), tus tests serán lentos y frágiles.
+
+---
+
+## Test unitario
+
+Un test unitario verifica **una función o método aislado**, sin dependencias externas. Es la pieza más pequeña del testing.
+
+### Qué prueba
+
+- Una función de cálculo
+- Una validación
+- Una transformación de datos
+- Una lógica condicional
+
+### Ejemplo
+
+```javascript
+function esMayorDeEdad(edad) {
+  return edad >= 18;
+}
+
+test("devuelve true para 18 o más", () => {
+  expect(esMayorDeEdad(18)).toBe(true);
+  expect(esMayorDeEdad(25)).toBe(true);
+});
+
+test("devuelve false para menos de 18", () => {
+  expect(esMayorDeEdad(17)).toBe(false);
+  expect(esMayorDeEdad(0)).toBe(false);
+});
+```
+
+### Características
+
+| Característica | Valor |
+|----------------|-------|
+| Velocidad | Milisegundos |
+| Coste | Bajo |
+| Fragilidad | Muy baja |
+| Alcance | Una sola unidad de código |
+
+---
+
+## Test de integración
+
+Un test de integración verifica que **varias partes trabajan juntas** correctamente. No prueba una función aislada, sino la unión de dos o más componentes.
+
+### Qué prueba
+
+- Comunicación entre frontend y backend
+- Integración con una base de datos
+- Llamadas a una API externa
+- Flujo de datos entre capas
+
+### Ejemplo
+
+```javascript
+test("crear usuario devuelve 201 y guarda en BD", async () => {
+  const response = await request(app)
+    .post("/api/usuarios")
+    .send({ nombre: "Ana", email: "ana@test.com" });
+
+  expect(response.status).toBe(201);
+  expect(response.body.nombre).toBe("Ana");
+
+  const usuario = await db.obtenerPorEmail("ana@test.com");
+  expect(usuario).not.toBeNull();
+  expect(usuario.nombre).toBe("Ana");
+});
+```
+
+### Características
+
+| Característica | Valor |
+|----------------|-------|
+| Velocidad | Segundos |
+| Coste | Medio |
+| Fragilidad | Media |
+| Alcance | Interacción entre componentes |
+
+---
+
+## Test E2E (End-to-End)
+
+Un test E2E simula **un flujo completo del usuario**, desde la interfaz hasta la base de datos. Es como un usuario real usando la aplicación.
+
+### Qué prueba
+
+- Flujo completo: registro → login → acción principal
+- Formularios completos con validación
+- Navegación entre páginas
+- Comportamiento en el navegador
+
+### Ejemplo (Playwright)
+
+```javascript
+test("permite registrarse y ver el perfil", async ({ page }) => {
+  await page.goto("/registro");
+  await page.fill('input[name="nombre"]', "Ana García");
+  await page.fill('input[name="email"]', "ana@test.com");
+  await page.fill('input[name="password"]', "123456");
+  await page.click('button[type="submit"]');
+
+  await expect(page).toHaveURL(/\/perfil/);
+  await expect(page.locator("body")).toContainText("Ana García");
+});
+```
+
+### Características
+
+| Característica | Valor |
+|----------------|-------|
+| Velocidad | Segundos a minutos |
+| Coste | Alto |
+| Fragilidad | Alta (cambios en UI los rompen) |
+| Alcance | Flujo completo del usuario |
+
+---
+
+## Test manual
+
+El test manual es cuando **una persona prueba la aplicación** haciendo clic, escribiendo y navegando. No es automatizado, pero es insustituible.
+
+### Qué prueba
+
+- Aspecto visual (¿se ve bien?)
+- Experiencia de usuario (¿es fácil?)
+- Casos borde que un test automatizado no contempla
+- Compatibilidad con distintos dispositivos
+
+### Cuándo usarlo
+
+- **Siempre** antes de una entrega
+- Cuando el aspecto visual importa
+- Para descubrir problemas que la automatización no ve
+
+<Aclaracion icono="🤔" pregunta="¿El test manual es inferior al automatizado?">
+No. Son **complementarios**. Los tests automatizados cubren la funcionalidad de manera consistente y repetible. Los tests manuales detectan problemas de experiencia, aspecto y casos que nadie programó para detectar.
+
+Un proyecto sin tests automatizados es arriesgado. Un proyecto sin pruebas manuales es ciego.
+</Aclaracion>
+
+---
+
+## Tabla comparativa
+
+| Tipo | Qué prueba | Velocidad | Coste | Cuándo usar |
+|------|-----------|-----------|-------|-------------|
+| **Unitario** | Una función aislada | &lt;1ms | Bajo | Siempre, en gran cantidad |
+| **Integración** | Varias partes juntas | Segundos | Medio | Flujo principal, API, BD |
+| **E2E** | Flujo completo | Minutos | Alto | Flujos críticos, pocas |
+| **Manual** | Experiencia del usuario | Variable | Alto | Siempre antes de entregar |
+
+---
+
+## Ejemplo: pirámide en la práctica
+
+Para una app de reservas de restaurantes:
+
+**Unitarios (15 tests):**
+- Validar fecha de reserva (no pasada, no muy lejana)
+- Calcular precio total con IVA y descuentos
+- Verificar disponibilidad de mesa
+- Generar código de confirmación único
+
+**Integración (5 tests):**
+- Crear reserva → guardar en BD → devolver confirmación
+- Login → obtener perfil → mostrar reservas del usuario
+- Cancelar reserva → actualizar disponibilidad de mesa
+
+**E2E (3 tests):**
+- Flujo completo: login → buscar restaurante → reservar → confirmar
+- Flujo de cancelación: login → ver reserva → cancelar
+- Flujo de error: intentar reservar mesa ocupada → mostrar error
+
+**Manual:**
+- Abrir en Chrome, Firefox, Safari
+- Probar en móvil y tablet
+- Verificar emails de confirmación
+- Comprobar mensajes de error comprensibles
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué tipo de test es más rápido?</summary>
+
+El **test unitario**: prueba una función aislada sin dependencias externas y se ejecuta en milisegundos.
+</details>
+
+<details>
+<summary>¿Cuántos tests E2E debería tener comparado con unitarios?</summary>
+
+**Muchos más unitarios que E2E**. La pirámide indica: base amplia de unitarios, algunos de integración en el medio y pocos E2E en la cima.
+</details>
+
+<details>
+<summary>¿Qué es un test de integración?</summary>
+
+Un test que verifica que **varias partes trabajan juntas**: frontend + backend, backend + base de datos, o una llamada a API externa.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. La pirámide de tests indica: **muchos unitarios** (base), **algunos de integración** (medio) y **pocos E2E** (cima).
+2. Cada tipo cumple una función distinta: **unitario** para lógica aislada, **integración** para unión de partes, **E2E** para flujos completos.
+3. Los tests **manuales** son complementarios, no inferiores: detectan problemas de experiencia que la automatización no ve.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-4-testing) · Anterior: [01 — ¿Por qué hacer tests?](../01-por-que-hacer-tests) · Siguiente: [03 — Qué probar en tu proyecto](../03-que-probar)

@@ -188,6 +188,110 @@ npx commitlint --edit $1
 
 ---
 
+## El kit completo: ESLint + Prettier + lint-staged
+
+Los hooks manuales son útiles, pero el combo moderno para Node.js es
+**ESLint** (calidad: errores, malas prácticas) + **Prettier** (formato:
+espacios, comillas, comas) + **lint-staged** (solo archivos staged),
+disparados por un hook `pre-commit`. El resultado: el código de todo el
+equipo parece escrito por la misma persona, sin discusiones de estilo.
+
+### 1. Instalar ESLint y Prettier
+
+```bash
+npm init @eslint/config@latest
+# Elegir: TypeScript, Vue/React, Browser/Node, JSON config
+
+npm install -D prettier eslint-config-prettier eslint-plugin-prettier
+```
+
+- `eslint-config-prettier`: **apaga** las reglas de ESLint que chocan con Prettier.
+- `eslint-plugin-prettier`: hace que Prettier corra como regla de ESLint.
+
+### 2. Configuración compartida
+
+`.eslintrc.json`:
+
+```json
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
+  }
+}
+```
+
+`.prettierrc`:
+
+```json
+{
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "printWidth": 100,
+  "bracketSpacing": true,
+  "arrowParens": "avoid"
+}
+```
+
+> 💡 El estilo no es gusto personal: es **contrato de equipo**. Se acuerda
+> una vez (15 min al empezar), se automatiza y se olvida. Escribid lo
+> acordado en `docs/estilo-codigo.md` para el que llegue nuevo.
+
+### 3. Husky + lint-staged (formatea y lintea antes del commit)
+
+```bash
+npm install -D husky lint-staged
+npx husky install
+npx husky add .husky/pre-commit "npx lint-staged"
+```
+
+`package.json`:
+
+```json
+{
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx,vue,json,css,md}": ["prettier --write", "eslint --fix"]
+  }
+}
+```
+
+Al hacer `git commit`, `lint-staged` pasa Prettier y ESLint `--fix`
+**solo a los archivos staged**. Si hay errores que no se auto-arreglan,
+el commit se cancela. Cero excusas.
+
+### 4. Opcional: `.editorconfig` para el IDE
+
+```ini
+# .editorconfig
+root = true
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+```
+
+<Comparativa
+  dialogos={[
+    { quien: "Configurar al principio", texto: "30 min una vez. Luego cero fricción: commits limpios, PRs legibles, reviews centrados en lógica. El CI pasa a la primera." },
+    { quien: "Arreglar después", texto: "Semanas de 'formateo masivo' antes de la entrega, conflictos en cada PR por espacios/comillas, reviews que se pierden en ruido. Horas perdidas." },
+  ]}
+  titulo="¿Configurar lint/format al principio o arreglar después?"
+/>
+
+---
+
 ## Aclaración: "¿Los hooks son obligatorios?"
 
 <Aclaracion icono="🤔" pregunta="¿Puedo saltarme un hook?">
@@ -223,14 +327,20 @@ Depende de cómo lo configures: puede verificar **console.log**, ejecutar **lint
 Una herramienta que **gestiona Git hooks** en proyectos Node.js. Es más fácil que crear scripts manualmente en `.git/hooks/`.
 </details>
 
+<details>
+<summary>¿Qué hace `lint-staged` en el hook pre-commit?</summary>
+
+Lintea y formatea **solo los archivos staged** con Prettier y ESLint `--fix`. Es rápido (no toca lo que no vas a commitear) y seguro (no toca archivos de otros).
+</details>
+
 ---
 
 ## ✅ Resumen en 3 frases
 
 1. Los **Git hooks** ejecutan scripts automáticamente: pre-commit verifica calidad, commit-msg valida el formato, pre-push ejecuta tests.
 2. Un **pre-commit** que busque `console.log`, ejecute linter y detecte secrets te ahorra problemas en CI y en la revisión del profesor.
-3. Usa **Husky** si tu proyecto es Node.js: gestiona los hooks de forma más sencilla que los scripts manuales.
+3. Usa **Husky** si tu proyecto es Node.js: gestiona los hooks de forma más sencilla que los scripts manuales, y combínalo con **ESLint + Prettier + lint-staged** para que el estilo sea un contrato de equipo automatizado.
 
 ---
 
-> 📚 Volver al [índice de la unidad](../u2-3-git-avanzado) · Anterior: [03 — Conflictos](./03-conflictos) · Siguiente: [05 — CI/CD](./05-ci-cd)
+> 📚 Volver al [índice de la unidad](../u2-3-git-avanzado) · Anterior: [03 — Conflictos](../03-conflictos) · Siguiente: [05 — CI/CD](../05-ci-cd)

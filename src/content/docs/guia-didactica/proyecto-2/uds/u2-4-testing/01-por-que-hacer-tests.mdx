@@ -1,0 +1,170 @@
+---
+title: "01 — ¿Por qué hacer tests?"
+description: "Los tests son el seguro de vida de tu proyecto: detectan errores, documentan comportamiento y te dan confianza para entregar."
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🧪 **UD 2.4 · Testing** → 01 · ¿Por qué hacer tests?
+
+<StoryIntro icono="🛡️" titulo="Los tests son el seguro que todos necesitan pero nadie quiere contratar">
+  Tu proyecto funciona en tu ordenador. Pero ¿y mañana? ¿Y cuando
+  alguien toque una línea de código? Los tests son verificaciones
+  automatizadas que te dicen **pass** o **fail**. No adivinan: comprueban.
+  Si algo se rompe, te avisan antes de que el profesor lo descubra.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un test es una verificación automatizada de que una parte de tu aplicación hace lo que debería hacer: input + output esperado + comparación.**
+
+Si no puedes probarlo, no puedes confiar en ello.
+
+---
+
+## ¿Qué es un test?
+
+Un test es un **pequeño programa que comprueba otro programa**. Le da una entrada, espera un resultado y compara. Si coinciden, pass. Si no, fail.
+
+```javascript
+function calcularIVA(precio) {
+  return precio * 1.21;
+}
+
+test("el IVA del 21% se calcula correctamente", () => {
+  expect(calcularIVA(100)).toBe(121);
+  expect(calcularIVA(50)).toBe(60.5);
+  expect(calcularIVA(0)).toBe(0);
+});
+```
+
+Si alguien cambia la función y rompe el cálculo, el test falla automáticamente. No necesitas que un usuario lo descubra.
+
+---
+
+## Las 4 razones para hacer tests
+
+### 1. Detectar errores antes de producción
+
+Cada bug que atrapas con un test es un bug que el tribunal nunca verá.
+
+### 2. Prevenir regresiones
+
+Cuando refactores o añades funcionalidad, los tests verifican que lo que antes funcionaba sigue funcionando. **Regresión** = volver a un estado roto que ya estaba arreglado.
+
+### 3. Documentar comportamiento
+
+Un test es documentación viva. Si quieres saber qué hace una función, lee su test. Es más fiable que un comentario porque se ejecuta y se verifica solo.
+
+### 4. Dar confianza al entregar
+
+El estrés antes de la entrega es real. Los tests te dan seguridad de que lo crítico funciona.
+
+---
+
+## ¿Cuándo testear?
+
+| Momento | Qué testear |
+|---------|-------------|
+| Al escribir una función | Test unitario de esa función |
+| Al integrar dos partes | Test de integración |
+| Al entregar | Batería completa + manual |
+| Al hacer un cambio grande | Tests de regresión |
+| Antes de un merge | Todos los tests del proyecto |
+
+### Test-first vs Test-after
+
+| Enfoque | Cómo funciona | Cuándo usarlo |
+|---------|---------------|---------------|
+| **Test-first (TDD)** | Escribes el test antes del código | Cuando sabes qué quieres que haga la función |
+| **Test-after** | Escribes el código, luego los tests | Cuando estás explorando o aprendiendo |
+
+Ambos son válidos. Lo importante es **que los tests existan**.
+
+---
+
+## Tests como documentación viva
+
+```javascript
+// Este test documenta que validarEmail acepta emails válidos
+test("acepta emails válidos", () => {
+  expect(validarEmail("usuario@ejemplo.com")).toBe(true);
+  expect(validarEmail("a@b.co")).toBe(true);
+});
+
+// Y también documenta que rechaza emails inválidos
+test("rechaza emails inválidos", () => {
+  expect(validarEmail("")).toBe(false);
+  expect(validarEmail("no-es-email")).toBe(false);
+  expect(validarEmail("@falta-usuario.com")).toBe(false);
+});
+```
+
+Sin este test, un compañero tendría que leer la función para entender qué acepta y qué rechaza. Con el test, lo sabe en 2 segundos.
+
+---
+
+## Comparativa: sin tests vs con tests
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin tests", texto: "¿Funcionará mañana? No lo sé. Esperemos que sí. Voy a probar a mano otra vez a las 3 de la madrugada." },
+    { quien: "Con tests", texto: "Los 47 tests pasan. Si mañana funciona, funciona. Si no, el test me dirá exactamente qué está roto." },
+  ]}
+  titulo="La noche antes de la entrega"
+/>
+
+---
+
+## Aclaración: "¿Y si no tengo tiempo?"
+
+<Aclaracion icono="⏰" pregunta="No me da tiempo de escribir tests, ¿qué hago?">
+  Los tests **ahorran tiempo** a largo plazo. Sin tests, cada cambio es una apuesta. Con tests, cada cambio es una verificación.
+
+  Si solo tienes 30 minutos para testing, dedica ese tiempo a:
+
+  1. **Tests unitarios** de las 3-5 funciones más críticas de tu app
+  2. **Un test de integración** del flujo principal (crear → guardar → mostrar)
+  3. **Una revisión manual** completa antes de entregar
+
+  No necesitas cobertura del 100%. Necesitas cubrir **lo crítico**. Un proyecto con 10 tests bien enfocados supera a uno con 200 tests irrelevantes.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué es un test?</summary>
+
+Una **verificación automatizada** de que una parte de tu aplicación hace lo que debería hacer. Le da un input, espera un output y compara. Si coinciden, pass. Si no, fail.
+</details>
+
+<details>
+<summary>¿Cuáles son las 4 razones para hacer tests?</summary>
+
+1. **Detectar errores** antes de que lleguen a producción.
+2. **Prevenir regresiones**: que un cambio rompa algo que ya funcionaba.
+3. **Documentar comportamiento**: el test explica qué hace la función.
+4. **Dar confianza**: saber que lo crítico funciona antes de entregar.
+</details>
+
+<details>
+<summary>¿Test-first o test-after?</summary>
+
+Ambos son válidos. **Test-first (TDD)** escribes el test antes del código. **Test-after** escribes el código y luego los tests. Lo importante es que **los tests existan**.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Un test es una **verificación automatizada** que comprueba input + output esperado + comparación: si falla, te avisa antes que un usuario.
+2. Las 4 razones son: **detectar errores, prevenir regresiones, documentar comportamiento y dar confianza** al entregar.
+3. No necesitas cobertura del 100%: **cubre lo crítico** primero y amplía cuando puedas.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-4-testing) · Siguiente: [02 — Tipos de test](../02-tipos-de-test)

@@ -104,6 +104,51 @@ git push origin feature/login
 
 ---
 
+## Request changes vs Comment: la regla de los dos comentarios
+
+En GitHub, cada comentario de un PR tiene un peso distinto. Saber cuándo
+usar cada uno evita bloquear por nimiedades y no dejar pasar lo importante:
+
+| Tipo | Cuándo usarlo | Ejemplo |
+|------|---------------|---------|
+| **Request changes** | Objetivo: bug, test faltante, rompe la arquitectura | "Falta validación de email vacío en login()" |
+| **Comment** | Subjetivo/opinión: estilo, sugerencia, pregunta | "¿Por qué esta variable se llama `data` y no `usuario`?" |
+
+- Si es **objetivo** → Request changes con explicación clara (bloquea el merge).
+- Si es **opinión** → Comment (no bloquea): conversad en el hilo o en la daily.
+
+> 💡 Un nombre de variable, aunque sea mejor, es subjetivo: se comenta, se
+> habla, no se bloquea. Un bug real, sí bloquea.
+
+## El PR Template: guía al autor y al revisor
+
+Una plantilla de Pull Request obliga al autor a **explicar qué hace** y al
+revisor a **saber qué mirar**. Se pega en `.github/pull_request_template.md`:
+
+```markdown
+## Qué hace este PR
+<!-- Descripción breve + link al issue -->
+Closes #123
+
+## Cómo probar
+1. Pasos para verificar manualmente
+2. Tests nuevos: `npm test`
+
+## Capturas / logs (si aplica)
+<!-- Pantallas, respuesta API, logs -->
+
+## Checklist del autor
+- [ ] Tests pasan en local
+- [ ] Lint/Prettier OK
+- [ ] Docs actualizadas (si toca)
+- [ ] Sin `console.log` / `debugger` / código comentado
+
+## Notas para el revisor
+<!-- Qué mirar con lupa, dudas, decisiones técnicas -->
+```
+
+---
+
 ## Comparativa: code review como ataque vs como aprendizaje
 
 <Comparativa
@@ -151,14 +196,26 @@ Una **solicitud de merge** en GitHub donde propones fusionar los cambios de un b
 Usa el modelo **SBI**: Situación (dónde), Comportamiento (qué hace mal), Impacto (por qué importa). Pregunta en vez de ordenar.
 </details>
 
+<details>
+<summary>¿Cuándo uso Request changes y cuándo Comment?</summary>
+
+**Request changes** para cosas objetivas (bug, test faltante, rompe arquitectura): bloquea el merge. **Comment** para opiniones y sugerencias (estilo, nombres): no bloquea, se conversa.
+</details>
+
+<details>
+<summary>¿Para qué sirve un PR Template?</summary>
+
+Es una plantilla que GitHub muestra al crear el PR: obliga al autor a **explicar qué hace** (checklist, cómo probar) y guía al revisor sobre **qué mirar**. Se guarda en `.github/pull_request_template.md`.
+</details>
+
 ---
 
 ## ✅ Resumen en 3 frases
 
 1. El **code review** es cuando un compañero revisa tu código antes de merge: no es un examen, es una oportunidad de aprender juntos.
 2. Revisa **correctitud, legibilidad, seguridad, rendimiento y mantenibilidad**. No revises estilo personal ni preferencias.
-3. Da feedback con el modelo **SBI** (Situación-Comportamiento-Impacto): pregunta en vez de ordenar, sugiere en vez de imponer.
+3. Da feedback con el modelo **SBI** (Situación-Comportamiento-Impacto): pregunta en vez de ordenar, sugiere en vez de imponer. Y usa la regla de los **dos comentarios**: Request changes para lo objetivo, Comment para opiniones.
 
 ---
 
-> 📚 Volver al [índice de la unidad](../u2-3-git-avanzado) · Anterior: [06 — Convenciones de commit](./06-convenciones-commits) · Siguiente: [08 — Template Git](./08-template-git)
+> 📚 Volver al [índice de la unidad](../u2-3-git-avanzado) · Anterior: [06 — Convenciones de commit](../06-convenciones-commits) · Siguiente: [08 — Template Git](../08-template-git)

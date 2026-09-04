@@ -1,0 +1,218 @@
+---
+title: "07 — Testing en equipo"
+description: "Code review, responsabilidad compartida y acuerdos de testing en equipo"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🧪 **UD 2.4 · Testing** → 07 · Testing en equipo
+
+<StoryIntro icono="👥" titulo="El testing es responsabilidad de todos, no solo de quien escribió el código">
+  En un proyecto real, **cada miembro del equipo escribe y revisa tests**.
+  Si solo una persona testea, el proyecto tiene un punto ciego: la persona
+  que se va y deja código sin cubrir. Testing en equipo significa
+  **responsabilidad compartida**, acuerdos claros y code review con foco
+  en calidad.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **El mejor test no es el que escribes tú: es el que tu compañero entiende, revisa y mantiene contigo.**
+
+---
+
+## Responsabilidad compartida
+
+```
+┌─────────────────────────────────────────────────┐
+│                 TEST EN EQUIPO                   │
+├─────────────────────────────────────────────────┤
+│                                                  │
+│   Desarrollador A          Desarrollador B       │
+│   ┌──────────────┐        ┌──────────────┐      │
+│   │ Escribe código│        │ Escribe código│     │
+│   │ + tests       │        │ + tests       │     │
+│   └──────┬───────┘        └──────┬───────┘      │
+│          │                       │               │
+│          ▼                       ▼               │
+│   ┌──────────────┐        ┌──────────────┐      │
+│   │ Revisa tests │        │ Revisa tests │      │
+│   │ de B          │        │ de A          │     │
+│   └──────────────┘        └──────────────┘      │
+│                                                  │
+│   Resultado: cubertura uniforme, sin puntos      │
+│   ciegos, conocimiento compartido                │
+└─────────────────────────────────────────────────┘
+```
+
+### Reglas básicas
+
+| Regla | Por qué |
+|-------|---------|
+| **Cada uno escribe tests** para su código | Si no los escribes, nadie lo hace por ti |
+| **Cada uno revisa tests** de los demás | Segundo par de ojos detecta más bugs |
+| **Los tests se commitean** junto al código | Sin tests, el PR no se aprueba |
+| **Se usan los mismos frameworks** | Consistencia: mismo runner, misma configuración |
+| **No se saltan tests** para "ir más rápido" | La deuda técnica se paga después, con intereses |
+
+---
+
+## Code review con foco en testing
+
+Al revisar un PR, estos son los **5 aspectos** que debes comprobar:
+
+### 1. Cobertura de tests
+
+¿El código nuevo tiene tests? ¿Cubre el happy path y los casos límite?
+
+```
+┌────────────────────────────────────┐
+│         CODE REVIEW: COBERTURA     │
+├────────────────────────────────────┤
+│                                    │
+│  PR: "Añadir validación de fecha"  │
+│                                    │
+│  ✅ Test happy path                │
+│  ✅ Test fecha pasada              │
+│  ✅ Test fecha futura lejana       │
+│  ✅ Test formato incorrecto        │
+│  ❌ Test string vacío              │
+│                                    │
+│  → Pedir: test para string vacío   │
+└────────────────────────────────────┘
+```
+
+### 2. Casos límite
+
+¿Se testean entradas vacías, null, valores extremos, errores de red?
+
+### 3. Nombres descriptivos
+
+¿Los tests explican qué se verifica? Sigue la convención:
+
+```
+should [comportamiento esperado] when [condición]
+```
+
+Ejemplo:
+```
+should return error when date is in the past
+should create task when all fields are valid
+should show message when user has no tasks
+```
+
+### 4. Aislamiento
+
+¿Los tests dependen de datos externos, estado global o ejecución en orden? Un test que falla solo "a veces" es peor que no tener test.
+
+### 5. Legibilidad
+
+¿Un compañero entiende qué verifica el test sin leer el código fuente? Si necesitas comentarios para explicar un test, el nombre del test está mal.
+
+---
+
+## Comparativa: dos enfoques de testing
+
+<Comparativa
+  titulo="¿Qué enfoque adopta tu equipo?"
+  dialogos={[
+    { quien: "Enfoque A — Testing individual", texto: "Cada uno escribe sus tests y nadie los revisa. El testing es 'mi responsabilidad'. Resultado: tests inconsistentes, algunos buenos otros inexistentes, conocimiento fragmentado." },
+    { quien: "Enfoque B — Testing colaborativo", texto: "Cada uno escribe tests para su código, pero el compañero los revisa. Se comparten convenciones y herramientas. Resultado: cobertura uniforme, aprendizaje mutuo, menos puntos ciegos." },
+  ]}
+/>
+
+---
+
+## Acuerdos de testing del equipo
+
+Estos acuerdos se definen al inicio del proyecto y se documentan en `TESTING.md`:
+
+| Acuerdo | Descripción |
+|---------|-------------|
+| **Framework** | Vitest (frontend), JUnit (backend) |
+| **Cobertura mínima** | 60% en funciones core |
+| **Convención de nombres** | `should [behavior] when [condition]` |
+| **Dónde van los tests** | Junto al componente: `TaskList.test.js` |
+| **Antes de merge** | Todos los tests pasan, sin excepción |
+| **Tests pendientes** | Se crean issues en GitHub con etiqueta `testing-debt` |
+| **Revisión** | Cada PR incluye revisión de tests |
+
+---
+
+## Pair testing
+
+El **pair testing** es un método donde dos personas trabajan juntas en los tests de una función:
+
+| Rol | Quién | Qué hace |
+|-----|-------|----------|
+| **Conductor** | Escribe el código y los tests | Decide la implementación |
+| **Observador** | Revisa, sugiere, piensa en casos límite | Detecta huecos en la cobertura |
+
+### Flujo del pair testing
+
+```
+┌──────────────┐     ┌──────────────┐
+│  Conductor   │     │  Observador  │
+│  escribe     │     │  piensa en   │
+│  el test     │     │  edge cases  │
+└──────┬───────┘     └──────┬───────┘
+       │                    │
+       ▼                    ▼
+  ┌─────────────────────────────┐
+  │  Juntos revisan:            │
+  │  - ¿Falta algún caso?       │
+  │  - ¿El nombre es claro?     │
+  │  - ¿El test aísla bien?     │
+  └─────────────────────────────┘
+```
+
+**Ventaja**: dos personas detectan más problemas que una. El observador piensa en casos que el conductor no ve.
+
+---
+
+<Aclaracion icono="💡" pregunta="¿Y si mi compañero no escribe tests?">
+Empieza por ti mismo. Escribe tests para tu código, revisa los tests de otros
+en los PRs, y propón acuerdos de equipo. El liderazgo por ejemplo es la forma
+más efectiva de cambiar la cultura de testing. Cuando tu compañero vea que tus
+tests detectan bugs antes de llegar a producción, entenderá su valor.
+
+No critiques: **demuestra**. Cuando tu compañero vea que tus tests detectan
+bugs antes de llegar a producción, entenderá el valor sin necesidad de
+convencerle con palabras.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Por qué el testing no debe ser solo responsabilidad de una persona?</summary>
+
+Porque crea un **punto ciego**: si la persona que testea se va o tiene ausencias, el código queda sin cubrir. La responsabilidad compartida garantiza cobertura uniforme y conocimiento del sistema en todo el equipo.
+</details>
+
+<details>
+<summary>¿Qué 5 aspectos se revisan en un code review con foco en testing?</summary>
+
+**Cobertura** (¿hay tests?), **casos límite** (¿se testean edge cases?), **nombres** (¿son descriptivos?), **aislamiento** (¿los tests son independientes?) y **legibilidad** (¿un compañero entiende el test?).
+</details>
+
+<details>
+<summary>¿Qué es el pair testing y por qué ayuda?</summary>
+
+Dos personas trabajan juntas: un **conductor** escribe y un **observador** sugiere casos límite. Detecta más problemas que trabajar solo porque el observador piensa en escenarios que el conductor no ve.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **El testing es responsabilidad de todo el equipo**: cada uno escribe tests para su código y revisa los tests de los demás en los PRs.
+2. El **code review con foco en testing** comprueba 5 aspectos: cobertura, casos límite, nombres, aislamiento y legibilidad.
+3. Los **acuerdos de testing** se documentan en `TESTING.md` al inicio del proyecto: framework, cobertura, convención de nombres y reglas de merge.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-4-testing) · Anterior: [06 — Herramientas](../06-herramientas) · Siguiente: [08 — Checklist de calidad](../08-checklist-calidad)

@@ -1,0 +1,210 @@
+---
+title: "08 — Checklist de calidad"
+description: "Lista completa de verificación antes de cada entrega del proyecto"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 🧪 **UD 2.4 · Testing** → 08 · Checklist de calidad
+
+<StoryIntro icono="📋" titulo="El checklist es tu red de seguridad antes de entregar">
+  Antes de cada entrega al tribunal, necesitas verificar que todo funciona:
+  tests pasan, la app carga, el responsive funciona y no hay secrets en el
+  repositorio. Este checklist es la **última revisión** antes de hacer push
+  definitivo. Imprímelo, márcalo paso a paso, y no te saltes ninguno.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un checklist no es burocracia: es la diferencia entre entregar con confianza y entregar con miedo.**
+
+---
+
+## Checklist completo de calidad
+
+### 1. Tests unitarios
+
+| Verificación | Estado |
+|--------------|--------|
+| Todas las funciones core tienen tests | ☐ |
+| Los casos límite están testeados (vacío, null, extremos) | ☐ |
+| Todos los tests pasan: `npm test` | ☐ |
+| No hay tests pendientes o skipped sin justificación | ☐ |
+
+### 2. Tests de integración
+
+| Verificación | Estado |
+|--------------|--------|
+| Los endpoints de la API responden correctamente | ☐ |
+| Las operaciones de base de datos funcionan | ☐ |
+| El flujo completo login → acción → guardar funciona | ☐ |
+| Los errores de red se manejan correctamente | ☐ |
+
+### 3. Pruebas manuales
+
+| Verificación | Estado |
+|--------------|--------|
+| Happy path completado sin errores | ☐ |
+| Casos límite verificados manualmente | ☐ |
+| Layout responsive en móvil, tablet y desktop | ☐ |
+| Formularios validan y muestran errores | ☐ |
+| Navegación entre páginas funciona | ☐ |
+
+### 4. Compatibilidad entre navegadores
+
+| Verificación | Estado |
+|--------------|--------|
+| Chrome: todo funciona | ☐ |
+| Firefox: todo funciona | ☐ |
+| Safari: todo funciona (si tienes Mac) | ☐ |
+| Móvil: layout correcto, sin overflow | ☐ |
+
+### 5. Repositorio
+
+| Verificación | Estado |
+|--------------|--------|
+| README actualizado con instrucciones claras | ☐ |
+| `.gitignore` excluye `node_modules`, `.env`, build | ☐ |
+| No hay secrets hardcodeados en el código | ☐ |
+| Dependencias innecesarias eliminadas | ☐ |
+| `package-lock.json` commiteado | ☐ |
+
+---
+
+## Cuándo usar el checklist
+
+```
+┌─────────────────────────────────────────────┐
+│          MOMENTOS DEL CHECKLIST              │
+├─────────────────────────────────────────────┤
+│                                              │
+│  Antes de cada commit                       │
+│  ┌──────────────────────────────────┐       │
+│  │ Tests pasan, no hay errores      │       │
+│  └──────────────────────────────────┘       │
+│                                              │
+│  Antes de cada entrega parcial (sprint)     │
+│  ┌──────────────────────────────────┐       │
+│  │ Tests + responsive + docs        │       │
+│  └──────────────────────────────────┘       │
+│                                              │
+│  Antes de la entrega final (tribunal)       │
+│  ┌──────────────────────────────────┐       │
+│  │ Todo el checklist completo       │       │
+│  └──────────────────────────────────┘       │
+│                                              │
+└─────────────────────────────────────────────┘
+```
+
+| Momento | Qué comprobar |
+|---------|---------------|
+| **Antes de commit** | Tests pasan, código sin errores |
+| **Antes de sprint** | Tests + responsive + docs actualizadas |
+| **Antes de entrega final** | Checklist completo: tests, manual, browsers, repo |
+
+---
+
+## Qué mira el tribunal
+
+El tribunal tiene un criterio de evaluación específico para testing. Esto es lo que comprueban:
+
+| Criterio del tribunal | Qué esperan ver |
+|-----------------------|-----------------|
+| **Tests ejecutándose** | `npm test` pasa sin errores |
+| **Datos de prueba** | Datos de demo cargados, no vacíos |
+| **Cobertura visible** | Informe de cobertura o tests documentados |
+| **Documentación** | README explica cómo ejecutar tests |
+| **Funcionamiento** | La app no crashea durante la demo |
+
+### Errores comunes del tribunal
+
+| Error | Cómo evitarlo |
+|-------|---------------|
+| "Los tests fallan en otra máquina" | Ejecuta tests en un directorio limpio antes de entregar |
+| "No hay datos de demo" | Crea un script `seed.js` que cargue datos de ejemplo |
+| "La app crashea al cargar" | Verifica la consola del navegador antes de presentar |
+| "El README no explica nada" | Incluye secciones: instalación, tests, demo |
+
+---
+
+## Versión imprimible
+
+Copia este checklist en un documento y márcalo con bolígrafo antes de entregar:
+
+```
+CHECKLIST DE CALIDAD — ENTREGA FINAL
+=====================================
+Proyecto: _______________  Sprint: _____
+
+TESTS
+[ ] Todos los tests pasan (npm test)
+[ ] Casos límite testeados
+[ ] Cobertura ≥ 60%
+
+RESPONSIVE
+[ ] Móvil correcto
+[ ] Tablet correcto
+[ ] Desktop correcto
+
+NAVEGACIÓN
+[ ] Login funciona
+[ ] CRUD principal funciona
+[ ] Formularios validan
+[ ] Errores se muestran
+
+REPOSITORIO
+[ ] README actualizado
+[ ] No hay secrets
+[ ] .gitignore correcto
+[ ] Dependencias limpias
+
+TRIBUNAL
+[ ] Datos de demo cargados
+[ ] App no crashea
+[ ] Plan B preparado
+
+Firma: _______________
+```
+
+---
+
+<Aclaracion icono="💡" pregunta="¿Necesito comprobar todo esto cada vez?">
+**No al principio.** Empieza con lo básico: tests pasan, responsive funciona, README actualizado. A medida que el proyecto crece, ve añadiendo más puntos del checklist. La clave es la **consistencia**: mejor un checklist pequeño cumplido siempre que uno grande olvidado.
+
+Con el tiempo, muchos pasos se automatizan (CI/CD ejecuta tests, linting comprueba estilo). El checklist manual se reduce a lo que la máquina no puede verificar: datos de demo, plan B y la demo en vivo.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuándo usar el checklist de calidad?</summary>
+
+En tres momentos: **antes de cada commit** (tests pasan), **antes de cada sprint** (tests + responsive + docs) y **antes de la entrega final** (checklist completo).
+</details>
+
+<details>
+<summary>¿Qué comprueba el tribunal sobre testing?</summary>
+
+Que los tests se ejecutan sin errores, que hay datos de prueba cargados, que la documentación explica cómo ejecutar tests y que la app no crashea durante la demo.
+</details>
+
+<details>
+<summary>¿Qué hacer si el checklist es demasiado largo?</summary>
+
+Empieza con lo esencial: tests pasan, responsive funciona, README actualizado. Ve añadiendo puntos a medida que el proyecto crece y automatiza lo que puedas con CI/CD.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El checklist comprueba **tests, responsive, navegación, repositorio y preparación para el tribunal** antes de cada entrega.
+2. Se usa en **tres momentos**: antes de commit (básico), antes de sprint (intermedio) y antes de entrega final (completo).
+3. El tribunal comprueba que **los tests pasan, hay datos de demo y la app no crashea**: prepárate para eso y tendrás un plan B.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-4-testing) · Anterior: [07 — Testing en equipo](../07-testing-en-equipo) · Siguiente: [09 — Cierre de la unidad](../09-cierre)

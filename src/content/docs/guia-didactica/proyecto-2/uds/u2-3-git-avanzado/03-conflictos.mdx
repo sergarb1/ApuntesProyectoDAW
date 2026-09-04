@@ -132,6 +132,47 @@ function loginUser(email, password) {
 
 ---
 
+## Conflictos de personas: el protocolo humano
+
+Los conflictos técnicos se resuelven con procedimiento. Los **conflictos
+entre personas** (distinto criterio, alguien que no avanza, tensiones)
+necesitan conversación honesta:
+
+### 1. Habladlo en persona, no por chat
+
+Quedad 15 min (presencial o videollamada, cámara encendida). Cada uno
+expone su punto **sin interrumpir** (2 min cada uno). Objetivo: entender
+al otro, no ganar. El chat empeora los malentendidos; la voz y la cara
+permiten empatía y matices.
+
+### 2. Buscad un acuerdo o solución intermedia
+
+- "Probamos tu enfoque en esta feature y el mío en la siguiente".
+- "Dividimos el módulo: tú haces X, yo Y, y revisamos juntos el contrato (interfaz)".
+- "Pedimos opinión al profesor como tie-break técnico".
+
+### 3. Si no hay acuerdo → tercera persona
+
+Profesor (alcance, plazos, criterio de evaluación), compañero neutral
+(cuestiones técnicas puras) o mediador externo (si es relacional).
+
+> ⚠️ **No dejéis que un conflicto personal se enquiste.** Una semana de
+> silencio = dos semanas de arreglo. La daily y la retro son los sitios
+> naturales para sacar temas antes de que exploten.
+
+## El caso del "free rider" (quien no aporta)
+
+Patrón: una persona no entrega, no responde, no viene a las dailies.
+Protocolo:
+
+1. **Daily**: se nota ("ayer no avancé", "hoy tampoco sé qué hacer").
+2. **Privado**: un compañero (no el grupo) le pregunta: "¿qué pasa? ¿te bloquea algo? ¿podemos ayudar?".
+3. **Planning**: se redistribuye su carga **visiblemente en el tablero** y se le asigna una tarea concreta y medible (docs, tests, despliegue, investigación).
+4. **Seguimiento**: daily + check-in a medio día.
+5. **Si persiste**: se informa al profesor **con datos** (tablero, commits, actas), no con quejas.
+
+---
+
 ## Aclaración: "¿Y si no sé qué versión es la correcta?"
 
 <Aclaracion icono="🤔" pregunta="¿Qué hago si no sé si quedarme con mi versión o con la del otro?">
@@ -166,14 +207,26 @@ Tres pasos:
 Branches cortos, comunicación en la daily, archivos pequeños e integración frecuente. Menos tiempo = menos probabilidad de choque.
 </details>
 
+<details>
+<summary>¿Cuál es el primer paso ante un conflicto interpersonal?</summary>
+
+**Hablar en persona/videollamada (cara a cara)**, no por chat. Cada uno expone su punto sin interrumpir; el objetivo es entender, no ganar. Si no hay acuerdo, se recurre a una tercera persona neutral.
+</details>
+
+<details>
+<summary>¿Cómo se gestiona a un "free rider"?</summary>
+
+Se detecta en la daily, se habla en privado, se redistribuye su carga **visiblemente en el tablero** con una tarea concreta y medible, y se hace seguimiento. Si persiste, se informa al profesor con datos.
+</details>
+
 ---
 
 ## ✅ Resumen en 3 frases
 
 1. Un conflicto de merge es Git diciéndote que **dos personas cambiaron la misma línea**: lee los marcadores, decide y resuelve.
 2. Tres opciones: **quitar tu versión**, **quitar la otra** o **combinar ambas**. Si no sabes, pregunta al autor.
-3. **Prevención**: branches cortos, comunicación, archivos pequeños e integración frecuente = menos conflictos.
+3. **Prevención**: branches cortos, comunicación, archivos pequeños e integración frecuente = menos conflictos. Y recuerda: los conflictos entre personas se resuelven **cara a cara**, no por chat.
 
 ---
 
-> 📚 Volver al [índice de la unidad](../u2-3-git-avanzado) · Anterior: [02 — Trunk-Based](./02-trunk-based) · Siguiente: [04 — Git Hooks](./04-hooks)
+> 📚 Volver al [índice de la unidad](../u2-3-git-avanzado) · Anterior: [02 — Trunk-Based](../02-trunk-based) · Siguiente: [04 — Git Hooks](../04-hooks)

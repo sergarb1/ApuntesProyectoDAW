@@ -1,0 +1,65 @@
+---
+title: "🧪 UD 2.4: Testing"
+description: "Tipos de test, herramientas, flujo de trabajo y cultura de calidad para asegurar que tu proyecto no falle cuando más importa"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+<StoryIntro icono="🧪" titulo="El seguro de tu proyecto: que no falle cuando más importa">
+  En Proyecto 1 tu app funcionaba "en tu ordenador". En Proyecto 2
+  toca demostrar que funciona **en cualquier ordenador, cualquier día,
+  delante del tribunal**. El testing es la herramienta que te da esa
+  certeza: automatizada, verificable y documentada.
+</StoryIntro>
+
+## Objetivos de la unidad
+
+Al finalizar esta unidad serás capaz de:
+
+- 🛡️ Explicar **por qué los tests** son esenciales para tu proyecto
+- 📊 Distinguir **unitario, integración, E2E y manual** y cuándo usar cada uno
+- 🎯 **Priorizar** qué probar con las 3 reglas (uso, fragilidad, cambio)
+- 🔄 Integrar tests en tu **flujo de trabajo** (TDD, pre-commit, CI)
+- 🖐️ Aplicar un **protocolo de pruebas manuales** antes de cada entrega
+- 🛠️ Elegir las **herramientas** adecuadas a tu stack (Vitest, JUnit, Playwright)
+- 👥 Compartir la **responsabilidad del testing** con tu equipo
+- 📋 Usar un **checklist de calidad** completo antes del tribunal
+
+## Mapa de la unidad
+
+| Punto | Tema | Idea clave |
+|-------|------|------------|
+| 01 | [¿Por qué hacer tests?](./01-por-que-hacer-tests) | Los tests son un seguro, no un trámite |
+| 02 | [Tipos de test](./02-tipos-de-test) | Unitario, integración, E2E y manual |
+| 03 | [Qué probar en tu proyecto](./03-que-probar) | Prioriza: lo que más usa, rompe y cambia |
+| 04 | [Tests en tu flujo](./04-tests-en-el-flujo) | TDD, pre-commit y CI sin morir en el intento |
+| 05 | [Pruebas manuales](./05-pruebas-manuales) | La red de seguridad antes de cada entrega |
+| 06 | [Herramientas de testing](./06-herramientas) | Vitest, JUnit, Playwright y Testing Library |
+| 07 | [Testing en equipo](./07-testing-en-equipo) | Code review, acuerdos y pair testing |
+| 08 | [Checklist de calidad](./08-checklist-calidad) | Todo lo que verificar antes de entregar |
+| 09 | [Cierre](./09-cierre) | Retos, laboratorio y preguntas para pensar |
+
+## Competencias que desarrollarás
+
+| Competencia | Cómo se trabaja |
+|-------------|-------------------|
+| **Pensamiento crítico** | Decidir qué probar y qué no, priorizar esfuerzo |
+| **Resolución de problemas** | Detectar y diagnosticar fallos con tests |
+| **Trabajo en equipo** | Compartir la responsabilidad de la calidad |
+| **Comunicación técnica** | Documentar comportamiento con tests legibles |
+| **Autonomía** | Saber que tu código funciona antes de entregarlo |
+
+<Aclaracion icono="⏱️" pregunta="¿Cuánto tiempo dedicar al testing en el proyecto?">
+  No necesitas el 50% de tu tiempo. Empieza por lo mínimo viable:
+  tests unitarios del core + un test de integración del flujo principal
+  + una pasada manual antes de cada entrega. A partir de ahí, ve
+  ampliando donde más te duela: cada bug que atrapes te enseñará dónde
+  merece la pena invertir el siguiente test.
+</Aclaracion>
+
+## ¿Por dónde empiezo?
+
+- **Si tienes prisa**: ve al [punto 08 (checklist)](./08-checklist-calidad) y aplica lo mínimo antes de la próxima entrega
+- **Si no has escrito un test nunca**: empieza por el [punto 01](./01-por-que-hacer-tests) y el [punto 02](./02-tipos-de-test)
+- **Si quieres entender el testing de verdad**: sigue el orden del 01 al 09

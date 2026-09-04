@@ -1,0 +1,197 @@
+---
+title: "03 — Qué probar en tu proyecto"
+description: "Prioriza tu esfuerzo de testing: lo que más usa, lo que más rompe y lo que más cambia."
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🧪 **UD 2.4 · Testing** → 03 · Qué probar en tu proyecto
+
+<StoryIntro icono="🎯" titulo="No testees todo: testea lo que importa">
+  Un equipo llevaba 3 semanas escribiendo tests. Llevaban 40 tests...
+  para las 3 pantallas menos importantes de la app. Las pantallas
+  críticas seguían sin tests porque "ya las probaremos después".
+
+  El profesor les dijo: "Si solo tenéis tiempo para 10 tests, ¿cuáles
+  escribiríais?". Se quedaron en silencio. No lo habían pensado.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **No hace falta probarlo todo. Hace falta probar lo que importa: lo que más usa el usuario, lo que más rompe y lo que más cambia.**
+
+---
+
+## Las 3 reglas de priorización
+
+### 1. Lo que más usa el usuario
+
+Si el 80% de los usuarios hace el 20% de las funcionalidades, ese 20% merece el 80% de tus tests.
+
+**Pregúntate**: ¿Cuáles son las 3 pantallas que todo usuario abre?
+
+En una app de reservas:
+- Buscar un restaurante disponible
+- Crear una reserva
+- Ver mis reservas
+
+En una app de tareas:
+- Crear una tarea
+- Marcar tarea como hecha
+- Ver lista de tareas pendientes
+
+### 2. Lo que más rompe (fragilidad)
+
+Algunas partes del código son más frágiles que otras:
+
+- **Validaciones**: email inválido, fecha pasada, campos vacíos
+- **Cálculos**: precios, descuentos, fechas
+- **Condiciones borde**: lista vacía, usuario sin datos, conexión lenta
+- **Integraciones**: llamadas a APIs externas, base de datos
+
+### 3. Lo que más ha cambiado
+
+Si acabas de refactorizar un módulo, esos cambios necesitan tests. Si escribiste código nuevo, necesita tests. Si arreglaste un bug, necesita un test que verifique que no vuelve a aparecer.
+
+---
+
+## Mapa de riesgo
+
+```
+┌──────────────┬──────────────┐
+│ Riesgo ALTO  │ Riesgo BAJO  │
+│ Impacto ALTO │ Impacto ALTO │
+│ → Testear    │ → Testear    │
+├──────────────┼──────────────┤
+│ Riesgo ALTO  │ Riesgo BAJO  │
+│ Impacto BAJO │ Impacto BAJO │
+│ → Testear    │ → Ignorar    │
+└──────────────┴──────────────┘
+```
+
+Las funcionalidades con **alto riesgo y alto impacto** son las que más tests necesitan. Fallan a menudo y si fallan, el proyecto sufre.
+
+---
+
+## Ejemplo práctico: qué testear en una app de reservas
+
+| Funcionalidad | Uso | Fragilidad | Prioridad |
+|---------------|-----|------------|-----------|
+| Login | Alto | Baja | Media |
+| Buscar restaurante | Alto | Media | **Alta** |
+| Crear reserva | Alto | **Alta** | **Muy alta** |
+| Cancelar reserva | Medio | **Alta** | **Alta** |
+| Ver perfil | Bajo | Baja | Baja |
+| Cambiar contraseña | Bajo | Media | Media |
+| Ver historial | Bajo | Baja | Baja |
+
+Los tests deberían enfocarse en **crear reserva** y **cancelar reserva**: alto uso y alta fragilidad.
+
+---
+
+## Nivel mínimo viable de testing
+
+Como mínimo, tu proyecto debería tener:
+
+### Tests unitarios del core
+
+Las funciones de lógica de negocio que son la esencia de tu aplicación:
+
+- Validaciones de datos de entrada
+- Cálculos (precios, fechas, puntuaciones)
+- Transformaciones de datos
+- Lógica de negocio principal
+
+### Un test de integración del flujo principal
+
+El camino que sigue el usuario para completar la tarea principal:
+
+- Registro → login → acción principal
+- Búsqueda → selección → confirmación
+- Formulario → envío → respuesta
+
+### Prueba manual completa antes de cada entrega
+
+No sustituye a los tests automatizados, pero es la red de seguridad final.
+
+---
+
+## Estrategia de testing por fases
+
+### Fase 1: Core (semanas 1-2)
+
+Tests unitarios de las funciones de lógica de negocio. Un test de integración del flujo principal.
+
+### Fase 2: Estabilidad (semanas 3-4)
+
+Tests de integración de las funcionalidades secundarias. Tests de validación y casos borde.
+
+### Fase 3: Robustez (semana 5)
+
+Tests E2E de los flujos críticos. Pruebas manuales en múltiples dispositivos.
+
+### Fase 4: Entrega (semana 6)
+
+Batería completa. Prueba manual exhaustiva.
+
+---
+
+## Ejemplo: app de reservas de restaurantes
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin priorizar", texto: "Escribimos 35 tests: login, perfil, configuración, idioma, historial... Pero crear reserva no tiene ni uno. 'Ya lo probaremos a mano'." },
+    { quien: "Priorizando", texto: "Escribimos 12 tests enfocados: crear reserva (5), cancelar reserva (3), buscar restaurante (2), login (2). Lo crítico está cubierto." },
+  ]}
+  titulo="Menos tests, mejor enfocados"
+/>
+
+---
+
+## Aclaración: "¿Qué pasa si solo puedo testear una parte?"
+
+<Aclaracion icono="🤔" pregunta="No me da tiempo de testear todo, ¿qué priorizo?">
+Testea **la parte más crítica**. Es mejor tener 5 tests en la funcionalidad principal que 50 tests en funcionalidades secundarias.
+
+**Pregunta clave**: "Si esta funcionalidad falla el día de la presentación, ¿el proyecto es un fracaso?". Si la respuesta es sí, testea esa funcionalidad primero.
+
+El mínimo absoluto: tests unitarios del core + integración del flujo principal + manual antes de entregar.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las 3 reglas de priorización?</summary>
+
+1. **Lo que más usa el usuario**: el 20% de funcionalidades que usa el 80% de usuarios.
+2. **Lo que más rompe**: validaciones, cálculos, condiciones borde, integraciones.
+3. **Lo que más ha cambiado**: código nuevo, refactorizaciones y bugs corregidos.
+</details>
+
+<details>
+<summary>¿Cuál es el nivel mínimo viable de testing?</summary>
+
+**Tests unitarios del core** (lógica de negocio) + **un test de integración** del flujo principal + **prueba manual** completa antes de cada entrega.
+</details>
+
+<details>
+<summary>¿Qué es el mapa de riesgo?</summary>
+
+Una matriz que cruza **probabilidad de fallo** con **impacto si falla**. Las funcionalidades de alto riesgo y alto impacto son las que más tests necesitan.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. No testees todo: **prioriza por uso, fragilidad y cambio reciente** con las 3 reglas de priorización.
+2. El nivel mínimo son **tests unitarios del core, integración del flujo principal y manual antes de entregar**.
+3. Usa el **mapa de riesgo** para decidir qué función merece más tests y aplica la estrategia por fases del sprint.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-4-testing) · Anterior: [02 — Tipos de test](../02-tipos-de-test) · Siguiente: [04 — Tests en tu flujo](../04-tests-en-el-flujo)

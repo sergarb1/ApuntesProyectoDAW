@@ -1,0 +1,221 @@
+---
+title: "04 — Tests en tu flujo de trabajo"
+description: "Cómo integrar tests en el día a día: antes de commit, con pre-commit hooks y CI, y el ciclo TDD"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🧪 **UD 2.4 · Testing** → 04 · Tests en tu flujo de trabajo
+
+<StoryIntro icono="🎬" titulo="El commit que rompió todo (y el test que lo evitó)">
+  Martes por la mañana. Luis sube un cambio: "Refactorizo la función de
+  validación para que sea más clara". A las 11:00, Pedro hace pull y la
+  app falla. "¿Qué has hecho, Luis?". "En mi máquina funciona".
+
+  Si los tests se hubieran ejecutado automáticamente antes del commit,
+  el error se habría detectado en el momento. Los tests no son solo
+  seguridad: son **comunicación** entre el equipo.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los tests no sirven si no se ejecutan. Integrarlos en tu flujo de trabajo es lo que los convierte en un seguro real.**
+
+---
+
+## El flujo básico: test antes de commit
+
+La regla es simple: **no hagas commit si los tests fallan**.
+
+```
+Escribir código → Ejecutar tests → ¿Pasan? → Commit
+                      ↓
+                   No → Arreglar → Ejecutar tests → Commit
+```
+
+### En la práctica
+
+1. Antes de `git add`, ejecuta la batería de tests
+2. Si todos pasan, haz commit
+3. Si alguno falla, arregla el error primero
+4. No hagas commit con tests fallidos "porque ya lo arreglo después"
+
+### Comandos útiles
+
+```bash
+# JavaScript (con npm)
+npm test
+
+# Java (con Maven)
+mvn test
+
+# Ver solo los tests que fallan
+npm test -- --verbose
+```
+
+---
+
+## El flujo del equipo: evitar roturas
+
+Cuando trabajáis varios en el mismo repositorio, los tests evitan que el código de uno rompa el de otro.
+
+### Antes de mergear una rama
+
+```
+1. Hacer pull de la rama principal
+2. Ejecutar todos los tests
+3. Si pasan, mergear tu rama
+4. Si no pasan, arreglar antes de mergear
+```
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin CI", texto: "Confío en que mis compañeros ejecuten los tests antes de subir. A veces lo hacen, a veces no." },
+    { quien: "Con CI", texto: "GitHub ejecuta los tests automáticamente. Si fallan, el merge se bloquea. No hay forma de saltárselo." },
+  ]}
+  titulo="La diferencia entre confiar y verificar"
+/>
+
+---
+
+## CI: los tests se ejecutan solos
+
+La **integración continua** (CI) ejecuta los tests automáticamente cuando alguien hace push. Si fallan, nadie puede mergear.
+
+```yaml
+# .github/workflows/test.yml
+name: Tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npm test
+```
+
+Si tu proyecto ya tiene CI para el despliegue, **añade este job de tests** antes del build. Así solo se despliega lo que pasa los tests.
+
+---
+
+## Pre-commit hooks: la barrera local
+
+Un **pre-commit hook** ejecuta los tests automáticamente antes de cada commit local:
+
+```bash
+# Instalar husky (JavaScript)
+npm install --save-dev husky
+npx husky init
+
+# Configurar pre-commit
+echo "npm test" > .husky/pre-commit
+```
+
+Ahora, cada vez que hagas `git commit`, Husky ejecutará `npm test`. Si falla, **el commit se bloquea** hasta que lo arregles.
+
+<Aclaracion icono="🤔" pregunta="¿Y si no sé configurar Husky o CI?">
+  No es obligatorio. Lo mínimo que puedes hacer es ejecutar `npm test`
+  manualmente antes de cada commit. No necesitas automatización para empezar.
+
+  Si quieres ir más allá, busca "cómo configurar pre-commit hooks con
+  Husky" en tu buscador favorito. Es un tutorial de 5 minutos.
+</Aclaracion>
+
+---
+
+## Test-first: el enfoque TDD
+
+TDD (Test-Driven Development) significa escribir el test **antes** del código:
+
+```
+┌──────────┐     ┌──────────┐     ┌────────────┐
+│ 🔴 ROJO  │  →  │ 🟢 VERDE │  →  │ 🔵 REFACTOR│
+│ test que │     │ código   │     │ limpiar sin│
+│ falla    │     │ mínimo   │     │ romper test│
+└──────────┘     └──────────┘     └────────────┘
+```
+
+### Ejemplo
+
+```javascript
+// 1. ROJO: el test falla porque la función no existe
+test("sumar dos números", () => {
+  expect(sumar(2, 3)).toBe(5);
+});
+
+// 2. VERDE: implementas la función mínima
+function sumar(a, b) {
+  return a + b;
+}
+
+// 3. REFACTOR: aquí no hace falta
+```
+
+### Ventajas del TDD
+
+- Cada función tiene al menos un test desde el primer momento
+- El código crece respaldado por verificación continua
+- Refactorizar es seguro: los tests te avisan si algo se rompe
+
+### Cuándo NO usar TDD
+
+- Interfaces visuales y prototipos rápidos
+- Cuando estás explorando cómo hacer algo
+- Cuando el tiempo apremia y el test sería más lento que la función
+
+---
+
+## Qué ejecutar y cuándo
+
+| Momento | Qué ejecutar |
+|---------|--------------|
+| Antes de cada commit | Tests unitarios del código que has tocado |
+| Antes de mergear | Todos los tests del proyecto |
+| En CI (push/PR) | Todos los tests + lint |
+| Antes de cada entrega | Batería completa + pruebas manuales |
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es la regla básica antes de hacer commit?</summary>
+
+No hagas commit si los tests fallan. Ejecuta la batería, y si algo falla, arregla el error antes de subir.
+</details>
+
+<details>
+<summary>¿Qué es un pre-commit hook?</summary>
+
+Un script que se ejecuta automáticamente antes de cada `git commit`. Si los tests fallan, el commit se bloquea. En JavaScript se configura con Husky.
+</details>
+
+<details>
+<summary>¿Cuáles son los 3 pasos del ciclo TDD?</summary>
+
+**Rojo** (escribes un test que falla) → **Verde** (escribes el código mínimo para que pase) → **Refactor** (limpias el código sin romper el test).
+</details>
+
+<details>
+<summary>¿Qué hace la CI en GitHub Actions?</summary>
+
+Ejecuta los tests automáticamente cuando alguien hace push o abre un PR. Si fallan, el merge se bloquea. Es la garantía de que ningún commit rompe el proyecto sin avisar.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **No hagas commit si los tests fallan**: ejecuta la batería antes de `git add` y arregla antes de subir.
+2. **Automatiza lo que puedas**: un pre-commit hook (Husky) protege en local y la CI (GitHub Actions) protege en el repositorio.
+3. **TDD es una opción, no una obligación**: escribir el test antes del código funciona muy bien en lógica de negocio y mal en interfaces visuales.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-4-testing) · Anterior: [03 — Qué probar en tu proyecto](../03-que-probar) · Siguiente: [05 — Pruebas manuales](../05-pruebas-manuales)

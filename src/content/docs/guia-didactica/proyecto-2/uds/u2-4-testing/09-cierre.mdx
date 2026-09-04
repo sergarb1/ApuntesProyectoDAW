@@ -1,0 +1,211 @@
+---
+title: "09 — Cierre de la unidad"
+description: "Ejercicios interactivos, mini-chequeo y resumen de la unidad de Testing"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🧪 **UD 2.4 · Testing** → 09 · Cierre de la unidad
+
+<StoryIntro icono="🎯" titulo="Hora de poner en práctica todo lo que has aprendido">
+  Has recorrido toda la unidad: desde por qué hacer tests hasta las
+  herramientas y el testing en equipo. Ahora toca **verificar que lo
+  entiendes** con ejercicios interactivos que te harán pensar, no solo
+  recordar. No hay código: hay lógica.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Testing no es escribir tests: es pensar en cómo puede fallar tu código antes de que lo haga.**
+
+---
+
+## 🎯 Ejercicio 1 — "Sé el Testing"
+
+Tres dilemas de equipo sobre prioridades de testing. Piensa qué harías tú:
+
+<details>
+<summary>Dilema 1: Solo tienes tiempo para testear una cosa</summary>
+
+Tu sprint termina mañana. Puedes testear **el login** (funcionalidad core) o **la exportación a PDF** (funcionalidad secundaria). ¿Qué eliges?
+
+**Respuesta**: testea el **login**. Es funcionalidad core: si falla, el usuario no puede usar la app. La exportación es secundaria: puede esperar al siguiente sprint. Prioriza siempre por **impacto en el usuario**.
+</details>
+
+<details>
+<summary>Dilema 2: Un test falla "a veces"</summary>
+
+Un test de integración falla 1 de cada 10 ejecuciones. Tu compañero dice "es un flake, no le hagas caso". ¿Qué haces?
+
+**Respuesta**: investiga el motivo. Los tests flaky ocultan problemas reales: condición de carrera, dependencia de estado global, o timing. Un test que falla "a veces" es peor que no tener test porque **destruye la confianza** en la suite.
+</details>
+
+<details>
+<summary>Dilema 3: Tu compañero no escribe tests</summary>
+
+Tu compañero entrega código sin tests. El lead dice "aprueba el PR pero comenta que falta testing". ¿Qué haces?
+
+**Respuesta**: comenta el PR pidiendo tests, no solo un comentario. Si el lead no insiste, el problema es de cultura, no tuyo. Pero sí puedes **ayudar**: ofrece pair testing para que juntos escriban los tests que faltan.
+</details>
+
+---
+
+## 🎯 Ejercicio 2 — "Dilema de equipo"
+
+Dos enfoques de testing en conflicto:
+
+<Comparativa
+  titulo="Velocidad vs Calidad: ¿se puede tener las dos?"
+  dialogos={[
+    { quien: "Enfoque A — Test Driven Development", texto: "Escribo el test ANTES del código. Más lento al principio, pero detecto bugs antes y el código final es más limpio. Al final del sprint, ahorro tiempo en debugging." },
+    { quien: "Enfoque B — Testing después", texto: "Primero hago que funcione, luego testeo. Más rápido al principio, pero al final del sprint descubro bugs que cuestan más de arreglar. A veces no testeo por falta de tiempo." },
+  ]}
+/>
+
+<details>
+<summary>¿Cuál es mejor para un proyecto DAW?</summary>
+
+**Una mezcla**: usa TDD para funciones core (login, CRUD principal, validaciones) y testing después para funcionalidades secundarias. El equilibrio entre velocidad y calidad depende de la criticidad de cada funcionalidad.
+</details>
+
+---
+
+## 🎯 Ejercicio 3 — "¿Quién Soy?"
+
+Cuatro adivinanzas de conceptos de testing. Intenta adivinar antes de abrir:
+
+<details>
+<summary>Adivinanza 1</summary>
+
+**"Soy un test que verifica una función aislada, sin dependencias externas. No toco base de datos, no hago llamadas HTTP. Solo compruebo que mi función dada una entrada, devuelve la salida esperada."**
+
+**Respuesta**: Test unitario.
+</details>
+
+<details>
+<summary>Adivinanza 2</summary>
+
+**"Soy un test que verifica que dos o más partes funcionan juntas. Puedo tocar una base de datos real o hacer llamadas a una API de prueba. No soy tan rápido como mi compañero, pero detecto problemas de integración."**
+
+**Respuesta**: Test de integración.
+</details>
+
+<details>
+<summary>Adivinanza 3</summary>
+
+**"Soy el 80/20 del testing: con el 20% del esfuerzo cubro el 80% de los bugs. Me enfoco en las funciones que más se usan y los caminos más habituales. No busco perfección, busco impacto."**
+
+**Respuesta**: Testing por riesgo (risk-based testing) o priorización de tests.
+</details>
+
+<details>
+<summary>Adivinanza 4</summary>
+
+**"Soy un documento vivo que describe qué testear y qué no. Me crean al inicio del proyecto y lo actualizo cuando cambian los requisitos. Sin mí, el testing es un caos."**
+
+**Respuesta**: Plan de testing o estrategia de testing (documentada en `TESTING.md`).
+</details>
+
+---
+
+## 🎯 Ejercicio 4 — "Laboratorio de Tortura"
+
+Encuentra **3 o más bugs** en esta función de validación de fechas de reserva:
+
+```javascript
+function validarFechaReserva(fecha, horaInicio, horaFin) {
+  const fechaActual = new Date()
+  const fechaReserva = new Date(fecha)
+
+  if (fechaReserva < fechaActual) {
+    return { valido: false, error: 'Fecha en el pasado' }
+  }
+
+  if (horaInicio >= horaFin) {
+    return { valido: false, error: 'Hora inicio debe ser antes que fin' }
+  }
+
+  return { valido: true }
+}
+```
+
+<details>
+<summary>Pista 1: Compara fechas con horas</summary>
+
+La función compara solo la **fecha**, pero no considera la **hora**. Una reserva para hoy a las 23:00 con horaActual de las 20:00 pasaría el test de "fecha en el pasado" aunque ya sea tarde.
+</details>
+
+<details>
+<summary>Pista 2: ¿Qué pasa con string vacío o null?</summary>
+
+Si `fecha` es `null`, `undefined` o `''`, `new Date(null)` devuelve 1970. El test de "fecha en el pasado" funcionaría, pero el error no sería claro. Falta validación de tipos.
+</details>
+
+<details>
+<summary>Pista 3: ¿Y las horas inválidas?</summary>
+
+Si `horaInicio` es `"25:00"` o `"abc"`, la comparación `horaInicio >= horaFin` puede dar resultados inesperados porque compara strings, no números.
+</details>
+
+<details>
+<summary>Pista 4: ¿Reservas en otro huso horario?</summary>
+
+`new Date(fecha)` puede interpretar la fecha diferente según el huso horario del navegador. Una reserva para el 5 de septiembre podría crearse el 4 en某些 zonas.
+</details>
+
+<details>
+<summary>Bugs encontrados (resumen)</summary>
+
+1. **No compara fecha + hora juntas**: reserva para hoy a las 23:00 pasa el test de pasado
+2. **Sin validación de tipos**: null, undefined, string vacío pasan sin error claro
+3. **Horas como strings**: `"25:00" >= "abc"` da resultados inesperados
+4. **Huso horario**: `new Date()` puede interpretar la fecha según la zona del navegador
+5. **Sin límite de duración**: una reserva de 24 horas es válida según la función
+</details>
+
+---
+
+## 🎯 Ejercicio 5 — "Atrévete a Pensar"
+
+Tres preguntas abiertas sobre filosofía del testing:
+
+<details>
+<summary>Pregunta 1: ¿Puede un proyecto tener 100% de cobertura y seguir teniendo bugs?</summary>
+
+**Sí**. La cobertura mide si el código se ejecuta, no si se verifica correctamente. Puedes tener 100% de cobertura y no testear el caso más importante: un test que ejecuta la función sin comprobar el resultado. La cobertura es un indicador, no una garantía.
+</details>
+
+<details>
+<summary>Pregunta 2: ¿Qué es más costoso: testear o arreglar bugs en producción?</summary>
+
+**Arreglar bugs en producción** cuesta entre 10 y 100 veces más que testear. Un bug en producción puede causar pérdida de datos, pérdida de confianza del usuario y horas de debugging sin contexto. El testing es el seguro más barato del desarrollo.
+</details>
+
+<details>
+<summary>Pregunta 3: ¿Los tests documentan el código?</summary>
+
+**Sí, y lo hacen mejor que los comentarios**. Un test vivo describe exactamente qué hace la función con ejemplos reales. Si el código cambia y el test falla, lo sabes al instante. Los comentarios se quedan obsoletos; los tests se actualizan solos al fallar.
+</details>
+
+---
+
+## 🎯 Ejercicio 6 — "Post-Créditos"
+
+<details>
+<summary>¿Qué viene después de Testing?</summary>
+
+En la **UD 2.5 — Patrones de Diseño** aprenderás a estructurar tu código con soluciones reutilizables: Singleton, Factory, MVC, Repository. Los tests que has escrito te ayudarán a refactorizar con confianza: si los tests pasan, el cambio es seguro.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **Testing es pensar en fallos**: antes de escribir código, piensa en cómo puede fallar y diseña tests que lo detecten.
+2. **El testing es responsabilidad del equipo**: acuerdos claros, code review con foco en testing y pair testing mejoran la calidad.
+3. **El checklist es tu red de seguridad**: úsalo antes de cada entrega para no olvidar nada crítico.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u2-4-testing) · Anterior: [08 — Checklist de calidad](../08-checklist-calidad)
