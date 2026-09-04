@@ -1,0 +1,206 @@
+---
+title: "05 — Frontend vs Backend"
+description: "MVC, monolito vs microservicios, y qué necesitan realmente los estudiantes"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🛠️ **UD 1.4 · Elección de Tecnologías** → 05 · Frontend vs Backend
+
+<StoryIntro icono="🏗️" titulo="Frontend es lo que se ve. Backend es lo que funciona.">
+  Tu app tiene dos partes: la interfaz que ve el usuario y la lógica que
+  procesa datos. Muchos estudiantes se obsesionan con el frontend (colores,
+  animaciones) y olvidan el backend (donde vive la lógica). O al revés.
+  **Necesitas ambos.** Esta unidad te ayuda a decidir cuánto de cada uno.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Frontend = lo que el usuario ve y toca. Backend = lo que procesa, almacena y devuelve. Tu proyecto necesita ambos, pero la proporción depende de tu app.**
+
+---
+
+## Frontend: la cara de tu app
+
+### ¿Qué es?
+
+Todo lo que el usuario **ve e interactúa** en el navegador:
+
+| Componente | Ejemplo |
+|-----------|---------|
+| **HTML** | Estructura de la página (botones, formularios, textos) |
+| **CSS** | Diseño (colores, fuentes, espaciado, responsive) |
+| **JavaScript** | Interactividad (validar formularios, actualizar sin recargar) |
+| **Framework** | Vue, React, Angular (organizan el código frontend) |
+
+### ¿Cuándo necesitas más frontend?
+
+- Tu app es **visual** (portafolio, juego, presentación)
+- La lógica es **simple** (calcular, mostrar, filtrar)
+- No necesitas **guardar datos** en servidor
+- Todo vive en el **navegador del usuario**
+
+**Ejemplo**: una calculadora de notas, un temporizador de exámenes, un portafolio personal.
+
+---
+
+## Backend: el cerebro de tu app
+
+### ¿Qué es?
+
+Todo lo que **no se ve** pero hace que la app funcione:
+
+| Componente | Ejemplo |
+|-----------|---------|
+| **API** | Endpoints que reciben y devuelven datos |
+| **Lógica** | Reglas de negocio (calcular nota media, validar permisos) |
+| **Base de datos** | Donde se guardan los datos persistentes |
+| **Autenticación** | Login, registro, sesiones |
+
+### ¿Cuándo necesitas más backend?
+
+- Tu app tiene **usuarios con datos persistentes**
+- Necesitas **autenticación** (login, roles)
+- Procesas **datos en servidor** (envío de emails, cálculos pesados)
+- Múltiples usuarios **comparten datos**
+
+**Ejemplo**: un gestor de tareas con login, un portal de notas, una app de chat.
+
+---
+
+## MVC: el patrón más común
+
+**MVC = Modelo-Vista-Controlador**
+
+```
+┌──────────────┐
+│   VISTA      │  ← Lo que ve el usuario (HTML, CSS)
+│   (HTML)     │
+└──────┬───────┘
+       │ eventos
+       ▼
+┌──────────────┐
+│  CONTROLADOR │  ← Recibe peticiones, decide qué hacer
+│   (Lógica)   │
+└──────┬───────┘
+       │ consulta/modifica
+       ▼
+┌──────────────┐
+│   MODELO     │  ← Datos y reglas de negocio
+│   (DB)       │
+└──────────────┘
+```
+
+| Capa | Responsabilidad | Ejemplo |
+|------|----------------|---------|
+| **Vista** | Mostrar datos al usuario | `tareas.html` |
+| **Controlador** | Recibir peticiones, llamar al modelo | `tareas_controller.py` |
+| **Modelo** | Acceder a la base de datos | `tarea.py` |
+
+**¿Por qué importa?** Porque separar responsabilidades hace el código **más fácil de mantener**. Si cambias el diseño, solo tocas la Vista. Si cambias la lógica, solo tocas el Controlador.
+
+---
+
+## Monolito vs Microservicios
+
+<Comparativa
+  dialogos={[
+    { quien: "Monolito", texto: "Todo en una sola app: frontend, backend, base de datos. Fácil de desarrollar, difícil de escalar. Ideal para empezar." },
+    { quien: "Microservicios", texto: "Cada funcionalidad es un servicio independiente. Complejo de montar, fácil de escalar. Ideal para apps grandes." },
+  ]}
+  titulo="Dos filosofías de arquitectura"
+/>
+
+| Aspecto | Monolito | Microservicios |
+|---------|----------|----------------|
+| **Complejidad** | 🟢 Baja | 🔴 Alta |
+| **Despliegue** | ✅ Un solo deploy | ⚠️ Múltiples deploys |
+| **Escalabilidad** | ⚠️ Todo o nada | ✅ Por servicio |
+| **Ideal para** | Proyectos pequeños, prototipos | Apps grandes, equipos grandes |
+| **Proyecto escolar** | ✅ **Sí** | ❌ No |
+
+**Regla**: si tu proyecto tiene menos de 10.000 líneas de código, **monolito**. No te compliques.
+
+---
+
+## ¿Qué necesitan realmente los estudiantes?
+
+### El stack mínimo viable
+
+```
+┌─────────────────────────────────────┐
+│           FRONTEND                  │
+│  HTML + CSS + JavaScript            │
+│  (o un framework: Vue, React)       │
+└──────────────┬──────────────────────┘
+               │ fetch() / axios
+               ▼
+┌─────────────────────────────────────┐
+│           BACKEND                   │
+│  Python Flask / JS Express          │
+│  (API REST simple)                  │
+└──────────────┬──────────────────────┘
+               │
+               ▼
+┌─────────────────────────────────────┐
+│         BASE DE DATOS               │
+│  SQLite (fácil) o PostgreSQL        │
+└─────────────────────────────────────┘
+```
+
+### Lo que NO necesitas (probablemente)
+
+- ❌ **Microservicios** → monolito es suficiente
+- ❌ **Kubernetes** → un solo servidor basta
+- ❌ **GraphQL** → REST es más simple
+- ❌ **Redis, RabbitMQ** → SQLite + HTTP bastan
+- ❌ **TypeScript** → JavaScript puro funciona
+
+---
+
+## Aclaracion: "¿Puro frontend o también backend?"
+
+<Aclaracion icono="🤔" pregunta="¿Puedo hacer mi proyecto solo con frontend (sin servidor)?">
+Depende de tu app:
+
+- **Sin backend**: si no necesitas login, no guardas datos entre sesiones, y todo vive en el navegador (LocalStorage). Ejemplo: calculadora, portafolio, juego simple.
+- **Con backend**: si necesitas login, múltiples usuarios, o datos persistentes en servidor. Ejemplo: gestor de tareas con login, portal de notas.
+
+La mayoría de proyectos escolares **necesitan un backend mínimo** para guardar datos. Pero puedes empezar con frontend puro y añadir backend después.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es la diferencia entre frontend y backend?</summary>
+
+Respuesta: **Frontend** es lo que el usuario ve e interactúa (HTML, CSS, JS). **Backend** es la lógica que procesa datos, accede a la base de datos y devuelve respuestas (API, lógica de negocio).
+</details>
+
+<details>
+<summary>¿Qué es MVC?</summary>
+
+Respuesta: **Modelo-Vista-Controlador**. Un patrón que separa la app en 3 capas: Vista (qué ve el usuario), Controlador (qué hace con las peticiones), Modelo (datos y lógica de negocio).
+</details>
+
+<details>
+<summary>¿Monolito o microservicios para mi proyecto?</summary>
+
+Respuesta: **Monolito**. Los microservicios son para apps grandes con equipos grandes. Un proyecto escolar se maneja perfecto con una sola app que contiene frontend, backend y base de datos.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **Frontend** es la interfaz visible; **backend** es la lógica que procesa datos. Tu proyecto necesita ambos, pero la proporción depende de la app.
+2. Usa **MVC** para separar responsabilidades y hazlo **monolito**: todo en una sola app es suficiente para un proyecto escolar.
+3. No necesitas microservicios, GraphQL, Redis ni Kubernetes. El **stack mínimo** (HTML/CSS/JS + framework backend + SQLite) es más que suficiente.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-4-eleccion-tecnologias) · Anterior: [04 — Bases de datos](./04-bases-datos) · Siguiente: [06 — Comparativa stack](./06-comparativa-stack)

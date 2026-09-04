@@ -1,0 +1,207 @@
+---
+title: "08 — Preguntas del tribunal"
+description: "Las preguntas más frecuentes y cómo responderlas con seguridad"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🗣️ **UD 1.5 · Comunicación** → 08 · Preguntas del tribunal
+
+<StoryIntro icono="❓" titulo="Las preguntas no son un interrogatorio, son una oportunidad">
+  Después de la presentación, el tribunal hace preguntas. Esto no es
+  un examen oral ni un juicio. Es una **oportunidad para demostrar
+  que entiendes tu proyecto** a fondo. Las preguntas buscan verificar
+  que lo hiciste tú y que dominas las decisiones técnicas.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **El tribunal pregunta para entender tu nivel de comprensión, no para atraparte.**
+
+Si sabes qué hiciste y por qué lo hiciste, no tienes nada que temer.
+
+---
+
+## Las 5 categorías de preguntas
+
+```
+┌──────────────────────────────────────────────┐
+│  1. TÉCNICAS    "¿Por qué usaste X?"        │
+│  2. FUNCIONALES "¿Qué hace la app?"         │
+│  3. PROCESO     "¿Cómo trabajasteis?"       │
+│  4. DECISIONES  "¿Por qué no Y?"            │
+│  5. FUTURO      "¿Qué mejorarías?"          │
+└──────────────────────────────────────────────┘
+```
+
+---
+
+### 1. Preguntas técnicas
+
+Son las más frecuentes. El tribunal quiere saber **por qué tomaste
+decisiones técnicas concretas**.
+
+| Pregunta | Buena respuesta | Mala respuesta |
+|----------|-----------------|----------------|
+| "¿Por qué Vue y no React?" | "Porque ya lo conocíamos y la curva de aprendizaje era menor. Para este proyecto, la reactividad de Vue era suficiente." | "No sé, era lo que el profesor dijo." |
+| "¿Cómo persistes los datos?" | "Usamos localStorage porque los datos son del usuario local y no necesitamos sincronización en servidor." | "Con JS, guardando en el navegador." |
+| "¿Por qué Tailwind?" | "Porque nos permitió hacer responsive rápidamente sin escribir CSS custom. El tiempo que ahorramos lo invertimos en funcionalidad." | "Porque está de moda." |
+
+**Clave**: Siempre responde con **"porque..."**. La justificación es lo que evalúan.
+
+---
+
+### 2. Preguntas funcionales
+
+El tribunal quiere entender **qué hace tu app y cómo funciona**.
+
+**Ejemplos**:
+- "¿Qué puede hacer un usuario que no puede hacer un invitado?"
+- "¿Cómo funciona el flujo de login?"
+- "¿Qué pasa si el usuario no tiene internet?"
+
+**Consejo**: Si tienes la app abierta, **muéstralo**. No expliques verbalmente lo que puedes mostrar en 5 segundos.
+
+---
+
+### 3. Preguntas sobre el proceso
+
+El tribunal evalúa **cómo trabajasteis como equipo**.
+
+| Pregunta | Buena respuesta |
+|----------|-----------------|
+| "¿Cómo os repartisteis el trabajo?" | "Cada uno se assignó un módulo según sus habilidades. Yo hice el backend, María el frontend, Carlos las pruebas. Nos reuníamos 15 min cada día." |
+| "¿Qué dificultasteis?" | "Al principio no teníamos requisitos claros. Tuvimos que redefinir historias de usuario en la semana 2." |
+| "¿Usasteis Git?" | "Sí, hicimos branching: main para producción, develop para desarrollo. Hacíamos PRs y revisiones antes de mergear." |
+
+**Nunca digas**: "Trabajamos todos juntos en todo" → eso suena a que no hubo organización.
+
+---
+
+### 4. Preguntas sobre decisiones
+
+Son las más interesantes. El tribunal quiere saber **por qué no hiciste
+algo diferente**.
+
+| Pregunta | Buena respuesta |
+|----------|-----------------|
+| "¿Por qué no usaste una base de datos?" | "Porque el proyecto es local-first y los datos son del usuario. IndexedDB era suficiente y evitábamos la complejidad de un backend." |
+| "¿Por qué no tests unitarios?" | "Sí los hicimos, pero nos centramos en E2E porque para una app de estas características era más valioso probar el flujo completo." |
+| "¿Por qué no PWA completa?" | "El tiempo nos obligó a priorizar. La funcionalidad offline era Must, pero las notificaciones push eran Could." |
+
+**Si no sabes**: Di "No lo consideramos, pero veo que habría sido buena idea. ¿Podría ampliar esa pregunta?"
+
+---
+
+### 5. Preguntas sobre mejoras
+
+Son las más facles de responder. El tribunal sabe que tu proyecto no es
+perfecto. **Ser honesto sobre las mejoras demuestra madurez**.
+
+**Plantilla**:
+> "Hay tres cosas que mejoraría: [1] ..., [2] ..., [3] ... . La primera es la más prioritaria porque..."
+
+---
+
+## El marco STAR para responder
+
+| Paso | Significado | Ejemplo |
+|------|-------------|---------|
+| **S**ituación | Contexto de la pregunta | "Cuando implementamos el login..." |
+| **T**area | Qué teníais que hacer | "Necesitábamos autenticar usuarios sin backend" |
+| **A**cción | Qué hicisteis | "Usamos JWT con localStorage" |
+| **R**esultado | Resultado obtenido | "Funciona offline y los datos se persisten localmente" |
+
+---
+
+## Comparativa: respuesta defensiva vs profesional
+
+<Comparativa
+  dialogos={[
+    { quien: "Defensiva", texto: "No, sí que lo hicimos bien. Es que el tiempo no nos dio para más. No es justo que nos pregunte eso." },
+    { quien: "Profesional", texto: "Eso es un punto que mejoraremos. En la versión actual usamos X porque..., pero en el futuro implementaríamos Y porque... Tiene más sentido?" },
+  ]}
+  titulo="El tribunal valora la honestidad, no la perfección"
+/>
+
+---
+
+## Aclaracion: "¿Qué hago si no sé la respuesta?"
+
+<Aclaracion icono="🤷" pregunta="¿Y si me preguntan algo que no sé?">
+**Nunca mientas**. El tribunal se dará cuenta.
+
+En su lugar:
+1. **Admite**: "No lo tengo claro en este momento"
+2. **Contextualiza**: "Pero lo que sí puedo decir es que..."
+3. **Pide ampliación**: "¿Podría dar más contexto sobre la pregunta?"
+
+Los profesionales no saben todo. Saben **gestionar lo que no saben**.
+</Aclaracion>
+
+---
+
+## Las 10 preguntas más frecuentes
+
+1. "¿Por qué esta tecnología y no otra?"
+2. "¿Cómo persistes los datos?"
+3. "¿Qué pasaría si se usa con muchos usuarios?"
+4. "¿Cómo os organizasteis en el equipo?"
+5. "¿Qué fue lo más difícil?"
+6. "¿Qué mejorarías?"
+7. "¿Qué aprendisteis?"
+8. "¿Cómo probasteis la app?"
+9. "¿Por qué esta interfaz y no otra?"
+10. "¿Cómo despliegas la app?"
+
+**Prepara respuestas para las 10**. Te toma 30 minutos y te da una seguridad enorme.
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué hago si no sé la respuesta a una pregunta?</summary>
+
+**Respuesta**: Di "No lo tengo claro ahora mismo, pero lo que sí puedo decir es que...". Nunca mientas ni divagues. El tribunal valora la honestidad.
+
+**Para qué sirve**: Para mantener credibilidad sin perder puntos.
+</details>
+
+<details>
+<summary>¿Cuántas preguntas suele hacer el tribunal?</summary>
+
+**Respuesta**: Normalmente 3-5 preguntas. A veces más si el proyecto les interesa. Dedica 5-10 minutos a responder.
+
+**Para qué sirve**: Para dimensionar esta fase y no sorprenderte.
+</details>
+
+<details>
+<summary>¿Debo contestar siempre con "porque"?</summary>
+
+**Respuesta**: Sí, casi siempre. El tribunal quiere saber tus **razones**, no solo tus decisiones. "Usé Vue porque..." es mejor que "Usé Vue."
+
+**Para qué sirve**: Para demostrar que piensas, no que improvisas.
+</details>
+
+<details>
+<summary>¿Qué pasa si me contradice el tribunal?</summary>
+
+**Respuesta**: Escucha, asiente y di "Tiene razón, no lo había considerado". No discutas con el tribunal, aunque tengas razón. La humildad anota más que la confrontación.
+
+**Para qué sirve**: Para mantener una actitud profesional y constructiva.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El tribunal pregunta en 5 categorías: **técnicas, funcionales, proceso, decisiones y mejoras** — prepara respuestas para las 10 más frecuentes.
+2. Usa el marco **STAR** (Situación, Tarea, Acción, Resultado) para responder con estructura y claridad.
+3. **Nunca mientas** si no sabes algo: admite, contextualiza y pide ampliación — eso demuestra profesionalidad.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-5-comunicacion) · Anterior: [07 — Demo práctica](./07-demo-practica) · Siguiente: [09 — Cierre](./09-cierre)

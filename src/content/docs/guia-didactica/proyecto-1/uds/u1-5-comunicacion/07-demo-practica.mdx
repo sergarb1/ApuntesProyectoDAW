@@ -1,0 +1,208 @@
+---
+title: "07 — Demo práctica"
+description: "Cómo preparar, probar y ejecutar una demo en vivo sin problemas"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🗣️ **UD 1.5 · Comunicación** → 07 · Demo práctica
+
+<StoryIntro icono="💻" titulo="Si no hay demo, no hay prueba">
+  El tribunal quiere **ver tu app funcionando**. No confían en una
+  presentación con solo texto y capturas. Una demo en vivo demuestra
+  que tu proyecto funciona de verdad, pero también es el momento
+  más delicado: si falla, la impresión se arruina.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Una demo preparada con plan B es infinitamente mejor que una demo improvisada con mucho riesgo.**
+
+La clave no es que la demo funcione siempre, sino que tengas un plan
+para cada escenario posible.
+
+---
+
+## Las 3 reglas de oro de la demo
+
+```
+┌──────────────────────────────────────────────────┐
+│                                                  │
+│  1. PREPARA                                     │
+│     Antes de la demo, todo debe estar listo     │
+│                                                  │
+│  2. PRUEBA                                      │
+│     El día anterior, haz la demo 3 veces         │
+│                                                  │
+│  3. PLAN B                                      │
+│     Siempre ten una alternativa preparada        │
+│                                                  │
+└──────────────────────────────────────────────────┘
+```
+
+---
+
+## Fase 1: Preparación
+
+### Checklist de la demo
+
+- [ ] **App desplegada** en producción (GitHub Pages, Vercel, etc.)
+- [ ] **Datos de ejemplo** precargados (no empieces con pantalla vacía)
+- [ ] **Cuenta de usuario** creada si hay login
+- [ ] **Navegador actualizado** (Chrome, sin extensiones raras)
+- [ ] **Ventanas cerradas**: email, WhatsApp, notificaciones
+- [ ] **Zoom al 125%** para que se vea en el proyector
+- [ ] **Resolución 1920×1080** ( Full HD)
+- [ ] **Internet probado** (o app offline si es posible)
+- [ ] **Captura de pantalla** de la pantalla principal como plan B
+
+### Datos de ejemplo
+
+El tribunal no quiere ver tu app vacía. Prepara:
+
+- **3-5 elementos** de ejemplo (tareas, productos, mensajes, lo que sea)
+- **Algunos con errores** a propósito (para mostrar validación)
+- **Al menos uno "completado"** (para mostrar el flujo completo)
+
+---
+
+## Fase 2: La ejecución
+
+### El flujo de la demo
+
+```
+  1. INTRODUCE (10 seg)
+     "Ahora os voy a mostrar la app en funcionamiento"
+  
+  2. CONTEXTO (20 seg)
+     "Estamos en la pantalla principal. Aquí veis..."
+  
+  3. ACCIÓN (30-60 seg)
+     "Voy a crear una tarea..."
+     [Mientras haces, explica lo que haces]
+  
+  4. RESULTADO (10 seg)
+     "Como veis, la tarea aparece en la lista"
+  
+  5. CIERRE (10 seg)
+     "En resumen: crear una tarea toma 3 segundos"
+```
+
+**Total**: 1-2 minutos. No más.
+
+### Habla mientras usas
+
+```
+  ❌ Silencio while (typing)
+  
+  ✅ "Aquí escribo el nombre de la tarea..."
+      "Ahora selecciono la fecha límite..."
+      "Pulso guardar y... mirad: aparece aquí"
+```
+
+El tribunal necesita saber qué está pasando. Si solo ves tu pantalla,
+no entienden lo que haces.
+
+---
+
+## Fase 3: Plan B
+
+### Escenarios y soluciones
+
+| Escenario | Solución |
+|-----------|----------|
+| **No funciona la app** | Captura de pantalla + explicar el flujo verbalmente |
+| **No hay internet** | App offline o video grabado previamente |
+| **Error en vivo** | "Esto es un bug conocido que estamos arreando. Mientras tanto, os muestro..." |
+| **El proyector no muestra** | Cambiar a modo espejo, o usar el portátil directamente |
+| **La app va lenta** | Tener una versión local o una demo grabada |
+
+### El video grabado como seguro de vida
+
+**Siempre** graba una captura de pantalla de tu demo funcionando
+antes del día de la presentación. Si todo falla, tienes el video.
+
+Herramientas:
+- **OBS Studio** (gratis, multiplataforma)
+- **Loom** (gratis, fácil de compartir)
+- **Captura de Windows** (Win + G)
+
+---
+
+## Comparativa: demo bien vs mal preparada
+
+<Comparativa
+  dialogos={[
+    { quien: "Demo mal preparada", texto: "Abre la app, aparece vacía. Dice 'no sé por qué no carga'. Cierra el navegador, lo abre de nuevo. Error 404. Se pone nervioso y termina la demo en 30 segundos sin mostrar nada." },
+    { quien: "Demo bien preparada", texto: "App ya abierta con datos de ejemplo. Flujo principal en 90 segundos. Explica cada paso. Si algo falla, cambia a captura de pantalla y sigue. Seguro y profesional." },
+  ]}
+  titulo="La preparación marca la diferencia"
+/>
+
+---
+
+## Aclaracion: "¿Y si se rompe todo?"
+
+<Aclaracion icono="🔥" pregunta="¿Qué pasa si la demo falla completamente?">
+Respira. No es el fin del mundo. El tribunal evalúa **cómo gestionas
+el error**, no solo si la app funciona.
+
+**Pasos**:
+1. Di: "Parece que hay un problema técnico. Permitedme mostraros una grabación."
+2. Muestra la **captura de pantalla** o **video** que tenías preparado.
+3. Continúa con la presentación sin disculparte en exceso.
+
+**Nunca**: "No sé qué ha pasado", "Es que ayer funcionaba", "La culpa es del WiFi".
+
+Los profesionales tienen plan B. Los amateurs se disculpan.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuánto debe durar la demo?</summary>
+
+**Respuesta**: 1-2 minutos para el flujo principal. El tribunal no necesita ver todas las funcionalidades, solo la más importante.
+
+**Para qué sirve**: Para no perder la atención del tribunal con una demo larga.
+</details>
+
+<details>
+<summary>¿Qué hago si la app no está desplegada?</summary>
+
+**Respuesta**: Despliega la app en **GitHub Pages** (gratuito) al menos una semana antes del examen. No dejes el despliegue para el último día.
+
+**Para qué sirve**: Para tener la app lista en producción con tiempo de margen.
+</details>
+
+<details>
+<summary>¿Debo mostrar errores a propósito?</summary>
+
+**Respuesta**: Sí, si son **validaciones** (campo obligatorio, formato incorrecto). No si son bugs. Mostrar validaciones demuestra que pensaste en la experiencia del usuario.
+
+**Para qué sirve**: Para demostrar calidad en el desarrollo.
+</details>
+
+<details>
+<summary>¿Qué hacer si el internet falla?</summary>
+
+**Respuesta**: Si tu app funciona offline (PWA), muéstrala offline. Si no, ten una **captura de pantalla** o **video grabado** previamente con la app funcionando.
+
+**Para qué sirve**: Para no depender de un factor que no controlas.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. La demo debe durar **1-2 minutos**, mostrar el **flujo principal** y tener **datos de ejemplo** precargados.
+2. **Siempre ten un plan B**: captura de pantalla, video grabado, o explicación verbal — nunca dependas solo de que funcione en vivo.
+3. **Habla mientras haces** la demo: el tribunal necesita escuchar qué estás haciendo, no solo ver tu pantalla.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-5-comunicacion) · Anterior: [06 — Diapositivas](./06-diapositivas) · Siguiente: [08 — Preguntas del tribunal](./08-preguntas-tribunal)

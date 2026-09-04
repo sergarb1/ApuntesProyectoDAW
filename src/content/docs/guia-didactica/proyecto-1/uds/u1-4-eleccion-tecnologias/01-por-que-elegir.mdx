@@ -1,0 +1,135 @@
+---
+title: "01 — ¿Por qué elegir tecnologías?"
+description: "El coste real de elegir mal y por qué no puedes improvisar"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🛠️ **UD 1.4 · Elección de Tecnologías** → 01 · ¿Por qué elegir?
+
+<StoryIntro icono="⚠️" titulo="Elegir mal cuesta más que no empezar">
+  "Yo uso lo que sé" es la excusa más común para elegir tecnologías.
+  Pero lo que sabes puede no ser lo que tu proyecto necesita. Elegir la
+  tecnología equivocada no es solo un error técnico: es tiempo perdido,
+  código que hay que reescribir y frustración. Esta unidad te enseña a
+  elegir con criterio.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **La elección tecnológica define qué tan fácil será construir, mantener y escalar tu proyecto. Elegir bien ahorra semanas. Elegir mal las duplica.**
+
+No es cuestión de moda ni de opiniones: es de **consecuencias reales**.
+
+---
+
+## ¿Por qué importa tanto?
+
+### El iceberg de la tecnología
+
+```
+        ┌───────────┐
+        │  Código    │  ← Lo que ves (20%)
+        ├───────────┤
+        │  Aprendizaje │  ← Curva de aprendizaje (30%)
+        ├───────────┤
+        │  Ecosistema  │  ← Librerías, herramientas, plugins (30%)
+        ├───────────┤
+        │  Mantenimiento│  ← Lo que nadie ve hasta que falla (20%)
+        └───────────┘
+```
+
+Cuando eliges una tecnología, no eliges solo un lenguaje. Eliges:
+- Una **curva de aprendizaje** (¿cuánto tardas en ser productivo?)
+- Un **ecosistema** (¿hay librerías para lo que necesitas?)
+- Una **comunidad** (¿hay alguien que resuelva tus dudas?)
+- Un **futuro** (¿seguirá existiendo en 2 años?)
+
+---
+
+## El coste de elegir mal
+
+### Ejemplo real: una app de tareas escolares
+
+| Decisión | Consecuencia | Coste |
+|----------|-------------|-------|
+| Elige **PHP puro** sin framework | No sabe organizar el código, todo en un archivo de 500 líneas | 2 semanas reescribiendo |
+| Elige **MongoDB** para datos relacionales | Duplica datos, no puede hacer JOINs, pierde integridad | 1 semana migrando a SQL |
+| Elige **Angular** sin saber TypeScript | 3 días solo configurando el proyecto, sin escribir lógica | 3 días perdidos |
+| Elige **React + Node** (lo que usa YouTube) | La app es estática, no necesita backend, sobra complejidad | Días de setup innecesario |
+
+### Lo que no te dicen en YouTube
+
+<Comparativa
+  dialogos={[
+    { quien: "Lo que ves", texto: "Un tutorial de 30 minutos muestra una app funcionando. Parece fácil." },
+    { quien: "La realidad", texto: "Ese tutorial usa una tecnología que no necesitas, para un problema que no tienes, sin mantenimiento futuro." },
+  ]}
+  titulo="Tutorial vs realidad"
+/>
+
+---
+
+## Las 3 trampas más comunes
+
+### 1. "Uso lo que sé"
+
+Es la excusa más frecuente. Pero si solo sabes JavaScript y tu proyecto necesita un backend pesado con autenticación compleja, tal vez Python o Java sean mejores opciones. **Saber una tecnología no significa que sea la correcta para todo.**
+
+### 2. "Uso lo que es popular"
+
+React tiene millones de descargas. Eso no significa que sea la mejor opción para tu proyecto escolar. La popularidad mide adoption, no adecuación.
+
+### 3. "Lo visto en un tutorial"
+
+Un tutorial de YouTube te muestra el camino feliz. No te muestra: configuración, errores, mantenimiento, escalabilidad. **El tutorial es el 10% de lo que necesitas.**
+
+---
+
+## Aclaración: "¿Tengo que ser experto para elegir?"
+
+<Aclaracion icono="🤔" pregunta="¿Necesito conocer todas las tecnologías para elegir bien?">
+No necesitas ser experto. Necesitas:
+
+1. **Conocer 2-3 opciones** razonables para tu caso de uso
+2. **Saber qué criterios evaluar** (rendimiento, aprendizaje, ecosistema)
+3. **Entender las consecuencias** de cada elección
+
+No se trata de saberlo todo. Se trata de **no elegir a ciegas**.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Por qué importa la elección tecnológica?</summary>
+
+Respuesta: Porque define cuánto tardarás en construir, qué tan fácil será mantener el código, y si la app funcionará bien. Elegir mal puede costarte semanas de refactorización.
+</details>
+
+<details>
+<summary>¿Cuáles son las 3 trampas más comunes?</summary>
+
+Respuesta: 1) Usar solo lo que sabes sin evaluar alternativas, 2) Seguir la popularidad sin medir adecuación, 3) Copiar tutoriales que no cubren configuración, errores ni mantenimiento.
+</details>
+
+<details>
+<summary>¿Qué es el "iceberg" de una tecnología?</summary>
+
+Respuesta: El código visible es solo el 20%. El 80% restante es curva de aprendizaje, ecosistema de librerías, comunidad de soporte y mantenimiento a largo plazo.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. La elección tecnológica define cuánto tardarás en construir y qué tan fácil será mantener tu proyecto.
+2. Las 3 trampas son: usar solo lo que sabes, seguir la popularidad sin criterio, y copiar tutoriales sin contexto.
+3. No necesitas ser experto: necesitas **conocer opciones, evaluar con criterio y entender las consecuencias**.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-4-eleccion-tecnologias) · Siguiente: [02 — Criterios de elección](./02-criterios-eleccion)

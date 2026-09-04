@@ -1,0 +1,200 @@
+---
+title: "04 — Bases de datos"
+description: "SQL vs NoSQL, SQLite, PostgreSQL y MongoDB: cuándo usar cada una"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🛠️ **UD 1.4 · Elección de Tecnologías** → 04 · Bases de datos
+
+<StoryIntro icono="💾" titulo="Los datos son el corazón de tu app: elige bien cómo los guardas">
+  Tu app puede ser bonita y rápida, pero si pierde los datos del usuario,
+  no sirve para nada. La base de datos es donde **viven tus datos**: cómo
+  se almacenan, se consultan y se protegen. Elegir la base de datos correcta
+  es tan importante como elegir el lenguaje.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **SQL organiza datos como hojas de cálculo relacionadas. NoSQL los guarda como documentos flexibles. La pregunta no es cuál es mejor, sino cuál encaja con tu datos.**
+
+---
+
+## SQL vs NoSQL: las dos familias
+
+### SQL (Base de datos relacional)
+
+```
+┌─────────────┐     ┌─────────────┐
+│   USUARIOS  │     │   TAREAS    │
+├─────────────┤     ├─────────────┤
+│ id │ nombre │     │ id │ titulo │
+│ 1  │ Ana    │◄────│ 1  │ Hacer  │
+│ 2  │ Luis   │     │ 2  │ Estud. │
+└─────────────┘     └─────────────┘
+   Relación 1:N → Ana tiene 2 tareas
+```
+
+- Datos en **tablas** con filas y columnas
+- Relaciones entre tablas (foreign keys)
+- Lenguaje de consulta: **SQL** (Structured Query Language)
+- Garantiza **integridad referencial**
+
+### NoSQL (Base de datos No relacional)
+
+```
+{
+  "_id": "ana123",
+  "nombre": "Ana",
+  "tareas": [
+    { "titulo": "Hacer deberes", "fecha": "2026-09-10" },
+    { "titulo": "Estudiar examen", "fecha": "2026-09-15" }
+  ]
+}
+```
+
+- Datos en **documentos** (JSON, BSON)
+- Sin relaciones fijas (cada documento es independiente)
+- Sin lenguaje de consulta estándar
+- **Flexible** pero sin garantía de integridad
+
+---
+
+## Las 3 opciones principales para tu proyecto
+
+### SQLite 🪶
+
+| Aspecto | Detalle |
+|---------|---------|
+| **Tipo** | SQL ligero, sin servidor |
+| **Instalación** | Zero: viene con Python, Node, PHP |
+| **Archivo** | Un solo archivo `.db` en tu carpeta |
+| **Ideal para** | Proyectos pequeños, apps locales, prototipos |
+| **Limitación** | No soporta concurrencia alta (1 usuario a la vez) |
+
+**Cuándo usarla**: tu proyecto escolar. Es la opción más simple. No necesitas instalar nada, no necesitas servidor, y funciona perfecto para 1-100 usuarios locales.
+
+### PostgreSQL 🐘
+
+| Aspecto | Detalle |
+|---------|---------|
+| **Tipo** | SQL completo, profesional |
+| **Instalación** | Requiere servidor (o servicio cloud como Supabase) |
+| **Ideal para** | Apps con datos complejos, relaciones múltiples, producción |
+| **Ventaja** | El más potente y escalable de los SQL |
+| **Limitación** | Más complejo de configurar que SQLite |
+
+**Cuándo usarla**: si tu proyecto tiene múltiples usuarios simultáneos, relaciones complejas, o necesitas features avanzados (triggers, vistas, funciones almacenadas).
+
+### MongoDB 🍃
+
+| Aspecto | Detalle |
+|---------|---------|
+| **Tipo** | NoSQL (documentos) |
+| **Instalación** | Requiere servidor (o MongoDB Atlas free tier) |
+| **Ideal para** | Datos flexibles, estructura que cambia, prototipos rápidos |
+| **Ventaja** | Sin esquema fijo, JSON nativo |
+| **Limitación** | Sin integridad referencial, datos duplicados |
+
+**Cuándo usarla**: si la estructura de tus datos cambia frecuentemente, o si vienes de JavaScript y piensas en JSON naturalmente.
+
+---
+
+## Comparativa completa
+
+| Criterio | SQLite | PostgreSQL | MongoDB |
+|----------|--------|------------|---------|
+| **Instalación** | ✅ Zero | ⚠️ Servidor | ⚠️ Servidor |
+| **Complejidad** | 🟢 Muy baja | 🟡 Media | 🟡 Media |
+| **Rendimiento** | 🟢 Bueno (1 user) | 🟢 Excelente | 🟢 Bueno |
+| **Escalabilidad** | 🔴 Baja | 🟢 Alta | 🟢 Alta |
+| **Relaciones** | ✅ JOINs | ✅ JOINs | ⚠️ Denormalizar |
+| **Integridad** | ✅ Foreign keys | ✅ Foreign keys | ❌ No garantizada |
+| **Ideal para proyecto escolar** | ✅ Sí | ⚠️ Si necesitas más | ⚠️ Si datos son flexibles |
+
+---
+
+## ¿Cómo decidir?
+
+### El flujo de decisión
+
+```
+¿Tu proyecto es escolar (1-30 usuarios)?
+├── Sí → ¿Necesitas relaciones complejas?
+│   ├── No → SQLite ✅
+│   └── Sí → ¿Servidor disponible?
+│       ├── Sí → PostgreSQL
+│       └── No → SQLite (suficiente)
+└── No (producción) → PostgreSQL o MongoDB según datos
+```
+
+### Ejemplo práctico: app de tareas escolares
+
+| Modelo de datos | Mejor opción |
+|-----------------|-------------|
+| Tareas con usuario, fecha, prioridad | **SQLite** (relaciones simples) |
+| Tareas + archivos adjuntos + comentarios | **PostgreSQL** (relaciones complejas) |
+| Tareas con campos variables (cada usuario define sus campos) | **MongoDB** (flexibilidad) |
+
+---
+
+## Comparativa: SQL vs NoSQL en la práctica
+
+<Comparativa
+  dialogos={[
+    { quien: "SQL (PostgreSQL)", texto: "Si un alumno tiene 5 tareas, cada tarea referencia al alumno por ID. Si borras al alumno, las tareas se borran automáticamente (integridad)." },
+    { quien: "NoSQL (MongoDB)", texto: "Si un alumno tiene 5 tareas, cada tarea guarda el nombre del alumno completo. Si cambias el nombre, tienes que actualizar 5 documentos (duplicación)." },
+  ]}
+  titulo="La diferencia filosófica entre SQL y NoSQL"
+/>
+
+---
+
+## Aclaración: "¿SQLite sirve para un proyecto real?"
+
+<Aclaracion icono="🤔" pregunta="¿SQLite es demasiado simple para mi proyecto de FP?">
+No. SQLite es la base de datos **más usada del mundo**:
+
+- Viene integrada en **Android, iOS, Firefox, Chrome**
+- Funciona en **apps móviles, escritorio y servidores web**
+- Soporta **miles de consultas por segundo**
+- No necesita configuración ni servidor
+
+Para un proyecto escolar con 1-30 usuarios locales, SQLite es **más que suficiente**. No necesitas PostgreSQL ni MongoDB.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es la diferencia entre SQL y NoSQL?</summary>
+
+Respuesta: **SQL** organiza datos en tablas con relaciones (foreign keys) y garantiza integridad. **NoSQL** guarda documentos flexibles sin relaciones fijas, priorizando flexibilidad sobre integridad.
+</details>
+
+<details>
+<summary>¿Cuándo debo usar SQLite?</summary>
+
+Respuesta: Cuando tu proyecto es pequeño (1-30 usuarios), no necesitas concurrencia alta, y quieres **cero configuración**. Es la opción por defecto para proyectos escolares.
+</details>
+
+<details>
+<summary>¿Necesito MongoDB para mi proyecto?</summary>
+
+Respuesta: Solo si la estructura de tus datos **cambia frecuentemente** y no puedes definir un esquema fijo. Para la mayoría de proyectos escolares, SQLite o PostgreSQL son mejores opciones.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **SQL** (SQLite, PostgreSQL) organiza datos en tablas con relaciones; **NoSQL** (MongoDB) guarda documentos flexibles sin esquema fijo.
+2. Para un proyecto escolar, **SQLite** es la mejor opción: cero configuración, integrado en todos los lenguajes, suficiente para 1-30 usuarios.
+3. Elige **PostgreSQL** si necesitas relaciones complejas o múltiples usuarios simultáneos; **MongoDB** solo si tus datos son muy flexibles.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-4-eleccion-tecnologias) · Anterior: [03 — Lenguajes y frameworks](./03-lenguajes-frameworks) · Siguiente: [05 — Frontend vs Backend](./05-frontend-backend)

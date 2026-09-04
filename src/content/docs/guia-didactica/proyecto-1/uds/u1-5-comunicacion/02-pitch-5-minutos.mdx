@@ -1,0 +1,223 @@
+---
+title: "02 — Pitch 5 minutos"
+description: "La estructura perfecta para explicar tu proyecto en 5 minutos"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🗣️ **UD 1.5 · Comunicación** → 02 · Pitch 5 minutos
+
+<StoryIntro icono="🎤" titulo="5 minutos para convencer">
+  Un pitch no es una explicación técnica exhaustiva. Es una **historia
+  convincente** que deja al tribunal con ganas de ver más. En 5 minutos
+  debes explicar qué problema resuelves, cómo lo resuelves y por qué tu
+  solución es buena.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un pitch responde a tres preguntas: ¿Qué problema resuelves? ¿Cómo lo resuelves? ¿Por qué funciona?**
+
+Si el tribunal no se queda con estas tres cosas, no se queda con nada.
+
+---
+
+## La estructura del pitch
+
+```
+┌──────────────────────────────────────────┐
+│  1. PROBLEMA          (1 min)   🔴       │
+│  ─────────────────────────────           │
+│  "¿Alguna vez os ha pasado que...?"      │
+│                                          │
+│  2. SOLUCIÓN          (1 min)   🟢       │
+│  ─────────────────────────────           │
+│  "Nuestra app resuelve esto con..."      │
+│                                          │
+│  3. DEMO RÁPIDA       (1.5 min) 🖥️       │
+│  ─────────────────────────────           │
+│  Muestra la app en funcionamiento        │
+│                                          │
+│  4. TECNOLOGÍA        (0.5 min) ⚙️       │
+│  ─────────────────────────────           │
+│  "Hemos usado X porque..."               │
+│                                          │
+│  5. CIERRE            (1 min)   🎯       │
+│  ─────────────────────────────           │
+│  "En resumen..." + llamada a la acción   │
+└──────────────────────────────────────────┘
+```
+
+---
+
+## Detalle de cada fase
+
+### 1. El Problema (1 minuto)
+
+**Objetivo**: Que el tribunal sienta que el problema importa.
+
+- Empieza con una **anécdota o pregunta retórica**
+- Usa **datos concretos** si los tienes
+- Conecta con la experiencia del tribunal
+
+**Ejemplo**:
+> "¿Alguna vez habéis entrado a una web y no habéis encontrado la información de contacto en 5 minutos? Según el estudio X, el 67% de los usuarios abandonan una web si no encuentran la info de contacto en menos de 30 segundos."
+
+**Evita**: Empezar con "Nuestra app es una plataforma que..." → eso no engancha.
+
+---
+
+### 2. La Solución (1 minuto)
+
+**Objetivo**: Explicar qué hace tu app y por qué es buena.
+
+- **Una frase** que resuma la app
+- **2-3 funcionalidades principales** (no todas)
+- **Diferenciador**: ¿qué la hace diferente de otras?
+
+**Ejemplo**:
+> "Hemos creado ContactoFácil, una app que genera una página de contacto personalizada en 30 segundos. Sin registrar, sin configurar. El usuario introduce su nombre, email y redes, y tiene su enlace listo para compartir."
+
+---
+
+### 3. Demo Rápida (1.5 minutos)
+
+**Objetivo**: Mostrar que funciona de verdad.
+
+- **No expliques qué vas a hacer**, solo hazlo
+- Muestra el **flujo principal** (no todas las features)
+- Habla mientras usas la app: "Aquí veis que al pulsar..."
+- **Ten la demo preparada** antes de subir al escenario
+
+**Consejo**: Graba una captura de pantalla como plan B por si falla internet.
+
+---
+
+### 4. Tecnología (30 segundos)
+
+**Objetivo**: Demostrar que entiendes lo que has usado.
+
+No es una lista de tecnologías. Es una **justificación breve**:
+
+> "Hemos usado Vue 3 porque necesitábamos reactividad en tiempo real. Tailwind nos permitió diseñar responsive en tiempo récord. IndexedDB para persistir datos offline."
+
+**Evita**: "Hemos usado HTML, CSS, JavaScript, Vue, Tailwind, Vite, GitHub Pages..." → eso es un listado, no una explicación.
+
+---
+
+### 5. Cierre (1 minuto)
+
+**Objetivo**: Dejar una impresión final fuerte.
+
+Estructura:
+1. **Resumen en una frase**: "ContactoFácil resuelve el problema de la información de contacto dispersa."
+2. **Dato de impacto**: "En 2 semanas de prueba, 30 profesores crearon su página."
+3. **Llamada a la acción**: "Podéis probarla ahora mismo en esta URL."
+
+**Nunca termines con**: "Y eso es todo" o "No sé qué más decir."
+
+---
+
+## Comparativa: buen pitch vs mal pitch
+
+<Comparativa
+  dialogos={[
+    { quien: "Mal pitch", texto: "Nuestra app es una plataforma web desarrollada con Vue.js y Tailwind CSS que permite a los usuarios gestionar tareas de forma eficiente utilizando tecnologías modernas del desarrollo web." },
+    { quien: "Buen pitch", texto: "¿Alguna vez habéis perdido una tarea importante porque se os olvidó? TaskFlow os avisa por notificaciones, os organiza por prioridades y funciona offline. Mirad: creáis una tarea en 3 segundos, y aquí la tenéis en vuestra lista." },
+  ]}
+  titulo="Describe el beneficio, no la tecnología"
+/>
+
+---
+
+## Plantilla de pitch (rellenable)
+
+```markdown
+## PROBLEMA (1 min)
+- ¿Qué problema resuelves?
+- ¿A quién le afecta?
+- Dato o anécdota que lo haga real
+
+## SOLUCIÓN (1 min)
+- Nombre de la app + una frase
+- 2-3 funcionalidades principales
+- ¿Qué la hace diferente?
+
+## DEMO (1.5 min)
+- Flujo principal: abrir → usar → resultado
+- Hablar mientras se usa
+
+## TECNOLOGÍA (30 seg)
+- 2-3 tecnologías con JUSTIFICACIÓN
+- No listados
+
+## CIERRE (1 min)
+- Resumen en 1 frase
+- Dato de impacto
+- Llamada a la acción
+```
+
+---
+
+## Aclaración: "¿Puedo leer?"
+
+<Aclaracion icono="📖" pregunta="¿Está bien leer las notas durante la presentación?">
+Tener **tarjetas de apoyo** (bullet points, no texto completo) está bien.
+Leer un guion word por word está mal.
+
+El tribunal quiere verte a ti, no a tu papel. Si necesitas leer, es porque
+no has ensayado lo suficiente.
+
+**Regla práctica**: Si miras el papel más del 20% del tiempo, necesitas
+más ensayo.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuánto dura cada parte del pitch?</summary>
+
+**Respuesta**: Problema (1 min), Solución (1 min), Demo (1.5 min), Tecnología (0.5 min), Cierre (1 min). Total: 5 minutos.
+
+**Para qué sirve**: Para ensayar con cronómetro y no pasarte.
+</details>
+
+<details>
+<summary>¿Por qué empezar por el problema y no por la solución?</summary>
+
+**Respuesta**: Porque el problema genera conexión emocional. Si el tribunal entiende el "para qué", valorará más el "cómo".
+
+**Para qué sirve**: Para enganchaudiencia desde el primer minuto.
+</details>
+
+<details>
+<summary>¿Qué hago si se me olvidan los puntos del pitch?</summary>
+
+**Respuesta**: Ten una tarjeta con 5 palabras clave (una por fase). Si te pierdes, mira la siguiente palabra y continúa.
+
+**Para qué sirve**: Para tener red de seguridad sin leer el guion.
+</details>
+
+<details>
+<summary>¿Debo mostrar todas las funcionalidades en la demo?</summary>
+
+**Respuesta**: No. Muestra solo el **flujo principal** (2-3 funcionalidades). El resto queda para preguntas del tribunal o la memoria.
+
+**Para qué sirve**: Para no perder al tribunal en detalles y respetar el tiempo.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Un pitch de 5 minutos sigue la estructura: **problema → solución → demo → tecnología → cierre**.
+2. Empieza con un **problema que enganche**, no con "nuestra app es una plataforma...".
+3. **Ensayar 3-5 veces** con cronómetro es la diferencia entre un pitch confuso y uno profesional.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-5-comunicacion) · Anterior: [01 — ¿Por qué comunicar?](./01-por-que-comunicar) · Siguiente: [03 — Lenguaje verbal](./03-lenguaje-verbal)

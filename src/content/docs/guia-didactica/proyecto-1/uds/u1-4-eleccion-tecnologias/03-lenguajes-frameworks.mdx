@@ -1,0 +1,206 @@
+---
+title: "03 — Lenguajes y frameworks"
+description: "Comparativa de Python, Java, JavaScript y PHP: cuándo usar cada uno"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🛠️ **UD 1.4 · Elección de Tecnologías** → 03 · Lenguajes y frameworks
+
+<StoryIntro icono="💻" titulo="El lenguaje no es lo importante: el problema sí lo es">
+  "Python es el mejor lenguaje" es una frase sin sentido. Python es
+  excelente para datos, pero no ideal para una app de chat en tiempo real.
+  **No existe el mejor lenguaje**: existe el más adecuado para tu problema.
+  Esta unidad te ayuda a elegir entre las 4 opciones principales.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Cada lenguaje tiene un "sweet spot": un tipo de problema que resuelve mejor que otros. Tu trabajo es identificar qué sweet spot coincide con tu proyecto.**
+
+---
+
+## Los 4 candidatos principales
+
+### Python 🐍
+
+| Aspecto | Detalle |
+|---------|---------|
+| **Sintaxis** | Limpia, legible, casi como pseudocódigo |
+| **Curva** | 🟢 La más baja de los 4 |
+| **Frameworks web** | Django (completo), Flask (ligero) |
+| **Ideal para** | APIs, datos, automatización, prototipos rápidos |
+| **No ideal para** | Apps en tiempo real, rendimiento extremo |
+
+**Ejemplo de sintaxis**:
+```python
+# Crear una tarea
+def crear_tarea(nombre, fecha):
+    return {"nombre": nombre, "fecha": fecha, "hecha": False}
+```
+
+### Java ☕
+
+| Aspecto | Detalle |
+|---------|---------|
+| **Sintaxis** | Verbosa, explícita, tipada estáticamente |
+| **Curva** | 🔴 La más alta de los 4 |
+| **Frameworks web** | Spring Boot (completo), Jakarta EE |
+| **Ideal para** | Empresas grandes, Android, sistemas robustos |
+| **No ideal para** | Proyectos pequeños, prototipos rápidos |
+
+**Ejemplo de sintaxis**:
+```java
+// Crear una tarea
+public class Tarea {
+    private String nombre;
+    private LocalDate fecha;
+    private boolean hecha;
+
+    public Tarea(String nombre, LocalDate fecha) {
+        this.nombre = nombre;
+        this.fecha = fecha;
+        this.hecha = false;
+    }
+}
+```
+
+### JavaScript (Node.js) 🟨
+
+| Aspecto | Detalle |
+|---------|---------|
+| **Sintaxis** | Flexible, asincrónica, muchos patrones posibles |
+| **Curva** | 🟡 Media (flexibilidad = confusión) |
+| **Frameworks web** | Express (ligero), Next.js (completo), NestJS |
+| **Ideal para** | APIs REST, apps en tiempo real, full-stack con un solo lenguaje |
+| **No ideal para** | Procesamiento pesado de datos, apps enterprise |
+
+**Ejemplo de sintaxis**:
+```javascript
+// Crear una tarea
+function crearTarea(nombre, fecha) {
+  return { nombre, fecha, hecha: false };
+}
+```
+
+### PHP 🐘
+
+| Aspecto | Detalle |
+|---------|---------|
+| **Sintaxis** | Sencilla para empezar, inconsistente |
+| **Curva** | 🟡 Media (fácil de empezar, fácil de hacer mal) |
+| **Frameworks web** | Laravel (moderno), Symfony (enterprise) |
+| **Ideal para** | WordPress, webs dinámicas, hosting compartido |
+| **No ideal para** | APIs modernas, apps en tiempo real |
+
+**Ejemplo de sintaxis**:
+```php
+// Crear una tarea
+function crearTarea(string $nombre, string $fecha): array {
+    return ["nombre" => $nombre, "fecha" => $fecha, "hecha" => false];
+}
+```
+
+---
+
+## Tabla comparativa completa
+
+| Criterio | Python | Java | JavaScript | PHP |
+|----------|--------|------|------------|-----|
+| **Curva de aprendizaje** | 🟢 Baja | 🔴 Alta | 🟡 Media | 🟡 Media |
+| **Rendimiento** | 🟡 Medio | 🟢 Alto | 🟡 Medio | 🟡 Medio |
+| **Ecosistema web** | 🟢 Excelente | 🟢 Excelente | 🟢 Excelente | 🟡 Bueno |
+| **Ideal para principiantes** | ✅ Sí | ❌ No | ⚠️ Con guía | ⚠️ Con guía |
+| **Despliegue fácil** | ✅ Sí | ⚠️ JVM | ✅ Sí | ✅ Sí |
+| **Mercado laboral (España)** | 🔥 Alto | 🟡 Alto | 🔥 Muy alto | 🟡 Medio |
+| **Proyecto escolar** | ✅ Recomendado | ⚠️ Posible | ✅ Recomendado | ⚠️ Posible |
+
+---
+
+## ¿Cuándo usar cada uno?
+
+### Usa **Python** si:
+- Tu proyecto implica **procesamiento de datos** (CSV, JSON, APIs externas)
+- Quieres un backend **rápido de montar** (Django en 1 día)
+- Eres principiante y quieres **minimizar errores de sintaxis**
+- Necesitas **scripts de automatización**
+
+### Usa **JavaScript** si:
+- Quieres hacer **frontend y backend con el mismo lenguaje**
+- Tu app necesita **interactividad en tiempo real**
+- Conoces HTML/CSS y quieres **ampliar hacia el backend**
+- Quieres aprender una tecnología **con alta demanda laboral**
+
+### Usa **Java** si:
+- Tu proyecto es **enterprise** o necesita **altas prestaciones**
+- El profesor pide **tipado fuerte y arquitectura formal**
+- Quieres aprender algo que **se usa mucho en empresas grandes**
+- No te importa la verbosidad y quieres **explícito sobre conciso**
+
+### Usa **PHP** si:
+- Necesitas **desplegar en hosting compartido** barato
+- Tu proyecto es un **CMS o web dinámica** con base de datos
+- Ya tienes **experiencia con PHP y Laravel**
+- El hosting solo soporta **PHP y MySQL**
+
+---
+
+## Comparativa: Python vs JavaScript para un proyecto escolar
+
+<Comparativa
+  dialogos={[
+    { quien: "Python + Django", texto: "Backend robusto, ORM incluido, admin panel automático. Pero necesitas un servidor Python (no hosting compartido barato)." },
+    { quien: "JavaScript + Express", texto: "Mismo lenguaje que el frontend, npm masivo, despliegue fácil en Vercel/Railway. Pero más configuración manual." },
+  ]}
+  titulo="Los dos candidatos más fuertes para tu proyecto"
+/>
+
+---
+
+## Aclaración: "¿Y si el profesor me obliga a usar un lenguaje?"
+
+<Aclaracion icono="🤔" pregunta="Mi profesor dice que use Java o PHP pero yo quiero Python. ¿Qué hago?">
+Habla con él. Pregunta **por qué** pide ese lenguaje:
+
+- Si es porque lo van a evaluar en ese lenguaje → **respeta la indicación**
+- Si es porque "es lo que siempre se ha usado" → **propón alternativa con justificación**
+- Si es porque el proyecto lo requiere → **acepta la restricción**
+
+En todos los casos, la **justificación técnica** que aprenderás en el punto 07 te ayudará a argumentar tu postura.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es el lenguaje más recomendado para principiantes?</summary>
+
+Respuesta: **Python**. Tiene la curva de aprendizaje más baja, sintaxis legible, y frameworks completos como Django que resuelven problemas comunes (auth, base de datos, admin) sin configuración manual.
+</details>
+
+<details>
+<summary>¿Qué ventaja tiene JavaScript sobre los demás?</summary>
+
+Respuesta: Permite usar **el mismo lenguaje en frontend y backend**, reduciendo la curva de aprendizaje si ya conoces HTML/CSS. Además tiene la mayor demanda laboral en España.
+</details>
+
+<details>
+<summary>¿Cuándo NO debo usar Java?</summary>
+
+Respuesta: Cuando tu proyecto es pequeño (6 semanas), no necesitas altas prestaciones, o eres principiante. Java es ideal para proyectos grandes y enterprise, pero su verbosidad y curva alta lo hacen costoso para prototipos.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **Python** es ideal para principiantes y procesamiento de datos; **JavaScript** para full-stack con un solo lenguaje; **Java** para proyectos enterprise; **PHP** para hosting compartido.
+2. No existe el "mejor lenguaje": existe el **más adecuado para tu problema**, tu experiencia y tu contexto.
+3. Para un proyecto escolar de 6 semanas, **Python o JavaScript** suelen ser las mejores opciones por su curva de aprendizaje y ecosistema.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-4-eleccion-tecnologias) · Anterior: [02 — Criterios de elección](./02-criterios-eleccion) · Siguiente: [04 — Bases de datos](./04-bases-datos)

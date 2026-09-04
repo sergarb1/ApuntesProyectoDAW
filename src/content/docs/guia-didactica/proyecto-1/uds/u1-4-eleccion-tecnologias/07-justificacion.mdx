@@ -1,0 +1,191 @@
+---
+title: "07 — Justificación técnica"
+description: "Cómo argumentar tus decisiones tecnológicas con rigor"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🛠️ **UD 1.4 · Elección de Tecnologías** → 07 · Justificación técnica
+
+<StoryIntro icono="✍️" titulo="No basta con elegir: hay que explicar por qué">
+  "Usé Python porque me gusta" no es una justificación. "Usé Python porque
+  su curva de aprendizaje baja me permite ser productivo en 6 semanas, y
+  Django incluye ORM y autenticación que necesito" sí lo es. La
+  **justificación técnica** es la habilidad de argumentar decisiones con
+  criterios objetivos, no con gustos personales.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Una justificación técnica conecta cada decisión tecnológica con un criterio concreto y una consecuencia measurable.**
+
+No se trata de defender tu elección como si fuera un juicio. Se trata de **demostrar que pensaste antes de elegir**.
+
+---
+
+## Las 4 partes de una justificación
+
+### 1. Decisión
+
+**¿Qué elegiste?**
+
+Ejemplo: "Elegí Python como lenguaje backend y SQLite como base de datos."
+
+### 2. Criterio
+
+**¿Por qué con ese criterio?**
+
+Ejemplo: "Prioricé la curva de aprendizaje y la facilidad de despliegue porque el proyecto dura 6 semanas."
+
+### 3. Alternativa descartada
+
+**¿Qué otra opción consideraste y por qué no?**
+
+Ejemplo: "Consideré JavaScript + MongoDB pero descarté MongoDB porque mis datos son relacionales (usuarios con tareas)."
+
+### 4. Consecuencia
+
+**¿Qué ganas o pierdes con esta elección?**
+
+Ejemplo: "Gano rapidez de desarrollo pero pierdo escalabilidad si el proyecto crece mucho."
+
+---
+
+## Ejemplo completo: justificación de un proyecto
+
+### Proyecto: TaskSchool (gestor de tareas escolares)
+
+```
+LENGUAJE: Python
+├── Decisión: Python como lenguaje backend
+├── Criterio: Curva de aprendizaje baja
+├── Alternativa descartada: Java (verboso, curva alta, overkill para 6 semanas)
+└── Consecuencia: Soy productivo en 1 semana, pero Python es más lento que Java
+
+FRAMEWORK: Django
+├── Decisión: Django como framework web
+├── Criterio: "Baterías incluidas" (ORM, auth, admin panel)
+├── Alternativa descartada: Flask (muy minimalista, hay que configurar todo manualmente)
+└── Consecuencia: Aprendo más rápido pero el framework es más pesado
+
+BASE DE DATOS: SQLite
+├── Decisión: SQLite como base de datos
+├── Criterio: Cero configuración, integrado en Python
+├── Alternativa descartada: PostgreSQL (más potente pero requiere servidor)
+└── Consecuencia: No necesito servidor de BD, pero no soporta concurrencia alta
+
+DESPLIEGUE: GitHub Pages (frontend) + Railway (backend)
+├── Decisión: GitHub Pages para archivos estáticos, Railway para API
+├── Criterio: Gratis y fácil de configurar
+├── Alternativa descartada: Heroku (dejó de ser gratuito en 2022)
+└── Consecuencia: Despliegue automático con cada commit
+```
+
+---
+
+## Errores comunes en justificaciones
+
+| Error | Ejemplo malo | Ejemplo bueno |
+|-------|-------------|---------------|
+| **Gusto personal** | "Usé React porque me gusta" | "Usé React porque su ecosistema de componentes me permite reutilizar UI" |
+| **Moda** | "Todo el mundo usa MERN" | "MERN permite un solo lenguaje en todo el stack, reduciendo la curva de aprendizaje" |
+| **Sin alternativa** | "Usé Python" | "Usé Python en vez de Java porque la verbosidad de Java haría el proyecto más lento" |
+| **Sin consecuencia** | "SQLite es fácil" | "SQLite es fácil pero no soporta múltiples usuarios simultáneos" |
+| **Genérico** | "Es el mejor framework" | "Django incluye ORM, auth y admin, ahorrando 2 semanas de desarrollo manual" |
+
+---
+
+## Comparativa: justificación buena vs mala
+
+<Comparativa
+  dialogos={[
+    { quien: "Mala justificación", texto: "Elegí JavaScript porque es el lenguaje más popular del mundo y lo usan todas las empresas grandes." },
+    { quien: "Buena justificación", texto: "Elegí JavaScript (Node.js + Express) porque ya conozco HTML/CSS, lo que reduce mi curva de aprendizaje. El ecosistema npm me da acceso a librerías para autenticación (Passport.js) y base de datos (SQLite driver) que necesito." },
+  ]}
+  titulo="La diferencia entre opinión y argumento"
+/>
+
+---
+
+## Estructura para tu documento
+
+Copia esta estructura para la sección de justificación en tu documentación:
+
+```markdown
+## Justificación Técnica
+
+### Lenguaje: [Nombre]
+- **Criterio**: [Qué priorizaste]
+- **Alternativa descartada**: [Qué otra opción consideraste]
+- **Por qué se descartó**: [Razón objetiva]
+- **Consecuencia**: [Qué ganas/pierdes]
+
+### Framework: [Nombre]
+- **Criterio**: ...
+- **Alternativa descartada**: ...
+- **Por qué se descartó**: ...
+- **Consecuencia**: ...
+
+### Base de datos: [Nombre]
+- **Criterio**: ...
+- **Alternativa descartada**: ...
+- **Por qué se descartó**: ...
+- **Consecuencia**: ...
+
+### Despliegue: [Plataforma]
+- **Criterio**: ...
+- **Alternativa descartada**: ...
+- **Por qué se descartó**: ...
+- **Consecuencia**: ...
+```
+
+---
+
+## Aclaracion: "¿Tengo que justificar todo?"
+
+<Aclaracion icono="🤔" pregunta="¿Necesito justificar cada tecnología que uso?">
+No todo. Justifica las **decisiones principales**:
+
+- ✅ **Lenguaje backend**: Python, Java, JavaScript, PHP
+- ✅ **Framework**: Django, Flask, Express, Spring
+- ✅ **Base de datos**: SQLite, PostgreSQL, MongoDB
+- ✅ **Despliegue**: GitHub Pages, Railway, Heroku
+
+- ❌ **No necesitas justificar**: HTML, CSS, Git, VS Code (son estándar)
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son las 4 partes de una justificación?</summary>
+
+Respuesta: 1) **Decisión** (qué elegiste), 2) **Criterio** (por qué con ese criterio), 3) **Alternativa descartada** (qué otra opción consideraste), 4) **Consecuencia** (qué ganas o pierdes).
+</details>
+
+<details>
+<summary>¿Cuál es el error más común?</summary>
+
+Respuesta: Justificar con **gusto personal** ("me gusta") o **moda** ("todo el mundo lo usa") en vez de **criterios objetivos** (curva de aprendizaje, ecosistema, facilidad de despliegue).
+</details>
+
+<details>
+<summary>¿Qué tecnologías debo justificar?</summary>
+
+Respuesta: Las principales: lenguaje backend, framework, base de datos y plataforma de despliegue. No necesitas justificar HTML, CSS, Git ni editores.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Una justificación técnica conecta cada decisión con un **criterio concreto**, una **alternativa descartada** y una **consecuencia medible**.
+2. Los errores más comunes son justificar con **gusto personal**, **moda** o **sin mencionar alternativas**.
+3. Justifica las **decisiones principales** (lenguaje, framework, base de datos, despliegue), no las herramientas estándar (HTML, CSS, Git).
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-4-eleccion-tecnologias) · Anterior: [06 — Comparativa stack](./06-comparativa-stack) · Siguiente: [08 — Template stack](./08-template-stack)

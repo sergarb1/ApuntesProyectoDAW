@@ -1,0 +1,178 @@
+---
+title: "06 — Diapositivas"
+description: "Crear diapositivas efectivas: menos texto, más visuales"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🗣️ **UD 1.5 · Comunicación** → 06 · Diapositivas
+
+<StoryIntro icono="🖥️" titulo="Las diapositivas son un apoyo, no un guion">
+  Las diapositivas existen para **complementar** tu explicación, no para
+  sustituirla. Si el tribunal puede entender tu proyecto solo leyendo tus
+  diapositivas, no te necesitan a ti. Las mejores diapositivas son las que
+  obligan a escuchar al presentador.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Menos texto, más visuales. Una idea por diapositiva. Si puedes decirla en una frase, no pongas un párrafo.**
+
+La regla de oro: el tribunal no puede leer y escucharte al mismo tiempo.
+
+---
+
+## La regla 10-20-30
+
+Guy Kawasaki popularizó esta regla para presentaciones:
+
+| Regla | Significado |
+|-------|-------------|
+| **10** diapositivas | Como máximo (para 20 min) |
+| **20** minutos | Duración máxima de la charla |
+| **30** puntos | Tamaño mínimo de fuente |
+
+Para un proyecto intermodular (10-15 min), aplica: **8-10 diapositivas**, **14-16pt mínimo**.
+
+---
+
+## Estructura de diapositivas recomendada
+
+```
+  1. Portada ............. Nombre, autores, fecha
+  2. El problema ......... Qué problema resuelves (con dato)
+  3. La solución ......... Qué hace tu app (una frase)
+  4. Demo ................ Captura o enlace (no texto)
+  5. Tecnología .......... 2-3 techs con justificación
+  6. Arquitectura ........ Diagrama simple
+  7. Funcionalidades ..... Lista visual (iconos)
+  8. Resultados .......... Métricas o feedback
+  9. Conclusiones ........ Logros + mejoras
+  10. ¿Preguntas? ........ Cierre
+```
+
+---
+
+## Reglas de diseño
+
+### Menos es más
+
+| Diapositiva con mucho texto | Diapositiva con poco texto |
+|-----------------------------|---------------------------|
+| Párrafo de 100 palabras explicando el problema | "El 67% de los alumnos pierden tareas por desorganización" + icono |
+| Lista de 8 tecnologías usadas | 3 iconos con nombres y una frase cada una |
+| Tabla comparativa con 6 columnas | 2 opciones comparadas visualmente |
+
+---
+
+### Colores y contraste
+
+```
+  Fondo oscuro + texto claro → Moderno, profesional
+  Fondo claro + texto oscuro → Limpio, accesible
+  
+  ❌ Fondo de color + texto de color → Difícil de leer
+  ❌ Fondo gradiente con texto superpuesto → ilegible
+  ❌ Imagen de fondo sin contraste → ilegible
+```
+
+**Paleta segura**: Un color principal + blanco + negro/gris. No uses más de 3 colores.
+
+---
+
+### Imágenes y visuales
+
+- **Usa capturas reales** de tu app, no mockups genéricos
+- **Diagramas simples**: Usa draw.io, Mermaid o hasta PowerPoint
+- **Iconos**: Lucide, Phosphor, o los de tu framework
+- **Evita**: GIFs animados, imágenes stock, clipart
+
+---
+
+## Comparativa: diapositiva buena vs mala
+
+<Comparativa
+  dialogos={[
+    { quien: "Diapositiva mala", texto: "Párrafo de 150 palabras sobre por qué se eligió Vue. Lista de 8 dependencias con versiones. Tabla comparativa de 5 frameworks." },
+    { quien: "Diapositiva buena", texto: 'Título: "¿Por qué Vue?" · 3 bullets: "Reactividad", "Curva de aprendizaje suave", "Ecosistema" · Captura de pantalla de la app · Logo de Vue.' },
+  ]}
+  titulo="El tribunal recuerda lo visual, no lo textual"
+/>
+
+---
+
+## Herramientas recomendadas
+
+| Herramienta | Ventaja | Coste |
+|-------------|---------|-------|
+| **Google Slides** | Fácil, colaborativo, gratis | Gratis |
+| **Canva** | Plantillas bonitas, exportable | Gratis/Pro |
+| **Reveal.js** | HTML-based, personalizable | Gratis |
+| **Marp** | Markdown → diapositivas, VS Code | Gratis |
+| **Figma** | Diseño custom, muy visual | Gratis |
+| **Pitch** | Moderno, colaborativo | Gratis/Pro |
+
+**Consejo**: No pierdas 3 días eligiendo herramienta. Usa la que ya conozcas.
+
+---
+
+## Aclaracion: "¿Puedo usar.animaciones?"
+
+<Aclaracion icono="✨" pregunta="¿Las animaciones ayudan o distraen?">
+Depende. **Una animación sutil** (fade-in, cambio de color) puede ayudar
+a dirigir la atención. **Muchas animaciones** (textos que saltan, giros
+3D, efectos de partículas) distraen del contenido.
+
+**Regla**: Si la animación no aporta información, quítala. Si ayuda a
+explicar (por ejemplo, un flujo que se construye paso a paso), úsala.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuántas diapositivas debo tener?</summary>
+
+**Respuesta**: 8-10 diapositivas para una presentación de 10-15 minutos. Cada diapositiva = 1-2 minutos.
+
+**Para qué sirve**: Para no tener 30 diapositivas que pasas en 5 segundos cada una.
+</details>
+
+<details>
+<summary>¿Cuánto texto por diapositiva?</summary>
+
+**Respuesta**: Máximo **6 líneas** o **30 palabras**. Si necesitas más, divídelo en dos diapositivas.
+
+**Para qué sirve**: Para que el tribunal escuche, no lea.
+</details>
+
+<details>
+<summary>¿Debo incluir capturas de la app?</summary>
+
+**Respuesta**: Sí, **siempre**. Al menos una captura del flujo principal. Es lo que más recuerda el tribunal.
+
+**Para qué sirve**: Para dar una imagen concreta de tu proyecto.
+</details>
+
+<details>
+<summary>¿Qué pasa si no sé diseñar?</summary>
+
+**Respuesta**: Usa una **plantilla prediseñada** (Google Slides, Canva). Un diseño limpio y simple siempre gana a uno complejo y mal hecho.
+
+**Para qué sirve**: Para que el diseño no sea un obstáculo.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Las diapositivas son un **apoyo visual**, no un guion: **máximo 6 líneas** por diapositiva, **1 idea por diapositiva**.
+2. Usa **capturas reales** de tu app, diagramas simples y **máximo 3 colores** — evita bloques de texto.
+3. Herramientas como **Google Slides, Canva o Marp** son más que suficientes — no pierdas tiempo en la herramienta, inviértelo en el contenido.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-5-comunicacion) · Anterior: [05 — Memoria del proyecto](./05-memoria) · Siguiente: [07 — Demo práctica](./07-demo-practica)

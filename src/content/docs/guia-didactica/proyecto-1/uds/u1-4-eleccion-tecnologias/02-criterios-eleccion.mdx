@@ -1,0 +1,160 @@
+---
+title: "02 — Criterios de elección"
+description: "Qué evaluar antes de elegir una tecnología: rendimiento, curva de aprendizaje, ecosistema, comunidad y mercado laboral"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🛠️ **UD 1.4 · Elección de Tecnologías** → 02 · Criterios de elección
+
+<StoryIntro icono="📊" titulo="No elijas por instinto: elige por criterio">
+  "Me gusta Python" no es un criterio de elección. "Python tiene mejor
+  ecosistema de datos y mi proyecto necesita procesar CSVs" sí lo es.
+  Para elegir tecnologías necesitas **medir, no adivinar**. Esta unidad
+  te da los 5 criterios que todo desarrollador debería evaluar.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Elegir una tecnología sin criterios es como comprar un coche mirando solo el color: funciona, pero probablemente no es lo que necesitas.**
+
+Cada proyecto tiene necesidades diferentes. Los criterios te ayudan a **alinear la tecnología con el problema**.
+
+---
+
+## Los 5 criterios de elección
+
+### 1. Rendimiento
+
+**¿Qué tan rápida y eficiente es la tecnología?**
+
+| Pregunta clave | Qué mide |
+|---------------|----------|
+| ¿Cuántos usuarios concurrentes soporta? | Capacidad de escalabilidad |
+| ¿Cuánto tiempo tarda en procesar datos? | Velocidad de ejecución |
+| ¿Cuánta memoria consume? | Eficiencia de recursos |
+
+**Para tu proyecto escolar**: el rendimiento rara vez es el criterio decisivo. Tus 30 compañeros no van a colapsar un servidor. Pero sí importa si procesas datos pesados (imágenes, archivos grandes).
+
+### 2. Curva de aprendizaje
+
+**¿Cuánto tardas en ser productivo con esta tecnología?**
+
+| Tecnología | Curva de aprendizaje | Detalle |
+|-----------|----------------------|---------|
+| **Python** | 🟢 Baja | Sintaxis clara, ideal para principiantes |
+| **JavaScript** | 🟡 Media | Sintaxis flexible pero muchas formas de hacer lo mismo |
+| **Java** | 🔴 Alta | Verboso, boilerplate, tipos estáticos |
+| **PHP** | 🟡 Media | Fácil de empezar, fácil de hacer mal |
+
+**Regla práctica**: si no has usado la tecnología antes, añade 1-2 semanas a tu estimación para aprenderla.
+
+### 3. Ecosistema
+
+**¿Hay librerías, frameworks y herramientas para lo que necesitas?**
+
+| Necesidad | Python | JavaScript | Java | PHP |
+|-----------|--------|------------|------|-----|
+| Web framework | Django, Flask | Express, Next.js | Spring Boot | Laravel |
+| Bases de datos | SQLite, PostgreSQL | SQLite, MongoDB | SQLite, MySQL | SQLite, MySQL |
+| Autenticación | django-allauth | Passport.js | Spring Security | Laravel Breeze |
+| Despliegue fácil | ✅ Sí | ✅ Sí | ⚠️ Requiere JVM | ✅ Sí |
+
+### 4. Comunidad
+
+**¿Hay alguien que resuelva tus dudas cuando te trabes?**
+
+| Indicador | Python | JavaScript | Java | PHP |
+|-----------|--------|------------|------|-----|
+| Preguntas en Stack Overflow | +2M | +2.5M | +1.8M | +1.2M |
+| Documentación oficial | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
+| Tutoriales en español | Muchos | Muchos | Algunos | Algunos |
+| Actualización reciente | ✅ Activa | ✅ Activa | ✅ Activa | ✅ Activa |
+
+### 5. Mercado laboral
+
+**¿Te sirve para encontrar trabajo?**
+
+| Tecnología | Demanda laboral (España) | Salario medio |
+|-----------|--------------------------|---------------|
+| **JavaScript** | 🔥 Muy alta | 30-45K € |
+| **Python** | 🔥 Alta | 32-48K € |
+| **Java** | 🟡 Alta | 35-50K € |
+| **PHP** | 🟡 Media | 28-40K € |
+
+**Nota**: para un proyecto escolar, el mercado laboral es secundario. Pero si estás aprendiendo para工作, vale la pena considerarlo.
+
+---
+
+## Cómo ponderar los criterios
+
+No todos los criterios pesan igual. Depende de tu situación:
+
+| Situación | Criterio prioritario | Criterio secundario |
+|-----------|---------------------|---------------------|
+| **Proyecto escolar (6 sem)** | Curva de aprendizaje | Ecosistema |
+| **Proyecto personal** | Ecosistema | Comunidad |
+| **Preparación laboral** | Mercado laboral | Ecosistema |
+| **App con muchos usuarios** | Rendimiento | Escalabilidad |
+
+---
+
+## Comparativa: elegir por gusto vs por criterio
+
+<Comparativa
+  dialogos={[
+    { quien: "Por gusto", texto: "Eligo React porque me gusta y lo he visto en YouTube. Si luego no funciona, ya veré qué hago." },
+    { quien: "Por criterio", texto: "Mi proyecto es una app estática sin backend. Necesito HTML/CSS/JS puro o un framework estático ligero. React sobra." },
+  ]}
+  titulo="La diferencia entre gustos y necesidades"
+/>
+
+---
+
+## Aclaración: "¿Y si elijo mal?"
+
+<Aclaracion icono="🤔" pregunta="¿Qué pasa si elijo una tecnología y luego me arrepiento?">
+Es posible cambiar, pero tiene un coste:
+
+- **Cambio temprano** (1-2 semanas):迁移barata, apenas pierdes trabajo
+- **Cambio medio** (3-4 semanas): doloroso pero factible
+- **Cambio tarde** (después de 1 mes): muy costoso, puede requerir reescribir desde cero
+
+Por eso es mejor **evaluar antes de empezar**. Dedica 1-2 horas a revisar opciones y evita semanas de arrepentimiento.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuáles son los 5 criterios de elección?</summary>
+
+Respuesta: 1) **Rendimiento** (velocidad y eficiencia), 2) **Curva de aprendizaje** (cuánto tardas en ser productivo), 3) **Ecosistema** (librerías y herramientas disponibles), 4) **Comunidad** (soporte y dudas), 5) **Mercado laboral** (oportunidades de empleo).
+</details>
+
+<details>
+<summary>¿Qué criterio priorizo en un proyecto escolar de 6 semanas?</summary>
+
+Respuesta: **Curva de aprendizaje** y **ecosistema**. Necesitas ser productivo rápido y tener librerías que resuelvan problemas comunes (auth, base de datos, despliegue).
+</details>
+
+<details>
+<summary>¿Puedo cambiar de tecnología a mitad de proyecto?</summary>
+
+Respuesta: Sí, pero el coste aumenta con el tiempo. Cambiar en la primera semana es barato. Cambiar después de un mes puede requerir reescribir desde cero.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los 5 criterios son: **rendimiento, curva de aprendizaje, ecosistema, comunidad y mercado laboral**.
+2. En un proyecto escolar prioriza **curva de aprendizaje y ecosistema**: necesitas ser productivo rápido y tener soporte.
+3. Evaluar con criterio antes de empezar te ahorra semanas de refactorización si la elección no era la correcta.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-4-eleccion-tecnologias) · Anterior: [01 — ¿Por qué elegir?](./01-por-que-elegir) · Siguiente: [03 — Lenguajes y frameworks](./03-lenguajes-frameworks)

@@ -1,0 +1,258 @@
+---
+title: "08 — Template Stack Tecnológico"
+description: "Documento listo para rellenar con toda la información de tu stack"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 🛠️ **UD 1.4 · Elección de Tecnologías** → 08 · Template Stack
+
+<StoryIntro icono="📄" titulo="Documenta tu stack: tu futuro yo te lo agradecerá">
+  Cuando empieces a programar, olvidarás por qué elegiste cada tecnología.
+  Cuando el profesor pregunte "¿por qué Python y no Java?", necesitarás
+  una respuesta. Este template te ayuda a **documentar todo de forma clara**
+  para que nunca tengas que adivinar.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un template bien rellenantado es la diferencia entre "lo elegí porque sí" y "lo elegí porque cumple estos 3 criterios".**
+
+---
+
+## Template completo
+
+Copia este documento en tu repositorio como `STACK.md` y rellénalo.
+
+---
+
+### 1. Resumen del stack
+
+```
+Proyecto: [Nombre de tu app]
+Stack completo: [Lenguaje] + [Framework] + [Base de datos] + [Despliegue]
+
+Ejemplo: Python + Flask + SQLite + GitHub Pages + Railway
+```
+
+---
+
+### 2. Lenguaje backend
+
+```
+LENGUAJE: [Nombre]
+Versión: [Ej: Python 3.11]
+
+¿Por qué este lenguaje?
+- Criterio principal: [Ej: Curva de aprendizaje baja]
+- Alternativa descartada: [Ej: Java]
+- Por qué se descartó: [Ej: Verboso, curva alta, overkill para 6 semanas]
+- Consecuencia: [Ej: Soy productivo en 1 semana]
+
+Fuentes consultadas:
+- [Enlace a documentación oficial]
+- [Enlace a comparativa o artículo]
+```
+
+---
+
+### 3. Framework
+
+```
+FRAMEWORK: [Nombre]
+Versión: [Ej: Django 4.2]
+
+¿Por qué este framework?
+- Criterio principal: [Ej: "Baterías incluidas" — ORM, auth, admin]
+- Alternativa descartada: [Ej: Flask]
+- Por qué se descartó: [Ej: Flask es minimalista, hay que configurar todo manualmente]
+- Consecuencia: [Ej: Ahorro 2 semanas de configuración]
+
+Features que aporta:
+- [ ] ORM (mapeo objeto-relacional)
+- [ ] Autenticación de usuarios
+- [ ] Panel de administración
+- [ ] Validación de formularios
+- [ ] Gestión de sesiones
+```
+
+---
+
+### 4. Base de datos
+
+```
+BASE DE DATOS: [Nombre]
+Versión: [Ej: SQLite 3.x]
+
+¿Por qué esta base de datos?
+- Criterio principal: [Ej: Cero configuración, integrada en Python]
+- Alternativa descartada: [Ej: PostgreSQL]
+- Por qué se descartó: [Ej: Requiere servidor, overkill para 1-30 usuarios]
+- Consecuencia: [Ej: No necesito instalar ni configurar nada]
+
+Modelo de datos:
+- [Tablas/colecciones principales]
+- [Relaciones entre ellas]
+```
+
+---
+
+### 5. Frontend
+
+```
+FRONTEND: [Tecnologías]
+
+Opción A — Puro (sin framework):
+- HTML5 + CSS3 + JavaScript vanilla
+- [Librería externa si aplica: Bootstrap, Tailwind]
+
+Opción B — Con framework:
+- [Vue / React / Angular]
+- Versión: [Ej: Vue 3]
+- ¿Por qué? [Criterio]
+
+¿Por qué esta elección?
+- Criterio principal: [Ej: Simplicidad, no necesito framework]
+- Alternativa descartada: [Ej: React]
+- Por qué se descartó: [Ej: Overkill para una app con 3 pantallas]
+- Consecuencia: [Ej: Menos componentes reutilizables, pero más ligero]
+```
+
+---
+
+### 6. Despliegue
+
+```
+DESPLIEGUE:
+
+Frontend (archivos estáticos):
+- Plataforma: [GitHub Pages / Netlify / Vercel]
+- URL: [https://tusuario.github.io/tuprojecto/]
+- Coste: Gratis
+
+Backend (API / servidor):
+- Plataforma: [Railway / Render / Vercel]
+- URL: [https://tuprojecto.up.railway.app/]
+- Coste: Gratis (tier free)
+
+¿Por qué esta plataforma?
+- Criterio: [Ej: Gratis, despliegue automático con Git]
+- Alternativa descartada: [Ej: Heroku]
+- Por qué se descartó: [Ej: dejó de ser gratuito en 2022]
+```
+
+---
+
+### 7. Herramientas complementarias
+
+```
+HERRAMIENTA | USO            | COSTE
+------------|----------------|-------
+Git         | Control versiones | Gratis
+GitHub      | Repositorio       | Gratis
+VS Code     | Editor de código  | Gratis
+Postman     | Testing de APIs   | Gratis
+DB Browser  | Gestionar SQLite  | Gratis
+```
+
+---
+
+### 8. Tabla resumen
+
+| Capa | Tecnología | Versión | Justificación (1 frase) |
+|------|-----------|---------|------------------------|
+| **Backend** | | | |
+| **Framework** | | | |
+| **Base de datos** | | | |
+| **Frontend** | | | |
+| **Despliegue FE** | | | |
+| **Despliegue BE** | | | |
+
+---
+
+## Ejemplo rellenado: TaskSchool
+
+### 1. Resumen
+
+```
+Proyecto: TaskSchool
+Stack: Python 3.11 + Flask + SQLite + HTML/CSS/JS + GitHub Pages + Railway
+```
+
+### 2. Lenguaje
+
+```
+LENGUAJE: Python 3.11
+Criterio: Curva de aprendizaje baja
+Alternativa: Java (descartado por verbosidad y curva alta)
+Consecuencia: Productivo en 1 semana
+```
+
+### 3. Framework
+
+```
+FRAMEWORK: Flask 3.0
+Criterio: Ligero, sin sobrecarga
+Alternativa: Django (descartado por ser overkill para 3 endpoints)
+Consecuencia: Configuro auth y DB manualmente, pero el proyecto es más ligero
+```
+
+### 4. Base de datos
+
+```
+BASE DE DATOS: SQLite 3.x
+Criterio: Cero configuración
+Alternativa: PostgreSQL (descartado por requerir servidor)
+Consecuencia: Un archivo .db, sin instalar nada
+```
+
+---
+
+## Aclaracion: "¿Esto es obligatorio?"
+
+<Aclaracion icono="🤔" pregunta="¿Tengo que rellenar todo el template?">
+Lo **mínimo** es rellenar:
+
+1. **Resumen del stack** (1 línea)
+2. **Lenguaje** (criterio + alternativa)
+3. **Framework** (criterio + alternativa)
+4. **Base de datos** (criterio + alternativa)
+5. **Tabla resumen** (1 tabla)
+
+Total: **30 minutos**. Los apartados de despliegue y herramientas complementarias son opcionales pero muy recomendables.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Dónde guardo el documento de stack?</summary>
+
+Respuesta: En la raíz de tu repositorio como `STACK.md`. Junto a `REQUISITOS.md` y `README.md`.
+</details>
+
+<details>
+<summary>¿Cuánto tarda en rellenar el template?</summary>
+
+Respuesta: **30 minutos** para lo mínimo (resumen, lenguaje, framework, BD, tabla). 1 hora si añades despliegue y herramientas.
+</details>
+
+<details>
+<summary>¿Qué hago si no sé justificar alguna elección?</summary>
+
+Respuesta: Investiga 5 minutos. Busca "Python vs Java para principiantes" y encontrarás comparativas que te dan los criterios. No hace falta ser experto: basta con leer 1-2 artículos.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. El template tiene **8 secciones**: resumen, lenguaje, framework, base de datos, frontend, despliegue, herramientas y tabla resumen.
+2. Lo **mínimo** es rellenar: resumen, lenguaje, framework, base de datos y tabla. Te toma **30 minutos**.
+3. Guarda el documento como `STACK.md` en la raíz de tu repositorio, junto a `REQUISITOS.md`.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-4-eleccion-tecnologias) · Anterior: [07 — Justificación](./07-justificacion) · Siguiente: [09 — Cierre](./09-cierre)

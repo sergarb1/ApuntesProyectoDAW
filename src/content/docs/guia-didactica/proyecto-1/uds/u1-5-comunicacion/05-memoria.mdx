@@ -1,0 +1,207 @@
+---
+title: "05 — Memoria del proyecto"
+description: "Cómo escribir el documento de memoria/proyecto claro y profesional"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🗣️ **UD 1.5 · Comunicación** → 05 · Memoria del proyecto
+
+<StoryIntro icono="📄" titulo="La memoria es tu proyecto por escrito">
+  La memoria del proyecto es el documento que **queda después de la
+  presentación**. Es lo que el tribunal revisa con calma, lo que
+  demuestra que no solo sabes programar, sino también **organizar,
+  documentar y comunicar** tu trabajo de forma profesional.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Una buena memoria convierte tu proyecto de "app funcional" a "trabajo profesional documentado".**
+
+El tribunal usa la memoria para verificar lo que dijiste y evaluar la calidad de tu documentación.
+
+---
+
+## Estructura de la memoria
+
+```
+📄 MEMORIA DEL PROYECTO
+│
+├── 1. Portada
+│   ├── Nombre del proyecto
+│   ├── Autores
+│   ├── Centro y ciclo
+│   └── Fecha
+│
+├── 2. Índice
+│   └── Con numeración de página
+│
+├── 3. Introducción (1-2 páginas)
+│   ├── Contexto del problema
+│   ├── Objetivos del proyecto
+│   └── Estructura del documento
+│
+├── 4. Análisis y requisitos (3-5 páginas)
+│   ├── Análisis de la necesidad
+│   ├── Requisitos funcionales
+│   ├── Requisitos no funcionales
+│   └── Historias de usuario
+│
+├── 5. Diseño (3-5 páginas)
+│   ├── Arquitectura de la aplicación
+│   ├── Diagrama de componentes
+│   ├── Diseño de la interfaz
+│   └── Modelo de datos
+│
+├── 6. Desarrollo (5-8 páginas)
+│   ├── Tecnologías utilizadas
+│   ├── Estructura del proyecto
+│   ├── Funcionalidades implementadas
+│   └── Código destacado (no todo el código)
+│
+├── 7. Pruebas y resultados (2-3 páginas)
+│   ├── Pruebas realizadas
+│   ├── Resultados
+│   └── Mejoras pendientes
+│
+├── 8. Conclusiones (1-2 páginas)
+│   ├── Logros alcanzados
+│   ├── Dificultades encontradas
+│   └── Posibles mejoras
+│
+└── 9. Anexos (opcionales)
+    ├── Manual de usuario
+    ├── Enlaces al repositorio
+    └── Capturas de pantalla
+```
+
+---
+
+## Reglas de estilo
+
+### Claridad ante todo
+
+| Mal | Bien |
+|-----|------|
+| "Se procedió a la implementación de la funcionalidad de autenticación" | "Implementamos el login con email y contraseña" |
+| "Dicha solución fue desarrollada utilizando..." | "Usamos Vue 3 para..." |
+| "Es menester destacar que..." | "Destacamos que..." |
+
+**Regla**: Si una frase tiene más de 25 palabras, divídela en dos.
+
+---
+
+### Tono profesional pero accesible
+
+- **No uses jerga técnica innecesaria**: Si puedes decir "almacenar datos", no digas "persistir información en el mecanismo de storage del navegador".
+- **No uses coloquialismos**: Nada de "la app está chula" o "queda genial".
+- **Sé directo**: "La app permite crear tareas" > "La aplicación tiene la capacidad de llevar a cabo la creación de tareas".
+
+---
+
+### Longitud adecuada
+
+```
+  Tamaño típico de la memoria:
+  
+  Portada .............. 1 página
+  Introducción ......... 1-2 páginas
+  Análisis ............. 3-5 páginas
+  Diseño ............... 3-5 páginas
+  Desarrollo ........... 5-8 páginas
+  Pruebas .............. 2-3 páginas
+  Conclusiones ......... 1-2 páginas
+  Anexos ............... 2-5 páginas
+  ─────────────────────────────
+  TOTAL:              18-31 páginas
+```
+
+**No escribas por escribir**. Cada párrafo debe aportar información útil.
+
+---
+
+## Lo que el tribunal busca en la memoria
+
+<Comparativa
+  dialogos={[
+    { quien: "Memoria débil", texto: "Párrafos enormes sin estructura, sin imágenes, sin código, sin análisis. Solo describe qué se hizo sin explicar por qué ni cómo." },
+    { quien: "Memoria fuerte", texto: "Secciones claras, imágenes explicativas, fragmentos de código relevantes, análisis de alternativas, tablas comparativas. Cada sección responde a una pregunta concreta." },
+  ]}
+  titulo="La diferencia entre aprobar y destacar"
+/>
+
+---
+
+## Errores comunes en la memoria
+
+1. **Copiar el README** — La memoria no es un README ampliado. Tiene análisis, diseño y conclusiones.
+2. **Pegar todo el código** — Solo incluye fragmentos relevantes. El código completo va al repositorio.
+3. **Sin imágenes** — Diagramas, capturas, flujos. Una imagen vale más que un párrafo.
+4. **Escribir en futuro** — "Se implementará..." → "Se implementó..." (escrito en pasado).
+5. **Sin referencias** — Si usas una librería, cita su documentación.
+
+---
+
+## Aclaracion: "¿Cuánto debo escribir?"
+
+<Aclaracion icono="📝" pregunta="¿La memoria debe ser larga o corta?">
+La memoria debe ser **suficiente para explicar tu proyecto con claridad**,
+ni más ni menos.
+
+**Regla práctica**: 20-25 páginas es un rango seguro para un proyecto
+intermodular. Menos de 15 puede parecer poco trabajo. Más de 35 puede
+parecer que rellenas.
+
+Lo importante es la **calidad**, no la cantidad. Mejor 20 páginas bien
+estructuradas que 40 páginas de relleno.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es la estructura básica de la memoria?</summary>
+
+**Respuesta**: Portada → Índice → Introducción → Análisis → Diseño → Desarrollo → Pruebas → Conclusiones → Anexos.
+
+**Para qué sirve**: Para tener un plan antes de empezar a escribir.
+</details>
+
+<details>
+<summary>¿Debo incluir todo el código en la memoria?</summary>
+
+**Respuesta**: No. Solo fragmentos relevantes que muestren decisiones técnicas importantes. El código completo va al repositorio.
+
+**Para qué sirve**: Para que la memoria sea legible y no un bloque de código interminable.
+</details>
+
+<details>
+<summary>¿Qué longitud es adecuada?</summary>
+
+**Respuesta**: 20-25 páginas es un rango seguro. Lo importante es que cada sección aporte valor y esté bien estructurada.
+
+**Para qué sirve**: Para no escribir de más ni de menos.
+</details>
+
+<details>
+<summary>¿En qué tiempo verbal debo escribir?</summary>
+
+**Respuesta**: En **pretérito** (pasado). "Se implementó", "se diseñó", "se desarrolló". No en presente ni en futuro.
+
+**Para qué sirve**: Para mantener coherencia y profesionalidad.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. La memoria sigue una estructura clara: **introducción, análisis, diseño, desarrollo, pruebas, conclusiones**.
+2. Usa **tono profesional pero accesible**, evita párrafos largos y pega fragmentos de código relevantes.
+3. **20-25 páginas** bien estructuradas es el rango ideal — calidad sobre cantidad.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-5-comunicacion) · Anterior: [04 — Lenguaje no verbal](./04-lenguaje-no-verbal) · Siguiente: [06 — Diapositivas](./06-diapositivas)

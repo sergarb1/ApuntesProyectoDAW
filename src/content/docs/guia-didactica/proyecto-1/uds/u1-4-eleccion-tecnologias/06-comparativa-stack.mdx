@@ -1,0 +1,213 @@
+---
+title: "06 — Comparativa de stacks"
+description: "LAMP, MERN, Python+SQLite, Java+MySQL: pros, contras y cuál elegir"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🛠️ **UD 1.4 · Elección de Tecnologías** → 06 · Comparativa stack
+
+<StoryIntro icono="📋" titulo="No elijas piezas sueltas: elige un stack completo">
+  Un **stack tecnológico** es el conjunto de tecnologías que usas juntas
+  para construir una app: lenguaje, framework, base de datos y despliegue.
+  Elegir piezas sueltas es como comprar motor de un coche y ruedas de otro:
+  pueden no encajar. Esta unidad compara los stacks más comunes.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un stack es un equipo de tecnologías que trabajan juntas. El mejor stack es el que tu equipo conoce y que resuelve tu problema sin sobrediseñar.**
+
+---
+
+## Los 4 stacks más comunes
+
+### 1. LAMP 🏛️
+
+| Capa | Tecnología |
+|------|-----------|
+| **L**enguaje | PHP |
+| **A**pache | Servidor web |
+| **M**ySQL | Base de datos |
+| **P**HP | Lenguaje backend |
+
+**Pros**:
+- ✅ Hosting compartido barato (casi todos soportan LAMP)
+- ✅ WordPress, Joomla, Drupal funcionan con LAMP
+- ✅ Documentación masiva en español
+- ✅ Fácil de desplegar en 1&1, Hostinger, etc.
+
+**Contras**:
+- ❌ PHP es verboso y propenso a errores
+- ❌ MySQL no es tan potente como PostgreSQL
+- ❌ Apache es más lento que Nginx
+- ❌ Menos moderno que otras opciones
+
+**Ideal para**: webs dinámicas simples, CMS, hosting compartido barato.
+
+---
+
+### 2. MERN 🟨
+
+| Capa | Tecnología |
+|------|-----------|
+| **M**ongoDB | Base de datos NoSQL |
+| **E**xpress | Framework web (Node.js) |
+| **R**eact | Framework frontend |
+| **N**ode.js | Runtime JavaScript backend |
+
+**Pros**:
+- ✅ **Un solo lenguaje** (JavaScript) en todo el stack
+- ✅ React es el framework frontend más popular
+- ✅ npm: el mayor ecosistema de paquetes
+- ✅ MongoDB es flexible y fácil de empezar
+
+**Contras**:
+- ❌ MongoDB sin relaciones puede causar datos duplicados
+- ❌ Express es minimalista: hay que configurar mucho manualmente
+- ❌ React tiene curva de aprendizaje alta (JSX, hooks, estado)
+- ❌ Muchas dependencias npm: riesgo de "dependency hell"
+
+**Ideal para**: apps full-stack JavaScript, APIs REST, prototipos rápidos.
+
+---
+
+### 3. Python + SQLite 🐍
+
+| Capa | Tecnología |
+|------|-----------|
+| **Lenguaje** | Python |
+| **Framework** | Django o Flask |
+| **Base de datos** | SQLite |
+| **Despliegue** | GitHub Pages (frontend) + Railway/Render (backend) |
+
+**Pros**:
+- ✅ **Curva de aprendizaje más baja** de todos los stacks
+- ✅ Django incluye admin panel, ORM, auth, todo incluido
+- ✅ SQLite: cero configuración, cero servidor
+- ✅ Ideal para principiantes
+- ✅ Python es el lenguaje más versátil (web, datos, IA)
+
+**Contras**:
+- ❌ Flask es muy minimalista (poca estructura)
+- ❌ Django puede ser overkill para proyectos muy simples
+- ❌ Python es más lento que Java o Node en algunos casos
+- ❌ Despliegue backend requiere servicio externo (Railway, Render)
+
+**Ideal para**: proyectos escolares, principiantes, apps con datos, prototipos.
+
+---
+
+### 4. Java + MySQL ☕
+
+| Capa | Tecnología |
+|------|-----------|
+| **Lenguaje** | Java |
+| **Framework** | Spring Boot |
+| **Base de datos** | MySQL |
+| **Despliegue** | Servidor con JVM |
+
+**Pros**:
+- ✅ **Robustez y escalabilidad** comprobadas
+- ✅ Spring Boot es el framework enterprise por defecto
+- ✅ Tipado fuerte: menos errores en runtime
+- ✅ Muy usado en empresas grandes (banca, telecomunicaciones)
+
+**Contras**:
+- ❌ **Verboso**: más código para hacer lo mismo
+- ❌ Curva de aprendizaje alta (boilerplate, anotaciones, dependencias)
+- ❌ Requiere JVM: más pesado que Python o Node
+- ❌ Configuración inicial compleja (Maven, Spring Initializr)
+- ❌ Overkill para un proyecto escolar de 6 semanas
+
+**Ideal para**: proyectos enterprise, equipos grandes, alta escalabilidad.
+
+---
+
+## Tabla comparativa de stacks
+
+| Criterio | LAMP | MERN | Python+SQLite | Java+MySQL |
+|----------|------|------|---------------|------------|
+| **Curva aprendizaje** | 🟡 Media | 🟡 Media | 🟢 Baja | 🔴 Alta |
+| **Complejidad** | 🟡 Media | 🟡 Media | 🟢 Baja | 🔴 Alta |
+| **Ideal principiantes** | ⚠️ Posible | ⚠️ Con guía | ✅ Sí | ❌ No |
+| **Despliegue fácil** | ✅ Sí | ✅ Sí | ⚠️ Backend | ⚠️ JVM |
+| **Hosting barato** | ✅ Sí | ⚠️ No | ⚠️ Parcial | ❌ No |
+| **Demanda laboral** | 🟡 Media | 🔥 Alta | 🔥 Alta | 🟡 Alta |
+| **Proyecto escolar** | ⚠️ Posible | ⚠️ Posible | ✅ Recomendado | ❌ No recomendado |
+
+---
+
+## ¿Qué stack elijo?
+
+### Flujo de decisión
+
+```
+¿Eres principiante?
+├── Sí → Python + SQLite (Django o Flask)
+└── No → ¿Quieres un solo lenguaje en todo?
+    ├── Sí → MERN (JavaScript en frontend y backend)
+    └── No → ¿Necesitas hosting barato?
+        ├── Sí → LAMP (PHP + MySQL)
+        └── No → Java + MySQL (si buscas robustez enterprise)
+```
+
+### Recomendación para proyecto escolar
+
+<Comparativa
+  dialogos={[
+    { quien: "Recomendación", texto: "Python + SQLite + Django/Flask. Curva baja, todo incluido, cero configuración de base de datos, admin panel automático." },
+    { quien: "Alternativa", texto: "JavaScript + SQLite + Express. Si ya conoces HTML/CSS y quieres un solo lenguaje. Más configuración manual pero misma base de datos." },
+  ]}
+  titulo="Los dos stacks más prácticos para tu proyecto"
+/>
+
+---
+
+## Aclaracion: "¿Puedo mezclar tecnologías?"
+
+<Aclaracion icono="🤔" pregunta="¿Puedo usar Vue en frontend y Python en backend?">
+Sí. El frontend y backend son **independientes**. Puedes mezclar libremente:
+
+- **Frontend**: Vue, React, Angular, HTML puro
+- **Backend**: Python Flask, Node Express, PHP Laravel
+- **Base de datos**: SQLite, PostgreSQL, MongoDB
+
+La comunicación entre ambos es a través de **APIs REST** (peticiones HTTP). Mientras el frontend pueda hacer `fetch()`, da igual qué lenguaje use el backend.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué stack es mejor para principiantes?</summary>
+
+Respuesta: **Python + SQLite + Django/Flask**. Tiene la curva de aprendizaje más baja, incluye ORM, admin panel y autenticación listos para usar, y SQLite no requiere configuración.
+</details>
+
+<details>
+<summary>¿Qué stack tiene más demanda laboral?</summary>
+
+Respuesta: **MERN** (JavaScript) tiene la mayor demanda en España. Pero para un proyecto escolar, la demanda laboral es secundaria: prioriza curva de aprendizaje y facilidad de uso.
+</details>
+
+<details>
+<summary>¿Puedo usar Vue con Python?</summary>
+
+Respuesta: Sí. Vue es frontend (JavaScript) y Python es backend. Se comunican por API REST. Puedes mezclar cualquier frontend con cualquier backend mientras ambos hablen HTTP/JSON.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Un **stack** es el conjunto de tecnologías que trabajan juntas: lenguaje, framework, base de datos y despliegue.
+2. Para un proyecto escolar, **Python + SQLite** es la opción más práctica: curva baja, cero configuración, todo incluido.
+3. Puedes **mezclar frontend y backend** libremente (Vue con Python, React con Java) mientras se comuniquen por API REST.
+
+---
+
+> 📚 Volver al [índice de la unidad](../u1-4-eleccion-tecnologias) · Anterior: [05 — Frontend vs Backend](./05-frontend-backend) · Siguiente: [07 — Justificación](./07-justificacion)
