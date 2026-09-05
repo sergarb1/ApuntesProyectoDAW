@@ -64,9 +64,9 @@ console.log(config1 === config2);  // true
 
 | Caso | Ejemplo |
 |------|---------|
-| Configuración global | `Config.getInstance()` |
-| Logger | `Logger.getInstance()` |
-| Cache | `Cache.getInstance()` |
+| Configuración global | `new Config()` (devuelve siempre la misma instancia) |
+| Logger | `new Logger()` |
+| Cache | `new Cache()` |
 
 ### Cuándo NO usarlo
 

@@ -117,7 +117,7 @@ class TaskRepositoryIndexedDB {
   }
 }
 
-// La lógica sigue igual
+// La lógica de negocio sigue igual: solo añades await
 const taskRepo = new TaskRepositoryIndexedDB();
 const allTasks = await taskRepo.getAll(); // Misma interfaz
 ```

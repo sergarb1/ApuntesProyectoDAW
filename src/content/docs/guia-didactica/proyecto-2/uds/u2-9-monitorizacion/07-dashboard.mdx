@@ -123,9 +123,14 @@ import Aclaracion from '@components/Aclaracion.astro';
       "expr": "(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100",
       "legendFormat": "Memoria %"
     }
-  ]
+]
 }
 ```
+
+> Las métricas `node_cpu_*` y `node_memory_*` provienen de **node_exporter**
+> (el agente de sistema que viste en la sección de alertas), no de tu
+> aplicación. Para que estos paneles funcionen, node_exporter debe estar
+> instalado y añadido como target en Prometheus.
 
 ---
 

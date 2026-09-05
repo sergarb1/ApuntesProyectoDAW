@@ -111,6 +111,12 @@ que permita a los estudiantes gestionar y mostrar sus logros académicos.
 | Datos | localStorage / IndexedDB | Sin backend, datos en cliente |
 | Despliegue | GitHub Pages | Gratuito, integrado con Git |
 
+> **Nota sobre el registro/login**: al no haber backend, la autenticación es
+> **local** (se guarda en el navegador con IndexedDB). Es una solución válida
+> para un MVP sin servidor, pero no es una autenticación segura ni real:
+> cualquier usuario podría editarla. Si el proyecto necesitara un login
+> real, haría falta un backend (como explica la UD 1.4).
+
 **Metodología**: Scrum Lite con sprints de 1 semana, daily asíncrona
 por Discord, revisiones semanales.
 
@@ -135,7 +141,7 @@ por Discord, revisiones semanales.
 | Miembro | Rol | Responsabilidades |
 |---------|-----|-------------------|
 | María | Frontend + Diseño | Componentes Vue, estilos, UX |
-| Carlos | Backend + BD | Lógica, estado, persistencia |
+| Carlos | Lógica y datos | Lógica, estado, persistencia |
 | Ana | Documentación + Testing | README, memoria, tests, bugs |
 
 **Comunicación**: Discord (canal del proyecto), reunión semanal (viernes).

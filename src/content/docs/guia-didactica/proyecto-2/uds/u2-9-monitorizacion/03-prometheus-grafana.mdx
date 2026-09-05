@@ -75,9 +75,14 @@ Grafana es una plataforma de **visualización de datos**. Conecta con Prometheus
 ## Configuración básica con Docker Compose
 
 ```yaml
-version: '3.8'
-
+# docker-compose.yml (monitorización)
+# Añade tu propia app como servicio: Prometheus la scrapea en app:3000
 services:
+  app:
+    build: .              # tu aplicación (expone /metrics)
+    ports:
+      - "3000:3000"
+
   prometheus:
     image: prom/prometheus:latest
     ports:
@@ -235,10 +240,10 @@ topk(5, histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))
 Para un proyecto de clase, probablemente no necesitas el stack completo. Pero:
 
 1. **Saber que existen** te diferencia de otros alumnos
-2. Puedes usar una versión **simplificada** con solo Grafana + SQLite
+2. Puedes empezar con **Prometheus solo** (sin Grafana) y ver las métricas en su interfaz web
 3. La alternativa más simple es un **servicio externo** como UptimeRobot o Better Stack
 
-**Consejo**: Si quieres demostrar conocimientos avanzados, configura Docker Compose con Prometheus + Grafana. Son ~20 líneas de YAML y un Dockerfile.
+**Consejo**: Si quieres demostrar conocimientos avanzados, configura Docker Compose con Prometheus + Grafana. Son ~20 líneas de YAML (el Dockerfile sería el de tu propia app).
 </Aclaracion>
 
 ---
