@@ -6,6 +6,7 @@
 - **Stack**: Astro 7.0.2 + Starlight 0.41.0 + MDX
 - **Curso**: 2026-2027
 - **Licencia**: CC BY-SA 4.0
+- **Horas del módulo**: PI1 = 34 h · PI2 = 100 h
 - **Enfoque**: Contenido project-facing (cómo afrontar el proyecto), no técnico
 
 ## Estructura del sidebar
@@ -24,10 +25,11 @@ Cada UD sigue el patrón:
 
 ## Navegación entre secciones (¡importante!)
 - Los enlaces entre secciones de una misma UD usan **`../NN-titulo`** (subir un nivel, luego sección)
-- El enlace "Volver al índice" usa **`../uX-Y-nombre`**
+- El enlace "Volver al índice" usa **`../`** (subir un nivel llega a la landing; NO `../uX-Y-nombre`, que duplica el segmento)
 - Los enlaces de la landing a sus secciones usan **`./NN-titulo`** (la landing está en `uds/`)
 - Los enlaces a la siguiente UD desde un cierre usan **`../../uX-Y-nombre`**
 - NO usar `./uX-Y-nombre/NN` desde la landing (duplica el segmento) ni `../../guia-didactica/...` (ruta incorrecta)
+- Desde el cierre de la última UD de PI2, "Volver a Material didáctico" usa **`../../../`**
 
 ## Componentes propios
 - `StoryIntro.astro` — Bloque narrativo introductorio con icono, título y contenido. Props: `icono`, `titulo`, contenido slot.
@@ -63,8 +65,9 @@ Cada UD sigue el patrón:
 
 ## Comandos
 - `npm run dev` — servidor de desarrollo
-- `npm run build` — build estático en `dist/` (186 páginas, ~35s)
+- `npm run build` — build estático en `dist/` (185 páginas, ~90s)
 - `npm run preview` — preview del build
+- `npm run ebooks` / `npm run pdf` / `npm run epub` — generan PDF/EPUB en `public/download/` (requiere pandoc + puppeteer; `npx puppeteer browsers install chrome` la primera vez)
 
 ## CSS / diseño
 - **Card grid**: `grid-template-columns: repeat(2, 1fr)`, `max-width: 750px`, `margin: 2rem auto`. Mobile: `1fr`, `max-width: 100%`.
@@ -73,6 +76,14 @@ Cada UD sigue el patrón:
 - **Animaciones**: `@keyframes fadeInUp` en card-grid y hero-links. `@keyframes pulse` en `.emoji-404`.
 - **404 page**: `src/content/docs/404.mdx` con emoji animado y navegación mediante Starlight `CardGrid`.
 - **Botones premium**: gradient, pill shape (`999px`), sombras, hover/active states, dark mode.
+- **Navegación entre secciones**: bloque `.nav-unidad` con dos tarjetas `.nav-box` (Anterior/Siguiente) y enlace `.nav-unidad-volver`. Generado en HTML dentro de cada sección (no es un componente Astro).
+
+## Generación de ebooks
+- Script: `scripts/generate-ebooks.mjs`
+- Genera `guia-didactica` (páginas principales + landings de UDs) y `completa` (todo + secciones de las 17 UDs)
+- Requiere **pandoc** instalado y el navegador de puppeteer descargado
+- `npm run ebooks` = EPUB + PDF; `npm run epub` / `npm run pdf` para solo uno
+- El PDF completo puede superar los 17MB; el timeout del PDF está en 120s (no bajar)
 
 ## Despliegue
 - GitHub Pages vía Actions (`.github/workflows/deploy.yml`)
@@ -92,3 +103,5 @@ Cada UD sigue el patrón:
 - `src/styles/custom.css` — estilos globales y de componentes
 - `src/assets/logo.svg` — logo del header (libro abierto)
 - `public/` — assets estáticos (portada.webp, cc-by-sa.png, favicon.svg, .nojekyll)
+- `scripts/generate-ebooks.mjs` — generación de PDF/EPUB
+- `public/download/` — PDF/EPUB generados (completa.pdf/epub, guia-didactica.pdf/epub)

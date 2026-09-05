@@ -1,6 +1,6 @@
 # Apuntes Proyecto Intermodular DAW I y II
 
-Sitio web educativo con material didáctico y apuntes para afrontar el **Proyecto Intermodular** del ciclo **Desarrollo de Aplicaciones Web (DAW)**. Curso 2026-2027.
+Sitio web educativo con material didáctico y apuntes para afrontar el **Proyecto Intermodular** del ciclo **Desarrollo de Aplicaciones Web (DAW)**. Curso 2026-2027. Horas del módulo: **PI1 = 34 h · PI2 = 100 h**.
 
 Enfoque **project-facing**: no es contenido técnico (cómo programar), sino cómo afrontar, planificar, ejecutar y defender un proyecto software.
 
@@ -15,13 +15,15 @@ Enfoque **project-facing**: no es contenido técnico (cómo programar), sino có
 ## Características
 
 - **Homepage** con portada, hero buttons y card grid por UDs (2 columnas en PC, 1 en móvil)
-- **Material didáctico** completo: plan docente, 16 Unidades Didácticas (7 PI1 + 9 PI2 con Testing), evaluación, FAQ, ideas
+- **Material didáctico** completo: plan docente, 17 Unidades Didácticas (7 PI1 + 10 PI2 con Testing), evaluación, FAQ, ideas
 - **Componentes propios**: StoryIntro, Aclaracion, Comparativa, CasoPractico
+- **Navegación entre secciones** con cuadros destacados Anterior/Siguiente
 - **Animaciones**: fadeInUp en cards, pulse en 404, transiciones suaves hover
 - **404 divertida** con emoji animado y navegación rápida
 - **Logo y favicon SVG** personalizados (icono de libro abierto)
 - **Modo oscuro/claro**, búsqueda offline, sitemap
 - **Responsive**: adaptado a móvil y escritorio
+- **Ebooks descargables** (PDF/EPUB) generados con pandoc + puppeteer
 
 ## Desarrollo local
 
@@ -30,7 +32,11 @@ npm install
 npm run dev      # http://localhost:4321
 npm run build    # build estático en dist/
 npm run preview  # previsualizar build
+npm run ebooks   # genera PDF/EPUB en public/download/ (requiere pandoc)
 ```
+
+Nota: para generar los PDF hace falta además el navegador de puppeteer:
+`npx puppeteer browsers install chrome` (la primera vez).
 
 ## Estructura
 
@@ -48,7 +54,8 @@ src/
 │           ├── proyecto-2/  # PI2: 10 UDs
 │           └── ...          # Metodología, recursos, etc.
 ├── styles/custom.css        # Estilos globales y de componentes
-public/                      # Assets estáticos (imágenes, favicon)
+scripts/                     # Generación de ebooks (generate-ebooks.mjs)
+public/                      # Assets estáticos (imágenes, favicon, download/)
 ```
 
 Cada UD se organiza así:
