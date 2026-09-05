@@ -71,7 +71,7 @@ sequenceDiagram
 
     U->>V: Hace click en "Guardar"
     V->>S: saveTask(task)
-    S->>L:.setItem('tasks', tasks)
+    S->>L: setItem('tasks', tasks)
     L-->>S: OK
     S-->>V: success
     V-->>U: Tarea guardada

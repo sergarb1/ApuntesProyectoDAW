@@ -11,7 +11,7 @@ import Comparativa from '@components/Comparativa.astro';
 
 <StoryIntro icono="👀" titulo="Code review no es buscar errores: es aprender juntos">
   El **code review** (revisión de código) es cuando un compañero revisa
-  tu código antes de que se fusion con main. No es un examen: es una
+  tu código antes de que se fusione con main. No es un examen: es una
   oportunidad para **aprender, detectar errores antes** de producción
   y mejorar la calidad del código del equipo.
 </StoryIntro>
@@ -99,7 +99,7 @@ git push origin feature/login
 |--------|---------|
 | "Esto está mal" | "¿Por qué no usas validación aquí?" |
 | "Cambia esto" | "Podrías considerar extraer esto a una función" |
-| "No entiendo" | "¿Puedes explicarme por qué usas estalibrabería?" |
+| "No entiendo" | "¿Puedes explicarme por qué usas esta librería?" |
 | "Esto es horrible" | "Hay una oportunidad de mejorar la legibilidad aquí" |
 
 ---
@@ -154,7 +154,7 @@ Closes #123
 <Comparativa
   dialogos={[
     { quien: "Como ataque", texto: "¿Por qué has hecho esto así? Está mal. Cambia todo. No sé por qué usaste esta librería. -> El autor se defiende, el ambiente se tense, nadie aprende." },
-    { quien: "Como aprendizaje", texto: "¿Por qué elegiste estalibrabería? Ah, no conocía esa opción. Podrías considerar X porque Y. -> El autor aprende, el revisor aprende, el código mejora." },
+    { quien: "Como aprendizaje", texto: "¿Por qué elegiste esta librería? Ah, no conocía esa opción. Podrías considerar X porque Y. -> El autor aprende, el revisor aprende, el código mejora." },
   ]}
   titulo="El code review es una conversación, no un examen"
 />

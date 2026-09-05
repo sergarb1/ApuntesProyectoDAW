@@ -276,7 +276,7 @@ app.use(requestLogger);
 app.use(metricsCollector);
 
 // Rutas
-app.use('/api', metricsRoutes);
+app.use(metricsRoutes);          // expone GET /metrics (Prometheus lo scrapea aquí)
 app.use('/api/users', usersRouter);
 // ... más rutas
 

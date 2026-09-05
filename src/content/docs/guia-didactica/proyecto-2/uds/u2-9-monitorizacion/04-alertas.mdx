@@ -98,6 +98,11 @@ groups:
     description: "El uso de CPU supera el 80% durante 5 minutos"
 ```
 
+> Las métricas `node_cpu_*` y `node_memory_*` las expone **node_exporter**,
+> un agente que se instala junto a tu app (y se añade como target en
+> Prometheus). Las métricas de tu aplicación (`/metrics`) miden tu código;
+> node_exporter mide el **sistema**: CPU, memoria, disco, red.
+
 ---
 
 ## Canales de notificación

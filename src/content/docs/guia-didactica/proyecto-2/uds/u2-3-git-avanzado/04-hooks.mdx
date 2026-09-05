@@ -133,7 +133,7 @@ echo "🧪 Ejecutando tests antes de push..."
 if [ -f "package.json" ]; then
   npm test 2>/dev/null
   if [ $? -ne 0 ]; then
-    echo "❌ Error: Hay tests fallando. Arréntalos antes de push."
+    echo "❌ Error: Hay tests fallando. Arrégialos antes de push."
     exit 1
   fi
 fi
@@ -298,7 +298,7 @@ insert_final_newline = true
 Técnicamente sí, con `git commit --no-verify`. Pero **no lo hagas** a menos que sea una emergencia real:
 
 ```bash
-# Esto saltara todos los hooks (NO recomendado)
+# Esto saltará todos los hooks (NO recomendado)
 git commit --no-verify -m "chore: emergency fix"
 ```
 

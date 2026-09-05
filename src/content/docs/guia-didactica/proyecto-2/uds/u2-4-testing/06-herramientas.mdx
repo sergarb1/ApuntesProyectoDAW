@@ -137,6 +137,11 @@ class CalculadoraTest {
 Para crear **mocks** (objetos falsos) en Java. Útil cuando tu código depende de una base de datos o un servicio externo.
 
 ```java
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.InjectMocks;
+import static org.mockito.Mockito.*;
+
 @ExtendWith(MockitoExtension.class)
 class ReservaServiceTest {
 

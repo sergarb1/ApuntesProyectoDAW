@@ -26,7 +26,7 @@ import Comparativa from '@components/Comparativa.astro';
 
 | Plataforma | Frontend | Backend | Base de datos | Gratis | Ideal para |
 |------------|----------|---------|---------------|--------|------------|
-| **GitHub Pages** | ✅ | ❌ | ❌ | ✅ | Sockets estáticos, docs |
+| **GitHub Pages** | ✅ | ❌ | ❌ | ✅ | Sitios estáticos, docs |
 | **Netlify** | ✅ | ⚠️ Functions | ❌ | ✅ (100GB) | Frontend + serverless |
 | **Vercel** | ✅ | ⚠️ Serverless | ❌ | ✅ (100GB) | Next.js, frontend moderno |
 | **Render** | ✅ | ✅ | ✅ | ✅ (750h) | Full-Stack completo |
@@ -280,9 +280,9 @@ Con un **VPS**, el auto-deploy también es posible: en el servidor puedes añadi
 
 <Comparativa
   dialogos={[
-    { who: "Solo frontend", texto: "GitHub Pages (gratis, simple) o Vercel (mejor DX, preview deployments)" },
-    { who: "Frontend + API simple", texto: "Netlify (serverless functions) o Vercel (edge functions)" },
-    { who: "Full-Stack completo", texto: "Render (gratis con limitaciones) o Railway (5€/mes, más rápido)" },
+    { quien: "Solo frontend", texto: "GitHub Pages (gratis, simple) o Vercel (mejor DX, preview deployments)" },
+    { quien: "Frontend + API simple", texto: "Netlify (serverless functions) o Vercel (edge functions)" },
+    { quien: "Full-Stack completo", texto: "Render (gratis con limitaciones) o Railway (5€/mes, más rápido)" },
   ]}
   titulo="La decisión según tu proyecto"
 />

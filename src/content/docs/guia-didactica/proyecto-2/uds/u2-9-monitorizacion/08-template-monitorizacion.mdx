@@ -79,7 +79,7 @@ import Aclaracion from '@components/Aclaracion.astro';
 | Peticiones/segundo | Timeseries | `sum(rate(app_http_requests_total[1m]))` |
 | Tasa de errores | Gauge | `rate(errores) / rate(total) * 100` |
 | Latencia P95 | Timeseries | `histogram_quantile(0.95, ...)` |
-| Erros por endpoint | Table | `topk(10, sum by (path))` |
+| Errores por endpoint | Table | `topk(10, sum by (path))` |
 | CPU y Memoria | Timeseries | `node_cpu`, `node_memory` |
 
 ---
@@ -144,7 +144,7 @@ Respuesta: Librería, niveles habilitados, formato, archivos, rotación y transp
 <details>
 <summary>¿Por qué documentar las métricas?</summary>
 
-Respuesta: Para que cualquier persona sepa qué se monitoriza, cómo seConsulta y qué significan los números del dashboard.
+Respuesta: Para que cualquier persona sepa qué se monitoriza, cómo se consulta y qué significan los números del dashboard.
 </details>
 
 ---
