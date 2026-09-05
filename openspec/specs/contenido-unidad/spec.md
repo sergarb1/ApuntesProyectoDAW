@@ -1,6 +1,6 @@
 # contenido-unidad — Estándar de calidad de las unidades didácticas
 
-> Barra de calidad "libro de verdad" que toda unidad (U1-U8 de PI1 y U1-U9 de PI2) debe cumplir tras su ampliación. Prioridad: utilidad real para alumnos que afrontan el Proyecto Intermodular desde cero.
+> Barra de calidad "libro de verdad" que toda unidad (U1-U7 de PI1 y U1-U10 de PI2 en `guia-didactica/`) debe cumplir tras su ampliación. Prioridad: utilidad real para alumnos que afrontan el Proyecto Intermodular desde cero.
 
 ## ADDED Requirements
 
@@ -34,7 +34,7 @@ El contenido usa los componentes propios del proyecto, no Markdown plano.
 
 #### Scenario: Componentes en el cuerpo del texto
 - **WHEN** se abre la unidad o cualquiera de sus puntos
-- **THEN** se usan `StoryIntro` (apertura narrativa), `Aclaracion` (dudas colapsables), `Comparativa` (dilemas de equipo), `CasoPractico` (casos de estudio con solo `titulo`) y `import` relativo correcto según la profundidad
+- **THEN** se usan `StoryIntro` (apertura narrativa), `Aclaracion` (dudas colapsables), `Comparativa` (dilemas de equipo), `CasoPractico` (casos de estudio) y `import` con alias `@components/` (nunca rutas relativas `../../components/`)
 
 #### Scenario: Rutas e imágenes coherentes
 - **WHEN** se enlaza a otras páginas del sitio
@@ -86,7 +86,9 @@ Cuando la unidad se amplía a varios archivos, el flujo de lectura entre puntos 
 
 #### Scenario: Navegación entre puntos
 - **WHEN** un usuario termina un punto de la unidad
-- **THEN** puede continuar con el siguiente punto de forma obvia (enlace "Siguiente", "Anterior" y "Volver al índice de la unidad") sin saltos bruscos de lógica
+- **THEN** puede continuar con el siguiente punto de forma obvia (cuadros `.nav-unidad` con "Anterior"/"Siguiente" y "Volver al índice de la unidad") sin saltos bruscos de lógica
+- **AND** la landing (`uX-Y-nombre.mdx`) termina con un bloque `.nav-unidad` con cuadro "Siguiente →" que lleva a la sección 01 (`./01-…`)
+- **AND** la sección 01 termina con `.nav-unidad` con cuadro "← Anterior" que lleva al índice (`../`) y cuadro "Siguiente →" a la sección 02 (`../02-…`)
 
 #### Scenario: Referencias cruzadas
 - **WHEN** un punto menciona contenido de otra unidad o de otro punto

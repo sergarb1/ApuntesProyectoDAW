@@ -3,24 +3,44 @@ schema: spec-driven
 context: |
   Proyecto: Apuntes Proyecto Intermodular (DAW). Sitio web educativo project-facing.
   Stack: Astro 7 + Starlight 0.41 + MDX, solo castellano, GitHub Pages, base path
-    /ApuntesProyectoDAW, rama main. Guía Didáctica (pi1/, pi2/, metodologia...) NO se toca.
-  Contenido: sección "Apuntes" con 17 unidades didácticas (8 de PI1 en
-    src/content/docs/apuntes-pi1/, 9 de PI2 en src/content/docs/apuntes-pi2/).
-    Cada unidad se amplía como "libro": índice uX-<slug>.mdx + subcarpeta
-    uX-<slug>/ con 9 puntos MDX (01-…08 teoría + 09-cierre.mdx).
-    Componentes propios MDX: StoryIntro (apertura narrativa), Comparativa (dilemas,
-    dialogos: [{quien, texto}]), CasoPractico (ejemplos, solo prop titulo),
-    Aclaracion (dudas colapsables, prop pregunta).
+    /ApuntesProyectoDAW, rama main.
+  Estructura del contenido (NO existe pi1/, pi2/, apuntes-pi1/, apuntes-pi2/ ni
+    sección "Apuntes" en el sidebar; todo vive en guia-didactica/):
+      - src/content/docs/guia-didactica/proyecto-1/  → 7 UDs
+      - src/content/docs/guia-didactica/proyecto-2/  → 10 UDs
+    Cada UD se organiza así:
+      - Landing: src/content/docs/guia-didactica/proyecto-X/uds/uX-Y-nombre.mdx
+        (en uds/, NO dentro de la carpeta)
+      - Secciones: src/content/docs/guia-didactica/proyecto-X/uds/uX-Y-nombre/
+        con 9 puntos MDX (01-08 teoría + 09-cierre.mdx)
+    Componentes propios MDX (SIEMPRE import con alias @components/, nunca rutas
+      relativas): StoryIntro (apertura narrativa, props icono+titulo+slot),
+      Aclaracion (dudas colapsables, props icono+pregunta), Comparativa (dilemas,
+      dialogos: [{quien, texto}]), CasoPractico (casos, props numero+titulo+slot).
+  Navegación entre secciones (generada en HTML dentro de cada archivo, no es un
+    componente Astro):
+      - Cada sección (01-09) termina con <div class="nav-unidad"> con cuadros
+        .nav-box (Anterior/Siguiente) + enlace .nav-unidad-volver.
+      - Landing termina con .nav-unidad (solo) con "Siguiente →" hacia ./01-…
+      - Sección 01: .nav-unidad con "← Anterior → Índice de la unidad" (../) +
+        "Siguiente →" hacia ../02-…
+      - Secciones intermedias (02-08): dos cuadros Anterior + Siguiente.
+      - Cierres (09): Anterior (sección 08) + Siguiente (siguiente UD ../../uX-Y-nombre),
+        salvo el último que apunta a Material didáctico (../../../).
+      - Links relativos: secciones usan ../NN-titulo; "Volver al índice" usa ../;
+        landing usa ./NN-titulo; siguiente UD usa ../../uX-Y-nombre.
   Cierre de unidad (punto 09) con secciones del repo: ⭐ Sé el Proyecto,
     🔥 Dilema de equipo (Comparativa), 🕵️ ¿Quién Soy?, ⚡ Laboratorio de Tortura
     (SIEMPRE con fallo intencionado, soluciones en <details>), 🧠 Atrévete a Pensar,
-    💬 Entrevista de trabajo, 🤷 Preguntas Tontas, 🎬 Post-Créditos con
-    "PRÓXIMAMENTE EN UXX" (la última unidad cierra con 🏁 Fin del viaje y SIN próximamente).
+    💬 Entrevista de trabajo, 🤷 Preguntas Tontas, 🎬 Post-Créditos.
     Sin boletines, sin Head First, sin CONRAD. Sin imágenes nuevas (solo texto,
     tablas, bloques y diagramas ASCII).
   Norma de contenido: nivel de entrada cero, analogías cotidianas, cada punto de
     teoría ~110-260 líneas, cierre ~220-260 líneas, continuidad narrativa encadenada
-    entre unidades. CEs = competencias CG/CE de pi1/competencias.mdx y
-    pi2/competencias.mdx. Sidebar y build los gestiona el orquestador; cada subagente
-    solo escribe MDX + openspec/changes/expand-uNN/ y autoverifica YAML con node/js-yaml
-    (regex /^---\r?\n/, errores solo-CRLF ignorados, valores con ": " entrecomillados).
+    entre unidades. CEs = competencias CG/CE de guia-didactica/proyecto-1/competencias.mdx
+    y guia-didactica/proyecto-2/competencias.mdx. Sidebar y build los gestiona
+    astro.config.mjs (grupo principal "📚 Material didáctico").
+  Ebooks: scripts/generate-ebooks.mjs genera PDF/EPUB en public/download/
+    (guia-didactica y completa) con pandoc + puppeteer; timeout del PDF 120s.
+  Autoverificación: cada subagente valida YAML con node/js-yaml (regex /^---\r?\n/,
+    errores solo-CRLF ignorados, valores con ": " entrecomillados).

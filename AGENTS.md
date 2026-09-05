@@ -31,6 +31,13 @@ Cada UD sigue el patrón:
 - NO usar `./uX-Y-nombre/NN` desde la landing (duplica el segmento) ni `../../guia-didactica/...` (ruta incorrecta)
 - Desde el cierre de la última UD de PI2, "Volver a Material didáctico" usa **`../../../`**
 
+## Bloques de navegación (cuadros destacados)
+- Todas las secciones (01-09) terminan con un bloque `.nav-unidad` con cuadros `.nav-box` Anterior/Siguiente + enlace `.nav-unidad-volver`.
+- **Landing** (`uX-Y-nombre.mdx`): termina con `.nav-unidad` (solo) con cuadro **Siguiente → la sección 01** (`./01-…`).
+- **Sección 01**: termina con `.nav-unidad` con cuadro **← Anterior → Índice de la unidad** (`../`) + cuadro **Siguiente → la sección 02** (`../02-…`).
+- Secciones intermedias (02-08): `.nav-unidad-links` (2 columnas) con Anterior + Siguiente.
+- Cierres (09): Anterior (sección 08) + Siguiente (siguiente UD `../../uX-Y-nombre`), salvo el último que apunta a Material didáctico.
+
 ## Componentes propios
 - `StoryIntro.astro` — Bloque narrativo introductorio con icono, título y contenido. Props: `icono`, `titulo`, contenido slot.
 - `Aclaracion.astro` — Caja de aclaración tipo nota/FAQ colapsable. Props: `icono`, `pregunta`, `abierto` (opcional).
