@@ -115,6 +115,32 @@ tareas completas**.
 
 ---
 
+## Ejemplo real: sesión con un agente
+
+Imagina que abres opencode en tu terminal y escribes:
+
+```
+> Añade un test unitario para la función calcularTotal del carrito de compras.
+```
+
+Lo que pasa internamente:
+
+1. **opencode busca** `calcularTotal` en tu proyecto (varios archivos)
+2. **Lee la función** y entiende sus parámetros y retorno
+3. **Detecta** el framework de testing que usas (Jest, Vitest…)
+4. **Crea** el archivo de test con casos de uso (vacío, con ítems, descuento)
+5. **Ejecuta** `npm test` y verifica que pasan
+6. Si un test falla, **lee el error**, corrige el test o la función, y reintenta
+7. **Te muestra** qué archivos creó/modificó y el resultado de los tests
+
+Todo eso con una sola instrucción. Sin que copies-pegues código. Sin que
+pienses qué framework de testing usar. Sin que busques dónde está la función.
+
+> 💡 **Diferencia clave con ChatGPT**: ChatGPT te *explica* cómo hacer el
+> test. Un agente **lo ejecuta** en tu repositorio y verifica que funciona.
+
+---
+
 ## Mini-chequeo
 
 <details>
