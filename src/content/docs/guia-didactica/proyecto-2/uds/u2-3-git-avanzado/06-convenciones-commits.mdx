@@ -178,6 +178,23 @@ Una herramienta que **verifica automáticamente** que los mensajes de commit sig
 
 ---
 
+## 🔗 Conexión con trazabilidad
+
+Puedes ir un paso más allá y hacer que los commits **referencien los
+requisitos** de tu matriz de trazabilidad (UD 2.1):
+
+```bash
+feat(US-003): añadir crear tarea #12
+```
+
+Así, `git log` te dice no solo *qué* cambió, sino *a qué requisito
+corresponde*. Es la misma filosofía del **Spec-Driven Development**: el
+código y su historia se pueden rastrear hasta la especificación.
+
+> 📚 Ver [UD 2.1 — Trazabilidad](../../u2-1-requisitos-avanzado/06-trazabilidad) y [UD 2.7 — Spec-Driven Development](../../u2-7-ia-copiloto/07-spec-driven-openspec).
+
+---
+
 <div class="nav-unidad">
 <div class="nav-unidad-links">
 <a class="nav-box nav-box-prev" href="../05-ci-cd">
