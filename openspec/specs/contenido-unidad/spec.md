@@ -42,15 +42,16 @@ El contenido usa los componentes propios del proyecto, no Markdown plano.
 
 ### Requirement: Cierre de unidad obligatorio
 
-La unidad conserva las secciones de consolidación del proyecto, adaptadas (sin Head First ni CONRAD).
+La unidad termina con un cierre que consolida lo aprendido y prepara para lo siguiente.
 
-#### Scenario: Secciones de consolidación presentes
-- **WHEN** termina la lectura de la unidad (punto 09-cierre)
-- **THEN** existen apartados con: ⭐ Sé el Proyecto, 🔥 Dilema de equipo (con Comparativa), 🕵️ ¿Quién Soy?, ⚡ Laboratorio de Tortura, 🧠 Atrévete a Pensar, 💬 Entrevista de trabajo, 🤷 Preguntas Tontas y 🎬 Post-Créditos
+#### Scenario: Cierre con mini-chequeo y resumen
+- **WHEN** termina la lectura de la unidad (punto 09-cierre, o 13 en UD 2.7)
+- **THEN** existen apartados con: Mini-chequeo (preguntas con `<details>` y solución), tabla resumen de la unidad, vocabulario rápido y "Resumen en 3 frases"
+- **AND** el cierre enlaza con la siguiente unidad en los cuadros `.nav-unidad` ("Siguiente →" hacia `../../uX-Y-nombre`), salvo la última UD de cada proyecto
 
-#### Scenario: Laboratorio con fallo intencionado
-- **WHEN** se ejecuta el laboratorio de la unidad
-- **THEN** incluye SIEMPRE un fallo intencionado que el alumno debe diagnosticar, con pistas escalonadas y solución en `<details>`
+#### Scenario: Laboratorio o ejercicios con solución
+- **WHEN** el cierre incluye ejercicios prácticos
+- **THEN** cada uno tiene solución en `<details>` (o instrucciones claras de ejecución) y las referencias a puntos usan la numeración real de la sección
 
 ### Requirement: Todo ejercicio con solución
 
@@ -68,9 +69,9 @@ El contenido es consistente con el resto del curso y con la unidad original.
 - **WHEN** se amplía una unidad
 - **THEN** todo el contenido factual del archivo original (definiciones, tablas, checklist, ejemplos) se conserva y se expande, no se elimina
 
-#### Scenario: Post-Créditos con continuidad
+#### Scenario: Conexión con la siguiente unidad
 - **WHEN** se cierra la unidad
-- **THEN** la escena de Post-Créditos enlaza de forma coherente con la siguiente unidad ("PRÓXIMAMENTE EN UXX") salvo en la última del curso (U9 de PI2), que cierra con 🏁 Fin del viaje sin próximamente
+- **THEN** los cuadros `.nav-unidad` del cierre enlazan "Siguiente →" hacia la siguiente unidad (`../../uX-Y-nombre`), salvo la última UD del proyecto (u1-7 o u2-10), cuyo cierre apunta a Material didáctico
 
 ### Requirement: Cobertura de competencias
 
@@ -78,7 +79,7 @@ Cada unidad declara qué competencias cubre del plan docente.
 
 #### Scenario: Tabla de competencias en el índice de unidad
 - **WHEN** un revisor consulta la página índice de la unidad
-- **THEN** existe una tabla de competencias (CG/CE de pi1/competencias.mdx o pi2/competencias.mdx) con su estado de cobertura (✅/apartado) y dónde se cubre
+- **THEN** existe una tabla de competencias (CG/CE de guia-didactica/proyecto-1/competencias.mdx o guia-didactica/proyecto-2/competencias.mdx) con su estado de cobertura (✅/apartado) y dónde se cubre
 
 ### Requirement: Flujo de lectura encadenado
 

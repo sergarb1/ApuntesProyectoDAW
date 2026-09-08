@@ -1,0 +1,228 @@
+---
+title: "06 — opencode"
+description: "opencode, el asistente de IA de terminal que usamos en el curso: instalación, uso y capa gratuita"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🤖 **UD 2.7 · IA como Copiloto** → 06 · opencode
+
+<StoryIntro icono="🖥️" titulo="opencode: el agente de IA que vive en tu terminal">
+  En este curso usamos **opencode** como asistente de referencia. Es un
+  agente de IA de **código abierto** que se ejecuta en la terminal, el
+  mismo lugar donde trabajas con Git. Hablas con él, le pides tareas, y
+  él lee tu código, hace cambios y ejecuta comandos. Y lo mejor: tiene
+  una **capa gratuita amplia** para que puedas usarlo sin gastar nada.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **opencode es un agente de IA de código abierto, multi-modelo y gratuito que vive en tu terminal y trabaja con tu repositorio.**
+
+---
+
+## Qué es opencode
+
+opencode es un **agente de IA para desarrollo de software** que:
+
+- Se ejecuta en la **terminal** (TUI: interfaz de texto)
+- Trabaja sobre tu **repositorio** (entiende tu código y tus archivos)
+- Puede **leer, editar y ejecutar** comandos
+- Soporta **múltiples modelos**: Claude, GPT, Gemini y otros
+- Es **código abierto** y gratuito
+
+A diferencia de los asistentes de editor que solo sugieren código,
+opencode **ejecuta tareas**: le pides "añade autenticación con email"
+y él planifica, modifica los archivos necesarios, ejecuta los tests y
+te muestra el resultado.
+
+---
+
+## Cómo se ve: la TUI
+
+Al abrir opencode en la terminal, ves una **interfaz de conversación**:
+
+```
+┌─────────────────────────────────────────────┐
+│  opencode — proyecto: mi-app                │
+│                                             │
+│  Tú: añade una página de perfil             │
+│  ▸ opencode: leyendo models/user.js...      │
+│  ▸ opencode: creando views/perfil.vue       │
+│  ▸ opencode: ✓ tests pasan (12/12)          │
+│                                             │
+│  ⌨️  escribe tu petición...                 │
+└─────────────────────────────────────────────┘
+```
+
+Trabajas con **teclado**: escribes peticiones, y opencode responde con
+acciones y texto. Puedes pedirle explicaciones, cambios de código,
+revisiones o que ejecute comandos.
+
+---
+
+## Cómo conseguirlo e instalarlo
+
+opencode se instala con npm (necesitas Node.js):
+
+```bash
+# Instalar opencode globalmente
+npm install -g opencode-ai
+
+# Comprobar que está instalado
+opencode --version
+
+# Abrirlo en tu proyecto
+cd mi-proyecto
+opencode
+```
+
+> Es **código abierto**, así que puedes ver su código y su documentación
+> en su repositorio oficial.
+
+---
+
+## Cómo funciona la capa gratuita
+
+opencode no te obliga a pagar para empezar. Tienes **dos vías gratuitas**:
+
+### 1. opencode Zen
+
+opencode incluye un plan con **capa gratuita** que te da acceso a modelos
+de IA sin coste. Es la forma más sencilla de empezar: instalas, abres y
+ya puedes trabajar.
+
+### 2. OpenRouter
+
+opencode se integra con **OpenRouter**, un proveedor que da acceso a
+muchos modelos. OpenRouter también ofrece **modelos gratuitos** (con
+límites de uso), lo que te da otra vía para usar opencode sin pagar.
+
+<Aclaracion icono="💡" pregunta="¿Qué significa 'capa gratuita amplia'?">
+Que puedes usar opencode con modelos de IA **sin coste inicial**. Tanto
+**opencode Zen** como **OpenRouter** ofrecen modelos gratuitos.
+
+Eso no significa "ilimitado": las capas gratuitas suelen tener límites
+de uso (peticiones por minuto/día, modelos concretos). Para un proyecto
+de clase, es más que suficiente. Si algún día necesitas más, puedes
+configurar tu propia clave de un proveedor de pago.
+
+La regla en este curso: **empieza con la capa gratuita**. No necesitas
+pagar nada para aprender a trabajar con un agente de IA.
+</Aclaracion>
+
+---
+
+## Primeros pasos con opencode
+
+### 1. Abre tu proyecto
+
+```bash
+cd tu-proyecto
+opencode
+```
+
+### 2. Pide una tarea sencilla
+
+> "Explícame qué hace este proyecto y cómo está organizado"
+
+opencode leerá tu código y te dará un resumen. Es la mejor forma de
+empezar: que te muestre qué entiende de tu repositorio.
+
+### 3. Pide un cambio concreto
+
+> "Añade una función que calcule el total del carrito, con su test"
+
+opencode hará el cambio, ejecutará el test y te mostrará el resultado.
+
+### 4. Pide una revisión
+
+> "Revisa mi código y dime qué se puede mejorar"
+
+opencode te dará sugerencias concreta, citando archivos y líneas.
+
+---
+
+## Atajos y comandos útiles
+
+| Acción | Cómo |
+|--------|------|
+| Enviar petición | `Enter` |
+| Cancelar respuesta | `Esc` (o `Ctrl + C`) |
+| Nueva conversación | `/new` |
+| Ver ayuda | `/help` |
+| Cambiar de modelo | `/model` |
+| Salir | `Ctrl + D` o `/quit` |
+
+---
+
+## opencode como estándar del curso
+
+Hemos elegido opencode porque:
+
+- 🆓 **Gratis para empezar**: capa gratuita con opencode Zen y OpenRouter
+- 🧩 **Multi-modelo**: no dependes de una sola empresa de IA
+- 🔧 **Extensible**: soporta skills (vistos en la sección 05) y herramientas
+- 🖥️ **Vive en la terminal**: integrado con Git y tu flujo de trabajo
+- 📖 **Código abierto**: puedes entender cómo funciona y confiar en él
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin agente", texto: "Escribo todo a mano, busco errores en Stack Overflow, ejecuto tests manualmente. Más lento, pero lo entiendo todo." },
+    { quien: "Con opencode", texto: "Le pido tareas completas, él lee y modifica el código, ejecuta los tests y me explica los cambios. Yo reviso y apruebo todo." },
+  ]}
+  titulo="Trabajar con un agente cambia el ritmo"
+/>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué es opencode y dónde se ejecuta?</summary>
+
+Es un **agente de IA de código abierto** que se ejecuta en la **terminal** (TUI). Trabaja sobre tu repositorio: lee, edita y ejecuta comandos.
+</details>
+
+<details>
+<summary>¿Cómo se instala?</summary>
+
+Con npm: `npm install -g opencode-ai`. Luego abres tu proyecto con `opencode`.
+</details>
+
+<details>
+<summary>¿Cuáles son las dos vías gratuitas para usar opencode?</summary>
+
+**opencode Zen** (plan con capa gratuita) y **OpenRouter** (proveedor con modelos gratuitos). Ambas te permiten usar opencode sin pagar.
+</details>
+
+<details>
+<summary>¿Por qué opencode es el estándar del curso?</summary>
+
+Porque es **gratis para empezar**, **multi-modelo**, **extensible** (skills), vive en la **terminal** y es **código abierto**. Se integra con Git y el flujo real de desarrollo.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **opencode** es un agente de IA de código abierto que vive en la terminal y ejecuta tareas completas sobre tu repositorio.
+2. Se instala con `npm install -g opencode-ai` y se abre con `opencode` en tu proyecto.
+3. Tiene **capa gratuita amplia** (opencode Zen y OpenRouter), por eso es el **estándar del curso**.
+
+---
+
+<div class="nav-unidad">
+<div class="nav-unidad-links">
+<a class="nav-box nav-box-prev" href="../05-skills">
+  <span class="nav-box-dir">← Anterior</span>
+  <span class="nav-box-title">05 — Skills</span>
+</a><a class="nav-box nav-box-next" href="../07-spec-driven-openspec">
+  <span class="nav-box-dir">Siguiente →</span>
+  <span class="nav-box-title">07 — Spec-Driven Development</span>
+</a>
+</div>
+<a class="nav-unidad-volver" href="../"> Volver al índice de la unidad</a>
+</div>

@@ -1,0 +1,215 @@
+---
+title: "07 — Spec-Driven Development con openspec"
+description: "Desarrollar dirigido por especificaciones: escribir la spec antes del código, con openspec como herramienta"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🤖 **UD 2.7 · IA como Copiloto** → 07 · Spec-Driven Development
+
+<StoryIntro icono="📜" titulo="Primero el contrato, luego el código">
+  Cuando pides un trabajo, primero firmas el **contrato** (qué se hará,
+  cómo, cuándo) y luego se ejecuta. El **Spec-Driven Development** (SDD)
+  aplica esa misma idea al software: escribes la **especificación** antes
+  del código, y el código debe cumplirla. Es la forma más eficaz de
+  trabajar con agentes de IA: les das un contrato verificable, no una
+  instrucción vaga.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Spec-Driven Development es escribir la especificación antes del código y que el código deba cumplirla. openspec es la herramienta que estructura ese proceso.**
+
+---
+
+## Qué es Spec-Driven Development (SDD)
+
+El desarrollo dirigido por especificaciones sigue una regla simple:
+
+> **Primero defines QUÉ debe hacer el sistema. Después escribes el código. El código se considera correcto si cumple la especificación.**
+
+Es lo contrario de "empezar a programar y ver qué sale". Es el mismo
+espíritu que ya conoces de la UD 1.3 (requisitos) y la UD 2.1 (criterios
+de aceptación): primero definir, luego construir.
+
+### El ciclo SDD
+
+```
+1. Especificar:  definir qué debe hacer (requisitos, criterios)
+2. Planificar:   decidir cómo se implementa
+3. Implementar:  escribir el código
+4. Verificar:    comprobar que cumple la spec
+```
+
+Si el código no cumple la spec, no está terminado. Da igual que
+"funcione": si no cumple lo acordado, se corrige.
+
+---
+
+## Por qué encaja con los agentes de IA
+
+Cuando trabajas con un agente (como opencode), la diferencia entre un
+resultado bueno y uno malo suele estar en **cómo le pides las cosas**.
+
+| Petición vaga | Petición con spec |
+|---------------|-------------------|
+| "Hazme un login" | "Implementa la historia US-03 según sus criterios de aceptación" |
+| "Añade tests" | "Los tests deben cubrir los casos del spec: vacío, nulo, límites" |
+| "Mejora el código" | "Refactoriza cumpliendo el estándar de la spec (nombres, imports, estructura)" |
+
+Con una spec, el agente **sabe exactamente qué se espera** y tú puedes
+**verificar** que lo cumple. Sin spec, improvisa y tú no tienes criterio
+objetivo para revisar.
+
+---
+
+## openspec: la herramienta
+
+**openspec** es una herramienta que estructura el SDD: te da un formato
+estándar para escribir especificaciones y gestionar los cambios. En
+lugar de specs sueltas en un documento, openspec organiza todo en
+archivos con una estructura clara.
+
+Este mismo proyecto de apuntes se construye con openspec: las normas de
+calidad de las unidades didácticas están escritas como spec, y cada
+unidad que se amplía se planifica como un "change" con propuesta,
+diseño y tareas.
+
+---
+
+## La estructura de openspec
+
+```
+openspec/
+├── config.yaml                 ← contexto global del proyecto
+├── specs/                      ← especificaciones (normas)
+│   └── <tema>/
+│       └── spec.md             ← requisitos con formato WHEN/THEN
+└── changes/                    ← cambios en curso
+    └── <cambio-id>/
+        ├── .openspec.yaml      ← metadata (schema, fecha)
+        ├── proposal.md         ← Why / What Changes (por qué y qué)
+        ├── design.md           ← Context / Goals / Decisions (cómo)
+        └── tasks.md            ← lista de tareas con checkboxes
+```
+
+---
+
+## Cómo se escribe una especificación
+
+El corazón de openspec son los **requisitos con escenarios**. Un
+requisito dice **qué debe cumplirse**, y un escenario lo describe de
+forma comprobable:
+
+```markdown
+### Requirement: Nivel de entrada cero
+
+Cada punto debe ser comprensible para un alumno sin conocimientos previos.
+
+#### Scenario: Definición de términos en el primer uso
+- **WHEN** un lector sin conocimientos previos lee cualquier punto
+- **THEN** cada concepto o acrónimo se define con lenguaje llano
+  en su primer uso
+```
+
+El formato **WHEN / THEN** (cuando / entonces) es la clave: convierte
+una norma abstracta en algo **verificable**. Es el mismo patrón de los
+criterios de aceptación de la UD 2.1.
+
+---
+
+## El flujo de un cambio con openspec
+
+Cuando quieres cambiar algo (añadir una sección, corregir un bug, crear
+una función), el flujo es:
+
+```
+1. Crea el change:   openspec new cambiar-algo
+2. Escribe el proposal.md:  ¿por qué? ¿qué cambia?
+3. Escribe el design.md:    ¿cómo? ¿qué decisiones?
+4. Desglosa tareas:   tasks.md con checkboxes
+5. Implementa:        el agente (opencode) ejecuta las tareas
+6. Verifica:          comprueba que cumple la spec
+7. Cierra el change:  marca tareas completadas
+```
+
+<Comparativa
+  dialogos={[
+    { quien: "Sin spec", texto: "Le pido al agente 'haz un login'. Me da un login cualquiera. No sé si cumple lo que el profesor pedía. Repito 3 veces." },
+    { quien: "Con openspec", texto: "Escribo la historia y sus criterios en la spec. El agente la implementa. Verifico contra los criterios. Si no cumple, se corrige." },
+  ]}
+  titulo="La spec elimina la ambigüedad"
+/>
+
+---
+
+## Beneficios para tu proyecto
+
+1. **Requisitos no ambiguos**: sabes exactamente qué se espera
+2. **Verificación objetiva**: puedes comprobar que el código cumple la spec
+3. **Trazabilidad**: cada cambio tiene su porqué y su diseño documentados
+4. **Mejores agentes**: el agente produce lo esperado porque le das un contrato
+5. **Revisión fácil**: un revisor (o el tribunal) entiende qué se propuso y qué se hizo
+
+<Aclaracion icono="🤔" pregunta="¿Es openspec obligatorio en todos los proyectos?">
+No. openspec brilla en proyectos con **equipo**, **normas de calidad** o
+**trabajo con agentes de IA**, donde la ambigüedad cuesta caro.
+
+Para un proyecto pequeño de clase, no necesitas toda la estructura. Pero
+sí te conviene interiorizar la **idea**: especificar antes de construir y
+verificar contra la spec. openspec es una forma concreta y bien diseñada
+de hacerlo, y la usamos en este curso para que la conozcas.
+</Aclaracion>
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué es Spec-Driven Development?</summary>
+
+Un enfoque donde **escribes la especificación antes del código** y el código se considera correcto solo si **cumple la spec**. Es "primero el contrato, luego el trabajo".
+</details>
+
+<details>
+<summary>¿Qué formato usa openspec para los requisitos?</summary>
+
+**WHEN / THEN** (cuando / entonces): cada requisito se describe con escenarios comprobables. Convierte normas abstractas en algo verificable.
+</details>
+
+<details>
+<summary>¿Qué contiene la carpeta de un "change" en openspec?</summary>
+
+`.openspec.yaml` (metadata), `proposal.md` (por qué y qué cambia), `design.md` (contexto, objetivos y decisiones) y `tasks.md` (lista de tareas con checkboxes).
+</details>
+
+<details>
+<summary>¿Por qué SDD mejora el trabajo con agentes de IA?</summary>
+
+Porque en vez de una instrucción vaga ("haz un login"), el agente recibe un **contrato verificable** (requisitos y criterios). Sabe qué se espera y tú puedes comprobar que lo cumple.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. **Spec-Driven Development** es especificar antes de construir y exigir que el código cumpla la spec.
+2. **openspec** estructura ese proceso con archivos (config, specs con WHEN/THEN, changes con proposal/design/tasks).
+3. Con los **agentes de IA**, la spec elimina la ambigüedad: le das un contrato verificable y puedes comprobar el resultado.
+
+---
+
+<div class="nav-unidad">
+<div class="nav-unidad-links">
+<a class="nav-box nav-box-prev" href="../06-opencode">
+  <span class="nav-box-dir">← Anterior</span>
+  <span class="nav-box-title">06 — opencode</span>
+</a><a class="nav-box nav-box-next" href="../08-testing-ia">
+  <span class="nav-box-dir">Siguiente →</span>
+  <span class="nav-box-title">08 — Testing con IA</span>
+</a>
+</div>
+<a class="nav-unidad-volver" href="../"> Volver al índice de la unidad</a>
+</div>

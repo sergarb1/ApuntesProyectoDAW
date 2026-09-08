@@ -23,6 +23,8 @@ Cada UD sigue el patrón:
 
 **Proyecto 2** (10 UDs): u2-1-requisitos-avanzado, u2-2-scrum-avanzado, u2-3-git-avanzado, u2-4-testing, u2-5-patrones-diseno, u2-6-diagramas, u2-7-ia-copiloto, u2-8-despliegue, u2-9-monitorizacion, u2-10-propuesta-final
 
+> Nota: la UD 2.7 (IA como Copiloto) tiene **13 secciones** (03-07 dedicadas a asistentes, agentes, skills, opencode y Spec-Driven Development). El resto de UDs tiene 9 secciones.
+
 ## Navegación entre secciones (¡importante!)
 - Los enlaces entre secciones de una misma UD usan **`../NN-titulo`** (subir un nivel, luego sección)
 - El enlace "Volver al índice" usa **`../`** (subir un nivel llega a la landing; NO `../uX-Y-nombre`, que duplica el segmento)

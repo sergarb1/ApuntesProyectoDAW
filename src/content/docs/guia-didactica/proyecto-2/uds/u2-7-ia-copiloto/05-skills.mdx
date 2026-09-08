@@ -1,0 +1,176 @@
+---
+title: "05 — Skills"
+description: "Qué son los skills de un agente de IA y cómo especializan su comportamiento"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+
+> 🗺️ **Estás en:** 🤖 **UD 2.7 · IA como Copiloto** → 05 · Skills
+
+<StoryIntro icono="🎯" titulo="Skills: dale al agente las instrucciones de un experto">
+  Un agente de IA genérico sabe programar, pero no sabe *cómo trabaja
+  tu proyecto*: qué convenciones sigues, qué formato usas, qué errores
+  evitar. Los **skills** son paquetes de instrucciones especializadas
+  que le dices al agente para que actúe como un experto en una tarea
+  concreta.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un skill es un conjunto de instrucciones y contexto que dota al agente de conocimientos específicos para una tarea concreta.**
+
+---
+
+## Qué es un skill
+
+Imagina que contratas a un ayudante generalista. Puede hacer muchas
+cosas, pero si le das un **manual de procedimientos** para tu empresa,
+hará el trabajo mucho mejor y con menos errores. Ese manual es un skill.
+
+En la práctica, un skill es un **archivo de instrucciones** que:
+
+- Describe **cómo** hacer una tarea específica
+- Define las **convenciones** del proyecto
+- Incluye **ejemplos** de bueno/malo
+- Da **pasos** a seguir
+- Evita **errores comunes**
+
+---
+
+## Ejemplos de skills
+
+| Skill | Qué hace que el agente haga |
+|-------|------------------------------|
+| **Revisar código** | Revisa un PR con una checklist concreta (seguridad, tests, estilo) |
+| **Escribir tests** | Genera tests siguiendo el patrón del proyecto, no cualquier formato |
+| **Documentar** | Escribe documentación con la estructura y tono del repo |
+| **Aplicar convenciones** | Respeta nombres, imports y estructura de carpetas del proyecto |
+| **Corregir errores** | Diagnostica fallos siguiendo un proceso paso a paso |
+
+---
+
+## Cómo encaja un skill con el agente
+
+```
+Proyecto
+│
+├── skills/              ← aquí viven los skills
+│   ├── revisar-codigo/
+│   │   └── SKILL.md     ← instrucciones del skill
+│   └── escribir-tests/
+│       └── SKILL.md
+│
+└── (tu código)
+```
+
+Cuando el agente necesita hacer esa tarea, **carga el skill** y actúa
+según esas instrucciones, en vez de improvisar.
+
+---
+
+## Por qué son importantes para tu proyecto
+
+### 1. Consistencia
+
+Sin skills, cada vez que pides algo el agente responde de forma
+distinta. Con skills, sigue **siempre las mismas reglas**.
+
+### 2. Calidad
+
+Un skill con una checklist de calidad (como la de testing de la UD 2.4)
+hace que el agente verifique cosas que de otro modo olvidaría.
+
+### 3. Aprendizaje del equipo
+
+Los skills son **documentación viva**: recogen cómo trabaja tu equipo.
+Un compañero nuevo (o un agente) puede entender las convenciones sin
+preguntar.
+
+### 4. Reproducibilidad
+
+Si un skill funciona bien, lo reutilizas en todos los proyectos. Es como
+una plantilla, pero para el comportamiento del agente.
+
+---
+
+<Aclaracion icono="🤔" pregunta="¿Un skill es lo mismo que un prompt?">
+No exactamente. Un **prompt** es la instrucción que le das en un momento
+concreto. Un **skill** es una **instrucción reutilizable** que se guarda
+en el proyecto y se carga cuando hace falta.
+
+Puedes pensar en el prompt como "¿puedes revisar este código?" y en el
+skill como el **procedimiento completo** de revisión que el agente sigue
+cada vez que le pides eso.
+</Aclaracion>
+
+---
+
+## Ejemplo de skill: "revisar código"
+
+Un skill de revisión de código podría incluir:
+
+```markdown
+# Revisar código
+
+## Antes de empezar
+- Lee el README para entender el proyecto
+- Identifica qué archivos cambió el PR
+
+## Qué comprobar (checklist)
+1. ¿El código tiene tests? ¿Cubren el caso feliz y los límites?
+2. ¿Hay secretos o contraseñas hardcodeadas?
+3. ¿Los nombres de variables y funciones son descriptivos?
+4. ¿Se sigue la convención del proyecto (imports, formato)?
+5. ¿Hay errores de seguridad (SQL injection, XSS)?
+
+## Cómo reportar
+- Separa en "Bloqueante", "Importante" y "Sugerencia"
+- Cita el archivo y la línea en cada comentario
+- Propón una solución concreta, no solo señales el problema
+```
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué es un skill y para qué sirve?</summary>
+
+Un **skill** es un conjunto de instrucciones y contexto que el agente carga para hacer una tarea concreta siguiendo las convenciones del proyecto. Sirve para que el agente sea consistente, de calidad y reutilizable.
+</details>
+
+<details>
+<summary>¿Cuál es la diferencia entre un prompt y un skill?</summary>
+
+El **prompt** es la instrucción puntual ("revisa este código"). El **skill** es el procedimiento reutilizable que se guarda en el proyecto y se carga cuando el agente hace esa tarea.
+</details>
+
+<details>
+<summary>¿Qué debería incluir un skill de revisión de código?</summary>
+
+Una checklist de calidad (tests, secretos, nombres, convenciones, seguridad), el formato del reporte (Bloqueante/Importante/Sugerencia) y la instrucción de citar archivo y línea.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Un **skill** es un paquete de instrucciones que especializa al agente para una tarea concreta.
+2. Da **consistencia, calidad, documentación y reproducibilidad** al trabajo con IA.
+3. Se diferencia del prompt en que es **reutilizable** y vive en el proyecto, no en una conversación puntual.
+
+---
+
+<div class="nav-unidad">
+<div class="nav-unidad-links">
+<a class="nav-box nav-box-prev" href="../04-agentes">
+  <span class="nav-box-dir">← Anterior</span>
+  <span class="nav-box-title">04 — Agentes</span>
+</a><a class="nav-box nav-box-next" href="../06-opencode">
+  <span class="nav-box-dir">Siguiente →</span>
+  <span class="nav-box-title">06 — opencode</span>
+</a>
+</div>
+<a class="nav-unidad-volver" href="../"> Volver al índice de la unidad</a>
+</div>

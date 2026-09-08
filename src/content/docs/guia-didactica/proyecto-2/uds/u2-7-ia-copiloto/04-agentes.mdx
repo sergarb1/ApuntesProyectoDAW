@@ -1,0 +1,159 @@
+---
+title: "04 — Agentes"
+description: "Qué es un agente de IA, cómo ejecuta tareas de varios pasos y en qué se diferencia del autocompletado"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🤖 **UD 2.7 · IA como Copiloto** → 04 · Agentes
+
+<StoryIntro icono="🦾" titulo="Del autocompletado al agente: que la IA haga la tarea, no solo la línea">
+  Un autocompletado te sugiere la siguiente línea. Un **agente** recibe
+  una tarea completa y la resuelve: lee tu código, decide qué archivos
+  tocar, hace los cambios, ejecuta los tests y te enseña el resultado.
+  Es la diferencia entre un diccionario (te dice una palabra) y un
+  ayudante (hace el trabajo).
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Un agente de IA es un asistente que ejecuta tareas de varios pasos de principio a fin: lee, decide, modifica, ejecuta y verifica.**
+
+---
+
+## Autocompletado vs Agente
+
+| Aspecto | Autocompletado | Agente |
+|---------|----------------|--------|
+| **Qué hace** | Sugiere la siguiente línea/función | Resuelve una tarea completa |
+| **Contexto** | El archivo abierto | Todo el repositorio |
+| **Acciones** | Solo texto | Lee archivos, edita, ejecuta comandos |
+| **Iteración** | No | Sí: prueba, falla, corrige, repite |
+| **Autonomía** | Tú haces todo | La IA hace varios pasos por ti |
+
+---
+
+## Cómo trabaja un agente
+
+Un agente sigue un **ciclo de trabajo** parecido al de un desarrollador:
+
+```
+1. Recibe la tarea (prompt)
+2. Lee el código relevante del repositorio
+3. Decide qué cambios hacer
+4. Edita los archivos
+5. Ejecuta comandos (tests, build, git)
+6. Si algo falla, corrige e itera
+7. Te muestra el resultado y los cambios
+```
+
+### Ejemplo: "arregla el bug del login"
+
+- **Autocompletado**: te sugiere una línea. Tú buscas el bug, decides el fix, lo aplicas.
+- **Agente**: busca dónde está la lógica del login, detecta el fallo, corrige, ejecuta los tests y te explica qué cambió y por qué.
+
+---
+
+## Las capacidades clave de un agente
+
+### 1. Lectura del contexto
+
+Un agente puede **abrir y leer varios archivos** de tu proyecto para
+entender cómo encaja el cambio. No trabaja a ciegas: se apoya en el
+código real.
+
+### 2. Edición de archivos
+
+Puede **modificar código existente**, no solo generar nuevo. Sabe hacer
+cambios quirúrgicos (editar una función, añadir una validación) sin
+romper el resto.
+
+### 3. Ejecución de comandos
+
+Puede **ejecutar comandos** en tu terminal: `npm test`, `git status`,
+`python manage.py migrate`... y leer la salida para decidir si va bien
+o si debe corregir.
+
+### 4. Iteración y autocorrección
+
+Si un test falla, el agente **lee el error, lo diagnostica y reintenta**.
+Es un ciclo de prueba y error, como harías tú, pero más rápido.
+
+---
+
+## Límites de los agentes
+
+<Aclaracion icono="⚠️" pregunta="¿Puede un agente hacer todo por mí?">
+No. Los agentes tienen límites importantes:
+
+- **No entienden tu intención** si no se la explicas bien
+- **Pierden contexto** en repositorios muy grandes
+- **Pueden romper cosas** al editar sin entender el sistema completo
+- **Inventan soluciones** que compilan pero están mal
+- **No son responsables** del código: el responsable eres tú
+
+Por eso se llaman **copilotos**: ayudan, pero tú llevas el volante.
+</Aclaracion>
+
+---
+
+## En este curso: opencode como agente
+
+**opencode** es el agente de terminal que usaremos como estándar en el
+curso. Con él puedes:
+
+- Pedirle que **explique** tu código
+- Pedirle que **refactorice** una función
+- Pedirle que **añada** una funcionalidad con tests
+- Pedirle que **diagnostique** un error
+
+Lo verás en detalle en la sección 06. Por ahora, entiende la idea: un
+agente no es un autocompletado avanzado, es un **colaborador que ejecuta
+tareas completas**.
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Qué hace un agente que no haga el autocompletado?</summary>
+
+Un agente ejecuta **tareas de varios pasos**: lee el repositorio, edita archivos, ejecuta comandos y verifica. El autocompletado solo sugiere la siguiente línea o función.
+</details>
+
+<details>
+<summary>¿Cuáles son las 4 capacidades clave de un agente?</summary>
+
+1. **Lectura de contexto** (abre y lee varios archivos), 2. **Edición** (modifica código existente), 3. **Ejecución de comandos** (tests, build, git), 4. **Iteración** (corrige y reintenta tras fallos).
+</details>
+
+<details>
+<summary>¿Quién es el responsable del código generado por un agente?</summary>
+
+**Tú**. El agente es un copiloto: ayuda, pero no entiende tu intención completa y puede equivocarse. Todo código debe revisarse y entenderse antes de aceptarlo.
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Un **agente** ejecuta tareas completas (lee, decide, edita, ejecuta y verifica), a diferencia del autocompletado que solo sugiere líneas.
+2. Sus capacidades clave son **lectura de contexto, edición, ejecución de comandos e iteración**.
+3. Los agentes tienen **límites** y **no te eximen de la responsabilidad**: tú entiendes y apruebas cada cambio.
+
+---
+
+<div class="nav-unidad">
+<div class="nav-unidad-links">
+<a class="nav-box nav-box-prev" href="../03-asistentes-ia">
+  <span class="nav-box-dir">← Anterior</span>
+  <span class="nav-box-title">03 — Asistentes de IA</span>
+</a><a class="nav-box nav-box-next" href="../05-skills">
+  <span class="nav-box-dir">Siguiente →</span>
+  <span class="nav-box-title">05 — Skills</span>
+</a>
+</div>
+<a class="nav-unidad-volver" href="../"> Volver al índice de la unidad</a>
+</div>

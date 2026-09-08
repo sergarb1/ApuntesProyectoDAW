@@ -1,0 +1,147 @@
+---
+title: "03 — Asistentes de IA"
+description: "Los asistentes de IA para programar: GitHub Copilot, Claude Code, OpenAI Codex, Cursor y opencode"
+---
+
+import StoryIntro from '@components/StoryIntro.astro';
+import Aclaracion from '@components/Aclaracion.astro';
+import Comparativa from '@components/Comparativa.astro';
+
+> 🗺️ **Estás en:** 🤖 **UD 2.7 · IA como Copiloto** → 03 · Asistentes de IA
+
+<StoryIntro icono="🤖" titulo="Ya no hay un solo copiloto: hay un garaje lleno de coches con IA">
+  Hace unos años, "asistente de IA" significaba una sola cosa: GitHub
+  Copilot. Hoy hay decenas de herramientas que te ayudan a programar,
+  y cada una tiene su enfoque. En esta sección verás el panorama y
+  entenderás qué las diferencia. En este curso usaremos **opencode**
+  como asistente de referencia.
+</StoryIntro>
+
+## 📬 La idea en una frase
+
+> **Los asistentes de IA para programar se dividen en dos grandes familias: los que viven en tu editor (IDE) y los que trabajan en tu terminal (agentes).**
+
+---
+
+## El panorama actual
+
+Hoy conviven varios asistentes de IA populares. Todos comparten la base
+(usan un modelo de lenguaje grande), pero se diferencian en **dónde se
+usan**, **qué hacen** y **cómo interactúan**.
+
+| Asistente | Dónde vive | Qué hace | Enfoque |
+|-----------|-----------|----------|---------|
+| **GitHub Copilot** | En tu editor (VS Code, JetBrains) | Sugiere código mientras escribes | Autocompletado + chat |
+| **Claude Code** | En la terminal | Ejecuta tareas de varios pasos | Agente de terminal |
+| **OpenAI Codex** | En la terminal y en la web | Ejecuta tareas y sugiere código | Agente de terminal |
+| **Cursor** | Editor con IA integrada | Editor con chat y autocompletado | IDE + IA |
+| **opencode** | En la terminal | Agente de código abierto, multi-modelo | Agente de terminal |
+
+### Lo que tienen en común
+
+- Se basan en un **modelo de lenguaje grande** (LLM)
+- Entienden tu código y te sugieren cambios
+- Aceptan **instrucciones en lenguaje natural**
+- **No son perfectos**: pueden equivocarse, inventar cosas y generar código inseguro
+
+### Lo que los diferencia
+
+| Criterio | IDE (Copilot, Cursor) | Terminal (Claude Code, opencode) |
+|----------|----------------------|----------------------------------|
+| **Cómo los usas** | Escribes y te sugiere | Le hablas y ejecuta |
+| **Contexto** | El archivo que estás editando | Todo el repositorio |
+| **Tareas** | Autocompletar, rellenar | Leer, editar, ejecutar, iterar |
+| **Autonomía** | Baja: tú decides cada sugerencia | Alta: ejecuta varios pasos |
+| **Aprendizaje** | Se aprende rápido | Curva un poco mayor |
+
+---
+
+## IDE vs Terminal: cuál elegir
+
+<Comparativa
+  dialogos={[
+    { quien: "Editor (IDE)", texto: "Lo abres y escribes. La IA te sugiere la siguiente línea o función. Ideal para tareas rápidas y para quien quiere un empujón sin cambiar el flujo." },
+    { quien: "Terminal (agente)", texto: "Le describes una tarea completa y el agente lee tu código, hace cambios, ejecuta tests y te enseña el resultado. Más potente, pero requiere saber pedir bien." },
+  ]}
+  titulo="Dos formas de trabajar con IA"
+/>
+
+**Regla práctica**: si solo quieres autocompletar, un asistente de IDE te
+basta. Si quieres que la IA **haga tareas reales** (refactorizar, añadir
+funcionalidades, arreglar bugs en varias carpetas), necesitas un agente
+de terminal.
+
+---
+
+## ¿Por qué opencode en este curso?
+
+En este curso hemos elegido **opencode** como asistente de referencia:
+
+- 🆓 Tiene una **capa gratuita amplia** (opencode Zen) y funciona también
+  con **OpenRouter**, que ofrece modelos gratuitos
+- 🧩 Es **multi-modelo**: puedes usar Claude, GPT, Gemini u otros según
+  la tarea
+- 🔧 Es **extensible**: admite **skills** y herramientas especializadas
+  (lo verás en las próximas secciones)
+- 🖥️ Vive en la **terminal**, el mismo lugar donde trabajas con Git,
+  por lo que se integra con tu flujo real
+
+> No significa que debas abandonar tu editor: opencode se usa **junto** a
+> él. Escribes en el editor, y para tareas de agente usas la terminal.
+
+---
+
+## Cómo conseguir cada asistente
+
+| Asistente | Cómo se obtiene |
+|-----------|-----------------|
+| GitHub Copilot | Extensión en VS Code + cuenta GitHub (plan gratis o student pack) |
+| Claude Code | `npm install -g @anthropic-ai/claude-code` (requiere cuenta) |
+| OpenAI Codex | Extensión o CLI (requiere cuenta) |
+| Cursor | App de escritorio (plan gratis con límites) |
+| **opencode** | `npm install -g opencode-ai` (código abierto, gratis) |
+
+---
+
+## Mini-chequeo
+
+<details>
+<summary>¿Cuál es la diferencia principal entre un asistente de IDE y un agente de terminal?</summary>
+
+Un asistente de **IDE** (Copilot, Cursor) sugiere código mientras escribes y tú decides. Un **agente de terminal** (Claude Code, opencode) recibe una tarea completa, lee el repositorio, hace cambios y ejecuta comandos de varios pasos.
+</details>
+
+<details>
+<summary>¿Qué asistente usaremos como referencia en este curso y por qué?</summary>
+
+**opencode**: porque es de código abierto, tiene capa gratuita amplia (opencode Zen y OpenRouter), es multi-modelo y vive en la terminal, integrado con Git.
+</details>
+
+<details>
+<summary>¿Los asistentes de IA son perfectos?</summary>
+
+No. Todos se basan en un modelo de lenguaje que puede equivocarse, inventar código, usar dependencias inexistentes o generar código inseguro. **Siempre hay que revisar lo que generan.**
+</details>
+
+---
+
+## ✅ Resumen en 3 frases
+
+1. Los asistentes de IA se dividen en **IDE** (autocompletar) y **terminal** (agentes que ejecutan tareas).
+2. Hay varias opciones: Copilot, Claude Code, Codex, Cursor y opencode, cada una con su enfoque.
+3. En este curso usaremos **opencode** como estándar, por su capa gratuita, su carácter multi-modelo y su integración con la terminal.
+
+---
+
+<div class="nav-unidad">
+<div class="nav-unidad-links">
+<a class="nav-box nav-box-prev" href="../02-prompts-efectivos">
+  <span class="nav-box-dir">← Anterior</span>
+  <span class="nav-box-title">02 — Prompts efectivos</span>
+</a><a class="nav-box nav-box-next" href="../04-agentes">
+  <span class="nav-box-dir">Siguiente →</span>
+  <span class="nav-box-title">04 — Agentes</span>
+</a>
+</div>
+<a class="nav-unidad-volver" href="../"> Volver al índice de la unidad</a>
+</div>
